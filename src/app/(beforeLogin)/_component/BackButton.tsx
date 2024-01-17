@@ -1,11 +1,11 @@
-'use client'
-import { useRouter } from 'next/navigation'
+'use client';
+import { useRouter } from 'next/navigation';
 
 export default function BackButton() {
-    const router = useRouter()
+    const router = useRouter();
     const onclick = () => {
-        router.back()
-    }
+        router.back();
+    };
     return (
         <button onClick={onclick} className="hover:bg-primary  flex h-8 w-8 items-center justify-center rounded-full ">
             <svg
@@ -19,5 +19,5 @@ export default function BackButton() {
                 </g>
             </svg>
         </button>
-    )
+    );
 }
