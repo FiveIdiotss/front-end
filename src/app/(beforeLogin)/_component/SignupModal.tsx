@@ -14,17 +14,18 @@ export default function SignupModal() {
     const [schoolName, setSchoolName] = useState<string>('');
 
     const nextHandler = () => {
-        setLevel(level + 1);
+        setLevel(level + 1); //level을 1씩 증가시킨다. 페이지 이동, 나중에 코드를 보기좋게 바꿔야함
     };
     const searchModalHandler = (number: number) => {
-        setLevel(number);
+        setLevel(number); //0이면 대학검색창, 1이면 이메일인증페이지, 2이면 로그인정보, 3이면 재학정보및 개인정보
     };
     const selectSchoolHandler = (name: string) => {
-        setSchoolName(name);
+        setSchoolName(name); //대학교 이름을 받아온다.
     };
     useEffect(() => {
-        setLevel(3);
-    }, [schoolName]);
+        if (schoolName !== '') setLevel(3);
+    }, [schoolName]); //초기에는 실행되지 않고 schoolName이 바뀔때만 실행된다.
+    console.log('dd');
     return (
         // 모달배경
         <div className="bg-modal absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen items-center justify-center">

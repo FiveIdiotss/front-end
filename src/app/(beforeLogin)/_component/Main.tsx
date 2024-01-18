@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import mainLogo from '../../../../public/3.png'
+import Link from 'next/link';
+import Image from 'next/image';
+import mainLogo from '../../../../public/3.png';
 export default function Main() {
     return (
         <>
@@ -49,5 +49,5 @@ export default function Main() {
                 </div>
             </div>
         </>
-    )
+    );
 }
