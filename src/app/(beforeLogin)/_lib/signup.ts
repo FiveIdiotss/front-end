@@ -25,6 +25,22 @@ export type School = {
 const fetchSchoolsData = async (): Promise<School[]> => {
     try {
         const response = await axios.get<School[]>(`${url}/schools`);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+};
+const postSignUpData = async () => {
+    const fakeData = {
+        a: 1,
+        b: 2,
+        c: 3,
+    };
+    try {
+        const response = await axios.post(`${url}/signup`, fakeData);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
