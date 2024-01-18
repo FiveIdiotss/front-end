@@ -3,7 +3,7 @@
 import BackButton from './BackButton';
 import { useFormState, useFormStatus } from 'react-dom';
 import { onSubmit } from '../_lib/signup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import search from '../../../../public/back.svg';
 import UniSearch from './UniSearch';
@@ -22,6 +22,9 @@ export default function SignupModal() {
     const selectSchoolHandler = (name: string) => {
         setSchoolName(name);
     };
+    useEffect(() => {
+        setLevel(3);
+    }, [schoolName]);
     return (
         // 모달배경
         <div className="bg-modal absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen items-center justify-center">
