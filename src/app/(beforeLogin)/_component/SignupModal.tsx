@@ -7,11 +7,25 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import search from '../../../../public/back.svg';
 import UniSearch from './UniSearch';
+
+export type SchoolDatas = {
+    majorId: number;
+    majorName: string;
+    schoolId: number;
+    schoolName: string;
+};
+
 export default function SignupModal() {
     const [state, formAction] = useFormState(onSubmit, null);
     const { pending: boolean } = useFormStatus();
     const [level, setLevel] = useState<number>(1);
-    const [schoolName, setSchoolName] = useState<string>('');
+    const [schoolDatas, setSchoolDatas] = useState<SchoolDatas>({
+        majorId: 0,
+        majorName: '',
+        schoolId: 0,
+        schoolName: '',
+    });
+    const [isFocused, setIsFocused] = useState(false);
 
     const nextHandler = () => {
         setLevel(level + 1); //level을 1씩 증가시킨다. 페이지 이동, 나중에 코드를 보기좋게 바꿔야함
@@ -19,13 +33,12 @@ export default function SignupModal() {
     const searchModalHandler = (number: number) => {
         setLevel(number); //0이면 대학검색창, 1이면 이메일인증페이지, 2이면 로그인정보, 3이면 재학정보및 개인정보
     };
-    const selectSchoolHandler = (name: string) => {
-        setSchoolName(name); //대학교 이름을 받아온다.
+    const selectSchoolHandler = (schoolData: SchoolDatas) => {
+        setSchoolDatas(schoolData); //대학교 이름을 받아온다.
     };
     useEffect(() => {
-        if (schoolName !== '') setLevel(3);
-    }, [schoolName]); //초기에는 실행되지 않고 schoolName이 바뀔때만 실행된다.
-    console.log('dd');
+        if (schoolDatas.majorName !== '') setLevel(2);
+    }, [schoolDatas]); //초기에는 실행되지 않고 schoolName이 바뀔때만 실행된다.
     return (
         // 모달배경
         <div className="bg-modal absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen items-center justify-center">
@@ -37,7 +50,7 @@ export default function SignupModal() {
                             <BackButton />
                         ) : (
                             <button
-                                onClick={() => searchModalHandler(3)}
+                                onClick={() => searchModalHandler(2)}
                                 className="hover:bg-primary  flex h-8 w-8 items-center justify-center rounded-full"
                             >
                                 <Image src={search} height={32} width={32} alt="back" />
@@ -64,6 +77,19 @@ export default function SignupModal() {
                                     인증
                                 </button>
                             </div>
+                            <input
+                                type="password"
+                                name="pw"
+                                id="pw"
+                                placeholder="비밀번호"
+                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
+                            />
+                            <input
+                                type="password"
+                                id="pw"
+                                placeholder="비밀번호 확인"
+                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
+                            />
 
                             <button
                                 className="bg-primary mt-10 h-10 w-full rounded-md border border-solid border-gray-300 px-3 text-white"
@@ -89,49 +115,19 @@ export default function SignupModal() {
                                 <button className="h-16 w-16 rounded-full bg-green-500 text-white">Naver</button>
                             </div>
                         </div>
+
                         <div className={`${level === 2 ? 'block' : 'hidden'} flex flex-col gap-2 `}>
-                            <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                placeholder="이름"
-                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
-                            />
-
-                            <input
-                                type="password"
-                                name="pw"
-                                id="pw"
-                                placeholder="비밀번호"
-                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
-                            />
-                            <input
-                                type="password"
-                                id="pw"
-                                placeholder="비밀번호 확인"
-                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
-                            />
-
-                            <button
-                                className="bg-primary h-10 w-full rounded-md border border-solid border-gray-300 px-3 text-white "
-                                onClick={(event) => {
-                                    event.preventDefault();
-                                    nextHandler();
-                                }}
-                            >
-                                계속
-                            </button>
-                        </div>
-                        <div className={`${level === 3 ? 'block' : 'hidden'} flex flex-col gap-2`}>
                             <div className="flex w-full flex-row">
                                 <input
                                     type="text"
                                     name="schoolName"
-                                    id="schollName"
+                                    id="schoolName"
                                     placeholder="대학교"
-                                    value={schoolName}
-                                    disabled
-                                    className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
+                                    value={schoolDatas.schoolName}
+                                    readOnly
+                                    className="h-10 w-full rounded-md border border-solid border-gray-300
+                                    px-3 outline-none
+                                    focus:outline-none"
                                 />
                                 <button
                                     className="ml-3 w-24 rounded-md border border-solid border-gray-300 bg-gray-200 text-center hover:bg-gray-300"
@@ -145,9 +141,32 @@ export default function SignupModal() {
                             </div>
                             <input
                                 type="text"
-                                name="majorId"
-                                id="majorId"
+                                name="majorName"
+                                id="majorName"
                                 placeholder="전공"
+                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3 focus:outline-none"
+                                value={schoolDatas.majorName}
+                                readOnly
+                            />
+                            <input type="hidden" name="majorId" value={schoolDatas.majorId} />
+                            {/* majorId를 보내기위함,hidden사용 */}
+                            <button
+                                className="bg-primary h-10 w-full rounded-md border border-solid border-gray-300 px-3 text-white "
+                                onClick={(event) => {
+                                    event.preventDefault();
+                                    nextHandler();
+                                }}
+                            >
+                                계속
+                            </button>
+                        </div>
+
+                        <div className={`${level === 3 ? 'block' : 'hidden'} flex flex-col gap-2`}>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder="이름"
                                 className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
                             />
                             <input
@@ -157,20 +176,26 @@ export default function SignupModal() {
                                 placeholder="학번"
                                 className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
                             />
-                            <input
-                                type="text"
-                                name="gender"
-                                id="gender"
-                                placeholder="성별"
-                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
-                            />
-                            <input
-                                type="text"
-                                name="score"
-                                id="score"
-                                placeholder="학점"
-                                className="h-10 w-full rounded-md border border-solid border-gray-300 px-3"
-                            />
+
+                            <div
+                                className={`h-10 w-full rounded-md  border-solid px-3 ${isFocused ? 'border-2 border-blue-500' : 'border border-gray-300'}`}
+                            >
+                                <select
+                                    name="gender"
+                                    id="gender"
+                                    className="h-full w-full focus:outline-none"
+                                    onFocus={() => setIsFocused(true)}
+                                    onBlur={() => setIsFocused(false)}
+                                >
+                                    <option value="" selected disabled>
+                                        성별 선택
+                                    </option>
+
+                                    <option value="MALE">남성</option>
+                                    <option value="FEMALE">여성</option>
+                                </select>
+                            </div>
+
                             <button
                                 type="submit"
                                 disabled={boolean}
