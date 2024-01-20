@@ -22,11 +22,10 @@ export default function LoginModal() {
             });
             router.replace('/home');
         } catch (err) {
-            console.error('Error in onSubmit:', err);
-            setMessage('이메일과 비밀번호가 일치하지 않습니다.');
+            console.error(err);
+            setMessage('sex');
         }
     };
-
     const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => {
         setEmail(e.target.value);
     };
@@ -70,10 +69,7 @@ export default function LoginModal() {
                                 />
                             </div>
                             <div className="flex w-full flex-row">
-                                <button
-                                    className="mt-10 h-10 w-full rounded-md border border-solid border-gray-300 bg-primary px-3 text-white"
-                                    disabled={!email && !password}
-                                >
+                                <button className="mt-10 h-10 w-full rounded-md border border-solid border-gray-300 bg-primary px-3 text-white">
                                     로그인하기
                                 </button>
                             </div>
@@ -92,7 +88,7 @@ export default function LoginModal() {
                                 <button className="h-16 w-16 rounded-full bg-green-500 text-white">Naver</button>
                             </div>
                         </div>
-                        <div>{message}</div>
+                        <div className="text-red flex justify-center">{message}</div>
                     </form>
                 </div>
             </div>
