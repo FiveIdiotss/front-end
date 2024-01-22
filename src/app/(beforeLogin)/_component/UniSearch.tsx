@@ -5,10 +5,14 @@ import { fetchSchoolsData, fetchMajorsData } from '../_lib/signup';
 import { School, Major } from '../_lib/signup';
 import { SchoolDatas } from './SignupModal';
 interface UniSearchProps {
-    selectSchoolHandler: (data: SchoolDatas) => void;
+    onSubmit: (data: SchoolDatas) => void;
 }
+type SchoolData = {
+    schoolId: number;
+    name: string;
+};
 
-function UniSearch({ selectSchoolHandler }: UniSearchProps) {
+function UniSearch({ onSubmit }: UniSearchProps) {
     const schoolsData = useRef<School[]>([]);
     const [searchSchool, setSearchSchool] = useState<string>('');
     const [searchResult, setSearchResult] = useState<School[]>([]);
@@ -29,7 +33,7 @@ function UniSearch({ selectSchoolHandler }: UniSearchProps) {
         setSelectedSchool(school);
     };
     const submitData = (major: Major) => {
-        selectSchoolHandler({
+        onSubmit({
             schoolId: selectedSchool!.schoolId,
             schoolName: selectedSchool!.name,
             majorId: major.majorId,
