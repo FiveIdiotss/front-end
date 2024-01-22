@@ -1,3 +1,5 @@
+import LoginModal from '../../_component/LoginModal';
+
 export default function Home() {
-    return <span>로그인</span>;
+    return <LoginModal />;
 }
