@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type props = {
     name: string;
@@ -9,10 +9,18 @@ type props = {
     error?: string;
     onBlur?: any;
     onChange?: any;
+    ref?: React.Ref<HTMLInputElement>;
+    focus?: boolean;
 };
-export default function UserInput({ name, placeholder, type, value, readOnly, error, onBlur, onChange }: props) {
+export default function UserInput({ name, placeholder, type, value, readOnly, error, onBlur, onChange, focus }: props) {
     const valid = error ? true : false; // error가 있으면 true
     const [isFocused, setIsFocused] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+        if (name === 'email' || name === 'code' || name === 'name') {
+            inputRef.current?.focus();
+        }
+    }, []);
 
     return (
         <div className="flex w-full flex-col ">
@@ -21,6 +29,7 @@ export default function UserInput({ name, placeholder, type, value, readOnly, er
                 onClick={() => setIsFocused(true)}
             >
                 <input
+                    ref={inputRef}
                     type={type}
                     name={name}
                     id={name}
@@ -33,6 +42,7 @@ export default function UserInput({ name, placeholder, type, value, readOnly, er
                         setIsFocused(false);
                     }}
                     onChange={onChange}
+                    onFocus={() => setIsFocused(true)}
                 />
             </div>
             <small className="mt-1 pl-1 text-xs text-red-500">{valid ? error : ''}</small>

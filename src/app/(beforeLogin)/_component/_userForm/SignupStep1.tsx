@@ -3,7 +3,7 @@ import { SignupFormValue } from '../../_lib/signup';
 import EmailVerificationInput from './EmailVerificationInput';
 import UserInput from './UserInput';
 import UserDivider from '../UserDivider';
-interface SignupStep1Props {
+interface SignupStep2Props {
     formik: FormikProps<SignupFormValue>;
     step: number;
     setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -12,39 +12,45 @@ interface SignupStep1Props {
         formik: FormikProps<SignupFormValue>,
         setStep: React.Dispatch<React.SetStateAction<number>>,
     ) => void;
+    searchModalHandler?: () => void;
 }
-const SignupStep1: React.FC<SignupStep1Props> = ({ formik, step, setStep, nextHandler }) => {
+const SignupStep2: React.FC<SignupStep2Props> = ({ formik, step, setStep, nextHandler, searchModalHandler }) => {
     return (
         <>
-            <EmailVerificationInput
+            <div className="flex w-full flex-row">
+                <UserInput
+                    type="text"
+                    placeholder="대학교"
+                    name="schoolName"
+                    value={formik.values.schoolName}
+                    readOnly
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    error={formik.errors.schoolName}
+                />
+                <button
+                    className="ml-3 h-12 w-24 rounded-md border border-solid border-gray-300 bg-gray-200 text-center hover:bg-gray-300"
+                    onClick={(event) => {
+                        event.preventDefault();
+                        if (searchModalHandler) searchModalHandler();
+                    }}
+                >
+                    검색
+                </button>
+            </div>
+            <UserInput
                 type="text"
-                name="email"
-                placeholder="이메일"
+                placeholder="전공"
+                name="majorName"
+                value={formik.values.majorName}
+                readOnly
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                value={formik.values.email}
-                error={formik.errors.email}
+                error={formik.errors.majorName}
             />
+            <input type="hidden" name="majorId" value={formik.values.majorId} />
+            {/* majorId를 보내기위함,hidden사용 */}
 
-            <UserInput
-                type="password"
-                placeholder="비밀번호"
-                name="pw"
-                error={formik.errors.pw}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.pw}
-            />
-
-            <UserInput
-                type="password"
-                placeholder="비밀번호 확인"
-                name="passwordConfirm"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.passwordConfirm}
-                error={formik.errors.passwordConfirm}
-            />
             <button
                 className="bg-primary mt-10 h-10 w-full rounded-md border border-solid border-gray-300 px-3 text-white"
                 onClick={(event) => {
@@ -64,4 +70,4 @@ const SignupStep1: React.FC<SignupStep1Props> = ({ formik, step, setStep, nextHa
     );
 };
 
-export default SignupStep1;
+export default SignupStep2;
