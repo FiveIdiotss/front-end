@@ -9,9 +9,9 @@ import UniSearch from './UniSearch';
 import { SignupFormValue } from '../_lib/signup';
 import { FormikProps, useFormik } from 'formik';
 import * as Yup from 'yup';
-import SignupStep1 from './\b_userForm/SignupStep1';
-import SignupStep2 from './\b_userForm/SignupStep2';
-import SignupStep3 from './\b_userForm/SignupStep3';
+import SignupStep1 from './_userForm/SignupStep1';
+import SignupStep2 from './_userForm/SignupStep2';
+import SignupStep3 from './_userForm/SignupStep3';
 
 type RequiredField = {
     field: keyof SignupFormValue;
@@ -19,18 +19,18 @@ type RequiredField = {
 };
 const stepsRequired: RequiredField[][] = [
     [
-        { field: 'email', message: 'Email 인증은 필수항목입니다.' },
-        { field: 'pw', message: '패스워드는 필수항목입니다.' },
-        { field: 'passwordConfirm', message: '패스워드확인은 필수항목입니다.' },
+        // { field: 'email', message: 'Email 인증은 필수항목입니다.' },
+        // { field: 'pw', message: '패스워드는 필수항목입니다.' },
+        // { field: 'passwordConfirm', message: '패스워드확인은 필수항목입니다.' },
     ],
     [
-        { field: 'schoolName', message: ' ' },
-        { field: 'majorName', message: '학교정보는 필수항목입니다.' },
+        // { field: 'schoolName', message: ' ' },
+        // { field: 'majorName', message: '학교정보는 필수항목입니다.' },
     ],
     [
-        { field: 'name', message: '이름은 필수항목입니다.' },
-        { field: 'year', message: '학번은 필수항목입니다.' },
-        { field: 'gender', message: '성별은 필수항목입니다.' },
+        // { field: 'name', message: '이름은 필수항목입니다.' },
+        // { field: 'year', message: '학번은 필수항목입니다.' },
+        // { field: 'gender', message: '성별은 필수항목입니다.' },
     ],
 ];
 
@@ -112,7 +112,7 @@ export default function SignupModal() {
         });
     };
     useEffect(() => {
-        if (formik.values.majorName !== '') setStep(2);
+        if (formik.values.majorName !== '') setStep(1);
     }, [formik.values.majorName]); //초기에는 실행되지 않고 schoolName이 바뀔때만 실행된다.
 
     return (
@@ -128,7 +128,7 @@ export default function SignupModal() {
                             <BackButton />
                         ) : (
                             <button
-                                onClick={() => searchModalHandler(2)}
+                                onClick={() => searchModalHandler(1)}
                                 className="hover:bg-primary  flex h-8 w-8 items-center justify-center rounded-full"
                             >
                                 <Image src={search} height={32} width={32} alt="back" />
@@ -139,24 +139,32 @@ export default function SignupModal() {
                 </div>
                 <div className="flex  w-full flex-grow items-center justify-center  p-6">
                     <form onSubmit={formik.handleSubmit} className="w-full">
-                        <section className={`${step === 1 ? 'block' : 'hidden'} flex w-full flex-col gap-2`}>
-                            <SignupStep1 formik={formik} step={step} setStep={setStep} nextHandler={nextHandler} />
-                        </section>
-                        <section className={`${step === 2 ? 'block' : 'hidden'} flex flex-col gap-2 `}>
-                            <SignupStep2
-                                formik={formik}
-                                step={step}
-                                setStep={setStep}
-                                nextHandler={nextHandler}
-                                searchModalHandler={() => searchModalHandler(0)}
-                            />
-                        </section>
-                        <section className={`${step === 3 ? 'block' : 'hidden'} flex flex-col gap-2`}>
-                            <SignupStep3 formik={formik} />
-                        </section>
-                        <section className={`${step === 0 ? 'block' : 'hidden'} flex flex-col gap-2`}>
-                            <UniSearch onSubmit={updateSchoolAndDepartmentHandler} />
-                        </section>
+                        {step === 1 && (
+                            <section className={` flex w-full flex-col gap-2`}>
+                                <SignupStep1
+                                    formik={formik}
+                                    step={step}
+                                    setStep={setStep}
+                                    nextHandler={nextHandler}
+                                    searchModalHandler={() => searchModalHandler(0)}
+                                />
+                            </section>
+                        )}
+                        {step === 2 && (
+                            <section className={`${step === 2 ? 'block' : 'hidden'} flex flex-col gap-2 `}>
+                                <SignupStep2 formik={formik} step={step} setStep={setStep} nextHandler={nextHandler} />
+                            </section>
+                        )}
+                        {step === 3 && (
+                            <section className={`${step === 3 ? 'block' : 'hidden'} flex flex-col gap-2`}>
+                                <SignupStep3 formik={formik} />
+                            </section>
+                        )}
+                        {step === 0 && (
+                            <section className={`${step === 0 ? 'block' : 'hidden'} flex flex-col gap-2`}>
+                                <UniSearch onSubmit={updateSchoolAndDepartmentHandler} />
+                            </section>
+                        )}
                     </form>
                 </div>
             </div>
