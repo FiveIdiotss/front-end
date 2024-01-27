@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { error } from 'console';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
