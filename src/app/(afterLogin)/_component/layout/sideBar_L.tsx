@@ -1,3 +1,4 @@
+'use client';
 import { signOut } from 'next-auth/react';
 import IDollar from '../icon/iDollar';
 import IFace from '../icon/iFace';
@@ -6,12 +7,14 @@ import IHealth from '../icon/iHealth';
 import ILogo from '../icon/iLogo';
 import IMessage from '../icon/iMessage';
 import IScienceTech from '../icon/iScienceTech';
+import { useRouter } from 'next/navigation';
 
 export default function Sidebar_L() {
+    const router = useRouter();
     return (
         // wrapper
         <div
-            className="relative flex h-full flex-col border-r-4 border-primary pl-8 pr-6 pt-6
+            className="border-primary relative flex h-full flex-col border-r-4 pl-8 pr-6 pt-6
         "
         >
             {/* 로고 */}
@@ -73,7 +76,21 @@ export default function Sidebar_L() {
                     <span className="ml-3 font-semibold">보과대</span>
                 </div>
             </div>
-            <button onClick={() => signOut({ callbackUrl: '/login' })}>로그아웃</button>
+            <button
+                onClick={() => {
+                    signOut({
+                        redirect: false,
+                    })
+                        .then(() => {
+                            router.push('/');
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                }}
+            >
+                로그아웃
+            </button>
         </div>
     );
 }

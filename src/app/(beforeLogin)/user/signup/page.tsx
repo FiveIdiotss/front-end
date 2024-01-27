@@ -1,3 +1,5 @@
+import Main from '../../_component/Main';
+
 export default function Home() {
-    return <span>회원가입</span>;
+    return <Main />;
 }
