@@ -1,6 +1,17 @@
+'use client';
 import AddBtn from '../_component/homePage/addBtn';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
+    const { data: session, status } = useSession();
+    console.log('세션정보', session);
+
+    if (status === 'loading') {
+        return <p>Loading...</p>;
+    }
+    if (status === 'unauthenticated') {
+        return <p>로그인이 필요합니다.</p>;
+    }
     return (
         // wrapper
         <div className="flex h-screen flex-col items-center py-10 pt-10">

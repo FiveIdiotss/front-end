@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import mainLogo from '../../../../public/3.png';
 import naver from '@/../public/social/naver.png';
-export default function Main() {
+export default async function Main() {
     return (
         <>
             <div className="  hidden w-7/12 justify-end pl-24 md:block ">
