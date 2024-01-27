@@ -1,5 +1,8 @@
 import axios from 'axios';
+
 import NextAuth, { User } from 'next-auth';
+
+
 import CredentialsProvider from 'next-auth/providers/credentials';
 import 'next-auth/jwt';
 declare module 'next-auth' {
