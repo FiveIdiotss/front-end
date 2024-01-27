@@ -19,18 +19,23 @@ type RequiredField = {
 };
 const stepsRequired: RequiredField[][] = [
     [
-        // { field: 'email', message: 'Email 인증은 필수항목입니다.' },
-        // { field: 'pw', message: '패스워드는 필수항목입니다.' },
-        // { field: 'passwordConfirm', message: '패스워드확인은 필수항목입니다.' },
+        { field: 'schoolName', message: ' ' },
+        { field: 'majorName', message: '학교정보는 필수항목입니다.' },
     ],
     [
-        // { field: 'schoolName', message: ' ' },
-        // { field: 'majorName', message: '학교정보는 필수항목입니다.' },
+        { field: 'email', message: 'Email 인증은 필수항목입니다.' },
+        {
+            field: 'validEmail',
+            message: '인증코드를 입력해주세요.',
+        },
     ],
+
     [
-        // { field: 'name', message: '이름은 필수항목입니다.' },
-        // { field: 'year', message: '학번은 필수항목입니다.' },
-        // { field: 'gender', message: '성별은 필수항목입니다.' },
+        { field: 'name', message: '이름은 필수항목입니다.' },
+        { field: 'year', message: '학번은 필수항목입니다.' },
+        { field: 'gender', message: '성별은 필수항목입니다.' },
+        { field: 'pw', message: '패스워드는 필수항목입니다.' },
+        { field: 'passwordConfirm', message: '패스워드확인은 필수항목입니다.' },
     ],
 ];
 
@@ -41,7 +46,7 @@ const nextHandler = async (
 ) => {
     let next = true;
     stepsRequired[step - 1].forEach(({ field, message }) => {
-        if (formik.values[field] === '' || formik.values[field] === undefined) {
+        if (formik.values[field] === '' || formik.values[field] === undefined || formik.values[field] === false) {
             formik.setFieldError(field, message);
             next = false;
         }
@@ -79,6 +84,7 @@ export default function SignupModal() {
             majorName: '',
             majorId: 0,
             passwordConfirm: '',
+            validEmail: false,
         },
         validationSchema: Yup.object({
             email: Yup.string().email('이메일 형식이 올바르지 않습니다.').max(255),

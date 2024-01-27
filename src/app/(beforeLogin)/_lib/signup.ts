@@ -14,15 +14,17 @@ export type SignupFormValue = {
     majorName?: string;
     majorId: number;
     passwordConfirm?: string;
+    validEmail?: boolean;
 };
 const onSubmit = async (data: SignupFormValue) => {
     console.log(data);
     delete data.passwordConfirm;
     delete data.majorName;
     delete data.schoolId;
+    delete data.validEmail;
 
     try {
-        const response = await axios.post(`${url}/member/signup`, data);
+        const response = await axios.post(`${url}/api/member/signup`, data);
         return { message: '회원가입이 완료되었습니다.', success: true };
     } catch (error) {
         console.log(error);
@@ -36,7 +38,7 @@ export type School = {
 };
 const fetchSchoolsData = async (): Promise<School[]> => {
     try {
-        const response = await axios.get<School[]>(`${url}/schools`);
+        const response = await axios.get<School[]>(`${url}/api/schools`);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -50,7 +52,7 @@ export type Major = {
 };
 const fetchMajorsData = async (name: string = '가천대학교'): Promise<Major[]> => {
     try {
-        const response = await axios.get<Major[]>(`${url}/school/${name}`);
+        const response = await axios.get<Major[]>(`${url}/api/school/${name}`);
         console.log(response.data);
         return response.data;
     } catch (error) {

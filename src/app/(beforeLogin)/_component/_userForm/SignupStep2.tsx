@@ -27,25 +27,6 @@ const SignupStep1: React.FC<SignupStep1Props> = ({ formik, step, setStep, nextHa
                 formik={formik}
             />
 
-            <UserInput
-                type="password"
-                placeholder="비밀번호"
-                name="pw"
-                error={formik.errors.pw}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.pw}
-            />
-
-            <UserInput
-                type="password"
-                placeholder="비밀번호 확인"
-                name="passwordConfirm"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.passwordConfirm}
-                error={formik.errors.passwordConfirm}
-            />
             <button
                 className="bg-primary mt-10 h-10 w-full rounded-md border border-solid border-gray-300 px-3 text-white "
                 onClick={(event) => {
