@@ -36,6 +36,25 @@ const SignupStep3: React.FC<SignupStep3Props> = ({ formik }) => {
                 error={formik.errors.year}
             />
 
+            <UserInput
+                type="password"
+                placeholder="비밀번호"
+                name="pw"
+                error={formik.errors.pw}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.pw}
+            />
+
+            <UserInput
+                type="password"
+                placeholder="비밀번호 확인"
+                name="passwordConfirm"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.passwordConfirm}
+                error={formik.errors.passwordConfirm}
+            />
             <UserSelect
                 name="gender"
                 onBlur={formik.handleBlur}
