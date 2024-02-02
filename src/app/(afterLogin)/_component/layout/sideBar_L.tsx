@@ -1,5 +1,5 @@
 'use client';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import IDollar from '../icon/iDollar';
 import IFace from '../icon/iFace';
 
@@ -8,13 +8,14 @@ import ILogo from '../icon/iLogo';
 import IMessage from '../icon/iMessage';
 import IScienceTech from '../icon/iScienceTech';
 import { useRouter } from 'next/navigation';
+import ILogOut from '../icon/iLogOut';
 
 export default function Sidebar_L() {
     const router = useRouter();
     return (
         // wrapper
         <div
-            className="border-primary relative flex h-full flex-col border-r-4 pl-8 pr-6 pt-6
+            className="relative flex h-full flex-col border-r-4 border-primary pl-8 pr-6 pt-6
         "
         >
             {/* 로고 */}
@@ -24,7 +25,7 @@ export default function Sidebar_L() {
             {/* username */}
             <div className="mt-14">
                 <span className="font-semibold">
-                    Welcome, <span className="text-primary">UserName</span>
+                    Welcome, <span className="text-primary">username</span>
                 </span>
             </div>
             {/* My Place - wrapper */}
@@ -44,7 +45,6 @@ export default function Sidebar_L() {
                     </div>
                     <span className="ml-3 font-semibold">Message</span>
                 </div>
-                {/* <LogOutBtn /> 만들어야 함*/}
             </div>
 
             {/* message place - wrapper */}
@@ -76,7 +76,9 @@ export default function Sidebar_L() {
                     <span className="ml-3 font-semibold">보과대</span>
                 </div>
             </div>
-            <button
+            {/* LogOutBtn */}
+            <div
+                className=" mt-7 flex cursor-pointer justify-start"
                 onClick={() => {
                     signOut({
                         redirect: false,
@@ -89,8 +91,11 @@ export default function Sidebar_L() {
                         });
                 }}
             >
-                로그아웃
-            </button>
+                <div className="flex w-[18px]">
+                    <ILogOut />
+                </div>
+                <span className=" text-sideBar ml-3 font-semibold">로그아웃</span>
+            </div>
         </div>
     );
 }
