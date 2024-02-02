@@ -76,7 +76,7 @@ function UniSearch({ onSubmit }: UniSearchProps) {
                     {searchResult.map((school) => (
                         <div
                             key={school.schoolId}
-                            className="hover:bg-primary flex h-10 w-full cursor-pointer items-center  rounded-md  border-b border-solid border-gray-300 px-3"
+                            className="flex h-10 w-full cursor-pointer items-center rounded-md  border-b  border-solid border-gray-300 px-3 hover:bg-primary"
                             onClick={() => {
                                 nextSearchHandler(school);
                                 // selectSchoolHandler(school.name);
@@ -106,7 +106,7 @@ function UniSearch({ onSubmit }: UniSearchProps) {
                     {majorsData.map((major) => (
                         <div
                             key={major.majorId}
-                            className="hover:bg-primary flex h-10 w-full cursor-pointer items-center  rounded-md  border-b border-solid border-gray-300 px-3"
+                            className="flex h-10 w-full cursor-pointer items-center rounded-md  border-b  border-solid border-gray-300 px-3 hover:bg-primary"
                             onClick={() => submitData(major)}
                         >
                             {major.name}
