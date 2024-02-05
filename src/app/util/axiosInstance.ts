@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { auth } from '@/auth';
-const Axios = axios.create();
+const Axios = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
 
 Axios.interceptors.request.use(async (config) => {
     const session = await auth();
