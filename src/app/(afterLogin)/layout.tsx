@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar_L from './_component/layout/sideBar_L';
 import SideBar_R from './_component/layout/sideBar_R';
+import RQProviders from './_component/RQProvider';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -15,9 +16,11 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
                 </div>
             </div>
             {/* Home */}
-            <div className="flex flex-grow flex-col">
-                <div className="flex  h-dvh w-[1000px]  flex-grow flex-col">{children}</div>
-            </div>
+            <RQProviders>
+                <div className="flex flex-grow flex-col">
+                    <div className="flex  h-dvh w-[1000px]  flex-grow flex-col">{children}</div>
+                </div>
+            </RQProviders>
         </div>
     );
 }
