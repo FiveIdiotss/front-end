@@ -8,7 +8,7 @@ export async function middleware() {
     }
 }
 export const config = {
-    matcher: ['/home'],
+    matcher: [],
 };
 
 // export function middleware() {}

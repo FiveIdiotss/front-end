@@ -14,12 +14,9 @@ export default function Sidebar_L() {
     const router = useRouter();
     return (
         // wrapper
-        <div
-            className="relative flex h-full flex-col border-r-4 border-primary pl-8 pr-6 pt-6
-        "
-        >
+        <>
             {/* 로고 */}
-            <div className=" mt-10 h-6 w-[177px]">
+            <div className=" mt-10 h-6 ">
                 <ILogo />
             </div>
             {/* username */}
@@ -96,6 +93,6 @@ export default function Sidebar_L() {
                 </div>
                 <span className=" text-sideBar ml-3 font-semibold">로그아웃</span>
             </div>
-        </div>
+        </>
     );
 }
