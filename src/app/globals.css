@@ -43,3 +43,10 @@ body {
 .user-input {
     @apply rounded-lg bg-gray-200 p-2;
 }
+.user-witdh {
+    width: calc(100% - 240px);
+}
+
+.carousel-container {
+    width: 100%;
+}
