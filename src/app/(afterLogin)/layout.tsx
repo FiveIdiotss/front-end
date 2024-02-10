@@ -6,21 +6,20 @@ import RQProviders from './_component/RQProvider';
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
     return (
         // Wrapper
-        <div className=" flex items-stretch bg-white ">
+        <div className="m-auto flex h-dvh  max-w-screen-2xl flex-row">
             {/* col - sideBar - left */}
-            <div className="flex flex-grow flex-col items-end ">
-                <div className=" h-dvh w-60 ">
-                    <div className=" fixed flex h-dvh  flex-col  border-r-2 border-slate-100 px-7">
+            <div className="flex w-fit flex-col  items-end ">
+                <div className=" h-dvh w-60 border-r border-slate-100  px-7 ">
+                    <div className=" fixed  flex h-dvh  flex-col">
                         <Sidebar_L />
                     </div>
                 </div>
             </div>
             {/* Home */}
-            <RQProviders>
-                <div className="flex flex-grow flex-col">
-                    <div className="flex  h-dvh w-[1000px]  flex-grow flex-col">{children}</div>
-                </div>
-            </RQProviders>
+
+            <div className="flex-grow">
+                <RQProviders>{children} </RQProviders>
+            </div>
         </div>
     );
 }
