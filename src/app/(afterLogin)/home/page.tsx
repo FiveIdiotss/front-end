@@ -7,6 +7,7 @@ import axios from 'axios';
 import Axios from '@/app/util/axiosInstance';
 import MentoPosts from './_component/MentoPosts';
 import MenteePosts from './_component/MenteePosts';
+import Link from 'next/link';
 async function getPosts() {
     // try {
     //     let params = {
@@ -55,14 +56,14 @@ export default async function Home() {
                             {/*  search bar  */}
                         </div>
                     </div>
-                    <div className="mt-20 flex w-full flex-col px-6">
+                    <div className=" mt-20 flex w-full flex-col px-6">
                         {/* Category Header */}
-                        <div className="mb-2 flex w-full  items-start bg-white font-semibold">
-                            <span className=" w-2/12 min-w-32 ">카테고리</span>
+                        <div className="mb-4 flex w-full items-start  bg-white pl-6 font-semibold">
+                            <span className=" w-2/12 min-w-32 text-xl font-semibold ">카테고리</span>
                         </div>
 
                         {/* Category Items */}
-                        <div className="flex w-full items-center gap-5">
+                        <div className="flex w-full items-center gap-5 pl-6">
                             {/* map function for categories */}
                             {categories.map((category, index) => (
                                 <div key={index} className="cursor-pointer border p-2 text-lg font-semibold shadow">
@@ -71,10 +72,8 @@ export default async function Home() {
                             ))}
                         </div>
 
-                        <span className="mb-3 pl-6 pt-12 font-semibold">멘티 글</span>
                         <MentoPosts />
 
-                        <span className="mb-3 pl-6 pt-12 font-semibold">멘티 글</span>
                         <MenteePosts />
                     </div>
                 </div>

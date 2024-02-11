@@ -3,6 +3,9 @@ import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
 import MainCarousel from './Carousel';
 import MenteePostCard from '../../_component/MenteePostCard';
+import Link from 'next/link';
+import Image from 'next/image';
+import nextImage from '@/../public/next.svg';
 const mentorPosts = [
     'title 1',
     'title 2',
@@ -42,6 +45,10 @@ function MentoPosts() {
     return (
         // 미리 Carousel 컴포넌트를 사용하여 멘토 글을 보여주는 컴포넌트를 만들어 놓았다.
         <div className="flex w-full flex-col ">
+            <Link className="mb-3 flex w-fit flex-row pl-6 pt-12 " href="/home">
+                <span className="text-2xl font-semibold">멘티들이 이런지식들을 원해요</span>
+                <Image src={nextImage} alt="mentee" />
+            </Link>
             {itemsPerSlide !== 100 && (
                 <MainCarousel itemsPerSlide={itemsPerSlide}>
                     {chunkedPosts
