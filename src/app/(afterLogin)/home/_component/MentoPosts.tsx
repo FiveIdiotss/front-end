@@ -1,10 +1,11 @@
 'use client';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
 import MainCarousel from './Carousel';
 import MentoPostCard from '../../_component/MentoPostCard';
+import Link from 'next/link';
+import Image from 'next/image';
+import nextImage from '@/../public/next.svg';
 const mentorPosts = [
     'title 1',
     'title 2',
@@ -43,6 +44,10 @@ function MentoPosts() {
     );
     return (
         <div className="flex w-full flex-col ">
+            <Link className="mb-3 flex w-fit flex-row pl-6 pt-12 " href="/home">
+                <span className="text-2xl font-semibold">멘토들의 지식 공유</span>
+                <Image src={nextImage} alt="mentee" />
+            </Link>
             {itemsPerSlide !== 100 && (
                 <MainCarousel itemsPerSlide={itemsPerSlide}>
                     {chunkedPosts
