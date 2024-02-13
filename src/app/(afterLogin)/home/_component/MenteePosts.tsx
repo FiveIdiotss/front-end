@@ -1,4 +1,3 @@
-'use client';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
 import MainCarousel from './Carousel';
@@ -25,7 +24,7 @@ const mentorPosts = [
     'title 16',
 ]; //하드코딩 된 멘토 글
 
-function MentoPosts() {
+function MenteePosts() {
     const [itemsPerSlide, setItemsPerSlide] = useState<number>(100);
     const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });
     const isMediumScreen = useMediaQuery({ query: '(min-width: 601px) and (max-width: 1300px)' });
@@ -73,4 +72,4 @@ function MentoPosts() {
     );
 }
 
-export default MentoPosts;
+export default MenteePosts;
