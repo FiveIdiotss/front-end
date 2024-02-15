@@ -38,7 +38,7 @@ export default function LoginModal() {
 
     return (
         // 모달배경
-        <div className="bg-modal absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen items-center justify-center">
+        <div className="absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen items-center justify-center bg-modal">
             <div className="relative flex h-[550px] min-w-[450px]  flex-col items-center rounded-lg bg-white ">
                 <div className="flex  h-14 w-full flex-row items-center border-b border-solid px-3">
                     {/* 모달헤더 */}
@@ -71,7 +71,7 @@ export default function LoginModal() {
                                 />
                             </div>
                             <div className="flex w-full flex-row">
-                                <button className="bg-primary mt-10 h-10 w-full rounded-md border border-solid border-gray-300 px-3 text-white">
+                                <button className="mt-10 h-10 w-full rounded-md border border-solid border-gray-300 bg-primary px-3 text-white">
                                     로그인하기
                                 </button>
                             </div>
