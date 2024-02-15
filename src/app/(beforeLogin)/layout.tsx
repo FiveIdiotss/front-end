@@ -1,9 +1,9 @@
-import { ReactNode } from 'react'
-import theme from '../../public/theme.png'
+import { ReactNode } from 'react';
+import theme from '../../public/theme.png';
 type Props = {
-    children: ReactNode
-    modal: ReactNode
-}
+    children: ReactNode;
+    modal: ReactNode;
+};
 
 export default function Layout({
     children,
@@ -18,5 +18,5 @@ export default function Layout({
             </footer>
             {modal}
         </section>
-    )
+    );
 }

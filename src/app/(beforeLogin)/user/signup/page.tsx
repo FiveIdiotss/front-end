@@ -1,5 +1,5 @@
-import Main from '../../_component/Main';
+import SignupModal from '@/app/(beforeLogin)/_component/SignupModal';
 
 export default function Home() {
-    return <Main />;
+    return <SignupModal />;
 }

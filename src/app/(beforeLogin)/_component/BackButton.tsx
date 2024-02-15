@@ -7,7 +7,7 @@ export default function BackButton() {
         router.back();
     };
     return (
-        <button onClick={onclick} className="hover:bg-primary  flex h-8 w-8 items-center justify-center rounded-full ">
+        <button onClick={onclick} className="flex  h-8 w-8 items-center justify-center rounded-full hover:bg-primary ">
             <svg
                 width={24}
                 viewBox="0 0 24 24"

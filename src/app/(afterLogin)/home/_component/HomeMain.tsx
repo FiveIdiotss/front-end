@@ -17,7 +17,7 @@ async function getPosts() {
     //     throw new Error('Error occured while fetching posts.');
     // }
 }
-async function HomeContent() {
+async function HomeMain() {
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
         queryKey: ['posts', 'mento'],
@@ -79,4 +79,4 @@ async function HomeContent() {
     );
 }
 
-export default HomeContent;
+export default HomeMain;

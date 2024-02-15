@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
@@ -16,6 +17,7 @@ function MainCarousel({ children, itemsPerSlide }: MainCarouselProps) {
             emulateTouch={true}
             showArrows={itemsPerSlide !== 1}
             showStatus={false}
+            showThumbs={false}
             renderArrowPrev={(onClickHandler, hasprev) =>
                 hasprev && (
                     <button
