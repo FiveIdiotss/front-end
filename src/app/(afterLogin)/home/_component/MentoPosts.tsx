@@ -79,5 +79,4 @@ function MentoPosts() {
         </>
     );
 }
-
 export default MentoPosts;
