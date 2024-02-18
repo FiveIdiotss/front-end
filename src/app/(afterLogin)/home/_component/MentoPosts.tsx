@@ -27,7 +27,10 @@ const mentorPosts = [
 ]; //하드코딩 된 멘토 글
 
 function MentoPosts() {
+    // 모달이 열렸을때 URL에 mentor_id 쿼리 파라미터를 추가(추후 수정 필요)
     const router = useRouter();
+
+    // 반응형 작업
     const [itemsPerSlide, setItemsPerSlide] = useState<number>(100);
     const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });
     const isMediumScreen = useMediaQuery({ query: '(min-width: 601px) and (max-width: 1300px)' });
