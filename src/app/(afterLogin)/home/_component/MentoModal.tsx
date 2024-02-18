@@ -11,7 +11,7 @@ Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Ma
 
 function MentoModal({ id }: { id?: string }) {
     return (
-        <ModalWrapper className="max-h-[750px] max-w-[500px] ">
+        <ModalWrapper className="max-h-[750px]  sm:max-w-[600px]  ">
             <div className="flex h-full w-full flex-col rounded-xl bg-white  p-7  shadow-xl">
                 <div className="flex h-10 w-full flex-row items-center ">
                     <span className="text-xl font-semibold tracking-wide ">멘토링 소개</span>

@@ -16,7 +16,7 @@ function ModalWrapper({ children, className }: ModalWrapperProps) {
             onClick={backHandler}
         >
             <div
-                className={`animate-slide-up  relative h-full w-full ${className} `}
+                className={`animate-slide-up  fixed bottom-0 left-0 h-full  max-h-[850px] w-full sm:relative sm:max-h-[750px] sm:max-w-[540px] `}
                 onClick={(e) => e.stopPropagation()}
             >
                 {children}
