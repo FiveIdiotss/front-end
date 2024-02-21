@@ -3,30 +3,51 @@ import React from 'react';
 import MentoPosts from './MentoPosts';
 import MenteePosts from './MenteePosts';
 import SideBar_R from '../../_component/layout/sideBar_R';
-async function getPosts() {
-    // try {
-    //     let params = {
-    //         boardType: 'MENTEE',
-    //         page: 1,
-    //         size: 10,
-    //     };
-    //     const res = await Axios.get('/api/boards', { params });
-    //     return res.data;
-    // } catch (err) {
-    //     console.log(err);
-    //     throw new Error('Error occured while fetching posts.');
-    // }
+import Axios from '@/app/util/axiosInstance';
+async function getMentoPosts() {
+    try {
+        let params = {
+            boardType: 'MENTEE',
+            page: 1,
+            size: 16,
+        };
+        const res = await Axios.get('/api/boards', { params });
+        return res.data;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Error occured while fetching posts.');
+    }
+}
+async function getMenteePosts() {
+    try {
+        let params = {
+            boardType: 'MENTEE',
+            page: 1,
+            size: 16,
+        };
+        const res = await Axios.get('/api/boards', { params });
+        return res.data;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Error occured while fetching posts.');
+    }
 }
 async function HomeMain() {
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
         queryKey: ['posts', 'mento'],
-        queryFn: getPosts,
+        queryFn: getMentoPosts,
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 5,
+    });
+    await queryClient.prefetchQuery({
+        queryKey: ['posts', 'mentee'],
+        queryFn: getMenteePosts,
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
     });
     const dehydratedState = dehydrate(queryClient);
-    //queryClient.getQueryData(['posts', 'recommends']);
+    // queryClient.getQueryData(['posts', 'recommends']);
 
     // if (status === 'loading') {
     //     return <p>Loading...</p>;

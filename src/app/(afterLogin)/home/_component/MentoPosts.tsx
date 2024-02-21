@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import nextImage from '@/../public/next.svg';
 import { useRouter } from 'next/navigation';
+import { useQueries, useQuery } from '@tanstack/react-query';
 const mentorPosts = [
     'title 1',
     'title 2',

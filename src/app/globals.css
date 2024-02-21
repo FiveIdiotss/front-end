@@ -73,3 +73,6 @@ body {
 .animate-slide-up {
     animation: slide-up 0.2s ease-in-out;
 }
+.carousel-container {
+    width: calc(100% - 240px);
+}
