@@ -50,7 +50,7 @@ function MentoPosts() {
     return (
         <>
             <div className="flex w-full flex-col ">
-                <Link className="mb-3 flex w-fit flex-row pl-6 pt-12 " href="/home">
+                <Link className="mb-3 flex w-fit flex-row pl-6 pt-12 " href="/mentors">
                     <span className="text-2xl font-semibold">멘토들의 지식 공유</span>
                     <Image src={nextImage} alt="mentee" />
                 </Link>
