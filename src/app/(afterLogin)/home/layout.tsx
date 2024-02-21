@@ -4,8 +4,8 @@ export default function Layout({
     menteeModal,
 }: {
     children: React.ReactNode;
-    mentoModal: React.ReactNode;
-    menteeModal: React.ReactNode;
+    mentoModal?: React.ReactNode;
+    menteeModal?: React.ReactNode;
 }) {
     return (
         <>

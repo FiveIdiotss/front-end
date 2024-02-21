@@ -11,18 +11,10 @@ export default function HomeLayout({ children }: Props) {
     return (
         // Wrapper
         <>
-            <div className="m-auto flex h-dvh  max-w-screen-2xl flex-row">
-                {/* col - sideBar - left */}
-                <div className="flex w-fit flex-col  items-end ">
-                    <div className=" h-dvh w-60 border-r border-slate-100  px-7 ">
-                        <div className=" fixed  flex h-dvh  flex-col">
-                            <Sidebar_L />
-                        </div>
-                    </div>
-                </div>
+            <div className=" w-dvw">
                 {/* Home */}
 
-                <div className="flex-grow">
+                <div className="mx-auto  h-dvh   max-w-[1600px]  ">
                     <RQProviders>{children} </RQProviders>
                 </div>
             </div>

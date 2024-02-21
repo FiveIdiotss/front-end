@@ -20,6 +20,7 @@ html,
 body {
     max-width: 100dvw;
     overflow-x: hidden;
+    overflow-y: auto;
 }
 a {
     color: inherit;
@@ -74,5 +75,5 @@ body {
     animation: slide-up 0.2s ease-in-out;
 }
 .carousel-container {
-    width: calc(100% - 240px);
+    width: 100%;
 }

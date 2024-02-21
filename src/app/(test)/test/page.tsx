@@ -25,31 +25,84 @@ const mentorPosts = [
 
 function page() {
     const responsive = {
-        superLargeDesktop: {
-            // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
-            items: 5,
-        },
         desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 3,
+            breakpoint: {
+                max: 3000,
+                min: 1460,
+            },
+            items: 5,
+            slidesToSlide: 5,
         },
+
         tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
+            breakpoint: {
+                max: 1459,
+                min: 1200,
+            },
+            items: 4,
+            slidesToSlide: 4,
         },
         mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
+            breakpoint: {
+                max: 1199,
+                min: 600,
+            },
+            items: 3,
+            slidesToSlide: 3,
+        },
+        smallMobile: {
+            breakpoint: {
+                max: 601,
+                min: 0,
+            },
+            items: 2,
+            slidesToSlide: 2,
         },
     };
 
     return (
-        <Carousel autoPlay infinite responsive={responsive}>
-            {mentorPosts.map((post, index) => (
-                <MentoPostCard key={index} post={post} />
-            ))}
-        </Carousel>
+        <div className="  flex h-full  flex-row items-center ">
+            <div className="w-full px-3 sm:px-10 lg:w-[calc(100%-240px)]">
+                <section className="flex  w-full ">
+                    <Carousel
+                        containerClass="carousel-container"
+                        arrows
+                        autoPlaySpeed={3000}
+                        centerMode={false}
+                        className=""
+                        dotListClass=""
+                        draggable
+                        focusOnSelect={false}
+                        infinite
+                        itemClass="px-2"
+                        keyBoardControl
+                        minimumTouchDrag={80}
+                        pauseOnHover
+                        renderArrowsWhenDisabled={false}
+                        renderButtonGroupOutside={false}
+                        renderDotsOutside={false}
+                        rewind={false}
+                        rewindWithAnimation={false}
+                        rtl={false}
+                        shouldResetAutoplay
+                        showDots={false}
+                        sliderClass=""
+                        swipeable
+                        responsive={responsive}
+                        ssr={true} // means to render carousel on server-side.
+                    >
+                        {mentorPosts.map((post, index) => (
+                            <MentoPostCard key={index} post={post} />
+                        ))}
+                    </Carousel>
+                </section>
+            </div>
+            <div className="hidden h-full  w-60 bg-zinc-800 md:block ">
+                <div className="flex flex-col p-5">
+                    <div className=" h-80 w-full rounded-lg bg-slate-200"></div>
+                </div>
+            </div>
+        </div>
     );
 }
 
