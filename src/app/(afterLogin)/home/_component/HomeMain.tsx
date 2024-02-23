@@ -60,16 +60,10 @@ async function HomeMain() {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex  flex-row">
-                <div className=" w-full px-3 sm:px-10 lg:w-[calc(100%-240px)]">
+                <div className=" w-full px-3 sm:px-6 lg:w-[calc(100%-240px)]">
                     {/* Centered Container */}
-                    <div className="flex w-full items-center justify-center">
-                        {/* Search */}
-                        <div className="flex h-14 w-full max-w-2xl items-center justify-center  rounded-lg border ">
-                            <span className="">검색 창</span>
-                            {/*  search bar  */}
-                        </div>
-                    </div>
-                    <div className=" mt-20 flex w-full flex-col px-6">
+
+                    <div className=" mt-3 flex w-full flex-col px-6">
                         {/* Category Header */}
                         <div className="mb-4 flex w-full items-start  bg-white  font-semibold">
                             <span className=" w-2/12 min-w-32 text-xl font-semibold ">카테고리</span>
@@ -86,16 +80,14 @@ async function HomeMain() {
                         </div>
 
                         <MentoPosts />
-                        <MentoPosts />
-                        <MentoPosts />
 
                         <MenteePosts />
                     </div>
                 </div>
-                <div className="   hidden      md:flex">
-                    <div className=" sticky top-0  mt-[calc(50vh-338px)] box-border flex  h-fit w-60 flex-col items-center gap-6 py-3    ">
-                        <div className="  h-80 w-56 rounded-lg bg-slate-200  text-center">멘토순위</div>
-                        <div className="  h-80 w-56 rounded-lg bg-slate-200 text-center">멘티순위</div>
+                <div className="   hidden   w-60   md:flex">
+                    <div className=" sticky top-[90px]  mt-[calc(50vh-296px)] box-border flex  h-fit  flex-col items-center gap-6    ">
+                        <div className="  h-60 w-56 rounded-lg bg-slate-200  text-center">멘토순위</div>
+                        <div className="  h-60 w-56 rounded-lg bg-slate-200 text-center">멘티순위</div>
                     </div>
                 </div>
             </div>
