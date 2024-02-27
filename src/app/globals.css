@@ -20,8 +20,6 @@ html,
 body {
     max-width: 100dvw;
     overflow-x: hidden;
-    overflow-y: auto;
-    height: 100dvh;
 }
 a {
     color: inherit;

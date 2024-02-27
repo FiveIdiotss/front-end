@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
     content: [
@@ -14,6 +14,9 @@ const config: Config = {
             },
             colors: {
                 primary: {
+                    DEFAULT: '#6554BD',
+                },
+                secondary: {
                     DEFAULT: '#C1BBEB',
                 },
                 modal: {
@@ -23,5 +26,5 @@ const config: Config = {
         },
     },
     plugins: [],
-}
-export default config
+};
+export default config;

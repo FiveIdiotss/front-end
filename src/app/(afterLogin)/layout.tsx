@@ -11,13 +11,13 @@ type Props = {
 export default function HomeLayout({ children }: Props) {
     return (
         // Wrapper
-        <>
-            {/* Home */}
-            <Header />
+        <div className=" h-dvh   overflow-y-auto ">
+            <div className="min-h-dvh bg-gray-50">
+                {/* Home */}
+                <Header />
 
-            <div className=" mx-auto h-fit  max-w-[1600px]   ">
                 <RQProviders>{children} </RQProviders>
             </div>
-        </>
+        </div>
     );
 }
