@@ -20,7 +20,7 @@ const config: Config = {
                     DEFAULT: '#C1BBEB',
                 },
                 modal: {
-                    DEFAULT: '#56565687',
+                    DEFAULT: '#28282887',
                 },
             },
         },

@@ -4,13 +4,21 @@ import NextAuth, { User } from 'next-auth';
 
 import CredentialsProvider from 'next-auth/providers/credentials';
 import 'next-auth/jwt';
+type MemberDto = {
+    id: number;
+    email: string;
+    name: string;
+    year: number;
+    gender: string;
+    schoolName: string;
+    majorName: string;
+};
 declare module 'next-auth' {
     interface User {
         /** The user's postal address. */
-        accessToken: string;
-        refreshToken: string;
-        majorName?: string;
-        schoolName?: string;
+        access_Token: string;
+        refresh_Token: string;
+        memberDTO: MemberDto;
     }
     // interface Session {
     //     accessToken: string;
@@ -30,8 +38,6 @@ async function refreshAccessToken(token: any) {
         const access_Token = data;
         const payloadPart = access_Token.split('.')[1];
         const decodedPayload = JSON.parse(atob(payloadPart));
-        console.log('decodedPayload', decodedPayload);
-        console.log('access_Token', access_Token);
 
         return {
             ...token,
@@ -47,9 +53,7 @@ export const {
     handlers: { GET, POST },
     auth,
 } = NextAuth({
-    session: {
-        strategy: 'jwt',
-    },
+    session: {},
 
     pages: {
         signIn: '/user/login',
@@ -65,14 +69,12 @@ export const {
                 try {
                     const response = await axios.post(`${process.env.AUTH_URL}/api/member/signIn`, data);
                     const userResponse = response.data;
-                    console.log('user', userResponse);
 
                     const user: User = {
-                        accessToken: userResponse.tokenDTO.accessToken,
-                        refreshToken: userResponse.tokenDTO.refreshToken,
-                        ...userResponse,
+                        access_Token: userResponse.tokenDTO.accessToken,
+                        refresh_Token: userResponse.tokenDTO.refreshToken,
+                        memberDTO: userResponse.memberDTO,
                     };
-                    console.log('user', user);
 
                     return user;
                 } catch (error) {
@@ -85,33 +87,30 @@ export const {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                const payloadPart = user.accessToken.split('.')[1];
+                const payloadPart = user.access_Token.split('.')[1];
                 const decodedPayload = JSON.parse(atob(payloadPart));
-                token.refresh_Token = user.refreshToken; // 리프레시 토큰
-                token.access_Token = user.accessToken; // 액세스 토큰
+                token.refresh_Token = user.refresh_Token; // 리프레시 토큰
+                token.access_Token = user.access_Token; // 액세스 토큰
                 token.access_TokenExpires = decodedPayload.exp; // 토큰 만료 시간
+                token.memberDTO = user.memberDTO; // 사용자 정보
                 return token;
             }
             const now = Math.floor(Date.now() / 1000);
             const accessTokenExpires = token.access_TokenExpires as number;
-            console.log('토큰 만료 시간', accessTokenExpires);
-            console.log('현재 시간', now);
             if (accessTokenExpires - now < 45) {
-                console.log('토큰 리프레시', token);
                 return refreshAccessToken(token);
             }
-            console.log('토큰 리턴', token);
             return token;
         },
 
         async session({ session, token }: any) {
-            console.log('세션', token);
             const sessionUser = {
                 ...token,
             };
-            delete sessionUser.refreshToken;
-            delete sessionUser.accessTokenExpires;
+            delete sessionUser.refresh_Token;
+            delete sessionUser.access_TokenExpires;
             session.user = sessionUser;
+            console.log('세션', session);
             return session;
         },
     },

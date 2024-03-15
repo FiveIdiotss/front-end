@@ -18,6 +18,7 @@ export default function LoginModal() {
         const response = signIn('credentials', {
             username: email,
             password,
+
             redirect: false,
         })
             .then((res) => {

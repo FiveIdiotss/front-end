@@ -7,6 +7,8 @@ import React, { useState } from 'react';
 import nextImage from '@/../public/next.svg';
 import MultiCarousel from './MultiCarousel';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { getMentoPosts } from './HomeMain';
 
 const mentorPosts = [
     'title 1',
@@ -29,6 +31,12 @@ const mentorPosts = [
 
 function MenteePosts() {
     const [mouseDownPosition, setMouseDownPosition] = useState({ x: 0, y: 0 });
+    const { data } = useQuery({
+        queryKey: ['posts', 'mento'],
+        queryFn: getMentoPosts,
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 5,
+    });
 
     const handleMouseDown = (event: React.MouseEvent) => {
         setMouseDownPosition({

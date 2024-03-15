@@ -4,19 +4,21 @@ import MentoPosts from './MentoPosts';
 import MenteePosts from './MenteePosts';
 import SideBar_R from '../../_component/layout/sideBar_R';
 import Axios from '@/app/util/axiosInstance';
+import { auth } from '@/auth';
+import { getSession } from 'next-auth/react';
 export async function getMentoPosts() {
-    // try {
-    //     let params = {
-    //         boardType: 'MENTEE',
-    //         page: 1,
-    //         size: 16,
-    //     };
-    //     const res = await Axios.get('/api/boards', { params });
-    //     return res.data;
-    // } catch (err) {
-    //     console.log(err);
-    //     throw new Error('Error occured while fetching posts.');
-    // }
+    try {
+        let params = {
+            boardType: 'MENTEE',
+            page: 1,
+            size: 16,
+        };
+        const res = await Axios.get('/api/boards', { params });
+        return res.data;
+    } catch (err) {
+        console.log(err);
+        throw new Error('Error occured while fetching posts.');
+    }
 }
 export async function getMenteePosts() {
     // try {
@@ -57,6 +59,7 @@ async function HomeMain() {
     // }
 
     const categories = ['상경대', '이공대', '보과대', '교대', 'category 5', 'category 6', 'category 7'];
+
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className=" mx-auto   max-w-[1600px]   ">

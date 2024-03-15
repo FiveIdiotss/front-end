@@ -1,10 +1,12 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import mainLogo1 from '@/../public/mainLogo1.png';
 import Link from 'next/link';
 import search from '@/../public/search.svg';
 import HeaderRegist from './HeaderRegist';
-function Header() {
+import HeaderUser from './HeaderUser';
+
+async function Header() {
     return (
         <nav className="sticky top-0  z-[1001]  flex  h-[72px]  w-full  flex-row  items-center  justify-center bg-white px-7  shadow-md">
             <Link href="/home" scroll={true} className="   mt-1 h-[55px] w-[155px] shrink-0">
@@ -13,7 +15,6 @@ function Header() {
             <button className="flex h-full w-24 shrink-0 items-center  justify-center">
                 <span className="text-sm text-slate-700">카테고리</span>
             </button>
-
             <div className="mx-2 mr-10  flex h-12 flex-grow flex-row items-center rounded-3xl border border-black p-2">
                 <div className="flex h-full w-11 items-center justify-center">
                     <Image src={search} alt="search" className="h-5 w-5" />
@@ -21,14 +22,8 @@ function Header() {
                 <input placeholder="무엇이든 검색하기" className=" ml-2 mr-4 h-5  w-full outline-none" />
             </div>
             <HeaderRegist />
-            <div className="mx-5 h-6 w-0  border-l border-gray-300"> </div>
-            <button className="flex h-9 w-20 shrink-0 items-center justify-center rounded-md border border-black ">
-                <span className="text-sm ">로그인</span>
-            </button>
-
-            <button className=" ml-2 flex h-9 w-20 shrink-0  items-center justify-center rounded-md bg-gray-700">
-                <span className="text-sm  text-white">가입하기</span>
-            </button>
+            <div className="mx-5 h-6 w-0  border-l border-gray-300"></div>
+            <HeaderUser />
         </nav>
     );
 }

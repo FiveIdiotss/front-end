@@ -1,18 +1,21 @@
 import axios from 'axios';
-import { auth } from '@/auth';
+import { getSession } from 'next-auth/react';
 const Axios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
-
-Axios.interceptors.request.use(async (config) => {
-    const session = await auth();
-    const token = session?.user?.accessToken; // 세션에서 액세스 토큰 가져오기
-
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`; // 헤더에 토큰 설정
-    }
-
-    return config;
-});
+Axios.interceptors.request.use(
+    async (config) => {
+        const session = await getSession();
+        const token = session?.user?.access_Token; // 세션에서 액세스 토큰 가져오기
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        config.headers['Content-Type'] = 'application/json';
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    },
+);
 
 export default Axios;
