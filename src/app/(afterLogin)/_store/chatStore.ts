@@ -16,7 +16,6 @@ type ChatStore = {
         receiverAvatar,
     }: ChatUsers) => void;
 };
-
 export const useChatStore = create<ChatStore>((set) => ({
     chatRoomId: -1,
     receiverId: -1,

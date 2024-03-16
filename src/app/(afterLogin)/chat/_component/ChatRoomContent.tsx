@@ -1,15 +1,37 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { useChatStore } from '../../_store/chatStore';
-import { faker } from '@faker-js/faker';
 import Image from 'next/image';
 
+import { getSession, useSession } from 'next-auth/react';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+// const addContent = async (content: string) => {
+//     try {
+//         const response = await axios.post('https://your-api-url.com/add-content', { content });
+//         console.log('Content added successfully:', response.data);
+//         return response;
+//     } catch (error) {
+//         console.error('Failed to add content:', error);
+//         throw error;
+//     }
+// };
+
 function ChatRoomContent() {
-    // const { userId } = useChatStore();
-    const { receiverAvatar, receiverId, receiverName } = useChatStore();
+    const { receiverAvatar, receiverId, receiverName, chatRoomId } = useChatStore();
+    // const { data: session } = useSession();
+
+    // const feedAddMutation = useMutation({
+    //     mutationFn: addContent,
+    //     onSuccess: (response) => {
+    //         client.current.send();
+    //     },
+    // });
+
     if (receiverId === -1) {
         return <div className="h-full w-full   text-center">대화를 선택해주세요</div>;
     }
+
     return (
         <div className="flex h-full w-full flex-col ">
             {/* 상대방과의 채팅내용 */}
