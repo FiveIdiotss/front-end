@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+'use client';
+import React, { use, useEffect, useRef, useState } from 'react';
 import emoticon from '@/../public/chat/emoticon.svg';
 import file from '@/../public/chat/file.svg';
 import capture from '@/../public/chat/capture.svg';
@@ -8,18 +9,49 @@ import { Client } from '@stomp/stompjs';
 import { Stomp } from '@stomp/stompjs';
 import { useChatStore } from '../../_store/chatStore';
 import { useSession } from 'next-auth/react';
-import io from 'socket.io-client';
+const convertToBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+
+        fileReader.onerror = (error) => {
+            reject(error);
+        };
+    });
+}; //파일을 base64로 변환하는 함수
+const convertToBinary = (file: File) => {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsArrayBuffer(file);
+
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+
+        fileReader.onerror = (error) => {
+            reject(error);
+        };
+    });
+};
 
 function ChatInputForm() {
-    const [msgList, setMsgList] = useState<any[]>([]); //Zustand로 돌릴것
-    const [inputMessage, setInputMessage] = useState<string>('');
+    const { chatList, setIsSending, setChat } = useChatStore();
+    const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
+    const [inputImages, setInputImages] = useState<string>(''); //이미지 파일
+
     const { chatRoomId } = useChatStore();
     const { data: session } = useSession();
     const [stompClient, setStompClient] = useState<Client | null>(null);
     const [nowId, setNowId] = useState<number>(-1);
     const senderId = session?.user?.memberDTO.id;
+    const senderName = session?.user?.memberDTO.name;
+    const [isComposing, setIsComposing] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // const stompClient = useRef<Stomp | null>(null);
     useEffect(() => {
         if (nowId === chatRoomId) return;
         const initializeChat = async () => {
@@ -37,14 +69,17 @@ function ChatInputForm() {
             stomp.activate();
             stomp.onConnect = () => {
                 console.log('WebSocket 연결이 열렸습니다.');
-                const subscriptionDestination = `/sub/chats/web`;
+                const subscriptionDestination = `/sub/chats/${chatRoomId}`;
 
                 stomp.subscribe(subscriptionDestination, (frame) => {
                     try {
                         const parsedMessage = JSON.parse(frame.body);
 
-                        console.log(parsedMessage);
-                        setMsgList((prevMessages) => [...prevMessages, parsedMessage]);
+                        console.log('구독함으로부터 온메시지', parsedMessage);
+                        setChat(parsedMessage);
+                        if (parsedMessage.senderId === senderId) {
+                            setIsSending(true);
+                        }
                     } catch (error) {
                         console.error('오류가 발생했습니다:', error);
                     }
@@ -69,24 +104,71 @@ function ChatInputForm() {
             stompClient.publish({
                 destination,
                 body: JSON.stringify({
-                    content: inputMessage,
+                    content: inputImages === '' ? inputMessage : null, //이미지가 없거나 있을때
                     senderId: senderId,
-                    roomId: chatRoomId,
+                    chatRoomId: chatRoomId,
+                    senderName: senderName,
+                    image: inputImages === '' ? null : inputImages,
                 }),
             });
             console.log('메시지 전송', inputMessage);
         }
+        if (inputImages === '') {
+            setInputMessage('');
+        } else {
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+            setInputImages('');
+        }
+    };
+    const handleCompositionStart = () => {
+        setIsComposing(true);
+    };
 
-        setInputMessage('');
+    const handleCompositionEnd = () => {
+        setIsComposing(false);
+    };
+    const enterSendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (isComposing) return;
+
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    };
+    const handleButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+    const arrayBufferToHex = (buffer: ArrayBuffer) => {
+        const byteArray = new Uint8Array(buffer);
+        return Array.from(byteArray)
+            .map((byte) => byte.toString(16).padStart(2, '0'))
+            .join(' ');
+    };
+    const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+        const file = e.target.files[0];
+
+        const base64 = (await convertToBase64(file)) as string;
+
+        setInputImages(base64);
     };
     return (
         <>
+            <input type="file" className="" ref={fileInputRef} accept="image/*" onChange={handleChangeFile} />
+
             <textarea
                 className=" w-full resize-none overflow-auto border-y p-3 outline-none"
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
+                onKeyDown={(e) => enterSendMessage(e)}
                 style={{ lineHeight: '1.5em', maxHeight: '4.5em' }}
                 placeholder=" 메시지를 입력하세요."
+                onCompositionStart={handleCompositionStart}
+                onCompositionEnd={handleCompositionEnd}
             />
             <div className="flex h-16 flex-row justify-between px-2">
                 <div className="flex h-full flex-row items-center gap-2">
@@ -97,13 +179,15 @@ function ChatInputForm() {
                         height={30}
                         className="cursor-pointer hover:rotate-12 hover:scale-105"
                     />
-                    <Image
-                        src={file}
-                        alt="file"
-                        width={30}
-                        height={30}
-                        className="cursor-pointer hover:rotate-12 hover:scale-105"
-                    />
+                    <button onClick={handleButtonClick}>
+                        <Image
+                            src={file}
+                            alt="file"
+                            width={30}
+                            height={30}
+                            className="cursor-pointer hover:rotate-12 hover:scale-105"
+                        />
+                    </button>
                     <Image
                         src={capture}
                         alt="capture"

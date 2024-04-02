@@ -9,8 +9,12 @@ export type ChatUsers = {
     chatRoomId: number;
     receiverId: number;
     receiverName: string;
-    latestMessageSentTime: string;
-    receiverAvatar: string;
+    receiverImageUrl: string;
+    latestMessageDTO: {
+        content: string;
+        hasImage: boolean;
+        localDateTime: string;
+    };
 };
 
 function ChatList() {
@@ -21,7 +25,7 @@ function ChatList() {
         gcTime: 300 * 1000,
     });
     useEffect(() => {
-        console.log('data', users);
+        console.log('RoomListData', users);
     }, [users]);
     useEffect(() => {
         console.log('error입니다.', error);
