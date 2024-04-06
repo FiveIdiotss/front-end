@@ -1,13 +1,10 @@
 import Link from 'next/link';
+import { MentoContent } from '../posts/_lib/posts';
 
-type MentoPostCardProps = {
-    post: string;
-};
-
-function MentoPostCard({ post }: MentoPostCardProps) {
+function MentoPostCard({ post }: { post: MentoContent }) {
     return (
-        <div className="my-2 h-56 w-full  cursor-pointer rounded-md border border-gray-200 bg-white shadow-md  hover:border-neutral-200">
-            <span>{post}</span>
+        <div className="my-2 h-64 w-full transform cursor-pointer rounded-md border border-gray-200 bg-white p-4 shadow-sm transition duration-300 ease-in-out hover:-translate-y-1 hover:border-neutral-200 hover:shadow-lg">
+            <span>{post.boardId}</span>
         </div>
     );
 }

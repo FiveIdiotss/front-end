@@ -66,6 +66,7 @@ export const {
                     email: credentials.username,
                     password: credentials.password,
                 };
+
                 try {
                     const response = await axios.post(`${process.env.AUTH_URL}/api/member/signIn`, data);
                     const userResponse = response.data;
@@ -77,8 +78,8 @@ export const {
                     };
 
                     return user;
-                } catch (error) {
-                    console.log('error', error);
+                } catch (error: any) {
+                    console.log(error.response.data);
                     return null;
                 }
             },

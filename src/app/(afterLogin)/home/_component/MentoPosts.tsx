@@ -57,7 +57,7 @@ function MenteePosts() {
 
     return (
         <section className="flex  w-full flex-col ">
-            <Link className="mb-3 flex w-fit flex-row  pt-12 " href="/mentors">
+            <Link className="mb-3 flex w-fit flex-row  pt-12 " href="/posts/mentor">
                 <span className="text-2xl font-semibold">멘토들의 지식 공유</span>
                 <Image src={nextImage} alt="mentee" />
             </Link>

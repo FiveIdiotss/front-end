@@ -4,6 +4,7 @@ import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { redirect, useRouter } from 'next/navigation';
 import BackButton from './BackButton';
 import { signIn } from 'next-auth/react';
+import { el } from '@faker-js/faker';
 
 export default function LoginModal() {
     const [email, setEmail] = useState('');
@@ -11,23 +12,32 @@ export default function LoginModal() {
     const [message, setMessage] = useState('');
     const router = useRouter();
 
-    const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
         setMessage('');
 
-        const response = signIn('credentials', {
-            username: email,
-            password,
+        try {
+            const response = await signIn('credentials', {
+                username: email,
+                password,
 
-            redirect: false,
-        })
-            .then((res) => {
-                console.log(res);
-                router.push('/home');
-            })
-            .catch((err) => {
-                console.log(err);
+                redirect: false,
             });
+            if (response?.error === 'CredentialsSignin') {
+                console.log(response);
+                setMessage('아이디및 비밀번호를 확인해주세요.');
+                return;
+            } else if (response?.error === 'CallbackRouteError') {
+                console.log(response);
+                setMessage('서버 오류가 발생했습니다. 잠시후 다시 시도해주세요.');
+                return;
+            }
+            console.log(response);
+            alert('로그인 성공');
+            router.push('/home');
+        } catch (err) {
+            setMessage('로그인 실패');
+        }
     };
     const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => {
         setEmail(e.target.value);
@@ -46,9 +56,14 @@ export default function LoginModal() {
                     <BackButton />
                     <span className="flex w-full items-center justify-center font-semibold">로그인</span>
                 </div>
-                <div className="flex  w-full flex-grow items-center justify-center  p-6">
+                <div className="flex  w-full flex-grow items-center justify-center  px-6 pb-6">
                     <form onSubmit={onSubmit} className="w-full">
                         <div className="flex w-full flex-col gap-2">
+                            <span
+                                className={` flex h-10 w-full  items-center justify-center rounded-lg ${message !== '' && 'bg-yellow-200'}  text-red-600`}
+                            >
+                                {message}
+                            </span>
                             <div className="flex w-full flex-col gap-2">
                                 <label htmlFor="email">이메일</label>
                                 <input
@@ -91,7 +106,6 @@ export default function LoginModal() {
                                 <button className="h-16 w-16 rounded-full bg-green-500 text-white">Naver</button>
                             </div>
                         </div>
-                        <div className="text-red flex justify-center">{message}</div>
                     </form>
                 </div>
             </div>

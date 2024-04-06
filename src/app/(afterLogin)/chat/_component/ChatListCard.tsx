@@ -15,6 +15,11 @@ function dateTransform(date: string) {
         const minutes = dateObj.getMinutes();
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+        if (year < new Date().getFullYear()) {
+            console.log('year', year);
+
+            return `${year}.${dateObj.getMonth() + 1}.${dateObj.getDate()}`;
+        } //지난연도이면 년도까지 표시
         return `${hours >= 12 ? '오후' : '오전'} ${formattedHours}:${formattedMinutes}`;
     } catch (error) {
         console.error('Error occured while transforming date:', error);
@@ -50,7 +55,10 @@ function ChatListCard(props: Props) {
                 </span>
             </div>
             <div className="flex h-full w-16 flex-col justify-between  ">
-                <span className="text-right text-xs font-extralight text-neutral-600">{'2023.12.12'}</span>
+                <span className="text-right text-xs font-extralight text-neutral-600">
+                    {dateTransform(user.latestMessageDTO.localDateTime)}
+                </span>
+                <div></div>
             </div>
         </div>
     );

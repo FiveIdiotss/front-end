@@ -2,7 +2,7 @@ type Props = {
     children: React.ReactNode;
 };
 
-export default function HomeLayout({ children }: Props) {
+export default function PostLayout({ children }: Props) {
     return (
         // Wrapper
 
