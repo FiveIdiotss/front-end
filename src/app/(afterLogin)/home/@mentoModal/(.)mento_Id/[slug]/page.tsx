@@ -1,4 +1,4 @@
-import MentoModal from '../../../_component/MentoModal';
+import MentoModal from '@/app/(afterLogin)/_component/MentoModal';
 
 function Page({ params }: { params: { slug: string } }) {
     return <MentoModal id={params.slug} />;

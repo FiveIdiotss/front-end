@@ -32,7 +32,7 @@ export default function MentorsDetail() {
         <div className="flex  flex-col items-center justify-center  pb-10 pt-6">
             <div className="grid w-full grid-cols-2 gap-4 px-3 md:grid-cols-3 lg:grid-cols-4">
                 {data?.data.map((post: MentoContent) => (
-                    <Link key={post.boardId} href={`/posts/mentor/mento_Id/${1}`} scroll={false}>
+                    <Link key={post.boardId} href={`/posts/mentor/mento_Id/${post.boardId}`} scroll={false}>
                         <MentoPostCard post={post} />
                     </Link>
                 ))}
