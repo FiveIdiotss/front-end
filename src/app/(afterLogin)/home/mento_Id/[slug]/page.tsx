@@ -1,5 +1,5 @@
 import HomeMain from '../../_component/HomeMain';
-import MentoModal from '@/app/(afterLogin)/_component/MentoModal';
+import MentoModal from '@/app/(afterLogin)/posts/_component/MentoModal';
 
 function Page({ params }: { params: { slug: string } }) {
     return (

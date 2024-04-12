@@ -17,6 +17,8 @@ type xx = {
     year: number;
 };
 function MentoPostCard({ post }: { post: MentoContent }) {
+    let year = post?.year?.toString().substring(2, 4) || 0; // "18"
+
     return (
         <div className=" flex h-72 w-full transform cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm shadow-neutral-200  transition duration-300 ease-in-out hover:-translate-y-1 hover:border-neutral-200 hover:shadow-md">
             <div className="flex flex-grow flex-col">
@@ -31,8 +33,8 @@ function MentoPostCard({ post }: { post: MentoContent }) {
                         <dd className="text-sm  text-neutral-500">{post.majorName}</dd>
                     </div>
                     <div className="flex flex-row gap-2">
-                        <dt className="text-sm  text-gray-400">학년</dt>
-                        <dd className="text-sm  text-neutral-500">{post.year}</dd>
+                        <dt className="text-sm  text-gray-400">학번</dt>
+                        <dd className="text-sm  text-neutral-500">{year}학번</dd>
                     </div>
                     <div className="flex flex-row gap-2">
                         <dt className="text-sm  text-gray-400">대상</dt>
