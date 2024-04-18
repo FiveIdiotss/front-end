@@ -10,32 +10,36 @@ function HeaderRegist() {
     return (
         <div onMouseLeave={() => setIsHovered(false)} className="flex h-full items-center">
             <button
-                className=" flex h-12  shrink-0 items-center  rounded-xl bg-gradient-to-r from-primary via-primary to-blue-400 px-4 transition-transform duration-200 hover:scale-105"
+                className={`flex h-12  w-32 shrink-0  cursor-pointer items-center rounded-xl  bg-gradient-to-r from-primary via-primary to-blue-400 px-4 transition-transform duration-200 `}
                 onMouseEnter={() => setIsHovered(true)}
             >
-                <span className=" text-sm font-light text-white">게시글 등록하기</span>
+                <span className=" text-sm  font-normal text-white">게시글 등록하기</span>
             </button>
-
-            {isHovered && (
-                <div className="absolute right-[226px] top-[72px]  flex h-40 w-36  flex-col pt-2  ">
-                    <div className="flex h-full w-full flex-col  items-center justify-center gap-4 rounded-xl bg-gradient-to-r from-primary via-primary to-blue-400 p-2 ">
+            <div
+                className={`absolute right-[149px] top-[4px]  flex w-32 cursor-pointer flex-col   pt-2 ${isHovered ? ' transition-all duration-300 ease-in' : ''} ${isHovered ? ' max-h-44   opacity-100' : 'max-h-0  overflow-hidden opacity-0'}  `}
+            >
+                <div className="flex h-full w-full flex-col  items-center justify-between   rounded-xl bg-gradient-to-r from-primary via-primary to-blue-400 px-1 pb-1  ">
+                    <span className=" flex h-12 flex-shrink-0 items-center text-sm font-medium text-white">
+                        게시글 등록하기
+                    </span>
+                    <div className="flex w-full flex-col">
                         <Link
-                            href="post/new/mentor"
-                            className="flex h-14 w-full flex-row items-center justify-center rounded-lg border border-neutral-200 bg-white opacity-80 drop-shadow-lg hover:opacity-100 "
+                            href="/post/new/mentor"
+                            className="flex h-14 w-full transform flex-row items-center justify-center border border-neutral-200 bg-white transition   duration-300 ease-in-out hover:w-[calc(100%-4px)] hover:translate-x-1  hover:opacity-100 "
                         >
-                            <span className="text-base ">멘토 구하기</span>
+                            <span className="text-sm font-light ">멘토 구하기</span>
                             <Image alt="arrow right" src={arrowIcon} />
                         </Link>
                         <Link
-                            href="post/new/mentee"
-                            className="flex h-14 w-full flex-row items-center justify-center rounded-lg border  border-neutral-200 bg-white opacity-80  shadow-lg  hover:opacity-100"
+                            href="/post/new/mentee"
+                            className="flex h-14   w-full transform flex-row items-center justify-center rounded-b-lg border border-neutral-200 bg-white transition duration-300  ease-in-out hover:w-[calc(100%-4px)] hover:translate-x-1     hover:opacity-100"
                         >
-                            멘티 구하기
+                            <span className="text-sm font-light">멘티 구하기</span>
                             <Image alt="arrow right" src={arrowIcon} />
                         </Link>
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 }

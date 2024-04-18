@@ -26,6 +26,8 @@ function ScheduleSet() {
         useMentoNewPost.setState({ times: times.filter((time) => time.key !== key) });
     };
     const handleInterverChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        useMentoNewPost.setState({ times: [] });
+
         const value = Number(event.target.value);
         useMentoNewPost.setState({ interver: value });
     };
@@ -118,9 +120,6 @@ function ScheduleSet() {
                         <Image alt="addTime" src={addTime2} className="h-6 w-6 " />
                     </div>
                 </div>
-
-                {/* 기타사항 */}
-                <textarea className="mt-4 h-24 w-full rounded-lg bg-inherit p-2 outline-none" placeholder="기타 사항" />
             </div>
 
             {/* 시간선택 모달 */}

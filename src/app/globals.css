@@ -83,3 +83,56 @@ body {
 .carousel-container {
     width: 100%;
 }
+
+/* 달력 스타일 */
+.react-datepicker__month-container {
+    @apply w-full;
+}
+.react-days-container {
+    @apply w-full;
+}
+.react-datepicker__current-month {
+    @apply text-lg font-semibold text-primary !important;
+}
+
+.react-datepicker__header {
+    @apply border-b-gray-300 bg-white px-9 !important;
+}
+.react-datepicker__navigation--next {
+    @apply right-8 top-2  !important;
+}
+.react-datepicker__navigation--previous {
+    @apply left-8 top-2 !important;
+}
+/* 달력 스타일 */
+.react-datepicker {
+    @apply border-gray-300 !important;
+}
+.react-datepicker__day-names {
+    @apply flex justify-between;
+}
+.react-datepicker__day-name {
+}
+.react-datepicker__week {
+    @apply flex h-7  justify-between px-6 !important;
+}
+.react-datepicker__month {
+    @apply mx-0 my-3 flex flex-col    !important;
+}
+.react-datepicker__day {
+    @apply m-0 flex w-full flex-row items-center justify-center border border-white text-sm hover:border-primary hover:bg-white !important;
+}
+.react-datepicker__day--weekend {
+    @apply text-red-500 !important;
+}
+.react-datepicker__day--selected {
+    @apply border border-primary bg-primary text-white hover:bg-primary  !important;
+}
+
+.react-datepicker__day--disabled {
+    @apply text-[#ccc] line-through !important;
+}
+
+.react-datepicker__day--outside-month {
+    @apply pointer-events-none text-white  !important;
+}

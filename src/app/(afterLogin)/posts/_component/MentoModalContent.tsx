@@ -6,6 +6,8 @@ import SchoolIcon from '../../_component/icon/SchoolIcon';
 import HeartIcon from '../../_component/icon/HeartIcon';
 import SectionDivider from '../../_component/SectionDivider';
 import UserIcon from '../../_component/icon/UserIcon';
+import { usePostsStore } from '../../_store/postsStore';
+import { useSession } from 'next-auth/react';
 
 const text = `Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
 
@@ -17,17 +19,34 @@ function MentoModalContent({ id }: { id: string }) {
         queryKey: ['mento', 'detail', id],
         queryFn: () => fetchMentoDetail(id),
     });
+    const { data: session } = useSession();
+    const { setPageStep, setSchedule, setErrorMessage } = usePostsStore();
 
     let year = data?.boardDTO.year.toString().substring(2, 4); // 학번 뒤 두자리만 가져오기
 
     useEffect(() => {
         console.log(`멘토 상세데이터`, data);
+        if (!data) return;
+        setSchedule(
+            data?.availableDays,
+            data?.consultTime,
+            data?.times,
+            data?.boardDTO.memberName,
+            data?.boardDTO.title,
+        );
     }, [data]);
+
+    const nextHandler = () => {
+        if (data?.boardDTO.memberName === session?.user?.memberDTO.name)
+            return setErrorMessage('자신의 멘토링은 신청할수 없습니다');
+        setPageStep(1);
+    };
+
     if (isLoading) return <Loading />;
     if (isError) return <div className="text-red-500">서버에러</div>;
     return (
         <>
-            <section className="mt-7 flex  w-full flex-grow flex-col overflow-y-scroll">
+            <div className="mt-7 flex  w-full flex-grow flex-col overflow-y-auto">
                 <div className="flex   w-full flex-col ">
                     <h3 className="mb-11">{data?.boardDTO.title}</h3>
                     <div className=" flex w-full  flex-row items-center gap-3">
@@ -94,10 +113,13 @@ function MentoModalContent({ id }: { id: string }) {
                         <span className="font-sans text-base font-extralight ">{text}</span>
                     </div>
                 </div>
-            </section>
+            </div>
 
             <div className="flex h-fit w-full  justify-end">
-                <button className="mt-7 h-10  rounded-md border border-solid border-gray-300 bg-primary px-5 text-white hover:order-3">
+                <button
+                    className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
+                    onClick={nextHandler}
+                >
                     신청하기
                 </button>
             </div>

@@ -38,7 +38,7 @@ export type MentoDetail = {
         year: number;
     };
     consultTime: number;
-    times: { endTime: string; startTime: string }[];
+    times: { startTime: string; endTime: string }[];
     unavailableTimes: { data: string; startTime: string }[];
 };
 export const fetchMentorPosts = async (pageParam: number) => {
