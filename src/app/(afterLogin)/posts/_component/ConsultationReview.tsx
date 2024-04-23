@@ -6,6 +6,9 @@ import light from '@/../public/light-bulb.png';
 import { useMutation } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
 import { th } from '@faker-js/faker';
+import InfoModal from '../../post/_components/InfoModal';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const postConsultation = async (props: { data: string; id: string }) => {
     try {
@@ -17,12 +20,20 @@ const postConsultation = async (props: { data: string; id: string }) => {
 
 function ConsultationReview({ id }: { id: string }) {
     const { data: session, status } = useSession();
-    const { pageStep, setPageStep, mentoForm, mentoName, title } = usePostsStore();
+    const { pageStep, setPageStep, mentoForm, mentoName, title, setErrorMessage } = usePostsStore();
+    const [completeModalOpen, setCompleteModalOpen] = useState(false);
+    const router = useRouter();
     const mutation = useMutation({
         mutationFn: (data: { content: string; date: string; time: string }) => Axios.post(`/api/board/${id}`, data),
         onSuccess: () => {
-            console.log('성공');
-            alert('성공');
+            setCompleteModalOpen(true);
+        },
+        onError: (err) => {
+            if (err.message === 'Request failed with status code 400') {
+                return setErrorMessage('이미 신청한 멘토링입니다.');
+            }
+
+            setErrorMessage('등록에 실패했습니다. 다시 시도해주세요.');
         },
     });
 
@@ -34,6 +45,10 @@ function ConsultationReview({ id }: { id: string }) {
         };
         mutation.mutate(data);
         console.log('제출', data);
+    };
+    const handleInfoClose = () => {
+        setCompleteModalOpen(false);
+        router.push('/post');
     };
 
     if (status === 'loading') return <Loading />;
@@ -82,12 +97,23 @@ function ConsultationReview({ id }: { id: string }) {
                     이전
                 </button>
                 <button
-                    className="mt-7 h-10 w-24 rounded-md border border-solid border-gray-300 bg-primary px-5 text-white "
+                    className={`mt-7 h-10 w-24 rounded-md border border-solid border-gray-300 bg-primary px-5 text-white ${mutation.isPending ? 'hidden' : ''} `}
                     onClick={onSubmit}
                 >
                     완료
                 </button>
+                <button
+                    className={`mt-7 h-10 w-24 rounded-md border border-solid border-gray-300 bg-primary px-5 text-white ${mutation.isPending ? '' : 'hidden'}`}
+                >
+                    <Loading />
+                </button>
             </div>
+            <InfoModal
+                open={completeModalOpen}
+                onClose={handleInfoClose}
+                completeText={'신청이 완료되었습니다.'}
+                pageText={'잠시후 마이페이지로 이동합니다.'}
+            />
         </>
     );
 }

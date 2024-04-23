@@ -41,11 +41,11 @@ export type MentoDetail = {
     times: { startTime: string; endTime: string }[];
     unavailableTimes: { data: string; startTime: string }[];
 };
-export const fetchMentorPosts = async (pageParam: number) => {
+export const fetchMentorPosts = async (pageParam: number, size?: number) => {
     const param = {
         boardType: 'MENTOR',
         page: pageParam,
-        size: 24, //페이지당 표시할 아이템 수 고정
+        size: size ? size : 24, //페이지당 표시할 아이템 수 고정
     };
     try {
         const res = await Axios.get('/api/pageBoards', { params: param });

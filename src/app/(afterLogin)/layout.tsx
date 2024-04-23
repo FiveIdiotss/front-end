@@ -11,7 +11,7 @@ type Props = {
 export default function HomeLayout({ children }: Props) {
     return (
         // Wrapper
-        <div className=" h-dvh   overflow-y-auto bg-gray-50">
+        <div className=" flex   h-dvh flex-col overflow-y-auto bg-gray-50">
             {/* Home */}
             <Header />
 

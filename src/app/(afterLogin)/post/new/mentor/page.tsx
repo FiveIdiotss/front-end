@@ -149,7 +149,12 @@ function MentorFormPage() {
                 </button>
             </div>
             {/* 모달 */}
-            <InfoModal open={completeModalOpen} onClose={handleInfoClose} text={'잠시후 게시판으로 이동합니다.'} />
+            <InfoModal
+                open={completeModalOpen}
+                onClose={handleInfoClose}
+                completeText={'등록이 완료되었습니다.'}
+                pageText={'잠시후 게시판으로 이동합니다.'}
+            />
             <WarningMessage text={warningModalOpen} isOpen={warningModalOpen !== ''} onClose={handleWarningClose} />
         </>
     );

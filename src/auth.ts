@@ -4,7 +4,7 @@ import NextAuth, { User } from 'next-auth';
 
 import CredentialsProvider from 'next-auth/providers/credentials';
 import 'next-auth/jwt';
-type MemberDto = {
+export type MemberDto = {
     id: number;
     email: string;
     name: string;
@@ -12,6 +12,7 @@ type MemberDto = {
     gender: string;
     schoolName: string;
     majorName: string;
+    memberImageUrl: string;
 };
 declare module 'next-auth' {
     interface User {

@@ -3,37 +3,24 @@
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import nextImage from '@/../public/next.svg';
 import MultiCarousel from './MultiCarousel';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getMentoPosts } from './HomeMain';
-
-const mentorPosts = [
-    'title 1',
-    'title 2',
-    'title 3',
-    'title 4',
-    'title 5',
-    'title 6',
-    'title 7',
-    'title 8',
-    'title 9',
-    'title 10',
-    'title 11',
-    'title 12',
-    'title 13',
-    'title 14',
-    'title 15',
-    'title 16',
-]; //하드코딩 된 멘토 글
+import { MentoPosts, fetchMentorPosts } from '../../posts/_lib/posts';
+import Loading from '@/app/_component/Loading';
 
 function MenteePosts() {
     const [mouseDownPosition, setMouseDownPosition] = useState({ x: 0, y: 0 });
-    const { data } = useQuery({
+    const {
+        data: mentorPosts,
+        error,
+        isLoading,
+    } = useQuery<MentoPosts>({
         queryKey: ['posts', 'mento'],
-        queryFn: getMentoPosts,
+        queryFn: () => fetchMentorPosts(1, 15),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
     });
@@ -54,6 +41,10 @@ function MenteePosts() {
             event.preventDefault();
         }
     };
+    useEffect(() => {
+        console.log(mentorPosts);
+    }, [mentorPosts]);
+    if (isLoading) return <Loading />;
 
     return (
         <section className="flex  w-full flex-col ">
@@ -62,12 +53,12 @@ function MenteePosts() {
                 <Image src={nextImage} alt="mentee" />
             </Link>
             <MultiCarousel>
-                {mentorPosts.map((post, index) => (
+                {mentorPosts?.data.map((post, index) => (
                     <Link
                         key={index}
                         onMouseDown={handleMouseDown}
                         onClick={handleClick}
-                        href={`/home/mento_Id/${1}`}
+                        href={`/home/mento_Id/${post.boardId}`}
                         draggable={false}
                         scroll={false}
                     >

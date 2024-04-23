@@ -110,7 +110,10 @@ function MentoModalContent({ id }: { id: string }) {
                     <SectionDivider className="my-4" />
                     <div className="flex  w-full flex-col">
                         <span className=" mb-2 font-semibold">멘토링 설명</span>
-                        <span className="font-sans text-base font-extralight ">{text}</span>
+                        <div
+                            className="html-content space-y-2"
+                            dangerouslySetInnerHTML={{ __html: data?.boardDTO.content as string }}
+                        />
                     </div>
                 </div>
             </div>

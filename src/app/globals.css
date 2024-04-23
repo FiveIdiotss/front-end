@@ -136,3 +136,15 @@ body {
 .react-datepicker__day--outside-month {
     @apply pointer-events-none text-white  !important;
 }
+
+/*텍스트 에디터 스타일*/
+.html-content ul {
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left: 1em; /* 들여쓰기 적용 */
+}
+.html-content ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+    padding-left: 1em; /* 들여쓰기 적용 */
+}
