@@ -47,6 +47,7 @@ function MentorFormPage() {
     const titleRef = React.useRef<HTMLInputElement>(null); //제목
     const introduceRef = React.useRef<HTMLInputElement>(null); //간략한 소개글
     const targetRef = React.useRef<HTMLInputElement>(null); //멘토링 대상 키워드
+    const categoryRef = React.useRef<HTMLSelectElement>(null); //카테고리
 
     const state = useMentoNewPost();
     const mutation = useMutation({
@@ -70,6 +71,7 @@ function MentorFormPage() {
             !titleRef.current?.value ||
             !introduceRef.current?.value ||
             !targetRef.current?.value ||
+            !categoryRef.current?.value ||
             state.content === '' ||
             state.interver === 0 ||
             days.length === 0 ||
@@ -81,6 +83,7 @@ function MentorFormPage() {
             introduce: introduceRef.current?.value,
             target: targetRef.current?.value,
             content: state.content,
+            boardCategory: categoryRef.current?.value,
             consultTime: state.interver,
             boardType: 'MENTOR',
             times: formatTimes,
@@ -126,6 +129,21 @@ function MentorFormPage() {
                 placeholder="간략한 소개글"
             />
             {/* 소개글 입력창 */}
+            <select
+                ref={categoryRef}
+                className="mt-6 w-52 rounded-md  border border-neutral-400 bg-inherit p-2 text-sm  text-gray-400 outline-none"
+            >
+                <option selected disabled hidden value="">
+                    카테고리 선택(필수)
+                </option>
+                <option value="이공">이공</option>
+                <option value="자연">자연</option>
+                <option value="인문">인문</option>
+                <option value="사회">사회</option>
+                <option value="의약">의약</option>
+                <option value="예체능">예체능</option>
+                <option value="사범">사범</option>
+            </select>
             <input
                 ref={targetRef}
                 className="mt-6 w-1/2 bg-inherit text-base outline-none"

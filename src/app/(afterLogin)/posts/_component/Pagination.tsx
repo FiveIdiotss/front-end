@@ -83,7 +83,7 @@ function Pagination({ page, setPage, startPage, setStartPage, totalPages }: Prop
                     handlePageChange(totalPages);
                     setStartPage(totalPages - ((totalPages - 2) % 6));
                 }}
-                className={`h-7 w-7 rounded-md border border-neutral-300 text-sm font-light hover:border-neutral-600 ${page === totalPages ? ' bg-primary bg-opacity-80 text-white' : ''} ${totalPages === 1 ? 'hidden' : ''}`}
+                className={`h-7 w-7 rounded-md border border-neutral-300 text-sm font-light hover:border-neutral-600 ${page === totalPages ? ' bg-primary bg-opacity-80 text-white' : ''} ${totalPages === 1 || totalPages === 0 ? 'hidden' : ''}`}
             >
                 {totalPages || 2}
             </button>
@@ -92,7 +92,7 @@ function Pagination({ page, setPage, startPage, setStartPage, totalPages }: Prop
             <button
                 onClick={handleSingleNextPage}
                 className="ml-2 flex flex-row items-center rounded-md border border-neutral-300 px-2 text-sm hover:border-neutral-500 disabled:opacity-30"
-                disabled={totalPages === page}
+                disabled={totalPages === page || totalPages === 0 || totalPages === 1}
             >
                 <span className="text-xs text-neutral-800">다음 페이지</span>
             </button>

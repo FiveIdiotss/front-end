@@ -7,7 +7,7 @@ export default function HomeLayout({ children, mentoModal }: Props) {
     return (
         // Wrapper
 
-        <div className="mx-auto  flex max-w-screen-lg flex-col ">
+        <div className="mx-auto flex w-full max-w-screen-lg  flex-col ">
             {children}
             {mentoModal}
         </div>

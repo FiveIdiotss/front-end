@@ -15,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <body className={inter.className}>
                 <AuthSession>{children}</AuthSession>
+                <div id="modal-root" />
             </body>
         </html>
     );

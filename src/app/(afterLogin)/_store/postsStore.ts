@@ -75,3 +75,14 @@ export const usePostsStore = create<PostsStore>((set) => ({
         });
     },
 }));
+
+type PageHistoryStore = {
+    open: boolean;
+    setHistory: (open: boolean) => void;
+};
+export const pageHistoryStore = create<PageHistoryStore>((set) => ({
+    open: false,
+    setHistory: (open: boolean) => {
+        set({ open });
+    },
+}));

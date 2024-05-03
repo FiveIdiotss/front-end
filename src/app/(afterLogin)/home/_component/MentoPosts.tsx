@@ -44,6 +44,8 @@ function MenteePosts() {
     useEffect(() => {
         console.log(mentorPosts);
     }, [mentorPosts]);
+
+    if (error) return <div className="text-red-500">{error.message}</div>;
     if (isLoading) return <Loading />;
 
     return (

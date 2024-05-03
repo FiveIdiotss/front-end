@@ -11,12 +11,12 @@ type Props = {
 export default function HomeLayout({ children }: Props) {
     return (
         // Wrapper
-        <div className=" flex   h-dvh flex-col overflow-y-auto bg-gray-50">
+
+        <div className=" w-dvh flex   h-dvh flex-col overflow-y-auto bg-gray-50">
             {/* Home */}
             <Header />
 
             <RQProviders>{children} </RQProviders>
-            <div id="modal-root"></div>
         </div>
     );
 }

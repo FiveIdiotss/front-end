@@ -18,7 +18,7 @@ const postConsultation = async (props: { data: string; id: string }) => {
     }
 };
 
-function ConsultationReview({ id }: { id: string }) {
+function MentoStepConsultationReview({ id }: { id: string }) {
     const { data: session, status } = useSession();
     const { pageStep, setPageStep, mentoForm, mentoName, title, setErrorMessage } = usePostsStore();
     const [completeModalOpen, setCompleteModalOpen] = useState(false);
@@ -71,7 +71,7 @@ function ConsultationReview({ id }: { id: string }) {
                     <div className="flex flex-row ">
                         <dt className="w-20 font-semibold text-neutral-800">일정</dt>
                         <dd className="font-light text-neutral-700 ">
-                            {mentoForm.date} / {mentoForm.time.startTime}~{mentoForm.time.endTime}
+                            {mentoForm.date.replaceAll('-', '.')} / {mentoForm.time.startTime}~{mentoForm.time.endTime}
                         </dd>
                     </div>
                     <div className="flex flex-row ">
@@ -118,4 +118,4 @@ function ConsultationReview({ id }: { id: string }) {
     );
 }
 
-export default ConsultationReview;
+export default MentoStepConsultationReview;

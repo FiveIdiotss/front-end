@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
 import warning_red from '@/../public/warning_red.png';
-import styles from './WarningMessage.module.css';
 type Props = {
     text: string;
     isOpen: boolean;

@@ -1,3 +1,4 @@
+'use client';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
 import { MentoDetail, fetchMentoDetail } from '../_lib/posts';
@@ -8,13 +9,17 @@ import SectionDivider from '../../_component/SectionDivider';
 import UserIcon from '../../_component/icon/UserIcon';
 import { usePostsStore } from '../../_store/postsStore';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+type Props = {
+    id: string;
+    onlyContent?: boolean;
+};
 
-const text = `Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+function MentoStepContent({ id, onlyContent }: Props) {
+    const router = useRouter();
 
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.`;
-
-function MentoModalContent({ id }: { id: string }) {
+    // onlyContent가 true면 신청하기 버튼이 아닌 리스트로 이동하는 버튼으로 변경
     const { data, isLoading, isError } = useQuery<MentoDetail>({
         queryKey: ['mento', 'detail', id],
         queryFn: () => fetchMentoDetail(id),
@@ -117,17 +122,27 @@ function MentoModalContent({ id }: { id: string }) {
                     </div>
                 </div>
             </div>
-
+            {/* onlyContent일때와 아닐때 버튼을 다르게 함 */}
             <div className="flex h-fit w-full  justify-end">
-                <button
-                    className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
-                    onClick={nextHandler}
-                >
-                    신청하기
-                </button>
+                {onlyContent ? (
+                    <Link
+                        href={`/posts/mentor?id=${id}`}
+                        prefetch={false}
+                        className="mt-7 flex h-10  cursor-pointer items-center  px-5 font-semibold text-neutral-600 underline underline-offset-2 hover:text-primary "
+                    >
+                        멘토 리스트 이동
+                    </Link>
+                ) : (
+                    <button
+                        className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
+                        onClick={nextHandler}
+                    >
+                        신청하기
+                    </button>
+                )}
             </div>
         </>
     );
 }
 
-export default MentoModalContent;
+export default MentoStepContent;

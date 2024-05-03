@@ -27,7 +27,7 @@ export default function LoginModal() {
                 console.log(response);
                 setMessage('아이디및 비밀번호를 확인해주세요.');
                 return;
-            } else if (response?.error === 'CallbackRouteError') {
+            } else if (response?.error === 'Configuration') {
                 console.log(response);
                 setMessage('서버 오류가 발생했습니다. 잠시후 다시 시도해주세요.');
                 return;

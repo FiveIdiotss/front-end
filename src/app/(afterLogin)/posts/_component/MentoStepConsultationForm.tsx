@@ -4,7 +4,7 @@ import ArrowDropIcon from '../../_component/icon/ArrowDropIcon';
 import { usePostsStore } from '../../_store/postsStore';
 import DaySelectPicker from './DaySelectPicker';
 
-function ConsultationForm() {
+function MentoStepConsultationForm() {
     const { pageStep, setPageStep, mentoForm, setMentoForm, setErrorMessage } = usePostsStore();
     const [isDrop, setIsDrop] = useState(false);
     const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -79,4 +79,4 @@ function ConsultationForm() {
     );
 }
 
-export default ConsultationForm;
+export default MentoStepConsultationForm;

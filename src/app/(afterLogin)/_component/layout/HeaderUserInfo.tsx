@@ -21,14 +21,14 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
             onMouseEnter={() => setIsHovered(true)}
         >
             <div className="relative">
-                <div className="shrink-0 rounded-full  border-2 border-gray-400 hover:cursor-pointer  hover:border-2 hover:border-primary hover:p-0 ">
+                <div className="h-[33px] w-[33px] shrink-0 rounded-full  border-2 border-gray-400 hover:cursor-pointer  hover:border-2 hover:border-primary hover:p-0 ">
                     <Link href="/user">
                         <Image
                             src={memberDto?.memberImageUrl || '/assets/images/default-user.svg'}
                             alt="user"
-                            className=" rounded-full"
-                            width={33}
-                            height={33}
+                            className=" rounded-full object-cover "
+                            fill
+                            quality={100}
                         />
                     </Link>
                 </div>

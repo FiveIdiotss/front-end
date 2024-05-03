@@ -2,10 +2,10 @@ import React from 'react';
 import SearchIcon from '../../_component/icon/SearchIcon';
 import SectionDivider from '../../_component/SectionDivider';
 
-function UserFilter() {
+function UserFilter({ title }: { title: string }) {
     return (
         <div className=" flex w-full flex-col items-start gap-3">
-            <span className="   border-gray-300 text-xl font-semibold text-neutral-800">신청내역</span>
+            <span className="   border-gray-300 text-xl font-semibold text-neutral-800">{title}</span>
             <div className="flex h-9 w-3/5 flex-row items-center rounded-md border border-neutral-300 bg-white p-2 ">
                 <input className=" w-full bg-inherit text-sm outline-none" />
                 <SearchIcon className="h-5 w-5 text-indigo-400" />

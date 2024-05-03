@@ -6,6 +6,6 @@ export default function PostLayout({ children }: Props) {
     return (
         // Wrapper
 
-        <div className="mx-auto  flex max-w-screen-md flex-col ">{children}</div>
+        <div className="mx-auto  flex w-full max-w-screen-md flex-col ">{children}</div>
     );
 }
