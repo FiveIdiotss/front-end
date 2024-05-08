@@ -1,12 +1,20 @@
 'use client';
 import FaChevronRight from '@/app/(afterLogin)/_component/icon/chevronRight';
-import { MentoringReq } from '../../_lib/mentoringReqPage';
+import { MentoringReqData } from '../../_lib/mentoringReqReceive';
 import RequestReceivedDetailReview from './RequestReceivedDetailReview';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import RequestReceivedDetailContent from './RequestReceivedDetailContent';
-function RequestReceivedCard({ data }: { data: MentoringReq }) {
+import { toast } from 'react-toastify';
+import { pushNotification } from '@/app/util/pushNotification';
+import CofirmationModal from '@/app/_component/CofirmationModal';
+const dateFormat = (date: string) => {
+    const dateObj = new Date(date);
+
+    return `${dateObj.getFullYear()}.${(dateObj.getMonth() + 1).toString().padStart(2, '0')}.${dateObj.getDate().toString().padStart(2, '0')}`;
+};
+function RequestReceivedCard({ data }: { data: MentoringReqData }) {
     const router = useRouter();
     const [detailOpen, setDetailOpen] = useState(false);
     const [detailMoveOpen, setDetailMoveOpen] = useState(false);
@@ -23,13 +31,14 @@ function RequestReceivedCard({ data }: { data: MentoringReq }) {
     const handleDetailContentClose = () => {
         setDetailMoveOpen(false);
     };
+    const handleReject = (applyId: number) => {
+        pushNotification('수락되었습니다.', 'success', 'dark');
+    };
     return (
         <>
             <section className="mb-4 flex  w-full flex-col gap-6 rounded-lg border border-neutral-300 bg-white p-4 shadow-sm shadow-neutral-100">
                 <header className="flex flex-row items-end justify-between">
-                    <span className="text-base font-semibold text-neutral-800">
-                        {data.date.replaceAll('-', '.')} 신청
-                    </span>
+                    <span className="text-base font-semibold text-neutral-800">{dateFormat(data.applyTime)} 신청</span>
                     <button className="flex flex-row items-center " onClick={handleDetailOpen}>
                         <span className="text-sm font-light text-indigo-500">신청 상세보기</span>
 
@@ -84,7 +93,10 @@ function RequestReceivedCard({ data }: { data: MentoringReq }) {
                         </div>
                     </div>
                     <div className="flex h-full w-32 flex-col items-center  justify-center gap-2 border-l border-neutral-300 px-4">
-                        <button className="w-full rounded-md border border-indigo-400 py-1 text-xs text-indigo-400 hover:border-indigo-700  hover:text-indigo-700">
+                        <button
+                            className="w-full rounded-md border border-indigo-400 py-1 text-xs text-indigo-400 hover:border-indigo-700  hover:text-indigo-700"
+                            onClick={() => handleReject(data.applyId)}
+                        >
                             수락하기
                         </button>
                         <button className="w-full rounded-md border border-neutral-400 py-1 text-xs text-neutral-600 hover:border-red-700  hover:text-red-700">
@@ -93,6 +105,7 @@ function RequestReceivedCard({ data }: { data: MentoringReq }) {
                     </div>
                 </div>
             </section>
+            <CofirmationModal open={true} onClose={() => {}} text="수락 하시겠습니까?" onConfirm={() => {}} />
             {/* {detailOpen && <RequestReceivedDetailReview onClose={handleDetailClose} applyId={data.appyId} />}
             {detailMoveOpen && (
                 <RequestReceivedDetailContent onClose={handleDetailContentClose} boardId={`${data.boardId}`} />

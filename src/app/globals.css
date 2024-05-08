@@ -111,8 +111,7 @@ body {
 .react-datepicker__day-names {
     @apply flex justify-between;
 }
-.react-datepicker__day-name {
-}
+
 .react-datepicker__week {
     @apply flex h-7  justify-between px-6 !important;
 }

@@ -1,6 +1,5 @@
 import Axios from '@/app/util/axiosInstance';
 
-import { getSession } from 'next-auth/react';
 export type MentoringReqData = {
     applyId: number;
     applyState: string;
@@ -24,11 +23,10 @@ export type MentoringReq = {
     };
 }; //멘토링 신청내역
 
-export const mentoringReqFetch = async (pageParam: number, size?: number): Promise<MentoringReq> => {
-    const session = await getSession();
+export const mentoringReqReceiveFetch = async (pageParam: number, size?: number): Promise<MentoringReq> => {
     try {
         const params = {
-            sendReceive: 'SEND', //SEND: 내가 보낸 요청, RECEIVE: 받은 요청
+            sendReceive: 'RECEIVE', //SEND: 내가 보낸 요청, RECEIVE: 받은 요청
             page: pageParam, //현재 페이지
             size: size ? size : 3, //페이지당 표시할 아이템 수 고정
         };
@@ -39,24 +37,18 @@ export const mentoringReqFetch = async (pageParam: number, size?: number): Promi
     }
 };
 
-export type MentoringReqDetail = {
-    appyId: number;
-    boardId: number;
-    boardTitle: string;
-    content: string;
-    applyState: string;
-    date: string;
-    startTime: string;
-    memberId: number;
-    memberName: string;
-    memberImageUrl: string;
-    schoolName: string;
-    majorName: string;
-}; //멘토링 신청내역 상세(영수증 비슷한거)
-export const mentoringReqDetailFetch = async (applyId: number): Promise<MentoringReqDetail> => {
+export const mentoringReqReceiveAccept = async (applyId: number): Promise<void> => {
+    //수락
     try {
-        const response = await Axios.get(`/api/apply/${applyId}`);
-        return response.data;
+        await Axios.post(`/api/apply/${applyId}`);
+    } catch (error) {
+        throw error;
+    }
+};
+export const mentoringReqReceiveReject = async (applyId: number): Promise<void> => {
+    //거절
+    try {
+        await Axios.delete(`/api/reject/${applyId}`);
     } catch (error) {
         throw error;
     }

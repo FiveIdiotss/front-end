@@ -5,9 +5,10 @@ import UserFilter from '../_component/UserFilter';
 import { useQuery } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
 import { useEffect, useState } from 'react';
-import { MentoringReq, mentoringReqFetch } from '../_lib/mentoringReqPage';
+import { MentoringReq, mentoringReqFetch } from '../_lib/mentoringReq';
 import Loading from '@/app/_component/Loading';
 import userPageStore from '../../_store/userPageStore';
+import SimplePagination from '../_component/SimplePagination';
 
 function MentoringReqPage() {
     const { isImageModalOpen, setIsImageModalOpen } = userPageStore();
@@ -45,22 +46,7 @@ function MentoringReqPage() {
                         {dataList?.data.map((data, index) => <MentoringRequestCard key={index} data={data} />)}
                     </div>
                 )}
-                <div className="flex w-full flex-row justify-center gap-4">
-                    <button
-                        className="ml-2 flex flex-row items-center rounded-md border border-neutral-300 px-2 py-2 text-sm shadow-sm hover:border-neutral-500 disabled:opacity-30"
-                        disabled={page === 1}
-                        onClick={() => setPage(page - 1)}
-                    >
-                        <span className={`text-xs text-neutral-800 `}>이전 페이지</span>
-                    </button>
-                    <button
-                        className="ml-2 flex flex-row items-center rounded-md border border-neutral-300 px-2 text-sm shadow-sm hover:border-neutral-500 disabled:opacity-30"
-                        disabled={page === dataList?.pageInfo.totalPages}
-                        onClick={() => setPage(page + 1)}
-                    >
-                        <span className="text-xs text-neutral-800">다음 페이지</span>
-                    </button>
-                </div>
+                <SimplePagination page={page} setPage={setPage} totalPages={dataList?.pageInfo.totalPages || 1} />
             </div>
         </>
     );

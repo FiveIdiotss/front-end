@@ -1,6 +1,6 @@
 'use client';
 import FaChevronRight from '@/app/(afterLogin)/_component/icon/chevronRight';
-import { MentoringReq, MentoringReqData } from '../../_lib/mentoringReqPage';
+import { MentoringReq, MentoringReqData } from '../../_lib/mentoringReq';
 import MentoringRequestDetailReview from './RequestDetailReview';
 import { useState } from 'react';
 import Link from 'next/link';

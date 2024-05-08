@@ -2,23 +2,49 @@
 
 import RequestReceivedCard from './_component/RequestReceivedCard';
 import UserFilter from '../_component/UserFilter';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
-import { useEffect } from 'react';
-import { MentoringReq, mentoringReqFetch } from '../_lib/mentoringReqPage';
+import { useEffect, useState } from 'react';
+import { MentoringReq, mentoringReqReceiveFetch } from '../_lib/mentoringReqReceive';
 import Loading from '@/app/_component/Loading';
 import userPageStore from '../../_store/userPageStore';
 import ProfileImageChange from '../_component/ProfileImageChange';
+import SimplePagination from '../_component/SimplePagination';
+import { toast } from 'react-toastify';
 
 function MentoringReqRecPage() {
+    const [page, setPage] = useState<number>(1); //현제 페이지
     const {
         data: dataList,
         error,
         isLoading,
-    } = useQuery<MentoringReq[]>({
+    } = useQuery<MentoringReq>({
         queryKey: ['mentoringRequests'],
-        queryFn: mentoringReqFetch,
+        queryFn: () => mentoringReqReceiveFetch(1),
     }); //본인의 멘토링 신청내역
+    const mutationAccept = useMutation({
+        mutationFn: (applyId: number) => Axios.post(`/api/apply/${applyId}`),
+        onSuccess: () => {
+            console.log('수락');
+        },
+        onError: () => {
+            console.log('수락 실패');
+        },
+    });
+    const mutationReject = useMutation({
+        mutationFn: (applyId: number) => Axios.delete(`/api/reject/${applyId}`),
+        onSuccess: () => {
+            console.log('거절');
+        },
+        onError: () => {
+            console.log('거절 실패');
+        },
+    });
+
+    const handleReject = (applyId: number) => {
+        toast.info('거절되었습니다.');
+    };
+    const handleAccept = (applyId: number) => {};
 
     useEffect(() => {
         console.log(dataList);
@@ -41,9 +67,10 @@ function MentoringReqRecPage() {
                     <Loading />
                 ) : (
                     <div className="flex flex-grow flex-col    ">
-                        {dataList?.map((data, index) => <RequestReceivedCard key={index} data={data} />)}
+                        {dataList?.data.map((data, index) => <RequestReceivedCard key={index} data={data} />)}
                     </div>
                 )}
+                <SimplePagination page={page} setPage={setPage} totalPages={dataList?.pageInfo.totalPages || 1} />
             </div>
         </>
     );

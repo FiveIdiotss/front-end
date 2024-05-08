@@ -3,7 +3,7 @@
 import React, { use, useEffect, useState } from 'react';
 import MentoPostCard from '../../_component/MentoPostCard';
 import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { MentoContent, MentoPosts, fetchMentorPosts } from '../_lib/posts';
 import Loading from '@/app/_component/Loading';
 import Pagination from '../_component/Pagination';

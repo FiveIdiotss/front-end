@@ -1,25 +1,20 @@
 'use client';
-import Modal from '@/app/(afterLogin)/_component/Modal';
 import NonStandardModal from '@/app/(afterLogin)/_component/common/NonStandardModal';
 import React, { use, useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import ImageIcon from '@/app/(afterLogin)/_component/icon/ImageIcon';
 import { useMutation } from '@tanstack/react-query';
-import Axios from '@/app/util/axiosInstance';
-import SuccessMessage from '@/app/_component/SuccessMessage';
-import WarningMessage from '@/app/_component/WarningMessage';
 import { postDefaultImage, postImageData } from '../_lib/profileImageChange';
 import { updateSessionImage } from '../_lib/updateSession';
 import { AxiosError } from 'axios';
+import { pushNotification } from '@/app/util/pushNotification';
 
 function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => void }) {
     const { data: session, status, update: UpdateSession } = useSession();
     const [isHovered, setIsHovered] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
-    const [completeModalOpen, setCompleteModalOpen] = useState(false);
-    const [warningModalOpen, setWarningModalOpen] = useState('');
 
     const imageMutation = useMutation({
         mutationFn: () => postImageData(selectedImage),
@@ -28,12 +23,11 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
             console.log('이미지 링크', imageUrl);
             await updateSessionImage(imageUrl); //서버액션으로 이미지 서버 세션에 업데이트
             await UpdateSession(); //클라이언트도 세션 업데이트&새로고침
-            // console.log('이미지 업데이트', dd);
-            setCompleteModalOpen(true);
+            pushNotification('이미지가 성공적으로 변경되었습니다.', 'success', 'light');
         },
         onError: (err) => {
             console.log(err);
-            setWarningModalOpen('등록에 실패했습니다. 다시 시도해주세요.');
+            pushNotification('등록에 실패했습니다. 다시 시도해주세요.', 'error', 'light');
         },
     }); //사용자 이미지 업로드
     const defaultImageMutation = useMutation({
@@ -42,14 +36,16 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
         onSuccess: async (imageUrl) => {
             await updateSessionImage(imageUrl); //서버액션으로 이미지 서버 세션에 업데이트
             await UpdateSession(); //클라이언트도 세션 업데이트&새로고침
-            // console.log('이미지 업데이트', dd);
             setSelectedImage(null);
-            setCompleteModalOpen(true);
+            pushNotification('이미지가 성공적으로 변경되었습니다.', 'success', 'light');
         },
         onError: (err: AxiosError) => {
             console.log(err.response?.data);
-            if (err.response?.data === '이미 기본이미지 입니다.') setWarningModalOpen(err.response?.data);
-            else setWarningModalOpen('등록에 실패했습니다. 다시 시도해주세요.');
+            if (err.response?.data === '이미 기본이미지 입니다.') {
+                pushNotification('이미 기본이미지 입니다.', 'error', 'light');
+            } else {
+                pushNotification('등록에 실패했습니다. 다시 시도해주세요.', 'error', 'light');
+            }
         },
     }); //기본 이미지 변경
 
@@ -65,7 +61,7 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
     };
 
     const handleImageSubmit = () => {
-        if (!selectedImage) return setWarningModalOpen('이미지를 선택해주세요.');
+        if (!selectedImage) return pushNotification('이미지를 선택해주세요.', 'error', 'light');
         imageMutation.mutate();
     };
     const handleDefaultImageSubmit = () => {
@@ -133,16 +129,6 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
                         변경
                     </button>
                 </div>
-                <WarningMessage
-                    text={warningModalOpen}
-                    isOpen={warningModalOpen !== ''}
-                    onClose={() => setWarningModalOpen('')}
-                />
-                <SuccessMessage
-                    text="이미지가 성공적으로 변경되었습니다."
-                    isOpen={completeModalOpen}
-                    onClose={() => setCompleteModalOpen(false)}
-                />
             </NonStandardModal>
         </>
     );
