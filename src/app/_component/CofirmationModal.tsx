@@ -16,8 +16,9 @@ function CofirmationModal({ open, text, onClose, onConfirm, isLoading }: Props) 
             onClose={onClose}
             className="flex h-fit w-full flex-col items-center gap-2 rounded-md bg-white px-6 py-4 shadow-md mobile:w-[400px]"
             title="알림"
-            backButtonColor="black"
+            titleClassName="text-neutral-800"
             modalBackground="bg-black bg-opacity-50"
+            backButtonTheme="black"
         >
             <div className="mt-2 flex w-full flex-col  items-start gap-5 py-2">
                 <span className="  font-semibold text-neutral-800">{text}</span>
@@ -28,12 +29,16 @@ function CofirmationModal({ open, text, onClose, onConfirm, isLoading }: Props) 
                     >
                         취소
                     </button>
-                    <button className="h-9 w-20 rounded-sm bg-primary text-white  " onClick={onConfirm}>
-                        확인
-                    </button>
-                    {/* <button className="h-9 w-20 rounded-sm bg-primary text-white  " onClick={onConfirm}>
-                        <Loading />
-                    </button> */}
+                    {!isLoading && (
+                        <button className="h-9 w-20 rounded-sm bg-primary text-white  " onClick={onConfirm}>
+                            확인
+                        </button>
+                    )}
+                    {isLoading && (
+                        <button className="h-9 w-20 rounded-sm bg-primary text-white  " onClick={onConfirm}>
+                            <Loading />
+                        </button>
+                    )}
                 </div>
             </div>
         </NonStandardModal>

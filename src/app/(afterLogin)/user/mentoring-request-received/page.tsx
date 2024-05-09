@@ -22,28 +22,7 @@ function MentoringReqRecPage() {
         queryKey: ['mentoringRequests'],
         queryFn: () => mentoringReqReceiveFetch(1),
     }); //본인의 멘토링 신청내역
-    const mutationAccept = useMutation({
-        mutationFn: (applyId: number) => Axios.post(`/api/apply/${applyId}`),
-        onSuccess: () => {
-            console.log('수락');
-        },
-        onError: () => {
-            console.log('수락 실패');
-        },
-    });
-    const mutationReject = useMutation({
-        mutationFn: (applyId: number) => Axios.delete(`/api/reject/${applyId}`),
-        onSuccess: () => {
-            console.log('거절');
-        },
-        onError: () => {
-            console.log('거절 실패');
-        },
-    });
 
-    const handleReject = (applyId: number) => {
-        toast.info('거절되었습니다.');
-    };
     const handleAccept = (applyId: number) => {};
 
     useEffect(() => {

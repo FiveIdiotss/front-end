@@ -1,7 +1,16 @@
+import StandardModal from '@/app/(afterLogin)/_component/common/StandardModal';
+import MentoStepContent from '@/app/(afterLogin)/posts/_component/MentoStepContent';
 import React from 'react';
-
-function RequestReceivedDetailContent() {
-    return <div>RequestReceivedDetailContent</div>;
+type Props = {
+    boardId: string;
+    onClose: () => void;
+};
+function RequestReceivedDetailContent({ boardId, onClose }: Props) {
+    return (
+        <StandardModal title={'상세정보'} onClose={onClose}>
+            <MentoStepContent id={boardId} onlyContent />
+        </StandardModal>
+    );
 }
 
 export default RequestReceivedDetailContent;

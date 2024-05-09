@@ -9,6 +9,8 @@ import RequestReceivedDetailContent from './RequestReceivedDetailContent';
 import { toast } from 'react-toastify';
 import { pushNotification } from '@/app/util/pushNotification';
 import CofirmationModal from '@/app/_component/CofirmationModal';
+import { useMutation } from '@tanstack/react-query';
+import Axios from '@/app/util/axiosInstance';
 const dateFormat = (date: string) => {
     const dateObj = new Date(date);
 
@@ -18,6 +20,37 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
     const router = useRouter();
     const [detailOpen, setDetailOpen] = useState(false);
     const [detailMoveOpen, setDetailMoveOpen] = useState(false);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [action, setAction] = useState<'accept' | 'reject' | null>(null);
+
+    const mutationAccept = useMutation({
+        mutationFn: (applyId: number) => Axios.post(`/api/apply/${applyId}`),
+        onSuccess: () => {
+            setIsConfirmModalOpen(false);
+            setAction(null);
+            pushNotification('수락 완료', 'success', 'dark');
+        },
+        onError: () => {
+            setIsConfirmModalOpen(false);
+            setAction(null);
+
+            pushNotification('에러', 'error', 'dark');
+        },
+    }); //수락 요청
+    const mutationReject = useMutation({
+        mutationFn: (applyId: number) => Axios.post(`/api/reject/${applyId}`),
+
+        onSuccess: () => {
+            setIsConfirmModalOpen(false);
+            setAction(null);
+            pushNotification('거절 완료', 'success', 'dark');
+        },
+        onError: () => {
+            setIsConfirmModalOpen(false);
+            setAction(null);
+            pushNotification('에러', 'error', 'dark');
+        },
+    }); //거절 요청
 
     const handleDetailOpen = () => {
         setDetailOpen(true);
@@ -31,9 +64,26 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
     const handleDetailContentClose = () => {
         setDetailMoveOpen(false);
     };
-    const handleReject = (applyId: number) => {
-        pushNotification('수락되었습니다.', 'success', 'dark');
-    };
+
+    const openConfirmModal = (type: 'reject' | 'accept') => {
+        setAction(type);
+        setIsConfirmModalOpen(true);
+    }; //확인 모달열기 , 수락 거절
+
+    const closeConfirmModal = () => {
+        setIsConfirmModalOpen(false);
+        setAction(null);
+    }; //확인 모달 닫기, 수락 거절
+
+    const handleconfirm = () => {
+        if (action === 'accept') {
+            mutationAccept.mutate(data.applyId);
+        } else if (action === 'reject') {
+            mutationReject.mutate(data.applyId);
+        }
+        closeConfirmModal();
+    }; //수락 거절 확인
+
     return (
         <>
             <section className="mb-4 flex  w-full flex-col gap-6 rounded-lg border border-neutral-300 bg-white p-4 shadow-sm shadow-neutral-100">
@@ -93,23 +143,41 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
                         </div>
                     </div>
                     <div className="flex h-full w-32 flex-col items-center  justify-center gap-2 border-l border-neutral-300 px-4">
-                        <button
-                            className="w-full rounded-md border border-indigo-400 py-1 text-xs text-indigo-400 hover:border-indigo-700  hover:text-indigo-700"
-                            onClick={() => handleReject(data.applyId)}
-                        >
-                            수락하기
-                        </button>
-                        <button className="w-full rounded-md border border-neutral-400 py-1 text-xs text-neutral-600 hover:border-red-700  hover:text-red-700">
-                            거절하기
-                        </button>
+                        {data.applyState === 'HOLDING' && (
+                            <>
+                                <button
+                                    className="w-full rounded-md border border-indigo-400 py-1 text-xs text-indigo-400 hover:border-indigo-700  hover:text-indigo-700"
+                                    onClick={() => openConfirmModal('accept')}
+                                >
+                                    수락하기
+                                </button>
+                                <button
+                                    className="w-full rounded-md border border-neutral-400 py-1 text-xs text-neutral-600 hover:border-red-700  hover:text-red-700"
+                                    onClick={() => openConfirmModal('reject')}
+                                >
+                                    거절하기
+                                </button>
+                            </>
+                        )}
+                        {data.applyState === 'COMPLETE' && (
+                            <button className="w-full rounded-md border border-indigo-400 py-1 text-xs text-indigo-400 hover:border-indigo-700  hover:text-indigo-700">
+                                채팅하기
+                            </button>
+                        )}
                     </div>
                 </div>
             </section>
-            <CofirmationModal open={true} onClose={() => {}} text="수락 하시겠습니까?" onConfirm={() => {}} />
-            {/* {detailOpen && <RequestReceivedDetailReview onClose={handleDetailClose} applyId={data.appyId} />}
+            <CofirmationModal
+                open={isConfirmModalOpen}
+                onClose={closeConfirmModal}
+                text={action === 'accept' ? '수락하시겠습니까?' : '거절하시겠습니까?'}
+                onConfirm={handleconfirm}
+                isLoading={mutationAccept.isPending || mutationReject.isPending}
+            />
+            {detailOpen && <RequestReceivedDetailReview onClose={handleDetailClose} applyId={data.applyId} />}
             {detailMoveOpen && (
                 <RequestReceivedDetailContent onClose={handleDetailContentClose} boardId={`${data.boardId}`} />
-            )} */}
+            )}
         </>
     );
 }

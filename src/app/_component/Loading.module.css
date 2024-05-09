@@ -7,7 +7,7 @@
 .droplet_spinner {
     display: flex;
     justify-content: center;
-    margin: 40% 2% 40% 2%;
+    margin: 23px 2%;
 }
 
 .droplet_spinner .droplet {

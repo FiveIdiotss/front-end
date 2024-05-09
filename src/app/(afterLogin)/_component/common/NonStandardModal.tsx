@@ -12,9 +12,19 @@ type ModalProps = {
     className?: string;
     modalBackground?: string; //모달 배경색 변경
     title?: string;
-    backButtonColor?: 'white' | 'black';
+    titleClassName?: string;
+    backButtonTheme?: 'white' | 'black';
 };
-function NonStandardModal({ open, onClose, children, className, modalBackground, title, backButtonColor }: ModalProps) {
+function NonStandardModal({
+    open,
+    onClose,
+    children,
+    className,
+    modalBackground,
+    title,
+    backButtonTheme,
+    titleClassName,
+}: ModalProps) {
     const [isBrowser, setIsBrowser] = useState(false);
 
     useEffect(() => {
@@ -34,11 +44,13 @@ function NonStandardModal({ open, onClose, children, className, modalBackground,
                     onClick={(e) => e.stopPropagation()}
                 >
                     <header className="flex w-full flex-shrink-0 flex-row items-center">
-                        <div className="flex flex-row items-center">{title}</div>
+                        <div className={`flex flex-row items-center ${titleClassName ? titleClassName : ''}`}>
+                            {title}
+                        </div>
                         <div className="flex flex-grow flex-row justify-end">
                             <BackButton
                                 onClose={onClose}
-                                className={`p-[2px] ${backButtonColor ? ' text-neutral-800' : 'text-white'} hover:text-red-600`}
+                                className={`p-[2px] ${backButtonTheme ? 'text-neutral-800' : 'text-white'} hover:text-red-600`}
                             />
                         </div>
                     </header>
