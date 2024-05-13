@@ -12,7 +12,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 type Props = {
-    id: string;
+    id: number;
     onlyContent?: boolean;
 };
 
@@ -124,7 +124,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
             </div>
             {/* onlyContent일때와 아닐때 버튼을 다르게 함 */}
             <div className="flex h-fit w-full  justify-end">
-                {onlyContent ? (
+                {onlyContent && (
                     <Link
                         href={`/posts/mentor?id=${id}`}
                         prefetch={false}
@@ -132,14 +132,25 @@ function MentoStepContent({ id, onlyContent }: Props) {
                     >
                         멘토 리스트 이동
                     </Link>
-                ) : (
-                    <button
-                        className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
-                        onClick={nextHandler}
-                    >
-                        신청하기
-                    </button>
                 )}
+
+                {/* 자신의 멘토링일때 수정하기,아니면 신청하기 */}
+                {!onlyContent &&
+                    (data?.boardDTO.memberName !== session?.user?.memberDTO.name ? (
+                        <button
+                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
+                            onClick={nextHandler}
+                        >
+                            신청하기
+                        </button>
+                    ) : (
+                        <button
+                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
+                            onClick={() => router.push('/posts/mentor')}
+                        >
+                            수정하기
+                        </button>
+                    ))}
             </div>
         </>
     );

@@ -29,6 +29,7 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
                             className=" rounded-full object-cover "
                             fill
                             quality={100}
+                            loading="eager"
                         />
                     </Link>
                 </div>

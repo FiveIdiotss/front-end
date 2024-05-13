@@ -12,8 +12,6 @@ const menuItems = [
     { name: '프로필', link: '/user' },
     { name: '멘토링 신청 내역', link: '/user/mentoring-request' },
     { name: '멘토링 신청 받은 내역', link: '/user/mentoring-request-received' },
-    { name: '작성 게시물', link: '/user/posts' },
-    { name: '좋아요', link: '/user/like' },
 ]; //사이드바 메뉴
 
 function LeftHeader() {
@@ -37,7 +35,7 @@ function LeftHeader() {
                             src={session?.user?.memberDTO.memberImageUrl || ''}
                             alt="profile"
                             fill
-                            className="   rounded-full border-2 object-cover"
+                            className="rounded-full border-2 object-cover"
                         />
 
                         <button

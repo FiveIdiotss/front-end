@@ -2,7 +2,6 @@ import Axios from '@/app/util/axiosInstance';
 
 export type MentoContent = {
     boardId: number;
-    boardType: string;
     content: string;
     introduce: string;
     majorName: string;
@@ -12,6 +11,8 @@ export type MentoContent = {
     target: string;
     title: string;
     year: number;
+    writeTime: string;
+    boardCategory: string;
 };
 export type MentoPosts = {
     data: MentoContent[];
@@ -42,19 +43,19 @@ export type MentoDetail = {
     unavailableTimes: { data: string; startTime: string }[];
 };
 export const fetchMentorPosts = async (pageParam: number, size?: number) => {
-    const param = {
+    const params = {
         boardType: 'MENTOR',
         page: pageParam,
         size: size ? size : 24, //페이지당 표시할 아이템 수 고정
     };
     try {
-        const res = await Axios.get('/api/pageBoards', { params: param });
+        const res = await Axios.get('/api/pageBoards', { params: params });
         return res.data as Promise<MentoPosts>; //나중에 타입 수정해야함
     } catch (error) {
         throw new Error('멘토작성글 데이터를 불러오는데 실패했습니다.');
     }
 };
-export const fetchMentoDetail = async (id: string) => {
+export const fetchMentoDetail = async (id: number) => {
     try {
         console.log(`멘토 상세데이터`, id);
         const res = await Axios.get(`/api/board/${id}`);

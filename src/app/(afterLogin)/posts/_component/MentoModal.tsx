@@ -11,7 +11,7 @@ import MentoStepConsultationReview from './MentoStepConsultationReview';
 import StandardModal from '../../_component/common/StandardModal';
 import { useRouter } from 'next/navigation';
 
-function MentoModal({ id, closeUrl }: { id: string; closeUrl?: string }) {
+function MentoModal({ id, closeUrl }: { id: number; closeUrl?: string }) {
     const router = useRouter();
     const { pageStep, setPageStep, setInit, setErrorMessage, errorMessage } = usePostsStore();
     useEffect(() => {

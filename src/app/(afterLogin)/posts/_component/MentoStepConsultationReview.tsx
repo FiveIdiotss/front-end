@@ -10,15 +10,7 @@ import InfoModal from '../../post/_components/InfoModal';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const postConsultation = async (props: { data: string; id: string }) => {
-    try {
-        const res = Axios.post(`/api/consultation/${props.id}`, props.data);
-    } catch (error) {
-        throw new Error('error');
-    }
-};
-
-function MentoStepConsultationReview({ id }: { id: string }) {
+function MentoStepConsultationReview({ id }: { id: number }) {
     const { data: session, status } = useSession();
     const { pageStep, setPageStep, mentoForm, mentoName, title, setErrorMessage } = usePostsStore();
     const [completeModalOpen, setCompleteModalOpen] = useState(false);
