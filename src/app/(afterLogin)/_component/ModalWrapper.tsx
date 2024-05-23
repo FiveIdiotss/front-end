@@ -1,8 +1,7 @@
-import { useRouter } from 'next/navigation';
-import React from 'react';
-import { pageHistoryStore } from '../_store/postsStore';
+import React, { useEffect, useState } from 'react';
 import BackButton from '@/app/(beforeLogin)/_component/BackButton';
-import { usePathname } from 'next/navigation';
+import ReactDOM from 'react-dom';
+
 type ModalWrapperProps = {
     children: React.ReactNode;
     className?: string;
@@ -14,28 +13,18 @@ type ModalWrapperProps = {
 };
 
 function ModalWrapper({ children, className, title, subTitle, onClose, closeUrl }: ModalWrapperProps) {
-    const router = useRouter();
-    const pathName = usePathname();
+    const [isBrowser, setIsBrowser] = useState(false);
 
-    const backHandler = () => {
-        if (onClose) {
-            onClose();
-        } else if (closeUrl) {
-            router.push(closeUrl);
-        } else {
-            const handlePopState = () => {
-                router.replace('/posts/mentor');
-                window.removeEventListener('popstate', handlePopState);
-            };
+    useEffect(() => {
+        setIsBrowser(true);
+    }, []);
 
-            window.addEventListener('popstate', handlePopState);
-            window.history.back();
-        }
-    };
-    return (
+    if (!open || !isBrowser) return null;
+
+    return ReactDOM.createPortal(
         <div
             className="fixed bottom-0 left-0 right-0 top-0 z-[2000] flex h-full  w-screen items-center justify-center bg-modal"
-            onClick={backHandler}
+            onClick={onClose}
         >
             <div
                 className={`animate-slide-up  fixed bottom-0 left-0 h-full  max-h-[850px] w-full sm:relative sm:max-h-[750px] sm:max-w-[540px] `}
@@ -51,13 +40,14 @@ function ModalWrapper({ children, className, title, subTitle, onClose, closeUrl 
                             )}
                         </div>
                         <div className="flex flex-grow flex-row justify-end">
-                            <BackButton onClose={backHandler} />
+                            <BackButton onClose={onClose} />
                         </div>
                     </header>
                     {children}
                 </section>
             </div>
-        </div>
+        </div>,
+        document.getElementById('modal-root') as HTMLElement,
     );
 }
 

@@ -80,11 +80,11 @@ export default function SignupModal() {
             year: undefined,
             gender: '',
             schoolName: '',
-            schoolId: 0,
-            majorName: '',
+            schoolId: 0, //필요없음
+            majorName: '', //필요없음
             majorId: 0,
-            passwordConfirm: '',
-            validEmail: false,
+            passwordConfirm: '', //필요없음
+            validEmail: false, //필요없음
         },
         validationSchema: Yup.object({
             email: Yup.string().email('이메일 형식이 올바르지 않습니다.').max(255),
@@ -123,7 +123,7 @@ export default function SignupModal() {
 
     return (
         // 모달배경
-        <div className="bg-modal absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen items-center justify-center">
+        <div className="absolute bottom-0 left-0 right-0 top-0 flex h-full w-screen items-center justify-center bg-modal">
             <div
                 className={` relative flex h-full  w-full flex-col  items-center rounded-lg bg-white sm:h-[550px] sm:w-[450px]`}
             >
@@ -135,7 +135,7 @@ export default function SignupModal() {
                         ) : (
                             <button
                                 onClick={() => searchModalHandler(1)}
-                                className="hover:bg-primary  flex h-8 w-8 items-center justify-center rounded-full"
+                                className="flex  h-8 w-8 items-center justify-center rounded-full hover:bg-primary"
                             >
                                 <Image src={search} height={32} width={32} alt="back" />
                             </button>

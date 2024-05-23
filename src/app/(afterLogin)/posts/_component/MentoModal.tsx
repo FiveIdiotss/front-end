@@ -1,6 +1,4 @@
 'use client';
-import ModalWrapper from '../../_component/ModalWrapper';
-import BackButton from '@/app/(beforeLogin)/_component/BackButton';
 
 import MentoStepContent from './MentoStepContent';
 import MentoStepConsultationForm from './MentoStepConsultationForm';
@@ -11,9 +9,8 @@ import MentoStepConsultationReview from './MentoStepConsultationReview';
 import StandardModal from '../../_component/common/StandardModal';
 import { useRouter } from 'next/navigation';
 
-function MentoModal({ id, closeUrl }: { id: number; closeUrl?: string }) {
-    const router = useRouter();
-    const { pageStep, setPageStep, setInit, setErrorMessage, errorMessage } = usePostsStore();
+function MentoModal({ id, onClose }: { id: number; onClose: () => void }) {
+    const { pageStep, setInit, setErrorMessage, errorMessage } = usePostsStore();
     useEffect(() => {
         return () => {
             setInit();
@@ -26,7 +23,7 @@ function MentoModal({ id, closeUrl }: { id: number; closeUrl?: string }) {
     const title = pageStep === 0 ? '멘토링 소개' : pageStep === 1 ? '신청하기' : '신청서 확인';
     const subTitle = pageStep !== 0 ? `${pageStep}/2` : '';
     return (
-        <StandardModal title={title} subTitle={subTitle} closeUrl={closeUrl}>
+        <StandardModal title={title} subTitle={subTitle} onClose={onClose}>
             {pageStep === 0 && <MentoStepContent id={id} />}
             {pageStep === 1 && <MentoStepConsultationForm />}
             {pageStep === 2 && <MentoStepConsultationReview id={id} />}

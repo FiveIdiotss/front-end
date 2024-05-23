@@ -11,9 +11,11 @@ import userPageStore from '../../_store/userPageStore';
 import ProfileImageChange from '../_component/ProfileImageChange';
 import SimplePagination from '../_component/SimplePagination';
 import { toast } from 'react-toastify';
+import { useSearchParams } from 'next/navigation';
 
 function MentoringReqRecPage() {
-    const [page, setPage] = useState<number>(1); //현제 페이지
+    const searchParams = useSearchParams();
+    const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
     const {
         data: dataList,
         error,
@@ -49,7 +51,7 @@ function MentoringReqRecPage() {
                         {dataList?.data.map((data, index) => <RequestReceivedCard key={index} data={data} />)}
                     </div>
                 )}
-                <SimplePagination page={page} setPage={setPage} totalPages={dataList?.pageInfo.totalPages || 1} />
+                <SimplePagination page={pageParam} totalPages={dataList?.pageInfo.totalPages || 1} />
             </div>
         </>
     );

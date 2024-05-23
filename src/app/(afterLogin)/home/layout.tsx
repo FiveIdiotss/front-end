@@ -1,8 +1,3 @@
-export default function Layout({ children, mentoModal }: { children: React.ReactNode; mentoModal: React.ReactNode }) {
-    return (
-        <>
-            {children}
-            {mentoModal}
-        </>
-    );
+export default function Layout({ children }: { children: React.ReactNode }) {
+    return <>{children}</>;
 }

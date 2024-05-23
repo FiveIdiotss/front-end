@@ -9,8 +9,9 @@ import MultiCarousel from './MultiCarousel';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getMentoPosts } from './HomeMain';
-import { MentoPosts, fetchMentorPosts } from '../../posts/_lib/posts';
+import { fetchMentorPosts } from '../../posts/_lib/posts';
 import Loading from '@/app/_component/Loading';
+import { MentoPostsType } from '../../Models/mentoPostsType';
 
 function MenteePosts() {
     const [mouseDownPosition, setMouseDownPosition] = useState({ x: 0, y: 0 });
@@ -18,8 +19,8 @@ function MenteePosts() {
         data: mentorPosts,
         error,
         isLoading,
-    } = useQuery<MentoPosts>({
-        queryKey: ['posts', 'mento'],
+    } = useQuery<MentoPostsType>({
+        queryKey: ['posts', 'mento', 'home'],
         queryFn: () => fetchMentorPosts(1, 15),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
@@ -56,16 +57,7 @@ function MenteePosts() {
             </Link>
             <MultiCarousel>
                 {mentorPosts?.data.map((post, index) => (
-                    <Link
-                        key={index}
-                        onMouseDown={handleMouseDown}
-                        onClick={handleClick}
-                        href={`/home/mento_Id/${post.boardId}`}
-                        draggable={false}
-                        scroll={false}
-                    >
-                        <MentoPostCard post={post} />
-                    </Link>
+                    <MentoPostCard post={post} key={post.boardId} queryKeys={['posts', 'mento', 'home']} />
                 ))}
             </MultiCarousel>
         </section>

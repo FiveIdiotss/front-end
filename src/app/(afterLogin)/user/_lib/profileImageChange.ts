@@ -1,4 +1,5 @@
 import Axios from '@/app/util/axiosInstance';
+import { AxiosError } from 'axios';
 
 export const postImageData = async (data: File | null) => {
     if (!data) return;
@@ -6,9 +7,10 @@ export const postImageData = async (data: File | null) => {
     const formData = new FormData();
     formData.append('imageFile', data as Blob);
     const response = await Axios.post('/api/member/image', formData);
-    return response.data;
+    console.log('이미지 응답', response.data.data.imageUrl);
+    return response.data.data;
 };
 export const postDefaultImage = async () => {
     const response = await Axios.post('/api/member/defaultImage');
-    return response.data;
+    return response.data.data;
 };

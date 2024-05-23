@@ -160,9 +160,12 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
                             </>
                         )}
                         {data.applyState === 'COMPLETE' && (
-                            <button className="w-full rounded-md border border-indigo-400 py-1 text-xs text-indigo-400 hover:border-indigo-700  hover:text-indigo-700">
+                            <Link
+                                href={'/chat'}
+                                className="w-full rounded-md border border-indigo-400 py-1 text-center text-xs text-indigo-400 hover:border-indigo-700  hover:text-indigo-700"
+                            >
                                 채팅하기
-                            </button>
+                            </Link>
                         )}
                     </div>
                 </div>

@@ -71,7 +71,7 @@ export const {
 
                 try {
                     const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/member/signIn`, data);
-                    const userResponse = response.data;
+                    const userResponse = response.data.data;
 
                     const user: User = {
                         access_Token: userResponse.tokenDTO.accessToken,
@@ -81,7 +81,7 @@ export const {
 
                     return user;
                 } catch (error: any) {
-                    console.log(error.response.data);
+                    console.log(error.response);
                     return null;
                 }
             },

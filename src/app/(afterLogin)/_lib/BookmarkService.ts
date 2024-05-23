@@ -1,24 +1,21 @@
 import Axios from '@/app/util/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { MentoContent } from '../posts/_lib/posts';
 import { pushNotification } from '@/app/util/pushNotification';
+import { MentoPostsType } from '../Models/mentoPostsType';
 
-export type Bookmarks = {
-    bookmark: MentoContent[];
-    ids: number[];
-};
-
-export const getBookmark = async () => {
-    const response = await Axios.get('/api/boards/favorites');
-    const ids = response.data.map((bookmark: any) => bookmark.boardId);
-    const data: Bookmarks = {
-        bookmark: response.data,
-        ids: ids,
+export const getBookmark = async (pageParam: number, size?: number) => {
+    const params = {
+        page: pageParam,
+        size: size ? size : 24,
+        schoolFilter: false,
+        favoriteFilter: true,
     };
 
-    return data;
-}; //북마크 조회(컨텐츠까지 조회), 북마크된 게시글의 id만 추출
+    const response = await Axios.get<Promise<MentoPostsType>>('/api/boards/filter', { params: params });
+
+    return response.data;
+}; //북마크 데이터 조회
 
 const addBookmark = async (boardId: number) => {
     const response = await Axios.post(`api/board/favorite/${boardId}`);
@@ -29,18 +26,34 @@ const deleteBookmark = async (boardId: number) => {
     return response.data;
 }; //북마크 삭제
 
+export type BookmarkKeysType = {
+    boardId: number;
+    keys: string[];
+};
+
 export const useAddBookmarkMutation = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: (boardId: number) => addBookmark(boardId),
-        onMutate: async (boardId: number) => {
+        mutationFn: ({ boardId }: BookmarkKeysType) => addBookmark(boardId),
+        onMutate: async ({ boardId, keys }: BookmarkKeysType) => {
+            console.log('boardId', boardId);
+            console.log('keys', keys);
             await queryClient.cancelQueries();
-            const previousData = queryClient.getQueryData(['bookmarks']);
-            queryClient.setQueryData(['bookmarks'], (old: any) => {
+            const previousData = queryClient.getQueryData(keys);
+
+            queryClient.setQueryData(keys, (old: MentoPostsType | undefined) => {
                 return {
                     ...old,
-                    ids: [...old.ids, boardId],
+                    data: old?.data.map((post) => {
+                        if (post.boardId === boardId) {
+                            return {
+                                ...post,
+                                favorite: true,
+                            };
+                        }
+                        return post;
+                    }),
                 };
             });
             return { previousData };
@@ -48,15 +61,16 @@ export const useAddBookmarkMutation = () => {
         onSuccess: (res) => {
             pushNotification('북마크가 추가되었습니다.', 'success', 'dark');
         },
-        onError: (error: AxiosError, previousData) => {
+        onError: (error: AxiosError, variable, previousData) => {
+            console.log('x', previousData);
             console.log(error);
             pushNotification('북마크 추가에 실패했습니다.', 'error', 'dark');
-            queryClient.setQueryData(['bookmarks'], previousData);
+            queryClient.setQueryData(variable.keys, previousData);
         },
-        onSettled: () => {
+        onSettled: (data, error, variable) => {
             queryClient.invalidateQueries({
-                queryKey: ['bookmarks'],
-                exact: true,
+                queryKey: ['posts', 'mento'],
+                refetchType: 'all',
             });
         },
     });
@@ -69,14 +83,23 @@ export const useDeleteBookmarkMutation = () => {
         const queryClient = useQueryClient();
 
         const mutation = useMutation({
-            mutationFn: (boardId: number) => deleteBookmark(boardId),
-            onMutate: async (boardId: number) => {
+            mutationFn: ({ boardId }: BookmarkKeysType) => deleteBookmark(boardId),
+            onMutate: async ({ boardId, keys }: BookmarkKeysType) => {
                 await queryClient.cancelQueries();
-                const previousData = queryClient.getQueryData(['bookmarks']);
-                queryClient.setQueryData(['bookmarks'], (old: any) => {
+                const previousData = queryClient.getQueryData(keys);
+
+                queryClient.setQueryData(keys, (old: MentoPostsType | undefined) => {
                     return {
                         ...old,
-                        ids: old.ids.filter((id: number) => id !== boardId),
+                        data: old?.data.map((post) => {
+                            if (post.boardId === boardId) {
+                                return {
+                                    ...post,
+                                    favorite: false,
+                                };
+                            }
+                            return post;
+                        }),
                     };
                 });
                 return { previousData };
@@ -84,16 +107,18 @@ export const useDeleteBookmarkMutation = () => {
             onSuccess: () => {
                 pushNotification('북마크가 삭제되었습니다.', 'success', 'dark');
             },
-            onError: (error: AxiosError, previousData) => {
-                console.log('이전데이터', previousData);
+            onError: (error: AxiosError, variable, previousData) => {
+                console.log('이전데이터xx', previousData);
+                console.log('pageParamxx', variable);
 
                 pushNotification('북마크 삭제에 실패했습니다.', 'error', 'dark');
-                queryClient.setQueryData(['bookmarks'], previousData);
+                queryClient.setQueryData(variable.keys, previousData);
             },
-            onSettled: () => {
+            onSettled: (data, error, variable) => {
+                console.log('이전데이터', data);
                 queryClient.invalidateQueries({
-                    queryKey: ['bookmarks'],
-                    exact: true,
+                    queryKey: ['posts', 'mento'],
+                    refetchType: 'all',
                 });
             },
         });

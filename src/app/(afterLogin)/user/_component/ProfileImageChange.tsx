@@ -9,6 +9,7 @@ import { postDefaultImage, postImageData } from '../_lib/profileImageChange';
 import { updateSessionImage } from '../_lib/updateSession';
 import { AxiosError } from 'axios';
 import { pushNotification } from '@/app/util/pushNotification';
+import { ErrorResponse } from '@/app/Models/AxiosResponse';
 
 function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => void }) {
     const { data: session, status, update: UpdateSession } = useSession();
@@ -33,19 +34,16 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
     const defaultImageMutation = useMutation({
         mutationFn: postDefaultImage,
 
-        onSuccess: async (imageUrl) => {
-            await updateSessionImage(imageUrl); //서버액션으로 이미지 서버 세션에 업데이트
+        onSuccess: async (data) => {
+            await updateSessionImage(data); //서버액션으로 이미지 서버 세션에 업데이트
             await UpdateSession(); //클라이언트도 세션 업데이트&새로고침
             setSelectedImage(null);
             pushNotification('이미지가 성공적으로 변경되었습니다.', 'success', 'light');
         },
-        onError: (err: AxiosError) => {
-            console.log(err.response?.data);
-            if (err.response?.data === '이미 기본이미지 입니다.') {
-                pushNotification('이미 기본이미지 입니다.', 'error', 'light');
-            } else {
-                pushNotification('등록에 실패했습니다. 다시 시도해주세요.', 'error', 'light');
-            }
+        onError: (err: AxiosError<ErrorResponse>) => {
+            console.log('에러 데이터', err.response?.data);
+
+            pushNotification(err.response?.data.message || '등록에 실패했습니다. 다시 시도해주세요.', 'error', 'light');
         },
     }); //기본 이미지 변경
 

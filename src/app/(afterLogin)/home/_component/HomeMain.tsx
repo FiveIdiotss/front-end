@@ -20,34 +20,16 @@ export async function getMentoPosts() {
         throw new Error('Error occured while fetching posts.');
     }
 }
-export async function getMenteePosts() {
-    // try {
-    //     let params = {
-    //         boardType: 'MENTEE',
-    //         page: 1,
-    //         size: 16,
-    //     };
-    //     const res = await Axios.get('/api/boards', { params });
-    //     return res.data;
-    // } catch (err) {
-    //     console.log(err);
-    //     throw new Error('Error occured while fetching posts.');
-    // }
-}
+
 async function HomeMain() {
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
-        queryKey: ['posts', 'mento'],
+        queryKey: ['posts', 'mento', 'home'],
         queryFn: getMentoPosts,
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
     });
-    await queryClient.prefetchQuery({
-        queryKey: ['posts', 'mentee'],
-        queryFn: getMenteePosts,
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
-    });
+
     const dehydratedState = dehydrate(queryClient);
     // queryClient.getQueryData(['posts', 'recommends']);
 

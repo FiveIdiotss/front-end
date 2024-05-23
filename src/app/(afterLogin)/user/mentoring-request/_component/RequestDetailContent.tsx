@@ -6,9 +6,10 @@ type Props = {
     onClose: () => void;
 };
 function MentoringRequestDetailContent({ boardId, onClose }: Props) {
+    const id = Number(boardId);
     return (
         <StandardModal title={'상세정보'} onClose={onClose}>
-            <MentoStepContent id={boardId} onlyContent />
+            <MentoStepContent id={id} onlyContent />
         </StandardModal>
     );
 }

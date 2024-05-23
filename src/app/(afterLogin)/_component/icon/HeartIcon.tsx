@@ -5,7 +5,7 @@ export default function HeartIcon({
     isCheck,
     className,
 }: {
-    fill: string;
+    fill?: string;
     isCheck: boolean;
     className?: string;
 }) {

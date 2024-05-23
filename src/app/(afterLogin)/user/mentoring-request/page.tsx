@@ -9,17 +9,18 @@ import { MentoringReq, mentoringReqFetch } from '../_lib/mentoringReq';
 import Loading from '@/app/_component/Loading';
 import userPageStore from '../../_store/userPageStore';
 import SimplePagination from '../_component/SimplePagination';
+import { useSearchParams } from 'next/navigation';
 
 function MentoringReqPage() {
-    const { isImageModalOpen, setIsImageModalOpen } = userPageStore();
-    const [page, setPage] = useState<number>(1); //현제 페이지
+    const searchParams = useSearchParams();
+    const pageParam = Number(searchParams.get('page')) || 1; //페이지 받아오기
     const {
         data: dataList,
         error,
         isLoading,
     } = useQuery<MentoringReq>({
-        queryKey: ['mentoringRequests', page],
-        queryFn: () => mentoringReqFetch(page),
+        queryKey: ['mentoringRequests', pageParam],
+        queryFn: () => mentoringReqFetch(pageParam),
     }); //본인의 멘토링 신청내역
 
     useEffect(() => {
@@ -46,7 +47,7 @@ function MentoringReqPage() {
                         {dataList?.data.map((data, index) => <MentoringRequestCard key={index} data={data} />)}
                     </div>
                 )}
-                <SimplePagination page={page} setPage={setPage} totalPages={dataList?.pageInfo.totalPages || 1} />
+                <SimplePagination page={pageParam} totalPages={dataList?.pageInfo.totalPages || 1} />
             </div>
         </>
     );

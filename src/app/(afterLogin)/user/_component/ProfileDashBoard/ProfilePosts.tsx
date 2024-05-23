@@ -1,39 +1,46 @@
 'use client';
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
-import { MentoContent } from '@/app/(afterLogin)/posts/_lib/posts';
-import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SimplePagination from '../SimplePagination';
 import { useQuery } from '@tanstack/react-query';
-import { get } from 'http';
 import { getProfilePosts } from '../_lib/profilePosts';
-import ProfilePostsContent from './ProfilePostsContent';
+import { MentoContentType, MentoPostsType } from '@/app/(afterLogin)/Models/mentoPostsType';
+import Loading from '@/app/_component/Loading';
+import { useSearchParams } from 'next/navigation';
 
 function ProfilePosts() {
-    const [page, setPage] = React.useState(1);
-    const [boardId, setBoardId] = useState<number | null>(null);
-    const handleModalOpen = (boardId: number) => {
-        setBoardId(boardId);
-    };
+    const searchParams = useSearchParams();
 
-    const handleModalClose = () => {
-        setBoardId(null);
-    };
-    const { data } = useQuery<MentoContent[]>({
-        queryKey: ['mentoPosts', page],
-        queryFn: () => getProfilePosts(page, 6),
+    const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
+
+    const {
+        data: myPosts,
+        isLoading: myPostsIsLoading,
+        isError: myPostsIsError,
+    } = useQuery<MentoPostsType>({
+        queryKey: ['posts', 'mento', 'user', 'self', String(pageParam)],
+        queryFn: () => getProfilePosts(pageParam, 6),
     });
+
+    if (myPostsIsLoading)
+        return (
+            <div className="flex h-96 items-center justify-center">
+                <Loading />
+            </div>
+        );
     return (
         <>
             <div className=" my-5 grid w-full grid-cols-2 gap-4 px-3 md:grid-cols-2 xl:grid-cols-3">
-                {data?.map((post: MentoContent) => (
-                    <div key={post.boardId} onClick={() => handleModalOpen(post.boardId)}>
-                        <MentoPostCard post={post} />
-                    </div>
+                {myPosts?.data.map((post: MentoContentType) => (
+                    <MentoPostCard
+                        post={post}
+                        key={post.boardId}
+                        queryKeys={['posts', 'mento', 'user', 'self', String(pageParam)]}
+                    />
                 ))}
             </div>
-            {boardId && <ProfilePostsContent boardId={boardId} onClose={handleModalClose} />}
-            {/* <SimplePagination page={page} setPage={setPage} totalPages={data?.pageInfo.totalPages || 1} /> */}
+            {/* {boardId && <ProfilePostsContent boardId={boardId} onClose={handleModalClose} />} */}
+            <SimplePagination page={pageParam} totalPages={myPosts?.pageInfo.totalPages || 1} />
         </>
     );
 }

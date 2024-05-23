@@ -1,14 +1,31 @@
+'use client';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 type Props = {
     page: number;
-    setPage: (page: number) => void;
+    // setPage: (page: number) => void;
     startPage: number;
     setStartPage: (startPage: number) => void;
     totalPages: number; //전체 페이지 수
 };
 
-function Pagination({ page, setPage, startPage, setStartPage, totalPages }: Props) {
+function Pagination({ page, startPage, setStartPage, totalPages }: Props) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+
+    const handleRouter = (page: number) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (page === 1) {
+            params.delete('page');
+        } else {
+            params.set('page', page.toString());
+        }
+        router.replace(pathname + '?' + params.toString());
+    };
+
     const handlePageChange = (pageNumber: number) => {
-        setPage(pageNumber);
+        handleRouter(pageNumber); // setPage(pageNumber);
     };
     const handleSinglePrevPage = () => {
         if (page % 6 === 2 && page !== 2) setStartPage(startPage - 6);
@@ -22,13 +39,14 @@ function Pagination({ page, setPage, startPage, setStartPage, totalPages }: Prop
     //...버튼 클릭시 이전 페이지 6개 보여주기
     const handlePrevGroupPage = () => {
         setStartPage(startPage - 6);
-        setPage(startPage - 6);
+        handlePageChange(startPage - 6);
+        // setPage(startPage - 6);
     };
 
     //...버튼 클릭시 다음 페이지 6개 보여주기
     const handleNextGroupPage = () => {
         setStartPage(startPage + 6);
-        setPage(startPage + 6);
+        handlePageChange(startPage + 6);
     };
 
     return (
