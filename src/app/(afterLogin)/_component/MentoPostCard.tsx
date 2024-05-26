@@ -64,7 +64,7 @@ function MentoPostCard({ post, queryKeys }: { post: MentoContentType; queryKeys:
     return (
         <>
             <div
-                className=" flex h-72 w-full  transform cursor-pointer flex-col rounded-xl border border-neutral-200 bg-white px-5 py-4 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
+                className=" my-1 flex h-[270px] w-full  transform cursor-pointer flex-col rounded-sm border border-neutral-200 bg-white px-5 py-4 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
                 onClick={handleDetailModalOpen}
             >
                 <div className="flex flex-grow flex-col">

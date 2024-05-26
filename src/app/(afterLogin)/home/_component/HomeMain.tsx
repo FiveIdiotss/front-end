@@ -1,11 +1,18 @@
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import React from 'react';
-import MentoPosts from './MentoPosts';
-import MenteePosts from './MenteePosts';
+import MentoBoard from './MentoBoard';
 import SideBar_R from '../../_component/layout/sideBar_R';
 import Axios from '@/app/util/axiosInstance';
 import { auth } from '@/auth';
 import { getSession } from 'next-auth/react';
+import SectionDivider from '../../_component/SectionDivider';
+import QuestionBoard from './QuestionBoard';
+import MentoringTopicRequestBoard from './MentoringTopicRequestBoard';
+import HomeCategoryBar from './HomeCategoryBar';
+import HotIcon from '../../_component/icon/HotIcon';
+import Image from 'next/image';
+import { faker } from '@faker-js/faker';
+import RightSideBar from './RightSideBar';
 export async function getMentoPosts() {
     try {
         let params = {
@@ -44,39 +51,16 @@ async function HomeMain() {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className=" mx-auto   max-w-[1600px]   ">
-                <div className="flex  flex-row">
-                    <div className=" w-full px-3 sm:px-6 lg:w-[calc(100%-240px)]">
-                        {/* Centered Container */}
-
-                        <div className=" mt-3 flex w-full flex-col px-6">
-                            {/* Category Header */}
-                            <div className="mb-4 flex w-full items-start    font-semibold">
-                                <span className=" w-2/12 min-w-32 text-xl font-semibold ">카테고리</span>
-                            </div>
-
-                            {/* Category Items */}
-                            <div className="flex w-full flex-wrap items-center gap-5 pl-6">
-                                {/* map function for categories */}
-                                {categories.map((category, index) => (
-                                    <div key={index} className="cursor-pointer border p-2 text-lg font-semibold shadow">
-                                        {category}
-                                    </div>
-                                ))}
-                            </div>
-
-                            <MentoPosts />
-
-                            <MenteePosts />
-                        </div>
-                    </div>
-                    <div className="   hidden     w-60 md:flex">
-                        <div className=" sticky top-[90px]  mt-[calc(50vh-296px)] box-border flex  h-fit  flex-col items-center gap-6    ">
-                            <div className="  h-60 w-56 rounded-lg bg-slate-200  text-center">멘토순위</div>
-                            <div className="  h-60 w-56 rounded-lg bg-slate-200 text-center">멘티순위</div>
-                        </div>
+            <div className=" mx-auto flex w-full  max-w-[1600px] flex-row gap-8   px-8 py-5  ">
+                <div className=" flex flex-grow flex-col">
+                    <HomeCategoryBar />
+                    <MentoBoard />
+                    <div className="mt-12 flex w-full flex-row gap-6">
+                        <QuestionBoard />
+                        <MentoringTopicRequestBoard />
                     </div>
                 </div>
+                <RightSideBar />
             </div>
         </HydrationBoundary>
     );

@@ -1,9 +1,9 @@
 import React from 'react';
-import HeartIcon from '../../_component/icon/HeartIcon';
-import EngineeringIcon from '../../_component/icon/Category/EngineeringIcon';
-import EducationIcon from '../../_component/icon/Category/EducationIcon';
-import SocialIcon from '../../_component/icon/Category/SocialIcon';
-import HumanitiesIcon from '../../_component/icon/Category/HumanitiesIcon';
+import HeartIcon from './icon/HeartIcon';
+import EngineeringIcon from './icon/Category/EngineeringIcon';
+import EducationIcon from './icon/Category/EducationIcon';
+import SocialIcon from './icon/Category/SocialIcon';
+import HumanitiesIcon from './icon/Category/HumanitiesIcon';
 
 function CateogryIcon({ className, category }: { className: string; category: string }) {
     switch (category) {

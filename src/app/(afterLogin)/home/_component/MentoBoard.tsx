@@ -1,19 +1,16 @@
 'use client';
 
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import nextImage from '@/../public/next.svg';
 import MultiCarousel from './MultiCarousel';
-import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { getMentoPosts } from './HomeMain';
 import { fetchMentorPosts } from '../../posts/_lib/posts';
-import Loading from '@/app/_component/Loading';
 import { MentoPostsType } from '../../Models/mentoPostsType';
+import ArrowRightIcon from '../../_component/icon/ArrowRightIcon';
+import DotLoadingIcon from '../../_component/icon/DotLoadingIcon';
 
-function MenteePosts() {
+function MentoBoard() {
     const [mouseDownPosition, setMouseDownPosition] = useState({ x: 0, y: 0 });
     const {
         data: mentorPosts,
@@ -47,21 +44,24 @@ function MenteePosts() {
     }, [mentorPosts]);
 
     if (error) return <div className="text-red-500">{error.message}</div>;
-    if (isLoading) return <Loading />;
 
     return (
-        <section className="flex  w-full flex-col ">
-            <Link className="mb-3 flex w-fit flex-row  pt-12 " href="/posts/mentor">
-                <span className="text-2xl font-semibold">멘토들의 지식 공유</span>
-                <Image src={nextImage} alt="mentee" />
+        <section className="  flex w-full flex-col ">
+            <Link className="mb-3 flex w-fit flex-row items-center  pt-12  " href="/posts/mentor">
+                <span className="text-xl font-medium text-neutral-700">멘토들의 지식 공유</span>
+                <ArrowRightIcon className="ml-2 h-8 w-8 text-neutral-700" />
             </Link>
-            <MultiCarousel>
-                {mentorPosts?.data.map((post, index) => (
-                    <MentoPostCard post={post} key={post.boardId} queryKeys={['posts', 'mento', 'home']} />
-                ))}
-            </MultiCarousel>
+
+            {isLoading && <DotLoadingIcon />}
+            {mentorPosts && (
+                <MultiCarousel>
+                    {mentorPosts?.data.map((post, index) => (
+                        <MentoPostCard post={post} key={post.boardId} queryKeys={['posts', 'mento', 'home']} />
+                    ))}
+                </MultiCarousel>
+            )}
         </section>
     );
 }
 
-export default MenteePosts;
+export default MentoBoard;

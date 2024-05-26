@@ -13,7 +13,7 @@ export default function SectionDivider({ className, position, color }: Props) {
     return (
         <div className={` flex w-full flex-row ${className}`}>
             <div className=" flex flex-grow flex-col justify-center">
-                <div className={`${color ? color : 'border-slate-200'} h-0 border border-b-0`}></div>
+                <div className={`${color ? color : 'border-slate-200'} h-0  border-b`}></div>
             </div>
         </div>
     );

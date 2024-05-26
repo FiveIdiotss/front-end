@@ -1,48 +1,10 @@
 'use client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import CateogryIcon from './CategoryIcon';
+import CateogryIcon from '../../_component/CategoryIcon';
 import SectionDivider from '../../_component/SectionDivider';
 import CategorySearch from './CategorySearch';
 import { pushNotification } from '@/app/util/pushNotification';
-
-export const CATEGORY_LIST = [
-    {
-        parameter: 'bookmark',
-        name: '북마크',
-    },
-    {
-        parameter: 'all',
-        name: '전체',
-    },
-    {
-        parameter: 'engineering',
-        name: '이공',
-    },
-    {
-        parameter: 'natural',
-        name: '자연',
-    },
-    {
-        parameter: 'humanities',
-        name: '인문',
-    },
-    {
-        parameter: 'social',
-        name: '사회',
-    },
-    {
-        parameter: 'medical',
-        name: '의약',
-    },
-    {
-        parameter: 'arts',
-        name: '예체능',
-    },
-    {
-        parameter: 'education',
-        name: '사범',
-    },
-];
+import { CATEGORY_LIST } from '../../utils/categoryConstants';
 
 function CategoryBar() {
     const searchParams = useSearchParams();
@@ -85,7 +47,7 @@ function CategoryBar() {
 
     return (
         <div className="w-56 flex-shrink-0  ">
-            <div className="sticky top-[94px] flex  flex-col gap-2 px-2">
+            <div className="sticky top-[142px] flex  flex-col gap-2 px-2">
                 <CategorySearch />
                 <div className=" flex w-full flex-col justify-center rounded-md     py-2 ">
                     {CATEGORY_LIST.map((category, index) => (
