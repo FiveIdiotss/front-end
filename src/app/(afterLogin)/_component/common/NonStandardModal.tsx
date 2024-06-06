@@ -14,6 +14,7 @@ type ModalProps = {
     title?: string;
     titleClassName?: string;
     backButtonTheme?: 'white' | 'black';
+    isHeader?: boolean;
 };
 function NonStandardModal({
     open,
@@ -24,6 +25,7 @@ function NonStandardModal({
     title,
     backButtonTheme,
     titleClassName,
+    isHeader = true,
 }: ModalProps) {
     const [isBrowser, setIsBrowser] = useState(false);
 
@@ -32,6 +34,7 @@ function NonStandardModal({
     }, []);
 
     if (!open || !isBrowser) return null;
+
     return ReactDOM.createPortal(
         <>
             <div
@@ -39,21 +42,23 @@ function NonStandardModal({
                 onClick={onClose}
             >
                 <div
-                    className={` animate-slide-up bottom-1/2 top-1/2    flex flex-col  ${className} `}
+                    className={` animate-slide-up bottom-1/2 top-1/2  flex  flex-col  ${className} `}
                     //mobile반응형 필수, 넓이는 꼭 className으로 받아서 조절해야함
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <header className="flex w-full flex-shrink-0 flex-row items-center">
-                        <div className={`flex flex-row items-center ${titleClassName ? titleClassName : ''}`}>
-                            {title}
-                        </div>
-                        <div className="flex flex-grow flex-row justify-end">
-                            <BackButton
-                                onClose={onClose}
-                                className={`p-[2px] ${backButtonTheme ? 'text-neutral-800' : 'text-white'} hover:text-red-600`}
-                            />
-                        </div>
-                    </header>
+                    {isHeader && (
+                        <header className="flex w-full flex-shrink-0 flex-row items-center  ">
+                            <div className={`flex flex-row items-center ${titleClassName ? titleClassName : ''}`}>
+                                {title}
+                            </div>
+                            <div className="flex flex-grow flex-row justify-end">
+                                <BackButton
+                                    onClose={onClose}
+                                    className={`p-[2px] ${backButtonTheme ? 'text-neutral-800' : 'text-white'} hover:text-red-600`}
+                                />
+                            </div>
+                        </header>
+                    )}
                     {children}
                 </div>
             </div>

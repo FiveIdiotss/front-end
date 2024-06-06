@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { pushNotification } from '@/app/util/pushNotification';
 import { MentoPostsType } from '../Models/mentoPostsType';
 
-export const getBookmark = async (pageParam: number, size?: number) => {
+export const getBookmark = async (pageParam: number, size?: number): Promise<MentoPostsType> => {
     const params = {
         page: pageParam,
         size: size ? size : 24,
@@ -12,18 +12,18 @@ export const getBookmark = async (pageParam: number, size?: number) => {
         favoriteFilter: true,
     };
 
-    const response = await Axios.get<Promise<MentoPostsType>>('/api/boards/filter', { params: params });
+    const response = await Axios.get('/api/boards/filter', { params: params });
 
-    return response.data;
+    return response.data.data;
 }; //북마크 데이터 조회
 
 const addBookmark = async (boardId: number) => {
     const response = await Axios.post(`api/board/favorite/${boardId}`);
-    return response.data;
+    return response.data.data;
 }; //북마크 추가
 const deleteBookmark = async (boardId: number) => {
     const response = await Axios.delete(`api/board/favorite/${boardId}`);
-    return response.data;
+    return response.data.data;
 }; //북마크 삭제
 
 export type BookmarkKeysType = {

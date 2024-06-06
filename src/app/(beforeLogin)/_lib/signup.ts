@@ -5,7 +5,7 @@ const url = process.env.NEXT_PUBLIC_API_URL;
 export type SignupFormValue = {
     email: string;
     name: string;
-    pw: string;
+    password: string;
     year: number | undefined;
     gender: string;
     schoolName: string;
@@ -21,13 +21,14 @@ const onSubmit = async (data: SignupFormValue) => {
     delete data.majorName;
     delete data.schoolId;
     delete data.validEmail;
+    console.log(data);
 
     try {
-        const response = await axios.post(`${url}/api/member/signup`, data);
+        const response = await axios.post(`${url}/api/member/signUp`, data);
         return { message: '회원가입이 완료되었습니다.', success: true };
     } catch (error) {
         console.log(error);
-        return { message: '회원가입에 실패하였습니다.', success: false };
+        throw error;
     }
 };
 

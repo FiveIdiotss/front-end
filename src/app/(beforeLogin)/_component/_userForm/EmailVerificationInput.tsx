@@ -49,7 +49,7 @@ export default function EmailVerificationInput({
         setLoading(true);
 
         try {
-            const response = await axios.post(`${url}/login/email`, data);
+            const response = await axios.post(`${url}/api/email`, data);
             console.log(response.data);
             if (response.data.success === false) {
                 setCodeError('서버에 존재하지 않는 이메일입니다.');
@@ -70,18 +70,20 @@ export default function EmailVerificationInput({
             setCodeError('인증번호를 입력해주세요.');
             return;
         }
-        const data = { email: value, univName: formik.values.schoolName, code: validCode };
+        const data = { email: value, univName: formik.values.schoolName, code: String(validCode) };
         console.log(data);
         setLoading(true);
         try {
-            const checkRes = await axios.post(`${url}/login/email/verify`, data); //이메일 인증코드 확인
+            const checkRes = await axios.post(`${url}/api/email/verify`, data); //이메일 인증코드 확인
             console.log(checkRes.data);
             if (checkRes.data.success === false) {
                 setCodeError('유효하지 않은 인증코드 입니다.');
                 setLoading(false);
                 return;
             }
-            const resetRes = await axios.post(`${url}/login/email/reset/${value}`); //이메일 인증코드 초기화
+            const params = { email: value };
+            console.log(params);
+            const resetRes = await axios.post(`${url}/api/email/resetByEmail?email=${value}`); //이메일 인증코드 초기화
             console.log(resetRes.data);
             formik.setFieldValue('validEmail', true);
             setLoading(false);
@@ -126,7 +128,7 @@ export default function EmailVerificationInput({
                 <div className=" flex w-full flex-col">
                     {formik.values.validEmail === false && (
                         <>
-                            <span className="text-primary mb-4">
+                            <span className="mb-4 text-primary">
                                 {reFecth && <span className="text-red-400">(재발송)</span>}
                                 {`${value}으로 보내드린 인증 코드를 입력하세요.`}
                             </span>
@@ -168,7 +170,7 @@ export default function EmailVerificationInput({
                     )}
                     {formik.values.validEmail === true && (
                         <div className="flex w-full flex-col">
-                            <span className="text-primary mb-4">{`${value}로 인증이 완료되었습니다.`}</span>
+                            <span className="mb-4 text-primary">{`${value}로 인증이 완료되었습니다.`}</span>
                             <div className="flex w-full flex-row">
                                 <UserInput type={'text'} value={value} name={'codecomplete'} disabled={true} />
                                 <button

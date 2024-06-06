@@ -1,5 +1,5 @@
 import StandardModal from '@/app/(afterLogin)/_component/common/StandardModal';
-import MentoStepContent from '@/app/(afterLogin)/posts/_component/MentoStepContent';
+import MentoStepContent from '@/app/(afterLogin)/posts/mentor/_component/MentoStepContent';
 import React from 'react';
 
 function ProfilePostsContent({ boardId, onClose }: { boardId: number; onClose: () => void }) {

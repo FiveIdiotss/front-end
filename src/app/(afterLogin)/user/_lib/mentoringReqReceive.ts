@@ -31,7 +31,7 @@ export const mentoringReqReceiveFetch = async (pageParam: number, size?: number)
             size: size ? size : 3, //페이지당 표시할 아이템 수 고정
         };
         const response = await Axios.get(`/api/pageMyApply`, { params });
-        return response.data;
+        return response.data.data;
     } catch (error) {
         throw error;
     }

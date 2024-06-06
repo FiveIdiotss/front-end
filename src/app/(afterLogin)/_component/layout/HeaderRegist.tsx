@@ -25,16 +25,23 @@ function HeaderRegist() {
                         <div className="flex w-full flex-col">
                             <Link
                                 href="/post/new/mentor"
-                                className="flex h-14 w-full transform flex-row items-center justify-center border border-neutral-200 bg-white transition   duration-300 ease-in-out hover:scale-95  hover:opacity-100 "
+                                className="flex h-14 w-full transform flex-row items-center justify-between border border-neutral-200 bg-white px-3 transition   duration-300 ease-in-out hover:scale-95  hover:opacity-100 "
                             >
-                                <span className="text-sm font-light ">멘토 구하기</span>
+                                <span className="text-sm font-light ">멘토링 모집</span>
                                 <Image alt="arrow right" src={arrowIcon} />
                             </Link>
                             <Link
-                                href="/post/new/mentee"
-                                className="flex h-14   w-full transform flex-row items-center justify-center border border-neutral-200 bg-white transition duration-300  ease-in-out hover:scale-95    hover:opacity-100"
+                                href="/post/new/request"
+                                className="flex h-14 w-full transform   flex-row items-center justify-between border border-neutral-200 bg-white px-3 transition duration-300  ease-in-out hover:scale-95    hover:opacity-100"
                             >
-                                <span className="text-sm font-light">멘티 구하기</span>
+                                <span className="text-sm font-light">멘토링 요청</span>
+                                <Image alt="arrow right" src={arrowIcon} />
+                            </Link>
+                            <Link
+                                href="/post/new/quest"
+                                className="flex h-14 w-full transform flex-row items-center justify-between  border border-neutral-200 bg-white px-3 transition duration-300  ease-in-out hover:scale-95    hover:opacity-100"
+                            >
+                                <span className="text-sm font-light">질문하기</span>
                                 <Image alt="arrow right" src={arrowIcon} />
                             </Link>
                         </div>

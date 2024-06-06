@@ -1,44 +1,54 @@
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import React from 'react';
-import MentoBoard from './MentoBoard';
-import SideBar_R from '../../_component/layout/sideBar_R';
-import Axios from '@/app/util/axiosInstance';
-import { auth } from '@/auth';
-import { getSession } from 'next-auth/react';
-import SectionDivider from '../../_component/SectionDivider';
-import QuestionBoard from './QuestionBoard';
-import MentoringTopicRequestBoard from './MentoringTopicRequestBoard';
+import HomeMentoBoard from './HomeMentoBoard';
+import HomeQuestsBoard from './HomeQuestsBoard';
+import HomeRequestsBoard from './HomeRequestsBoard';
 import HomeCategoryBar from './HomeCategoryBar';
-import HotIcon from '../../_component/icon/HotIcon';
-import Image from 'next/image';
-import { faker } from '@faker-js/faker';
 import RightSideBar from './RightSideBar';
-export async function getMentoPosts() {
-    try {
-        let params = {
-            boardType: 'MENTEE',
-            page: 1,
-            size: 16,
-        };
-        const res = await Axios.get('/api/boards', { params });
-        return res.data;
-    } catch (err) {
-        console.log(err);
-        throw new Error('Error occured while fetching posts.');
-    }
-}
+
+import { fetchMentorPosts } from '../../posts/mentor/_lib/posts';
+import { getQuests } from '../../posts/_lib/qeustsRequest';
 
 async function HomeMain() {
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
         queryKey: ['posts', 'mento', 'home'],
-        queryFn: getMentoPosts,
+        queryFn: () =>
+            fetchMentorPosts({
+                pageParam: 1,
+                size: 16,
+            }),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
     });
+    await queryClient.prefetchQuery({
+        queryKey: ['posts', 'quests', '1', '7', '', false, false],
+        queryFn: () =>
+            getQuests({
+                pageParam: 1,
+                size: 7,
+                categoryParam: '',
+                searchParam: '',
+                isSchool: false,
+                subBoardType: 'QUEST',
+                isStar: false,
+            }),
+    });
+    await queryClient.prefetchQuery({
+        queryKey: ['posts', 'requests', '1', '7', '', '', false, false],
+        queryFn: () =>
+            getQuests({
+                pageParam: 1,
+                size: 7,
+                categoryParam: '',
+                searchParam: '',
+                isSchool: false,
+                subBoardType: 'REQUEST',
+                isStar: false,
+            }),
+    });
 
     const dehydratedState = dehydrate(queryClient);
-    // queryClient.getQueryData(['posts', 'recommends']);
 
     // if (status === 'loading') {
     //     return <p>Loading...</p>;
@@ -51,16 +61,20 @@ async function HomeMain() {
 
     return (
         <HydrationBoundary state={dehydratedState}>
-            <div className=" mx-auto flex w-full  max-w-[1600px] flex-row gap-8   px-8 py-5  ">
-                <div className=" flex flex-grow flex-col">
+            <div className=" mx-auto flex w-full max-w-[1500px] flex-row gap-8  px-8 py-5  ">
+                {/* 32px */}
+                <div className=" flex  w-[calc(100%-256px)] flex-col">
+                    {/* 192px-gap+sidebar_width */}
+                    <HomeMentoBoard />
                     <HomeCategoryBar />
-                    <MentoBoard />
+
                     <div className="mt-12 flex w-full flex-row gap-6">
-                        <QuestionBoard />
-                        <MentoringTopicRequestBoard />
+                        <HomeQuestsBoard />
+                        <HomeRequestsBoard />
                     </div>
                 </div>
                 <RightSideBar />
+                {/* 192px */}
             </div>
         </HydrationBoundary>
     );

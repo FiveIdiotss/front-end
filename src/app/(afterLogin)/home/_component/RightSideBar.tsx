@@ -28,8 +28,8 @@ const HOT_POSTS = [
 
 function RightSideBar() {
     return (
-        <div className="w-48">
-            <div className="sticky top-[100px] flex flex-col gap-2   ">
+        <div className=" w-48 flex-shrink-0">
+            <div className="sticky top-[200px] flex flex-col gap-2   ">
                 <div className="flex flex-col gap-4 rounded-md border border-neutral-300 p-3">
                     <div className="flex items-center gap-1">
                         <span className="text-sm font-semibold">인기 태그</span>

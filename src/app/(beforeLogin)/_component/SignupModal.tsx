@@ -12,6 +12,7 @@ import * as Yup from 'yup';
 import SignupStep1 from './_userForm/SignupStep1';
 import SignupStep2 from './_userForm/SignupStep2';
 import SignupStep3 from './_userForm/SignupStep3';
+import { useRouter } from 'next/navigation';
 
 type RequiredField = {
     field: keyof SignupFormValue;
@@ -34,7 +35,7 @@ const stepsRequired: RequiredField[][] = [
         { field: 'name', message: '이름은 필수항목입니다.' },
         { field: 'year', message: '학번은 필수항목입니다.' },
         { field: 'gender', message: '성별은 필수항목입니다.' },
-        { field: 'pw', message: '패스워드는 필수항목입니다.' },
+        { field: 'password', message: '패스워드는 필수항목입니다.' },
         { field: 'passwordConfirm', message: '패스워드확인은 필수항목입니다.' },
     ],
 ];
@@ -71,12 +72,13 @@ export type SchoolDatas = {
 //컴포넌트 시작
 export default function SignupModal() {
     const [step, setStep] = useState<number>(1);
+    const router = useRouter();
 
     const formik = useFormik({
         initialValues: {
             email: '',
             name: '',
-            pw: '',
+            password: '',
             year: undefined,
             gender: '',
             schoolName: '',
@@ -88,8 +90,8 @@ export default function SignupModal() {
         },
         validationSchema: Yup.object({
             email: Yup.string().email('이메일 형식이 올바르지 않습니다.').max(255),
-            pw: Yup.string().max(255).min(7, '비밀번호는 7자리 이상이어야 합니다.'),
-            passwordConfirm: Yup.string().oneOf([Yup.ref('pw')], '비밀번호가 일치하지 않습니다.'),
+            password: Yup.string().max(255).min(7, '비밀번호는 7자리 이상이어야 합니다.'),
+            passwordConfirm: Yup.string().oneOf([Yup.ref('password')], '비밀번호가 일치하지 않습니다.'),
         }),
         validateOnChange: true,
         onSubmit: async (data: SignupFormValue) => {
@@ -97,8 +99,15 @@ export default function SignupModal() {
 
             if (res === 'onSubmit') {
                 console.log(data);
-                const res = await submitfetch(data);
-                console.log(res);
+                try {
+                    const response = await submitfetch(data);
+                    console.log(response);
+                    alert('회원가입이 완료되었습니다.');
+                    router.push('/user/login');
+                } catch (error) {
+                    console.log(error);
+                    alert('회원가입에 실패했습니다.');
+                }
             }
         },
     });

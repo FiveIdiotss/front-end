@@ -10,9 +10,11 @@ import { updateSessionImage } from '../_lib/updateSession';
 import { AxiosError } from 'axios';
 import { pushNotification } from '@/app/util/pushNotification';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { useRouter } from 'next/navigation';
 
 function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => void }) {
     const { data: session, status, update: UpdateSession } = useSession();
+    const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -24,6 +26,7 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
             console.log('이미지 링크', imageUrl);
             await updateSessionImage(imageUrl); //서버액션으로 이미지 서버 세션에 업데이트
             await UpdateSession(); //클라이언트도 세션 업데이트&새로고침
+            router.refresh();
             pushNotification('이미지가 성공적으로 변경되었습니다.', 'success', 'light');
         },
         onError: (err) => {

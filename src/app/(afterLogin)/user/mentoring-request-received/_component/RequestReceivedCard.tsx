@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import RequestReceivedDetailContent from './RequestReceivedDetailContent';
 import { toast } from 'react-toastify';
 import { pushNotification } from '@/app/util/pushNotification';
-import CofirmationModal from '@/app/_component/CofirmationModal';
+import ConfirmationModal from '@/app/_component/ConfirmationModal';
 import { useMutation } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
 const dateFormat = (date: string) => {
@@ -170,7 +170,7 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
                     </div>
                 </div>
             </section>
-            <CofirmationModal
+            <ConfirmationModal
                 open={isConfirmModalOpen}
                 onClose={closeConfirmModal}
                 text={action === 'accept' ? '수락하시겠습니까?' : '거절하시겠습니까?'}

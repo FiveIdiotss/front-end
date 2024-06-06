@@ -39,11 +39,11 @@ const SignupStep3: React.FC<SignupStep3Props> = ({ formik }) => {
             <UserInput
                 type="password"
                 placeholder="비밀번호"
-                name="pw"
-                error={formik.errors.pw}
+                name="password"
+                error={formik.errors.password}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                value={formik.values.pw}
+                value={formik.values.password}
             />
 
             <UserInput
@@ -70,7 +70,7 @@ const SignupStep3: React.FC<SignupStep3Props> = ({ formik }) => {
 
             <button
                 type="submit"
-                className="bg-primary h-10 w-full rounded-md border border-solid border-gray-300 px-3 text-white"
+                className="h-10 w-full rounded-md border border-solid border-gray-300 bg-primary px-3 text-white"
             >
                 회원가입
             </button>

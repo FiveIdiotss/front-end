@@ -12,7 +12,7 @@ export const getProfilePosts = async (pageParam: number, size?: number) => {
 
     try {
         const response = await Axios.get(`/api/memberBoards/${session?.user?.memberDTO.id}`, { params: param });
-        return response.data as Promise<MentoPostsType>;
+        return response.data.data as MentoPostsType;
     } catch (error) {
         throw error as AxiosError;
     }

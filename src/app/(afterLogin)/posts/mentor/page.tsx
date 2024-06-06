@@ -1,8 +1,8 @@
 import React from 'react';
-import PostsMentoMain from '../_component/PostsMentoMain';
+import PostsMentor from './_component/PostsMentor';
 
 function PostsMentoPage() {
-    return <PostsMentoMain />;
+    return <PostsMentor />;
 }
 
 export default PostsMentoPage;

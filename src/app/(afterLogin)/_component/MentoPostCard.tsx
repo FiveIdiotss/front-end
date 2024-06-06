@@ -6,7 +6,9 @@ import { pushNotification } from '@/app/util/pushNotification';
 import Axios from '@/app/util/axiosInstance';
 import { MentoContentType } from '../Models/mentoPostsType';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import MentoModal from '../posts/_component/MentoModal';
+import MentoModal from '../posts/mentor/_component/MentoModal';
+import { useEffect, useState } from 'react';
+import { set } from 'lodash';
 
 const deleteTest = async (boardId: number) => {
     try {
@@ -21,14 +23,22 @@ const deleteTest = async (boardId: number) => {
 };
 
 function MentoPostCard({ post, queryKeys }: { post: MentoContentType; queryKeys: string[] }) {
-    let year = post?.year?.toString().substring(2, 4) || 0; // "18"
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); //모달창 상태
 
-    const addBookmarkMutation = useAddBookmarkMutation();
-    const deleteBookmarkMutation = useDeleteBookmarkMutation();
+    let year;
+    if (year === 0) {
+        year = '학번 없음';
+    } else {
+        year = post?.year.toString().substring(2, 4); // 학번 뒤 두자리만 가져오기
+    }
+
     const router = useRouter();
     const pathName = usePathname();
     const searchParams = useSearchParams();
+    const boardIdParam = searchParams.get('mentor_board_id'); //모달창 열기위한 boardId파라미터
 
+    const addBookmarkMutation = useAddBookmarkMutation();
+    const deleteBookmarkMutation = useDeleteBookmarkMutation();
     const handleToggleBookmark = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         event.preventDefault();
@@ -46,29 +56,44 @@ function MentoPostCard({ post, queryKeys }: { post: MentoContentType; queryKeys:
                 keys: queryKeys,
             });
         }
-    };
+    }; //북마크 추가 삭제
+
     const handleDetailModalOpen = () => {
         const param = new URLSearchParams(searchParams.toString());
         param.set('mentor_board_id', post.boardId.toString());
 
         router.replace(pathName + '?' + param);
-    };
+        console.log('handleDetailModalOpen', post.boardId);
+    }; //모달창 열기
+
     const handleDetailModalClose = () => {
         const param = new URLSearchParams(searchParams.toString());
         if (param.has('mentor_board_id')) {
             param.delete('mentor_board_id');
         }
         router.replace(pathName + '?' + param);
-    };
+    }; //모달창 닫기
+
+    useEffect(() => {
+        if (boardIdParam === post.boardId.toString()) {
+            setIsDetailModalOpen(true);
+        } else {
+            setIsDetailModalOpen(false);
+        }
+    }, [boardIdParam]); //어떤 곳에서든 쿼리를 받아오면 모달을 열어준다.
 
     return (
         <>
             <div
-                className=" my-1 flex h-[270px] w-full  transform cursor-pointer flex-col rounded-sm border border-neutral-200 bg-white px-5 py-4 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
+                className=" my-1 flex h-[270px] w-full  transform cursor-pointer flex-col rounded-md border border-neutral-200 bg-white px-5 py-4 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
                 onClick={handleDetailModalOpen}
             >
                 <div className="flex flex-grow flex-col">
-                    <h3 className="line-clamp-3 text-base  font-semibold">{post.title}</h3>
+                    <h3 className="line-clamp-3 text-base  font-semibold">
+                        <span className="text-neutral-500">[{post.boardCategory}]</span>
+                        &nbsp;
+                        {post.title}
+                    </h3>
                     <dl className="mt-2 ">
                         <div className="flex flex-row gap-2">
                             <dt className="text-sm  text-gray-400 ">학교</dt>
@@ -107,7 +132,7 @@ function MentoPostCard({ post, queryKeys }: { post: MentoContentType; queryKeys:
                     </button>
                 </div>
             </div>
-            {searchParams.has('mentor_board_id') && <MentoModal id={post.boardId} onClose={handleDetailModalClose} />}
+            {isDetailModalOpen && <MentoModal id={post.boardId} onClose={handleDetailModalClose} />}
             {}
         </>
     );
