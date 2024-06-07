@@ -4,6 +4,7 @@ import NextAuth, { User } from 'next-auth';
 
 import CredentialsProvider from 'next-auth/providers/credentials';
 import 'next-auth/jwt';
+import { ErrorResponse } from './app/Models/AxiosResponse';
 export type MemberDto = {
     id?: number;
     email?: string;
@@ -25,6 +26,14 @@ declare module 'next-auth' {
     //     accessToken: string;
     // }
 }
+type RefreshTokenResponse = {
+    data: {
+        accessToken: string;
+        refreshToken: string;
+    };
+    message: string;
+    success: boolean;
+};
 
 async function refreshAccessToken(token: any) {
     console.log('토큰 정보', token);
@@ -35,8 +44,8 @@ async function refreshAccessToken(token: any) {
                 Authorization: `Bearer ${token.refresh_Token}`,
             },
         });
-        const data = await response.text();
-        const access_Token = data;
+        const data: RefreshTokenResponse = await response.json();
+        const access_Token = data.data.accessToken;
         const payloadPart = access_Token.split('.')[1];
         const decodedPayload = JSON.parse(atob(payloadPart));
 
@@ -55,8 +64,6 @@ export const {
     auth,
     unstable_update: update, //실험 기능
 } = NextAuth({
-    session: {},
-
     pages: {
         signIn: '/user/login',
         newUser: '/user/signup',
@@ -100,9 +107,9 @@ export const {
                 token.refresh_Token = user.refresh_Token; // 리프레시 토큰
                 token.access_Token = user.access_Token; // 액세스 토큰
                 token.access_TokenExpires = decodedPayload.exp; // 토큰 만료 시간
-
                 token.memberDTO = user.memberDTO; // 사용자 정보
-                console.log('실행');
+                console.log('실행', decodedPayload.iat, decodedPayload.exp);
+
                 return token;
             }
             if (trigger === 'update' && session) {
@@ -110,7 +117,11 @@ export const {
             }
             const now = Math.floor(Date.now() / 1000);
             const accessTokenExpires = token.access_TokenExpires as number;
-            if (accessTokenExpires - now < 45) {
+            console.log('작동중');
+            console.log('now, accessTokenExpires', now, accessTokenExpires);
+            if (accessTokenExpires - now < 60) {
+                console.log('토큰 만료');
+                console.log('토큰 만료', accessTokenExpires - now);
                 return refreshAccessToken(token);
             }
             return token;
@@ -124,9 +135,15 @@ export const {
             };
             console.log('세션유저', sessionUser);
             delete sessionUser.refresh_Token;
-            delete sessionUser.access_TokenExpires;
+            // delete sessionUser.access_TokenExpires;
             session.user = Object.assign(session.user, sessionUser);
+            delete session.expires;
+
             console.log('세션', session);
+            console.log(
+                '만료 시간',
+                new Date(token.access_TokenExpires * 1000).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+            );
             return session;
         },
     },

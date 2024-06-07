@@ -81,9 +81,12 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
                             <span className=" flex w-full items-center  px-4 py-[10px]  text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-50 ">
                                 알림
                             </span>
-                            <span className="w-full px-4 py-[10px] text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-50">
+                            <Link
+                                href="/chat"
+                                className="w-full px-4 py-[10px] text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-50"
+                            >
                                 채팅
-                            </span>
+                            </Link>
                         </div>
                         <div className=" flex flex-grow flex-col items-start justify-center  border-b ">
                             <span className=" flex w-full items-center  px-4 py-[10px]  text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-50 ">

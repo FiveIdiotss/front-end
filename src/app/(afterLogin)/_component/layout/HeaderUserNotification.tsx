@@ -10,7 +10,7 @@ function HeaderUserNotification() {
             onMouseEnter={() => setIsHovered(true)}
         >
             <div className="relative">
-                <div className="relative h-8 w-8 shrink-0 transition hover:-translate-y-[2px]">
+                <div className="relative h-8 w-8 shrink-0 ">
                     <Notification className="cursor-pointer p-1 text-neutral-800  text-opacity-80   hover:text-primary" />
                     <div className="absolute -right-[1px] top-0 flex h-4 w-4 items-center justify-center rounded-full bg-yellow-500 bg-opacity-95 text-xs font-light text-white ">{`1`}</div>
                 </div>

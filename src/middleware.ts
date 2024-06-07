@@ -6,9 +6,14 @@ export async function middleware() {
     //     if (!session) {
     //         return NextResponse.redirect('http://localhost:3000/user/login');
     //     }
+
+    const session = await auth();
+    if (session) {
+        return NextResponse.redirect('http://localhost:3000/home');
+    }
 }
 export const config = {
-    matcher: [],
+    matcher: ['/'],
 };
 
 // export function middleware() {}

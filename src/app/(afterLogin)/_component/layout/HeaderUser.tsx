@@ -6,7 +6,7 @@ import Loading from '@/app/_component/Loading';
 import HeartIcon from '../icon/HeartIcon';
 import HeaderUserInfo from './HeaderUserInfo';
 import HeaderUserNotification from './HeaderUserNotification';
-import HeaderUserLike from './HeaderUserLike';
+import HeaderUserChat from './HeaderUserChat';
 
 function HeaderUser() {
     const { data: session, status } = useSession();
@@ -31,8 +31,8 @@ function HeaderUser() {
                 >
                     <span className="text-sm ">로그아웃</span>
                 </button> */}
-                <HeaderUserLike />
                 <HeaderUserNotification />
+                <HeaderUserChat />
                 <HeaderUserInfo memberDto={session.user?.memberDTO}></HeaderUserInfo>
             </div>
         );

@@ -6,7 +6,7 @@ import { pushNotification } from '@/app/util/pushNotification';
 import Axios from '@/app/util/axiosInstance';
 import { MentoContentType } from '../Models/mentoPostsType';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import MentoModal from '../posts/mentor/_component/MentoModal';
+import MentoModal from '../(header)/posts/mentor/_component/MentoModal';
 import { useEffect, useState } from 'react';
 import { set } from 'lodash';
 

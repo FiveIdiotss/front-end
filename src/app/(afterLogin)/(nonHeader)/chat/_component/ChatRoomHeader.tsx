@@ -1,0 +1,42 @@
+'use client';
+import ArrowLeftBackIcon from '@/app/(afterLogin)/_component/icon/ArrowLeftBackIcon';
+import ArrowTurnBackIcon from '@/app/(afterLogin)/_component/icon/ArrowTurnBackIcon';
+import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+
+function ChatRoomHeader() {
+    const { receiverId, receiverImageUrl, receiverName } = useChatStore();
+    const router = useRouter();
+    const handleBack = () => {
+        router.back();
+    };
+
+    return (
+        <div className=" flex flex-col  px-5   ">
+            <div className="flex w-full flex-row items-center gap-6 border-b-2 border-neutral-400 py-4 ">
+                <button onClick={handleBack}>
+                    <ArrowLeftBackIcon className="h-8 w-8 " />
+                </button>
+                <div className="flex flex-grow flex-row items-center ">
+                    <Image
+                        src={receiverImageUrl}
+                        alt="avatar"
+                        className=" rounded-full object-cover"
+                        width={38}
+                        height={38}
+                    />
+                    <span className="ml-2 text-lg font-semibold text-neutral-700">{receiverName}</span>
+                </div>
+                <span className="rounded-md bg-yellow-500 px-4 py-2 text-sm font-medium text-white">매칭 대기</span>
+                {/* <span className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white">매칭 완료</span> */}
+            </div>
+            <div className="text-md py-5 text-center text-green-600">
+                <span>* 채팅방에서의 폭력적인 언어는 제제될 수 있습니다.</span>
+            </div>
+        </div>
+    );
+}
+
+export default ChatRoomHeader;
