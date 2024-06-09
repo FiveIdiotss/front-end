@@ -6,8 +6,10 @@ import search from '@/../public/search.svg';
 import HeaderRegist from './HeaderRegist';
 import HeaderUser from './HeaderUser';
 import SectionDivider from '../SectionDivider';
+import { auth } from '@/auth';
 
 async function Header() {
+    const session = await auth();
     return (
         <nav className="sticky top-0  z-[1001]  flex  h-[69px]  w-full  flex-shrink-0  flex-row  items-center justify-center border-b  border-neutral-200  bg-white px-7  ">
             <div className="flex h-full w-full flex-row items-center justify-center">
@@ -31,7 +33,8 @@ async function Header() {
                     </div>
                 </div>
                 <HeaderRegist />
-                <SectionDivider position="y" className="ml-9 mr-5 py-6" color="border-neutral-300" /> <HeaderUser />
+                <SectionDivider position="y" className="ml-9 mr-5 py-6" color="border-neutral-300" />
+                <HeaderUser memberDto={session?.user?.memberDTO} />
             </div>
         </nav>
     );

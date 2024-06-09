@@ -1,12 +1,13 @@
 import { create } from 'zustand';
-import { ChatUsers } from '../chat/_component/ChatList';
-import { Message } from '../chat/_lib/chatContentList';
+import { ChatUsers } from '../(nonHeader)/chat/_lib/chatList';
+import { Message } from '../(nonHeader)/chat/_lib/chatContentList';
 
 type ChatStore = {
     chatRoomId: number;
     receiverId: number;
     receiverName: string;
     receiverImageUrl: string;
+    boardTitle: string;
     latestMessageDTO: {
         content: string;
         hasImage: boolean;
@@ -20,20 +21,26 @@ type ChatStore = {
     setIsSending: (isSending: boolean) => void;
 
     setUserInformation: ({
-        chatRoomId,
         receiverId,
-        receiverName,
+        boardTitle,
         receiverImageUrl,
-        latestMessageDTO,
-    }: ChatUsers) => void;
+        receiverName,
+    }: {
+        receiverId: number;
+        boardTitle: string;
+        receiverImageUrl: string;
+        receiverName: string;
+    }) => void;
     setChat: (chatList: Message) => void;
     setChatList: (chatList: Message[]) => void;
+    setChatReset: () => void;
 };
 export const useChatStore = create<ChatStore>((set) => ({
     chatRoomId: -1,
     receiverId: -1,
     receiverName: '',
     receiverImageUrl: '',
+    boardTitle: '',
     latestMessageDTO: {
         content: '',
         hasImage: false,
@@ -43,8 +50,18 @@ export const useChatStore = create<ChatStore>((set) => ({
     chatList: [],
     isSending: false,
     image: '',
-    setUserInformation: ({ chatRoomId, receiverId, receiverName, receiverImageUrl, latestMessageDTO }: ChatUsers) => {
-        set({ chatRoomId, receiverId, receiverName, receiverImageUrl, latestMessageDTO });
+    setUserInformation: ({
+        receiverId,
+        boardTitle,
+        receiverImageUrl,
+        receiverName,
+    }: {
+        receiverId: number;
+        boardTitle: string;
+        receiverImageUrl: string;
+        receiverName: string;
+    }) => {
+        set({ receiverId, boardTitle, receiverImageUrl, receiverName });
     }, //채팅방 정보 설정
 
     setChat: (newChatList: Message) => {
@@ -57,5 +74,8 @@ export const useChatStore = create<ChatStore>((set) => ({
     }, //서버에서 새로운 채팅리스트 추가
     setIsSending: (isSending: boolean) => {
         set({ isSending });
+    },
+    setChatReset: () => {
+        set({ chatList: [] });
     },
 }));

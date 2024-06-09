@@ -178,3 +178,20 @@ body {
 .ql-editor p {
     @apply text-base !important;
 }
+
+/* 스크롤바스타일 */
+.chatScroll::-webkit-scrollbar {
+    @apply w-2; /*  스크롤바의 너비를 변경합니다 */
+}
+
+.chatScroll::-webkit-scrollbar-track {
+    /* 스크롤바의 트랙 색상을 변경합니다 */
+}
+
+.chatScroll::-webkit-scrollbar-thumb {
+    @apply rounded-md bg-primary; /* 스크롤바의 썸 색상을 변경합니다 */
+}
+
+.chatScroll::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 스크롤바의 썸에 마우스를 올렸을 때 색상을 변경합니다 */
+}

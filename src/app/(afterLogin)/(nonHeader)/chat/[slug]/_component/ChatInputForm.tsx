@@ -6,8 +6,9 @@ import capture from '@/../public/chat/capture.svg';
 import send from '@/../public/chat/send.svg';
 import Image from 'next/image';
 import { Client } from '@stomp/stompjs';
+import { MemberDto } from '@/auth';
+import { useSearchParams } from 'next/navigation';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
-import { useSession } from 'next-auth/react';
 const convertToBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
         const fileReader = new FileReader();
@@ -22,53 +23,43 @@ const convertToBase64 = (file: any) => {
         };
     });
 }; //파일을 base64로 변환하는 함수
-const convertToBinary = (file: File) => {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsArrayBuffer(file);
 
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-    });
-};
-
-function ChatInputForm() {
+function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
     const { chatList, setIsSending, setChat } = useChatStore();
     const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
     const [inputImages, setInputImages] = useState<string>(''); //이미지 파일
 
-    const { chatRoomId } = useChatStore();
-    const { data: session } = useSession();
-    const [stompClient, setStompClient] = useState<Client | null>(null);
-    const [nowId, setNowId] = useState<number>(-1);
-    const senderId = session?.user?.memberDTO.id;
-    const senderName = session?.user?.memberDTO.name;
+    // const { chatRoomId } = useChatStore();
+    // const [stompClient, setStompClient] = useState<Client | null>(null);
+    const senderId = memberDto?.id;
+    const senderName = memberDto?.name;
     const [isComposing, setIsComposing] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    const searchParams = useSearchParams();
+    const receivedId = searchParams.get('id');
+    const stompClientRef = useRef<Client | null>(null); // stompClient를 위한 ref 추가
+
     useEffect(() => {
-        if (nowId === chatRoomId) return;
+        // if (!senderId) return;
+        console.log('연결결결결');
         const initializeChat = async () => {
             const stomp = new Client({
                 brokerURL: 'ws://menteetor.site:8080/ws',
 
                 debug: (str: string) => {
-                    console.log(str);
+                    console.log('연결 상태', str);
                 },
                 reconnectDelay: 5000, //자동 재 연결
                 heartbeatIncoming: 4000,
                 heartbeatOutgoing: 4000,
             });
-            setStompClient(stomp);
+            stompClientRef.current = stomp;
+            // setStompClient(stomp);
             stomp.activate();
             stomp.onConnect = () => {
                 console.log('WebSocket 연결이 열렸습니다.');
-                const subscriptionDestination = `/sub/chats/${chatRoomId}`;
+                const subscriptionDestination = `/sub/chats/${roomId}`;
 
                 stomp.subscribe(subscriptionDestination, (frame) => {
                     try {
@@ -86,26 +77,33 @@ function ChatInputForm() {
             };
         };
         initializeChat();
-        setNowId(chatRoomId);
 
         return () => {
-            if (stompClient && stompClient.connected) {
-                stompClient.deactivate();
+            console.log('컴포넌트 언마운트');
+            console.log('stompClient 상태:', stompClientRef.current);
+
+            if (stompClientRef.current && stompClientRef.current.connected) {
+                console.log('연결이 해제되었습니다.');
+                stompClientRef.current.deactivate();
             }
         };
-    }, [chatRoomId]);
+    }, []);
+
+    useEffect(() => {
+        console.log('receivedId', receivedId);
+    }, [receivedId]);
 
     const sendMessage = () => {
         // 메시지 전송
-        if (stompClient && stompClient.connected) {
+        if (stompClientRef.current && stompClientRef.current.connected) {
             const destination = '/pub/hello';
 
-            stompClient.publish({
+            stompClientRef.current.publish({
                 destination,
                 body: JSON.stringify({
                     content: inputImages === '' ? inputMessage : null, //이미지가 없거나 있을때
                     senderId: senderId,
-                    chatRoomId: chatRoomId,
+                    chatRoomId: roomId,
                     senderName: senderName,
                     image: inputImages === '' ? null : inputImages,
                 }),
@@ -141,12 +139,7 @@ function ChatInputForm() {
             fileInputRef.current.click();
         }
     };
-    const arrayBufferToHex = (buffer: ArrayBuffer) => {
-        const byteArray = new Uint8Array(buffer);
-        return Array.from(byteArray)
-            .map((byte) => byte.toString(16).padStart(2, '0'))
-            .join(' ');
-    };
+
     const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
         const file = e.target.files[0];
@@ -157,7 +150,7 @@ function ChatInputForm() {
     };
     return (
         <>
-            <input type="file" className="" ref={fileInputRef} accept="image/*" onChange={handleChangeFile} />
+            <input type="file" className="hidden" ref={fileInputRef} accept="image/*" onChange={handleChangeFile} />
 
             <textarea
                 className=" w-full resize-none overflow-auto border-y p-3 outline-none"

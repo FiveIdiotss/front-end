@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Header from './../_component/layout/Header';
-import { Toaster } from 'react-hot-toast';
 
 type Props = {
     children: React.ReactNode;

@@ -5,15 +5,19 @@ import { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react';
 
 export type ChatUsers = {
-    chatRoomId: number;
-    receiverId: number;
-    receiverName: string;
-    receiverImageUrl: string;
+    chatRoomId: number; //채팅방 아이디
+    receiverId: number; //상대방 아이디
+    receiverName: string; //상대방 이름
+    receiverImageUrl: string; //상대방 이미지
     latestMessageDTO: {
         content: string;
         hasImage: boolean;
         localDateTime: string;
-    };
+    }; //최근 메세지
+    unreadMessageCount: number; //안읽은 메세지 갯수
+    boardTitle: string; //매칭및 상담신청한 보드타이틀
+    boardId: number; //매칭및 상담신청한 보드아이디
+    matchingId: number; //현제 매칭 정보 조회용
 }; // 채팅방 리스트
 
 const avatar = faker.image.avatar();

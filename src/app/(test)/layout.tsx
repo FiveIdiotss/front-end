@@ -1,5 +1,4 @@
 import React from 'react';
-import Sidebar_L from '../(afterLogin)/_component/layout/sideBar_L';
 import RQProviders from '../(afterLogin)/_component/RQProvider';
 
 type Props = {

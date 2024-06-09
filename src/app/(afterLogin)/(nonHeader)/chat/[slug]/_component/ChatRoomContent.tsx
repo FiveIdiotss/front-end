@@ -1,13 +1,14 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
-import { getSession, useSession } from 'next-auth/react';
 import { DefaultError, InfiniteData, useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
-import { Message, getChatContentList } from '../_lib/chatContentList';
+import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
+import { MemberDto } from '@/auth';
+import { set } from 'lodash';
 
 function dateTransform(date: string) {
     try {
@@ -24,32 +25,32 @@ function dateTransform(date: string) {
     }
 }
 
-function ChatRoomContent() {
+function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
     const {
         receiverImageUrl,
         receiverId,
         receiverName,
         chatList,
-        chatRoomId,
+        // chatRoomId,
         isSending,
 
         setChatList,
+        setChatReset,
         setIsSending,
     } = useChatStore();
-    const { data: session } = useSession(); //세션정보
-    const senderId = session?.user?.memberDTO.id; //세션정보에서 senderId 추출
+    const senderId = memberDto?.id; //세션정보에서 senderId 추출
     const {
         data: initialChatList,
         isFetching,
         hasNextPage,
         fetchNextPage,
     } = useInfiniteQuery<Message[], DefaultError, InfiniteData<Message[]>, [string, number, string], number>({
-        queryKey: ['chat', chatRoomId, 'massage'],
+        queryKey: ['chat', roomId, 'massage'],
         queryFn: getChatContentList,
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages) => (allPages.length > 0 ? allPages.length + 1 : undefined),
         getPreviousPageParam: (firstPage) => firstPage.at(-1)?.chatId,
-        enabled: !!senderId && !!receiverId && !!chatRoomId,
+        enabled: !!senderId && !!receiverId && !!roomId,
     }); //채팅리스트 무한스크롤 데이터 불러오기
     const [pageRendered, setPageRendered] = useState(false); //채팅리스트가 처음 사용자에게 보여질때 맨아래로 스크롤
 
@@ -66,10 +67,30 @@ function ChatRoomContent() {
         threshold: 0,
         delay: 300,
     }); //무한스크롤 경계선 감지 기능, inView가 true가 되면 fetchNextPage실행
-    useEffect(() => {
-        if (scrollContainerRef.current && !pageRendered) {
+
+    // useEffect(() => {
+    //     if (initialChatList)
+    //         if (scrollContainerRef.current && initialChatList?.pages.length > 1 && !pageRendered) {
+    //             console.log('scrollContainerRef.current.scrollTop', scrollContainerRef.current.scrollHeight);
+    //             scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+    //             setPageRendered(true);
+    //         }
+    // }, [chatList]); //채팅리스트가 처음 사용자에게 보여질때 맨아래로 스크롤
+    useLayoutEffect(() => {
+        // if (
+        //     scrollContainerRef.current &&
+        //     !pageRendered &&
+        //     chatList.length === 0 &&
+        //     initialChatList?.pages.length === 0
+        // ) {
+        //     scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+        //     setPageRendered(true);
+        //     return;
+        // }
+        if (scrollContainerRef.current && !pageRendered && chatList.length > 0) {
             scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
             setPageRendered(true);
+            return;
         }
     }, [chatList]); //채팅리스트가 처음 사용자에게 보여질때 맨아래로 스크롤
 
@@ -100,13 +121,14 @@ function ChatRoomContent() {
             });
         }
     }, [inView, isSending]); //무한스크롤
-
-    if (receiverId === -1) {
-        return <div className="h-full w-full   text-center">대화를 선택해주세요</div>; //대화를 선택하지 않았을때
-    }
+    useEffect(() => {
+        return () => {
+            setChatReset();
+        };
+    }, []); //채팅방 나갈때 초기화
 
     return (
-        <div className="flex  w-full flex-grow  flex-col overflow-y-scroll " ref={scrollContainerRef}>
+        <div className="chatScroll  flex w-full  flex-grow flex-col overflow-y-scroll " ref={scrollContainerRef}>
             <div ref={ref}></div>
             {[...chatList].reverse().map((chat, index) => {
                 const prevChat = chatList[index - 1];

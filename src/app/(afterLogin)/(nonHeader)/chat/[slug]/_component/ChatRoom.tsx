@@ -1,22 +1,22 @@
 import React from 'react';
 
-import Image from 'next/image';
 import ChatRoomContent from './ChatRoomContent';
-import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 
 import ChatInputForm from './ChatInputForm';
 import ChatRoomHeader from './ChatRoomHeader';
+import { auth } from '@/auth';
 
-function ChatContent() {
+async function ChatContent({ roomId }: { roomId: number }) {
+    const session = await auth();
     return (
-        <div className=" flex flex-1 flex-col ">
+        <div className=" flex flex-1 flex-col border-r ">
             {/* 대화중인 상대 유저정보 상단바 */}
             <ChatRoomHeader />
             {/* 채팅내용 */}
-            <ChatRoomContent />
+            <ChatRoomContent roomId={roomId} memberDto={session?.user?.memberDTO} />
             {/* 채팅입력창 */}
             <div className="flex h-fit w-full flex-col ">
-                <ChatInputForm />
+                <ChatInputForm roomId={roomId} memberDto={session?.user?.memberDTO} />
             </div>
         </div>
     );

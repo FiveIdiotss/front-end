@@ -5,6 +5,9 @@ import NextAuth, { User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import 'next-auth/jwt';
 import { ErrorResponse } from './app/Models/AxiosResponse';
+import { JWT } from 'next-auth/jwt';
+import { throttle } from 'lodash';
+
 export type MemberDto = {
     id?: number;
     email?: string;
@@ -35,8 +38,7 @@ type RefreshTokenResponse = {
     success: boolean;
 };
 
-async function refreshAccessToken(token: any) {
-    console.log('토큰 정보', token);
+async function refreshAccessToken(token: JWT) {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/refresh`, {
             method: 'GET',
@@ -44,21 +46,32 @@ async function refreshAccessToken(token: any) {
                 Authorization: `Bearer ${token.refresh_Token}`,
             },
         });
-        const data: RefreshTokenResponse = await response.json();
-        const access_Token = data.data.accessToken;
+        console.log('다시실행', token);
+        console.log('다시실행');
+        if (!response.ok) throw response;
+
+        const responseTokens: RefreshTokenResponse = await response.json();
+        const access_Token = responseTokens.data.accessToken; //액세스 토큰
+        const refresh_Token = responseTokens.data.refreshToken; //리프레시 토큰
+
         const payloadPart = access_Token.split('.')[1];
         const decodedPayload = JSON.parse(atob(payloadPart));
+        const access_TokenExpires = decodedPayload.exp; //토큰 만료시간
+        console.log('리프레쉬갱신', '토큰', access_Token, '만료시간', decodedPayload.exp);
 
         return {
             ...token,
-            access_Token: access_Token,
-            access_TokenExpires: decodedPayload.exp,
+            access_Token,
+            refresh_Token,
+            access_TokenExpires,
         };
     } catch (error) {
-        console.log('에러', error);
+        console.error('리프레쉬 토큰 에러', error);
         return null;
     }
 }
+const throttledRefreshAccessToken = throttle(refreshAccessToken, 300000); // 5분에 한번씩만 실행, 한페이지에서 여러군데 jwt콜백이 실행되는 경우가 있어서 쓰로틀링을 통해 한번만 트리거되도록 함
+
 export const {
     handlers,
     auth,
@@ -68,6 +81,7 @@ export const {
         signIn: '/user/login',
         newUser: '/user/signup',
     },
+
     providers: [
         CredentialsProvider({
             async authorize(credentials) {
@@ -100,6 +114,10 @@ export const {
             console.log('유저', user);
             console.log('세션', session);
             console.log('트리거', trigger);
+            const now = Math.floor(Date.now() / 1000);
+            const accessTokenExpires = token.access_TokenExpires as number;
+            console.log('작동중');
+            console.log('토큰 만료 몇초 남음', accessTokenExpires - now);
 
             if (user) {
                 const payloadPart = user.access_Token.split('.')[1];
@@ -111,20 +129,20 @@ export const {
                 console.log('실행', decodedPayload.iat, decodedPayload.exp);
 
                 return token;
-            }
-            if (trigger === 'update' && session) {
-                token = { ...token, memberDTO: session.user.memberDTO };
-            }
-            const now = Math.floor(Date.now() / 1000);
-            const accessTokenExpires = token.access_TokenExpires as number;
-            console.log('작동중');
-            console.log('now, accessTokenExpires', now, accessTokenExpires);
-            if (accessTokenExpires - now < 60) {
+            } else if (accessTokenExpires - now >= 60) {
+                if (trigger === 'update' && session) {
+                    token = { ...token, memberDTO: session.user.memberDTO };
+                }
+                return token;
+            } else {
+                // if (!token.refresh_token) throw new Error('Missing refresh token');
+
                 console.log('토큰 만료');
                 console.log('토큰 만료', accessTokenExpires - now);
-                return refreshAccessToken(token);
+                console.log('재실행');
+
+                return throttledRefreshAccessToken(token);
             }
-            return token;
         },
 
         async session({ session, token }: any) {
@@ -133,13 +151,13 @@ export const {
             const sessionUser = {
                 ...token,
             };
-            console.log('세션유저', sessionUser);
+            // console.log('세션유저', sessionUser);
             delete sessionUser.refresh_Token;
             // delete sessionUser.access_TokenExpires;
             session.user = Object.assign(session.user, sessionUser);
             delete session.expires;
 
-            console.log('세션', session);
+            // console.log('세션', session);
             console.log(
                 '만료 시간',
                 new Date(token.access_TokenExpires * 1000).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
@@ -148,3 +166,12 @@ export const {
         },
     },
 });
+declare module 'next-auth/jwt' {
+    interface JWT {
+        access_Token: string;
+        access_TokenExpires: number;
+        refresh_Token: string;
+        memberDTO: MemberDto;
+        error?: 'RefreshAccessTokenError';
+    }
+} // Auth.js에서 사용할 JWT 타입을 확장

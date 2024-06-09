@@ -1,6 +1,6 @@
+'use client';
 import React from 'react';
 import HeartIcon from '../icon/HeartIcon';
-import Link from 'next/link';
 import ChatIcon from '../icon/ChatIcon';
 
 function HeaderUserChat() {
