@@ -42,7 +42,11 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
 
     useEffect(() => {
         // if (!senderId) return;
-        console.log('연결결결결');
+        const connectHeader = {
+            senderId: String(senderId),
+            chatRoomId: String(roomId),
+        };
+
         const initializeChat = async () => {
             const stomp = new Client({
                 brokerURL: 'ws://menteetor.site:8080/ws',
@@ -61,19 +65,23 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
                 console.log('WebSocket 연결이 열렸습니다.');
                 const subscriptionDestination = `/sub/chats/${roomId}`;
 
-                stomp.subscribe(subscriptionDestination, (frame) => {
-                    try {
-                        const parsedMessage = JSON.parse(frame.body);
+                stomp.subscribe(
+                    subscriptionDestination,
+                    (frame) => {
+                        try {
+                            const parsedMessage = JSON.parse(frame.body);
 
-                        console.log('구독함으로부터 온메시지', parsedMessage);
-                        setChat(parsedMessage);
-                        if (parsedMessage.senderId === senderId) {
-                            setIsSending(true);
+                            console.log('구독함으로부터 온메시지', parsedMessage);
+                            setChat(parsedMessage);
+                            if (parsedMessage.senderId === senderId) {
+                                setIsSending(true);
+                            }
+                        } catch (error) {
+                            console.error('오류가 발생했습니다:', error);
                         }
-                    } catch (error) {
-                        console.error('오류가 발생했습니다:', error);
-                    }
-                });
+                    },
+                    connectHeader,
+                );
             };
         };
         initializeChat();
@@ -88,10 +96,6 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
             }
         };
     }, []);
-
-    useEffect(() => {
-        console.log('receivedId', receivedId);
-    }, [receivedId]);
 
     const sendMessage = () => {
         // 메시지 전송

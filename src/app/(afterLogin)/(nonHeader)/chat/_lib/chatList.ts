@@ -4,14 +4,13 @@ import { faker } from '@faker-js/faker';
 import { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react';
 
-export type ChatUsers = {
+export type ChatUser = {
     chatRoomId: number; //채팅방 아이디
     receiverId: number; //상대방 아이디
     receiverName: string; //상대방 이름
     receiverImageUrl: string; //상대방 이미지
     latestMessageDTO: {
         content: string;
-        hasImage: boolean;
         localDateTime: string;
     }; //최근 메세지
     unreadMessageCount: number; //안읽은 메세지 갯수
@@ -23,7 +22,7 @@ export type ChatUsers = {
 const avatar = faker.image.avatar();
 const url = process.env.NEXT_PUBLIC_API_URL;
 
-export async function getChatList(): Promise<ChatUsers[]> {
+export async function getChatList(): Promise<ChatUser[]> {
     const session = await getSession();
     const memberId = session?.user?.memberDTO?.id;
 

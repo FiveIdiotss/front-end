@@ -4,7 +4,14 @@ import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
-import { DefaultError, InfiniteData, useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import {
+    DefaultError,
+    InfiniteData,
+    useInfiniteQuery,
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from '@tanstack/react-query';
 import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
 import { MemberDto } from '@/auth';
@@ -26,6 +33,7 @@ function dateTransform(date: string) {
 }
 
 function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
+    const queryClient = useQueryClient();
     const {
         receiverImageUrl,
         receiverId,
@@ -122,6 +130,10 @@ function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: Me
         }
     }, [inView, isSending]); //무한스크롤
     useEffect(() => {
+        queryClient.invalidateQueries({
+            queryKey: ['chat', 'List'],
+            exact: true,
+        });
         return () => {
             setChatReset();
         };

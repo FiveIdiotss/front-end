@@ -1,7 +1,7 @@
 'use client';
 import React, { use, useState } from 'react';
 import Image from 'next/image';
-import { ChatUsers } from '../_lib/chatList';
+import { ChatUser } from '../_lib/chatList';
 import ArrowRightIcon from '@/app/(afterLogin)/_component/icon/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
 import DownListsIcon from '@/app/(afterLogin)/_component/icon/DownListsIcon';
@@ -14,7 +14,7 @@ import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
 
-function ChatListCard({ user }: { user: ChatUsers }) {
+function ChatListCard({ user }: { user: ChatUser }) {
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const { setUserInformation } = useChatStore();
 
@@ -26,8 +26,10 @@ function ChatListCard({ user }: { user: ChatUsers }) {
     let displayDate;
     if (now.isSame(date, 'day')) {
         displayDate = date.format('A hh:mm');
+    } else if (now.isSame(date, 'year')) {
+        displayDate = date.format('YYYY/MM/DD');
     } else {
-        displayDate = date.format('YYYY.MM.DD');
+        displayDate = '';
     }
 
     const handleDetailToggle = () => {
@@ -43,6 +45,14 @@ function ChatListCard({ user }: { user: ChatUsers }) {
         router.push(`/chat/${user.chatRoomId}`);
     };
 
+    const unreadCountFomat = (unreadCount: number) => {
+        if (unreadCount === 0) {
+            return '';
+        } else {
+            return unreadCount > 99 ? '메시지 99+' : `메시지 ${unreadCount}건`;
+        }
+    };
+
     return (
         <li key={user.chatRoomId} className={`flex w-full cursor-pointer flex-col items-center  border-b-2  `}>
             <div className=" flex  h-[70px] w-full flex-row items-center  px-3   " onClick={handleDetailToggle}>
@@ -52,21 +62,31 @@ function ChatListCard({ user }: { user: ChatUsers }) {
                     <DownListsIcon className="mr-5 h-6 w-6 text-neutral-500" />
                 )}
                 <div className="flex flex-grow flex-row font-semibold  ">{user.boardTitle}</div>
-                <div className="flex   flex-row items-center  gap-8 ">
+                <div className="flex   flex-row items-center  gap-6 ">
                     <span className="rounded-md bg-yellow-400 px-4 py-2 text-sm font-medium text-white">매칭 대기</span>
                     {/* <span className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white">매칭 완료</span> */}
-
-                    <span className="text-sm   font-medium  text-neutral-500">{displayDate}</span>
+                    <div className="flex flex-col items-center gap-1">
+                        <span className="w-20   text-center  text-sm font-medium text-neutral-500">{displayDate}</span>
+                        <span className=" text-sm font-semibold text-red-500">
+                            {unreadCountFomat(user.unreadMessageCount)}
+                        </span>
+                    </div>
                 </div>
             </div>
             {isDetailOpen && (
                 <div
-                    className="flex  h-[70px] w-full flex-row items-center border-t pl-12 pr-3 hover:bg-neutral-100  "
+                    className="flex  h-[70px] w-full flex-row items-center border-t pl-14 pr-3 hover:bg-neutral-100  "
                     onClick={onClickChat}
                 >
-                    <div className="flex flex-grow flex-row">
-                        <span className="line-clamp-1   text-sm font-light text-neutral-800">
-                            {user.latestMessageDTO.hasImage ? '이미지' : user.latestMessageDTO.content}
+                    <div className="l flex flex-grow flex-row items-center gap-2">
+                        {user.unreadMessageCount !== 0 && (
+                            <span className="flex h-5  min-w-5 items-center justify-center rounded-full bg-red-500 p-1  text-xs font-semibold text-white ">
+                                {user.unreadMessageCount > 99 ? '99+' : user.unreadMessageCount}
+                            </span>
+                        )}
+                        <span className="text-md   line-clamp-1 font-light text-neutral-800">
+                            {/* {user.latestMessageDTO.hasImage ? '이미지' : user.latestMessageDTO.content} */}
+                            {user.latestMessageDTO.content === ' ' ? '메세지 없음' : user.latestMessageDTO.content}
                         </span>
                     </div>
                     <div className="flex flex-row items-center ">
@@ -79,7 +99,7 @@ function ChatListCard({ user }: { user: ChatUsers }) {
                         />
 
                         <span className="mr-7 text-sm">
-                            <span className="font-extrabold text-blue-500">{user.receiverName}</span> 멘토님과 대화중
+                            <span className="font-extrabold text-blue-500">{user.receiverName}</span> 님과 대화중
                         </span>
                         <ArrowRightIcon className="h-6 w-6 text-neutral-600" />
                     </div>
