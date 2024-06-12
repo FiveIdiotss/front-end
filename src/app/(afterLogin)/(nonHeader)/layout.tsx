@@ -1,3 +1,5 @@
+//* 채팅방은 헤더가 필요없기때문에 헤더가 없는 레이아웃을 만들었습니다.
+
 type Props = {
     children: React.ReactNode;
 };
