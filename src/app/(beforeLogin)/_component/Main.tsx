@@ -1,7 +1,8 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import mainLogo from '../../../../public/3.png'
-export default function Main() {
+import Link from 'next/link';
+import Image from 'next/image';
+import mainLogo from '../../../../public/3.png';
+import naver from '@/../public/social/naver.png';
+export default async function Main() {
     return (
         <>
             <div className="  hidden w-7/12 justify-end pl-24 md:block ">
@@ -18,9 +19,11 @@ export default function Main() {
                     <h3 className="w-80 text-center">FiveIdiots와 함께해주셔서 감사합니다</h3>
 
                     <div className="m-auto mt-10 flex h-20 flex-row gap-4">
-                        <button className="h-16 w-16 rounded-full bg-yellow-400">Kakao</button>
-                        <button className="h-16 w-16 rounded-full border border-neutral-300 ">Google</button>
-                        <button className="h-16 w-16 rounded-full bg-green-500 text-white">Naver</button>
+                        <button className="h-16 w-16 rounded-lg bg-yellow-400 shadow-xl ">Kakao</button>
+                        <button className="h-16 w-16 rounded-lg border border-neutral-300 shadow-xl ">Google</button>
+                        <button className="h-16 w-16 rounded-lg  shadow-xl  ">
+                            <Image src={naver} width={100} height={100} alt="Description of the image" />
+                        </button>
                     </div>
 
                     <div className=" m-auto  flex w-64 flex-row">
@@ -49,5 +52,5 @@ export default function Main() {
                 </div>
             </div>
         </>
-    )
+    );
 }
