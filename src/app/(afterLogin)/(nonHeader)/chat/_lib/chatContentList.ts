@@ -5,8 +5,10 @@ export type Message = {
     senderId: number;
     chatRoomId: number;
     localDateTime: string;
-    chatId: number;
-    image: string | null;
+    // chatId: number;
+    readCount: number;
+    fileURL: string;
+    fileType: string;
 };
 type Props = {
     pageParam?: number;

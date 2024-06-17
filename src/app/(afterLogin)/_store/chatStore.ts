@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ChatUsers } from '../(nonHeader)/chat/_lib/chatList';
+// import { ChatUsers } from '../(nonHeader)/chat/_lib/chatList';
 import { Message } from '../(nonHeader)/chat/_lib/chatContentList';
 
 type ChatStore = {

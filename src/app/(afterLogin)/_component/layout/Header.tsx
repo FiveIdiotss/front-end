@@ -10,6 +10,7 @@ import { auth } from '@/auth';
 
 async function Header() {
     const session = await auth();
+
     return (
         <nav className="sticky top-0  z-[1001]  flex  h-[69px]  w-full  flex-shrink-0  flex-row  items-center justify-center border-b  border-neutral-200  bg-white px-7  ">
             <div className="flex h-full w-full flex-row items-center justify-center">

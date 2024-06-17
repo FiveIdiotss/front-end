@@ -89,7 +89,7 @@ function ChatListCard({ user }: { user: ChatUser }) {
                             {user.latestMessageDTO.content === ' ' ? '메세지 없음' : user.latestMessageDTO.content}
                         </span>
                     </div>
-                    <div className="flex flex-row items-center ">
+                    <div className="flex flex-row items-center  ">
                         <Image
                             src={user.receiverImageUrl}
                             alt="avatar"
