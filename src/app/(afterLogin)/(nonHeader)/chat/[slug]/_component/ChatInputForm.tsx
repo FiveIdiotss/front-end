@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import ClipIcon from '@/app/(afterLogin)/_component/icon/ClipIcon';
 import { Message } from '../../_lib/chatContentList';
+import { set } from 'lodash';
 
 function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
     const { chatList, setIsSending, setChat } = useChatStore();
@@ -22,6 +23,8 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
     const searchParams = useSearchParams();
     const receivedId = searchParams.get('id');
     const stompClientRef = useRef<Client | null>(null); // stompClient를 위한 ref 추가
+
+    const domainUrl = process.env.NEXT_PUBLIC_HOST; //파일업로드시 사용
 
     useEffect(() => {
         // if (!senderId) return;
@@ -128,6 +131,28 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
             `height=${height}, width=${width}, top=${top}, left=${left} ,resizable=yes`,
         );
     };
+    useEffect(() => {
+        const messageHandler = (event: any) => {
+            if (!String(event.source.location.href).startsWith(`${domainUrl}/chat/fileUpload`)) return;
+            let data = JSON.parse(event.data);
+
+            // 이 시점에서 data는 팝업에서 보낸 메시지의 JSON 객체입니다.
+            console.log(`Message received from ${event.origin}`);
+
+            console.log('파일업로드 성공');
+            console.log('event.data', data);
+            setChat(data);
+            setIsSending(true);
+        };
+
+        window.addEventListener('message', messageHandler);
+
+        // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
+        return () => {
+            window.removeEventListener('message', messageHandler);
+        };
+    }, []);
+
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = '1.5rem';

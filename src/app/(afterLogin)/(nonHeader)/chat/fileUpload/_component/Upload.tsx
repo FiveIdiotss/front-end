@@ -11,7 +11,7 @@ import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 function Upload() {
     const searchParams = useSearchParams();
     const [file, setFile] = useState<File | null>(null);
-    const { setChat } = useChatStore(); //파일 업로드시 채팅방에 파일정보를 보내기위해 사용(즉시 업데이트)
+    const domainUrl = process.env.NEXT_PUBLIC_HOST; //파일업로드시 사용
 
     const handleClose = () => {
         window.close();
@@ -30,9 +30,12 @@ function Upload() {
             { file: file, chatRoomId: Number(searchParams.get('id')) },
             {
                 onSuccess: (data) => {
-                    setChat(data);
-                    console.log('파일업로드성공');
-                    // window.close();
+                    const dataWithFlag = {
+                        ...data,
+                        popup: true,
+                    };
+                    window.opener.postMessage(JSON.stringify(dataWithFlag), `${domainUrl}`);
+                    window.close();
                 },
             },
         );
