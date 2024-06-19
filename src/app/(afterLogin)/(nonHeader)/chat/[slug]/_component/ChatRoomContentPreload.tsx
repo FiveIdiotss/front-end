@@ -1,5 +1,5 @@
 import React from 'react';
-import { Message } from '../../../_lib/chatContentList';
+import { Message } from '../../_lib/chatContentList';
 import Link from 'next/link';
 import Image from 'next/image';
 import PdfIcon from '@/app/(afterLogin)/_component/icon/Chat/PdfIcon';

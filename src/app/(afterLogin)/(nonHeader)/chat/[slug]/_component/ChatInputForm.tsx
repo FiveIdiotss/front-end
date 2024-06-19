@@ -11,7 +11,7 @@ import { Message } from '../../_lib/chatContentList';
 import { set } from 'lodash';
 
 function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
-    const { chatList, setIsSending, setChat } = useChatStore();
+    const { chatList, setIsSending, setIsReceiving, setChat } = useChatStore();
     const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -62,7 +62,7 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
                             setChat(parsedMessage);
                             if (parsedMessage.senderId === senderId) {
                                 setIsSending(true);
-                            }
+                            } else setIsReceiving(true);
                         } catch (error) {
                             console.error('오류가 발생했습니다:', error);
                         }

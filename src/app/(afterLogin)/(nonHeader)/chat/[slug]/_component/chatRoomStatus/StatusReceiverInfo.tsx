@@ -6,6 +6,7 @@ import SchoolIcon from '@/app/(afterLogin)/_component/icon/SchoolIcon';
 import Image from 'next/image';
 import Loading from '@/app/_component/Loading';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
+import { useRouter } from 'next/navigation';
 
 type ReceiverInfo = {
     member: number;
@@ -20,6 +21,7 @@ type ReceiverInfo = {
 
 function StatusReceiverInfo() {
     const { receiverId } = useChatStore();
+    const router = useRouter();
 
     const { data: receiverInfo, isPending } = useQuery({
         queryKey: ['chat', 'room', 'receiverInfo', receiverId],
@@ -28,6 +30,10 @@ function StatusReceiverInfo() {
             return response.data.data as ReceiverInfo;
         },
     });
+    // if (!receiverId) {
+    //     router.push('/chat');
+    // }
+
     if (isPending) {
         return <Loading />;
     }

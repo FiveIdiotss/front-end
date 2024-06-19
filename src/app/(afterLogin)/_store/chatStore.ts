@@ -4,7 +4,7 @@ import { Message } from '../(nonHeader)/chat/_lib/chatContentList';
 
 type ChatStore = {
     chatRoomId: number;
-    receiverId: number;
+    receiverId: number | undefined;
     receiverName: string;
     receiverImageUrl: string;
     boardTitle: string;
@@ -16,9 +16,11 @@ type ChatStore = {
 
     chatList: Message[];
     isSending: boolean;
+    isReceiving: boolean;
     image: string;
 
     setIsSending: (isSending: boolean) => void;
+    setIsReceiving: (isReceiving: boolean) => void;
 
     setUserInformation: ({
         receiverId,
@@ -37,7 +39,7 @@ type ChatStore = {
 };
 export const useChatStore = create<ChatStore>((set) => ({
     chatRoomId: -1,
-    receiverId: -1,
+    receiverId: undefined,
     receiverName: '',
     receiverImageUrl: '',
     boardTitle: '',
@@ -49,6 +51,8 @@ export const useChatStore = create<ChatStore>((set) => ({
 
     chatList: [],
     isSending: false,
+    isReceiving: false,
+
     image: '',
     setUserInformation: ({
         receiverId,
@@ -74,6 +78,9 @@ export const useChatStore = create<ChatStore>((set) => ({
     }, //서버에서 새로운 채팅리스트 추가
     setIsSending: (isSending: boolean) => {
         set({ isSending });
+    },
+    setIsReceiving: (isReceiving: boolean) => {
+        set({ isReceiving });
     },
     setChatReset: () => {
         set({ chatList: [] });

@@ -1,9 +1,20 @@
 import { useState, useCallback, ReactNode } from 'react';
 import ConfirmationModal from '../_component/ConfirmationModal';
 
-function useConfirmationModal({ onConfirm, message }: { onConfirm: () => void; message: string }) {
+function useConfirmationModal({
+    onConfirm,
+    confirmButtonLabel,
+    title,
+    subTitle,
+    description,
+}: {
+    onConfirm: () => void;
+    confirmButtonLabel?: string;
+    title: string;
+    subTitle?: string;
+    description?: string;
+}) {
     const [modalOpen, setModalOpen] = useState(false);
-    const [modalMessage, setModalMessage] = useState(message);
 
     const handleOpenModal = useCallback(() => {
         setModalOpen(true);
@@ -18,14 +29,13 @@ function useConfirmationModal({ onConfirm, message }: { onConfirm: () => void; m
         handleCloseModal();
     }, [onConfirm, handleCloseModal]);
 
-    const setModalContent = useCallback((message: string) => {
-        setModalMessage(message);
-    }, []);
-
     const ConfirmationModalComponent: ReactNode = (
         <ConfirmationModal
             open={modalOpen}
-            text={modalMessage}
+            confirmButtonLabel={confirmButtonLabel}
+            title={title}
+            subTitle={subTitle}
+            description={description}
             onClose={handleCloseModal}
             onConfirm={handleConfirm}
             isLoading={false}
@@ -34,7 +44,6 @@ function useConfirmationModal({ onConfirm, message }: { onConfirm: () => void; m
 
     return {
         handleOpenModal,
-        setModalContent,
         ConfirmationModalComponent,
     };
 }
