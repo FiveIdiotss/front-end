@@ -34,6 +34,7 @@ const serverMessageTypeMapping: { [key: string]: string } = {
     CONSULT_EXTEND: 'consultExtend',
     //서버에서 보내는 상담 연장 메시지
 };
+
 function determineFileType(chat: Message) {
     if (noOfficeFileTypeMapping[chat.fileType]) {
         return { type: 'noOffice', value: noOfficeFileTypeMapping[chat.fileType] };
@@ -47,17 +48,19 @@ function determineFileType(chat: Message) {
             return { type: 'office', value: 'unknown' };
         }
     }
-}
-type FileType = '' | 'doc' | 'hwp' | 'ppt' | 'xls' | 'zip' | 'unknown';
+} //파일 타입을 구분하는 함수
+
+type FileType = 'pdf' | 'doc' | 'hwp' | 'ppt' | 'xls' | 'zip' | 'unknown'; //나머지는 unknown으로 분류
 const fileTypeToIcon: Record<FileType, React.JSX.Element> = {
-    '': <PdfIcon className="h-10 w-10 flex-shrink-0 text-red-600" />,
+    pdf: <PdfIcon className="h-10 w-10 flex-shrink-0 text-red-600" />,
     doc: <WordIcon className="h-10 w-10 flex-shrink-0 text-blue-500" />,
     hwp: <HwpIcon className="h-10 w-10 flex-shrink-0 text-blue-500" />,
     ppt: <PptIcon className="h-10 w-10 flex-shrink-0 text-red-600" />,
     xls: <ExcelIcon className="h-10 w-10 flex-shrink-0 text-green-500" />,
     zip: <ZipIcon className="h-10 w-10 flex-shrink-0 text-gray-500" />,
     unknown: <NormalFile className="h-10 w-10 flex-shrink-0 text-blue-500" />,
-};
+}; //파일 아이콘 매핑
+
 function isFileType(value: string): value is FileType {
     return value in fileTypeToIcon;
 }
@@ -88,7 +91,8 @@ function ChatRoomContentPreload({ chat, isSender }: { chat: Message; isSender: b
                 )}
             </>
         );
-    }
+    } //office관련 문서가 아닌 파일
+
     if (isFileType(fileType.value)) {
         return (
             <Link
@@ -105,7 +109,8 @@ function ChatRoomContentPreload({ chat, isSender }: { chat: Message; isSender: b
                 <DownLoadIcon className=" h-5 w-5 flex-shrink-0 " />
             </Link>
         );
-    }
+    } //office관련 문서거나 unknown인 파일
+
     if (fileType.type === 'server') {
         return (
             <span
@@ -114,7 +119,7 @@ function ChatRoomContentPreload({ chat, isSender }: { chat: Message; isSender: b
                 {chat.content}
             </span>
         );
-    }
+    } //서버에서 보내는 Notification
 }
 
 export default ChatRoomContentPreload;
