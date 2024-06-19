@@ -30,7 +30,6 @@ const postUpload = async ({ file, chatRoomId }: UploadProps): Promise<Message> =
     return response.data.data;
 };
 export const useUploadMutaion = () => {
-    const queryClient = useQueryClient();
     const mutaion = useMutation({
         mutationFn: postUpload,
         onSuccess: (data, variable) => {

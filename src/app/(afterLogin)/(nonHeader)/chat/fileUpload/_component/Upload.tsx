@@ -1,12 +1,11 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import UploadInput from './UploadInput';
 import { useUploadMutaion } from '../_lib/upload';
 import { pushNotification } from '@/app/util/pushNotification';
 import Loading from '@/app/_component/Loading';
-import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 
 function Upload() {
     const searchParams = useSearchParams();
@@ -30,11 +29,7 @@ function Upload() {
             { file: file, chatRoomId: Number(searchParams.get('id')) },
             {
                 onSuccess: (data) => {
-                    const dataWithFlag = {
-                        ...data,
-                        popup: true,
-                    };
-                    window.opener.postMessage(JSON.stringify(dataWithFlag), `${domainUrl}`);
+                    console.log('data', data);
                     window.close();
                 },
             },
