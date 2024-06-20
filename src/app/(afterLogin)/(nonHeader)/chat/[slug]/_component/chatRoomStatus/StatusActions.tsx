@@ -5,9 +5,11 @@ import React, { useState } from 'react';
 import ConsultDelayModal from './ConsultDelayModal';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
 import { set } from 'lodash';
+import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 
 function StatusActions() {
     const [modalOpen, setModalOpen] = useState(false);
+    const {} = useChatStore();
     const { handleOpenModal, ConfirmationModalComponent } = useConfirmationModal({
         onConfirm: () => {
             console.log('confirm');

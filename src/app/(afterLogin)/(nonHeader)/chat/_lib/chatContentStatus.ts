@@ -1,0 +1,1 @@
+const postEndConsult = (roomId: string) => {};

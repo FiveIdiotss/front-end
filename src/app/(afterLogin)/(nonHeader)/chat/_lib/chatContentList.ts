@@ -8,7 +8,7 @@ export type Message = {
     // chatId: number;
     readCount: number;
     fileURL: string;
-    fileType: string;
+    messageType: 'TEXT' | 'IMAGE' | 'VIDEO' | 'CONSULT_EXTEND' | 'CONSULT_EXTEND_ACCEPT' | 'CONSULT_EXTEND_DECLINE'; //CONSULT_EXTEND: 상담 연장(서버메시지)
 };
 type Props = {
     pageParam?: number;
