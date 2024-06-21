@@ -3,7 +3,7 @@ import ChatListCard from './ChatListCard';
 // import { ChatUser, getChatList } from '../_lib/chatList';
 import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ChatUser, getChatList } from '../_lib/chatList';
+import { ChatRoom, getChatRooms } from '../_lib/chatRooms';
 import Loading from '@/app/_component/Loading';
 import CategorySearch from '@/app/(afterLogin)/(header)/posts/_component/postsNav/CategorySearch';
 import { Client } from '@stomp/stompjs';
@@ -28,7 +28,7 @@ function ChatList() {
         isPending,
     } = useQuery({
         queryKey: ['chat', 'List'],
-        queryFn: getChatList,
+        queryFn: getChatRooms,
         staleTime: 2 * 60 * 1000, //1분
         gcTime: 5 * 60 * 1000,
     });
@@ -37,7 +37,7 @@ function ChatList() {
         await queryClient.setQueryData(['chat', 'List'], (oldData: any) => {
             console.log('oldData', oldData);
             console.log('chatRoom', chatRoom);
-            return oldData.map((user: ChatUser) => {
+            return oldData.map((user: ChatRoom) => {
                 if (user.chatRoomId === chatRoom.chatRoomId) {
                     return {
                         ...user,

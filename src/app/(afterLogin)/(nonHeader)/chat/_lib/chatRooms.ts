@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import { AxiosError } from 'axios';
 import { getSession } from 'next-auth/react';
 
-export type ChatUser = {
+export type ChatRoom = {
     chatRoomId: number; //채팅방 아이디
     receiverId: number; //상대방 아이디
     receiverName: string; //상대방 이름
@@ -22,7 +22,7 @@ export type ChatUser = {
 const avatar = faker.image.avatar();
 const url = process.env.NEXT_PUBLIC_API_URL;
 
-export async function getChatList(): Promise<ChatUser[]> {
+export async function getChatRooms(): Promise<ChatRoom[]> {
     const session = await getSession();
     const memberId = session?.user?.memberDTO?.id;
 

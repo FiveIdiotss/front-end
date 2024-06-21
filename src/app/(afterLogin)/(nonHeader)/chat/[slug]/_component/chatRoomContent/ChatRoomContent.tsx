@@ -4,7 +4,7 @@ import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DefaultError, InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getChatContentList, Message } from '../../../_lib/chatContentList';
+import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
 import { MemberDto } from '@/auth';
 import Loading from '@/app/_component/Loading';
