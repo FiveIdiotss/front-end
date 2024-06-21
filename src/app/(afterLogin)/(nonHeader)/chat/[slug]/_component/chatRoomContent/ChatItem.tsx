@@ -1,5 +1,5 @@
 import React from 'react';
-import { Message } from '../../_lib/chatContentList';
+import { Message } from '../../../_lib/chatContentList';
 import Link from 'next/link';
 import Image from 'next/image';
 import PdfIcon from '@/app/(afterLogin)/_component/icon/Chat/PdfIcon';
@@ -68,7 +68,7 @@ function isMessageType(value: string): value is FileType {
     return value in fileTypeToIcon;
 }
 
-function ChatRoomContentPreload({ chat, isSender }: { chat: Message; isSender: boolean }) {
+function ChatItem({ chat, isSender }: { chat: Message; isSender: boolean }) {
     const messageType = determineFileType(chat);
 
     if (messageType.type === 'noOffice') {
@@ -151,4 +151,4 @@ function ChatRoomContentPreload({ chat, isSender }: { chat: Message; isSender: b
     } //서버에서 보내는 Notification
 }
 
-export default ChatRoomContentPreload;
+export default ChatItem;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ChatRoomContent from './ChatRoomContent';
+import ChatRoomContent from './chatRoomContent/ChatRoomContent';
 
 import ChatInputForm from './ChatInputForm';
 import ChatRoomHeader from './ChatRoomHeader';

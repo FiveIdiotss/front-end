@@ -1,32 +1,16 @@
 'use client';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
-import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
 import { DefaultError, InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Message, getChatContentList } from '../../_lib/chatContentList';
+import { getChatContentList, Message } from '../../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
 import { MemberDto } from '@/auth';
 import Loading from '@/app/_component/Loading';
 import DotLoadingIcon from '@/app/(afterLogin)/_component/icon/DotLoadingIcon';
-import ChatRoomContentPreload from './ChatRoomContentPreload';
 import ArrowDropIcon from '@/app/(afterLogin)/_component/icon/ArrowDropIcon';
-
-function dateTransform(date: string) {
-    try {
-        const dateObj = new Date(date);
-        let hours = dateObj.getHours();
-
-        const minutes = dateObj.getMinutes();
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-        return `${hours >= 12 ? '오후' : '오전'} ${formattedHours}:${formattedMinutes}`;
-    } catch (error) {
-        console.error('Error occured while transforming date:', error);
-        return '';
-    }
-}
+import ChatItemContainer from './ChatItemContainer';
 
 function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
     const queryClient = useQueryClient();
@@ -185,44 +169,13 @@ function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: Me
                             ref={chatList.length - index === 3 ? isMessageInViewRef : null}
                             className={`${chatList.length - index === 3 ? '' : 'hidden'}`}
                         />
-                        <div
+                        <ChatItemContainer
                             key={uuidv4()}
-                            className={`flex ${isSender ? 'flex-row-reverse' : 'flex-row'} gap-1 px-4 py-3`}
-                        >
-                            {!isSender && (
-                                <div>
-                                    <Image
-                                        src={receiverImageUrl}
-                                        alt="avatar"
-                                        className="rounded-2xl object-cover"
-                                        width={40}
-                                        height={40}
-                                    />
-                                </div>
-                            )}
-                            <div
-                                className={`flex flex-col ${isSender ? 'items-end' : 'items-start'} justify-center gap-1`}
-                            >
-                                {!isSender && <span className="font-sans text-xs font-medium">{receiverName}</span>}
-                                <div className="flex flex-row gap-1">
-                                    <div
-                                        className={`flex flex-col ${isSender ? 'items-end ' : 'hidden items-start'} justify-end`}
-                                    >
-                                        <span className="font-sans text-xs font-normal">
-                                            {dateTransform(chat.localDateTime)}
-                                        </span>
-                                    </div>
-                                    <ChatRoomContentPreload isSender={isSender} chat={chat} />
-                                    <div
-                                        className={`flex flex-col ${isSender ? 'hidden items-end' : 'items-start'} justify-end`}
-                                    >
-                                        <span className="font-sans text-xs font-normal">
-                                            {dateTransform(chat.localDateTime)}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            chat={chat}
+                            isSender={isSender}
+                            receiverImageUrl={receiverImageUrl}
+                            receiverName={receiverName}
+                        />
                     </>
                 );
             })}
