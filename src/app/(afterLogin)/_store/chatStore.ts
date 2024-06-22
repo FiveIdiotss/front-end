@@ -11,6 +11,7 @@ type ChatStoreType = {
     receiverImageUrl: string; //받는 사람 이미지
     boardTitle: string; //게시글 제목
     loginId: number | undefined; //보내는 사람 아이디
+    loginName: string; //보내는 사람 이름
     isLoginMentor: boolean; //보내는 사람 멘토 여부{true:멘토, false:멘티}
     startTime: string; //매칭 시작시간
     consultTime: number; //상담시간
@@ -35,6 +36,7 @@ type ChatStoreType = {
         receiverImageUrl,
         receiverName,
         loginId,
+        loginName,
         isLoginMentor,
         startTime,
         consultTime,
@@ -43,7 +45,8 @@ type ChatStoreType = {
         boardTitle: string;
         receiverImageUrl: string;
         receiverName: string;
-        loginId: number;
+        loginId?: number;
+        loginName?: string;
         isLoginMentor: boolean;
         startTime: string;
         consultTime: number;
@@ -62,6 +65,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
     startTime: '',
     consultTime: 0,
     loginId: undefined,
+    loginName: '',
     isLoginMentor: false,
     latestMessageDTO: {
         content: '',
@@ -80,6 +84,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
         receiverImageUrl,
         receiverName,
         loginId,
+        loginName,
         isLoginMentor,
         startTime,
         consultTime,
@@ -88,12 +93,23 @@ export const useChatStore = create<ChatStoreType>((set) => ({
         boardTitle: string;
         receiverImageUrl: string;
         receiverName: string;
-        loginId: number;
+        loginId?: number;
+        loginName?: string;
         isLoginMentor: boolean;
         startTime: string;
         consultTime: number;
     }) => {
-        set({ receiverId, boardTitle, receiverImageUrl, receiverName, loginId, isLoginMentor, startTime, consultTime });
+        set({
+            receiverId,
+            boardTitle,
+            receiverImageUrl,
+            receiverName,
+            loginId,
+            loginName,
+            isLoginMentor,
+            startTime,
+            consultTime,
+        });
     }, //채팅방 정보 설정
 
     setChat: (newChatList: Message) => {
