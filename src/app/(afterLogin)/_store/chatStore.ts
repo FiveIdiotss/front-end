@@ -115,6 +115,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
             isLoginMentor,
             startTime,
             consultTime,
+            date,
         });
     }, //채팅방 정보 설정
 
