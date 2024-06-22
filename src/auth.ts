@@ -52,7 +52,7 @@ async function refreshAccessToken(token: JWT) {
             ...token,
             ...initialRefreshTokenRequest,
         };
-    }
+    } //갱신 요청이 이미 있고, 만료시간이 90초 이상 남았을 경우, 갱신 요청을 재사용(여러번 호출되는 경우 방지)
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/refresh`, {
@@ -78,7 +78,12 @@ async function refreshAccessToken(token: JWT) {
             access_Token,
             refresh_Token,
             access_TokenExpires,
-        };
+        }; //갱신 요청 저장(여러번 호출되는 경우 방지)
+
+        if (!response.ok) {
+            throw response;
+        } //리프레시 토큰이 만료된 경우
+
         return {
             ...token,
             access_Token,
@@ -86,8 +91,16 @@ async function refreshAccessToken(token: JWT) {
             access_TokenExpires,
         };
     } catch (error) {
-        console.error('리프레쉬 토큰 에러', error);
-        return null;
+        if (error instanceof Response) {
+            const errorResponse: ErrorResponse = await error.json();
+            if (errorResponse.message === '유효하지 않은 토큰입니다.') {
+                return null;
+            }
+        }
+        console.log('서버에러', error);
+        return {
+            ...token,
+        };
     }
 }
 
@@ -174,7 +187,7 @@ export const {
             session.user = Object.assign(session.user, sessionUser);
             delete session.expires;
 
-            // console.log('세션', session);
+            console.log('세션', session);
             console.log(
                 '만료 시간',
                 new Date(token.access_TokenExpires * 1000).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
@@ -197,6 +210,5 @@ declare module 'next-auth/jwt' {
         access_TokenExpires: number;
         refresh_Token: string;
         memberDTO: MemberDto;
-        error?: 'RefreshAccessTokenError';
     }
 } // Auth.js에서 사용할 JWT 타입을 확장
