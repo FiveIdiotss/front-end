@@ -4,15 +4,16 @@ import React, { useState } from 'react';
 import StatusReceiverInfo from './StatusReceiverInfo';
 import TimeExtendIcon from '@/app/(afterLogin)/_component/icon/TimeExtendIcon';
 import StatusActions from './StatusActions';
+import StatusMoreDetails from './StatusMoreDetails';
 
 function ChatRoomStatus() {
     return (
-        <div className="flex w-1/4 min-w-[260px] flex-col border-l border-neutral-300   px-3">
+        <div className="scroll chatScroll flex w-1/4 min-w-[260px] flex-col overflow-y-auto border-l border-neutral-300   px-3">
             <div className="bg-yellow flex  flex-col border-b border-neutral-300 px-4 py-4">
-                <span className="font-semibold">멘토 정보</span>
                 <StatusReceiverInfo />
             </div>
             <StatusActions />
+            <StatusMoreDetails />
         </div>
     );
 }
