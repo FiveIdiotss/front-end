@@ -12,7 +12,7 @@ import DotLoadingIcon from '@/app/(afterLogin)/_component/icon/DotLoadingIcon';
 import ArrowDropIcon from '@/app/(afterLogin)/_component/icon/ArrowDropIcon';
 import ChatItemContainer from './ChatItemContainer';
 
-function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
+function ChatRoomContent({ roomId }: { roomId: number }) {
     const queryClient = useQueryClient();
     const scrollContainerRef = useRef<HTMLDivElement>(null); // 스크롤 컨테이너 ref
     const [isNewMessage, setIsNewMessage] = useState<boolean>(false); //새로운 메시지 팝업 여부
@@ -24,13 +24,12 @@ function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: Me
         chatList,
         isSending,
         isReceiving,
+        loginId,
         setIsReceiving,
         setChatList,
         setChatReset,
         setIsSending,
     } = useChatStore();
-
-    const senderId = memberDto?.id; //세션정보에서 senderId 추출
 
     const { ref, inView } = useInView({
         threshold: 0,
@@ -51,7 +50,7 @@ function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: Me
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages) => (allPages.length > 0 ? allPages.length + 1 : undefined),
         // getPreviousPageParam: (firstPage) => firstPage.at(-1)?.chatId,
-        enabled: !!senderId && !!receiverId && !!roomId,
+        enabled: !!loginId && !!receiverId && !!roomId,
         staleTime: 0,
         // gcTime: 0,
     }); //채팅리스트 무한스크롤 데이터 불러오기
@@ -160,7 +159,7 @@ function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: Me
 
             {/* 메시지카드를 렌더링하는 부분 */}
             {[...chatList].reverse().map((chat, index) => {
-                const isSender = chat.senderId === senderId;
+                const isUserSentMessage = chat.senderId === loginId;
 
                 return (
                     <>
@@ -172,7 +171,7 @@ function ChatRoomContent({ roomId, memberDto }: { roomId: number; memberDto?: Me
                         <ChatItemContainer
                             key={uuidv4()}
                             chat={chat}
-                            isSender={isSender}
+                            isSender={isUserSentMessage}
                             receiverImageUrl={receiverImageUrl}
                             receiverName={receiverName}
                         />

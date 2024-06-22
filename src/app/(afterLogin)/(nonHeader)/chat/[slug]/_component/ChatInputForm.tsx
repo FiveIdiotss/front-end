@@ -4,30 +4,22 @@ import send from '@/../public/chat/send.svg';
 import Image from 'next/image';
 import { Client } from '@stomp/stompjs';
 import { MemberDto } from '@/auth';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import ClipIcon from '@/app/(afterLogin)/_component/icon/ClipIcon';
-import { Message } from '../../_lib/chatContentList';
-import { set } from 'lodash';
+import { Message } from '../_lib/chatContentList';
 
-function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
-    const { chatList, setIsSending, setIsReceiving, setChat } = useChatStore();
+function ChatInputForm({ roomId }: { roomId: number }) {
+    const { loginId, loginName, setIsSending, setIsReceiving, setChat } = useChatStore();
     const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const senderId = memberDto?.id;
-    const senderName = memberDto?.name;
     const [isComposing, setIsComposing] = useState(false);
 
     const stompClientRef = useRef<Client | null>(null); // stompClient를 위한 ref 추가
 
-    const domainUrl = process.env.NEXT_PUBLIC_HOST; //파일업로드시 사용
-
     useEffect(() => {
-        // if (!senderId) return;
-        console.log('연결결결결');
         const connectHeader = {
-            senderId: String(senderId),
+            senderId: String(loginId),
             chatRoomId: String(roomId),
         };
 
@@ -57,7 +49,7 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
 
                             console.log('구독함으로부터 온메시지', parsedMessage);
                             setChat(parsedMessage);
-                            if (parsedMessage.senderId === senderId) {
+                            if (parsedMessage.senderId === loginId) {
                                 setIsSending(true);
                             } else setIsReceiving(true);
                         } catch (error) {
@@ -85,15 +77,13 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
         // 메시지 전송
         if (stompClientRef.current && stompClientRef.current.connected) {
             const destination = '/pub/hello';
-            // const messageWithBreaks = inputMessage.replace(/\n/g, '<br />'); //줄바꿈
-
             stompClientRef.current.publish({
                 destination,
                 body: JSON.stringify({
                     content: inputMessage, //이미지가 없거나 있을때
-                    senderId: senderId,
+                    senderId: loginId,
                     chatRoomId: roomId,
-                    senderName: senderName,
+                    senderName: loginName,
                 }),
             });
             console.log('메시지 전송', inputMessage);

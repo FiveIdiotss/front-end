@@ -1,7 +1,7 @@
 'use client';
 import React, { use, useState } from 'react';
 import Image from 'next/image';
-import { ChatUser } from '../_lib/chatList';
+import { ChatRoomType } from '../_lib/chatRooms';
 import ArrowRightIcon from '@/app/(afterLogin)/_component/icon/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
 import DownListsIcon from '@/app/(afterLogin)/_component/icon/DownListsIcon';
@@ -14,9 +14,8 @@ import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
 
-function ChatListCard({ user }: { user: ChatUser }) {
+function ChatListCard({ user }: { user: ChatRoomType }) {
     const [isDetailOpen, setIsDetailOpen] = useState(false);
-    const { setUserInformation } = useChatStore();
 
     const router = useRouter();
 
@@ -36,12 +35,6 @@ function ChatListCard({ user }: { user: ChatUser }) {
         setIsDetailOpen(!isDetailOpen);
     };
     const onClickChat = () => {
-        setUserInformation({
-            receiverId: user.receiverId,
-            boardTitle: user.boardTitle,
-            receiverImageUrl: user.receiverImageUrl,
-            receiverName: user.receiverName,
-        });
         router.push(`/chat/${user.chatRoomId}`);
     };
 
