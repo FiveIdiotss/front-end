@@ -181,7 +181,7 @@ body {
 
 /* 스크롤바스타일 */
 .chatScroll::-webkit-scrollbar {
-    @apply w-2; /*  스크롤바의 너비를 변경합니다 */
+    @apply w-[6px]; /*  스크롤바의 너비를 변경합니다 */
 }
 
 .chatScroll::-webkit-scrollbar-track {
