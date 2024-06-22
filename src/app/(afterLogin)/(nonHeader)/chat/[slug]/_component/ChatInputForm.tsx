@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import send from '@/../public/chat/send.svg';
 import Image from 'next/image';
 import { Client } from '@stomp/stompjs';
-import { MemberDto } from '@/auth';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import ClipIcon from '@/app/(afterLogin)/_component/icon/ClipIcon';
 import { Message } from '../_lib/chatContentList';
@@ -18,6 +17,7 @@ function ChatInputForm({ roomId }: { roomId: number }) {
     const stompClientRef = useRef<Client | null>(null); // stompClient를 위한 ref 추가
 
     useEffect(() => {
+        if (!loginId) return;
         const connectHeader = {
             senderId: String(loginId),
             chatRoomId: String(roomId),
@@ -71,7 +71,7 @@ function ChatInputForm({ roomId }: { roomId: number }) {
                 stompClientRef.current.deactivate();
             }
         };
-    }, [roomId]);
+    }, [loginId]); //채팅방 연결
 
     const sendMessage = () => {
         // 메시지 전송
