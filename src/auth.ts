@@ -47,7 +47,7 @@ let initialRefreshTokenRequest: {
 async function refreshAccessToken(token: JWT) {
     const now = Math.floor(Date.now() / 1000);
 
-    if (initialRefreshTokenRequest && initialRefreshTokenRequest.access_TokenExpires - now >= 3580) {
+    if (initialRefreshTokenRequest && initialRefreshTokenRequest.access_TokenExpires - now >= 90) {
         return {
             ...token,
             ...initialRefreshTokenRequest,
@@ -148,14 +148,12 @@ export const {
                 console.log('실행', decodedPayload.iat, decodedPayload.exp);
 
                 return token;
-            } else if (accessTokenExpires - now >= 3580) {
+            } else if (accessTokenExpires - now >= 90) {
                 if (trigger === 'update' && session) {
                     token = { ...token, memberDTO: session.user.memberDTO };
                 }
                 return token;
             } else {
-                // if (!token.refresh_token) throw new Error('Missing refresh token');
-
                 console.log('토큰 만료');
                 console.log('토큰 만료', accessTokenExpires - now);
                 console.log('재실행');
