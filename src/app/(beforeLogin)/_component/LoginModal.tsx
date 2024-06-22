@@ -20,8 +20,7 @@ export default function LoginModal() {
             const response = await signIn('credentials', {
                 username: email,
                 password,
-
-                redirect: false,
+                callbackUrl: '/home',
             });
             if (response?.error === 'CredentialsSignin') {
                 console.log(response);
@@ -33,8 +32,6 @@ export default function LoginModal() {
                 return;
             }
             console.log(response);
-            alert('로그인 성공');
-            router.push('/home');
         } catch (err) {
             setMessage('로그인 실패');
         }

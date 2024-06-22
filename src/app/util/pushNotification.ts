@@ -5,7 +5,7 @@ type ThemeType = 'light' | 'dark';
 
 export const pushNotification = (msg: string, type: ToastType, theme: ThemeType) => {
     toast[type](msg, {
-        duration: 2000,
+        duration: 1000,
         position: 'bottom-center',
 
         // Styling

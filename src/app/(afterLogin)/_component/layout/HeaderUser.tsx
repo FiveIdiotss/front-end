@@ -3,6 +3,7 @@ import HeaderUserInfo from './HeaderUserInfo';
 import HeaderUserNotification from './HeaderUserNotification';
 import HeaderUserChat from './HeaderUserChat';
 import { MemberDto } from '@/auth';
+import Link from 'next/link';
 
 function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
     if (memberDto) {
@@ -14,15 +15,23 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
             </div>
         );
     } else {
-        <>
-            <button className="flex h-9 w-20 shrink-0 items-center justify-center rounded-md border border-black ">
-                <span className="text-sm ">로그인</span>
-            </button>
+        return (
+            <>
+                <Link
+                    href="/user/login"
+                    className="flex h-9 w-20 shrink-0 items-center justify-center rounded-md border border-black "
+                >
+                    <span className="text-sm ">로그인</span>
+                </Link>
 
-            <button className=" ml-2 flex h-9 w-20 shrink-0  items-center justify-center rounded-md bg-gray-700">
-                <span className="text-sm  text-white">가입하기</span>
-            </button>
-        </>;
+                <Link
+                    href="/user/signup"
+                    className=" ml-2 flex h-9 w-20 shrink-0  items-center justify-center rounded-md bg-gray-700"
+                >
+                    <span className="text-sm  text-white">가입하기</span>
+                </Link>
+            </>
+        );
     }
 }
 

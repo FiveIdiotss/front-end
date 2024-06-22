@@ -42,7 +42,7 @@ function NonStandardModal({
                 onClick={onClose}
             >
                 <div
-                    className={` animate-slide-up bottom-1/2 top-1/2  flex  flex-col  ${className} `}
+                    className={` animate-slide-up bottom-1/2 top-1/2   flex  flex-col  ${className} `}
                     //mobile반응형 필수, 넓이는 꼭 className으로 받아서 조절해야함
                     onClick={(e) => e.stopPropagation()}
                 >

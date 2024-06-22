@@ -38,7 +38,22 @@ type RefreshTokenResponse = {
     success: boolean;
 };
 
+let initialRefreshTokenRequest: {
+    access_Token: string;
+    refresh_Token: string;
+    access_TokenExpires: number;
+} | null; //리프레쉬 토큰갱신 함수가 jwt콜백에 의해 여러번 호출 되는 경우를 방지하고자, 추적 변수를 만들어 초기 갱신 요청을 저장
+
 async function refreshAccessToken(token: JWT) {
+    const now = Math.floor(Date.now() / 1000);
+
+    if (initialRefreshTokenRequest && initialRefreshTokenRequest.access_TokenExpires - now >= 90) {
+        return {
+            ...token,
+            ...initialRefreshTokenRequest,
+        };
+    }
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/refresh`, {
             method: 'GET',
@@ -59,6 +74,11 @@ async function refreshAccessToken(token: JWT) {
         const access_TokenExpires = decodedPayload.exp; //토큰 만료시간
         console.log('리프레쉬갱신', '토큰', access_Token, '만료시간', decodedPayload.exp);
 
+        initialRefreshTokenRequest = {
+            access_Token,
+            refresh_Token,
+            access_TokenExpires,
+        };
         return {
             ...token,
             access_Token,
@@ -70,7 +90,6 @@ async function refreshAccessToken(token: JWT) {
         return null;
     }
 }
-const throttledRefreshAccessToken = throttle(refreshAccessToken, 300000); // 5분에 한번씩만 실행, 한페이지에서 여러군데 jwt콜백이 실행되는 경우가 있어서 쓰로틀링을 통해 한번만 트리거되도록 함
 
 export const {
     handlers,
@@ -129,19 +148,17 @@ export const {
                 console.log('실행', decodedPayload.iat, decodedPayload.exp);
 
                 return token;
-            } else if (accessTokenExpires - now >= 60) {
+            } else if (accessTokenExpires - now >= 90) {
                 if (trigger === 'update' && session) {
                     token = { ...token, memberDTO: session.user.memberDTO };
                 }
                 return token;
             } else {
-                // if (!token.refresh_token) throw new Error('Missing refresh token');
-
                 console.log('토큰 만료');
                 console.log('토큰 만료', accessTokenExpires - now);
                 console.log('재실행');
 
-                return throttledRefreshAccessToken(token);
+                return refreshAccessToken(token);
             }
         },
 
@@ -164,8 +181,16 @@ export const {
             );
             return session;
         },
+        async redirect({ url, baseUrl }) {
+            // Allows relative callback URLs
+            if (url.startsWith('/')) return `${baseUrl}${url}`;
+            // Allows callback URLs on the same origin
+            else if (new URL(url).origin === baseUrl) return url;
+            return baseUrl;
+        },
     },
 });
+
 declare module 'next-auth/jwt' {
     interface JWT {
         access_Token: string;

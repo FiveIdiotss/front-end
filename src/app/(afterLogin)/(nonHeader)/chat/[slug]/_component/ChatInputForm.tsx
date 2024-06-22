@@ -1,48 +1,28 @@
 'use client';
-import React, { use, useEffect, useRef, useState } from 'react';
-import emoticon from '@/../public/chat/emoticon.svg';
-import file from '@/../public/chat/file.svg';
-import capture from '@/../public/chat/capture.svg';
+import React, { useEffect, useRef, useState } from 'react';
 import send from '@/../public/chat/send.svg';
 import Image from 'next/image';
 import { Client } from '@stomp/stompjs';
 import { MemberDto } from '@/auth';
-import { useSearchParams } from 'next/navigation';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
-const convertToBase64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
+import ClipIcon from '@/app/(afterLogin)/_component/icon/ClipIcon';
+import { Message } from '../_lib/chatContentList';
 
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
-
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-    });
-}; //파일을 base64로 변환하는 함수
-
-function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: MemberDto }) {
-    const { chatList, setIsSending, setChat } = useChatStore();
+function ChatInputForm({ roomId }: { roomId: number }) {
+    const { loginId, loginName, setIsSending, setIsReceiving, setChat } = useChatStore();
     const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
-    const [inputImages, setInputImages] = useState<string>(''); //이미지 파일
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    // const { chatRoomId } = useChatStore();
-    // const [stompClient, setStompClient] = useState<Client | null>(null);
-    const senderId = memberDto?.id;
-    const senderName = memberDto?.name;
     const [isComposing, setIsComposing] = useState(false);
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const searchParams = useSearchParams();
-    const receivedId = searchParams.get('id');
     const stompClientRef = useRef<Client | null>(null); // stompClient를 위한 ref 추가
 
     useEffect(() => {
-        // if (!senderId) return;
-        console.log('연결결결결');
+        const connectHeader = {
+            senderId: String(loginId),
+            chatRoomId: String(roomId),
+        };
+
         const initializeChat = async () => {
             const stomp = new Client({
                 brokerURL: 'ws://menteetor.site:8080/ws',
@@ -61,19 +41,23 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
                 console.log('WebSocket 연결이 열렸습니다.');
                 const subscriptionDestination = `/sub/chats/${roomId}`;
 
-                stomp.subscribe(subscriptionDestination, (frame) => {
-                    try {
-                        const parsedMessage = JSON.parse(frame.body);
+                stomp.subscribe(
+                    subscriptionDestination,
+                    (frame) => {
+                        try {
+                            const parsedMessage = JSON.parse(frame.body) as Message;
 
-                        console.log('구독함으로부터 온메시지', parsedMessage);
-                        setChat(parsedMessage);
-                        if (parsedMessage.senderId === senderId) {
-                            setIsSending(true);
+                            console.log('구독함으로부터 온메시지', parsedMessage);
+                            setChat(parsedMessage);
+                            if (parsedMessage.senderId === loginId) {
+                                setIsSending(true);
+                            } else setIsReceiving(true);
+                        } catch (error) {
+                            console.error('오류가 발생했습니다:', error);
                         }
-                    } catch (error) {
-                        console.error('오류가 발생했습니다:', error);
-                    }
-                });
+                    },
+                    connectHeader,
+                );
             };
         };
         initializeChat();
@@ -87,37 +71,24 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
                 stompClientRef.current.deactivate();
             }
         };
-    }, []);
-
-    useEffect(() => {
-        console.log('receivedId', receivedId);
-    }, [receivedId]);
+    }, [roomId]);
 
     const sendMessage = () => {
         // 메시지 전송
         if (stompClientRef.current && stompClientRef.current.connected) {
             const destination = '/pub/hello';
-
             stompClientRef.current.publish({
                 destination,
                 body: JSON.stringify({
-                    content: inputImages === '' ? inputMessage : null, //이미지가 없거나 있을때
-                    senderId: senderId,
+                    content: inputMessage, //이미지가 없거나 있을때
+                    senderId: loginId,
                     chatRoomId: roomId,
-                    senderName: senderName,
-                    image: inputImages === '' ? null : inputImages,
+                    senderName: loginName,
                 }),
             });
             console.log('메시지 전송', inputMessage);
         }
-        if (inputImages === '') {
-            setInputMessage('');
-        } else {
-            if (fileInputRef.current) {
-                fileInputRef.current.value = '';
-            }
-            setInputImages('');
-        }
+        setInputMessage('');
     };
     const handleCompositionStart = () => {
         setIsComposing(true);
@@ -134,67 +105,50 @@ function ChatInputForm({ roomId, memberDto }: { roomId: number; memberDto?: Memb
             sendMessage();
         }
     };
-    const handleButtonClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
+
+    const openUploadInPopup = () => {
+        const width = 600;
+        const height = window.screen.height * 0.47;
+        const left = (window.screen.width - width) / 2;
+        const top = (window.screen.height - height) / 2;
+
+        window.open(
+            `/chat/fileUpload?id=${roomId}`,
+            'Upload',
+            `height=${height}, width=${width}, top=${top}, left=${left} ,resizable=yes`,
+        );
+    };
+
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = '1.5rem';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
-    };
-
-    const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files) return;
-        const file = e.target.files[0];
-
-        const base64 = (await convertToBase64(file)) as string;
-
-        setInputImages(base64);
-    };
+    }, [inputMessage]); //textarea의 높이를 자동으로 조절 최대 5줄까지 가능
     return (
         <>
-            <input type="file" className="hidden" ref={fileInputRef} accept="image/*" onChange={handleChangeFile} />
-
-            <textarea
-                className=" w-full resize-none overflow-auto border-y p-3 outline-none"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyDown={(e) => enterSendMessage(e)}
-                style={{ lineHeight: '1.5em', maxHeight: '4.5em' }}
-                placeholder=" 메시지를 입력하세요."
-                onCompositionStart={handleCompositionStart}
-                onCompositionEnd={handleCompositionEnd}
-            />
-            <div className="flex h-16 flex-row justify-between px-2">
-                <div className="flex h-full flex-row items-center gap-2">
-                    <Image
-                        src={emoticon}
-                        alt="emoticon"
-                        width={30}
-                        height={30}
-                        className="cursor-pointer hover:rotate-12 hover:scale-105"
-                    />
-                    <button onClick={handleButtonClick}>
-                        <Image
-                            src={file}
-                            alt="file"
-                            width={30}
-                            height={30}
-                            className="cursor-pointer hover:rotate-12 hover:scale-105"
-                        />
+            <div className="mt-1 flex h-full w-full flex-row  items-center border-y bg-white py-2 ">
+                <textarea
+                    className=" chatScroll  flex flex-grow  resize-none items-center overflow-auto  px-2 py-2 outline-none"
+                    value={inputMessage}
+                    ref={textareaRef}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                    onKeyDown={(e) => enterSendMessage(e)}
+                    style={{ lineHeight: '1.5em', maxHeight: '7.5em' }}
+                    placeholder=" 메시지를 입력하세요."
+                    onCompositionStart={handleCompositionStart}
+                    onCompositionEnd={handleCompositionEnd}
+                />
+                <div className="flex h-full flex-row items-end gap-1">
+                    <button onClick={openUploadInPopup} className="flex h-[40px] items-center">
+                        <ClipIcon className="h-6 w-6 text-neutral-600" />
                     </button>
-                    <Image
-                        src={capture}
-                        alt="capture"
-                        width={30}
-                        height={30}
-                        className="cursor-pointer hover:rotate-12 hover:scale-105"
-                    />
-                </div>
-                <div className="flex h-full items-center">
-                    <button onClick={sendMessage}>
+                    <button onClick={sendMessage} className="flex h-[40px] items-center  px-3">
                         <Image
                             src={send}
                             alt="send"
-                            width={30}
-                            height={30}
+                            width={26}
+                            height={26}
                             className="cursor-pointer hover:scale-105"
                         />
                     </button>

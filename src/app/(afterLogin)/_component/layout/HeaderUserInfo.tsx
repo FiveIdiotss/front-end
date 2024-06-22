@@ -3,16 +3,13 @@ import { MemberDto } from '@/auth';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
     const [isHovered, setIsHovered] = useState(false);
-    const router = useRouter();
-    const handleSigOut = () => {
+    const handleSigOut = async () => {
         if (confirm('로그아웃 하시겠습니까?')) {
-            signOut({ redirect: false });
-            router.push('/');
+            await signOut({ callbackUrl: '/home' });
         }
     };
     return (

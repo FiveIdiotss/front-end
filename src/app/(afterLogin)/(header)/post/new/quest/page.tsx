@@ -1,15 +1,17 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useQuestMutation } from '../../_lib/uploadFile';
-import { debounce } from 'lodash';
+import { debounce, set } from 'lodash';
 import QuillEditor from '../../_components/TestEditor';
 import SubmitButton from '../../_components/SubmitButton';
+import Image from 'next/image';
 
 function QuestFormPage() {
     const categoryRef = useRef<HTMLSelectElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
     const postMutation = useQuestMutation();
     const [content, setContent] = useState<string>('');
+    const [mainImage, setMainImage] = useState<File[]>([]);
 
     const debouncedHandleSubmit = useCallback(
         debounce((value: string) => {
@@ -17,6 +19,9 @@ function QuestFormPage() {
         }, 400), // 디바운스 시간을 300ms로 설정
         [],
     ); //
+    const handleMainImage = async (file: File) => {
+        setMainImage([...mainImage, file]);
+    };
 
     const onSubmit = async () => {
         if (!categoryRef.current?.value) {
@@ -32,18 +37,26 @@ function QuestFormPage() {
             return;
         }
         postMutation.mutate({
-            title: titleRef.current?.value,
-            content: content,
-            boardCategory: categoryRef.current?.value,
+            request: {
+                title: titleRef.current?.value,
+                content: content,
+                boardCategory: categoryRef.current?.value,
+                subBoardType: 'QUEST',
+            },
+
+            images: mainImage,
         });
     };
+    useEffect(() => {
+        console.log('error', postMutation.error?.response?.data);
+    }, [postMutation.error]);
 
     useEffect(() => {
         console.log('content', content);
     }, [content]);
 
     return (
-        <div className="flex flex-grow flex-col pb-36">
+        <div className="flex w-full flex-col pb-36">
             <div className=" mt-10 flex h-14 flex-row items-center justify-center rounded-lg bg-indigo-100">
                 <span className="text-2xl">🙋‍♂️</span>
                 <span className="  ml-4 text-base text-primary ">궁금한 것들 질문하세요!</span>
@@ -70,7 +83,9 @@ function QuestFormPage() {
                 placeholder="제목에 핵심 내용을 요약해보세요."
             />
             {/* <QuestRequestEditor content={content} setContent={debouncedHandleSubmit} /> */}
-            <QuillEditor setContent={debouncedHandleSubmit} />
+
+            <QuillEditor setContent={debouncedHandleSubmit} content={content} setMainImage={handleMainImage} />
+
             <SubmitButton cancelUrl="/quest" onSubmit={onSubmit} isLoading={postMutation.isPending} />
         </div>
     );

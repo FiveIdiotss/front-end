@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import checkIcon from '@/../public/check.png';
 import Image from 'next/image';
 import calenderCheckIcon from '@/../public/calendarCheck.png';
@@ -15,19 +15,10 @@ import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import QuillEditor from '../../_components/TestEditor';
 import { debounce } from 'lodash';
 import SubmitButton from '../../_components/SubmitButton';
+import { usePostMentorMutation } from '../../_lib/uploadMentor';
+import { pushNotification } from '@/app/util/pushNotification';
 
 const defaultContent = `<h1><img src="https://five-image.s3.ap-northeast-2.amazonaws.com/780ae30e-8eb9-47d2-beaf-b96491bf511b.jpeg" height="214" width="347" style="display: block; margin: auto;"></h1><h1><br></h1><h1><strong>반갑습니다! 🙌</strong></h1><p><br></p><p><strong>멘토링 내용</strong>: 프론트의 모든것</p><p><br></p><p><strong>가능한 멘토링 영역</strong>:&nbsp;</p><ul><li>next.js, react.js</li><li>auth.js (서버 쿠기, 서버세션과 리프레쉬 토큰 로직을 구현하며 안전하게 관리 해봅시다.)</li><li>js</li><li>react query</li><li>justand</li><li>git</li><li>tailwind3</li></ul><p><strong>멘토링 진행방식</strong>:</p><ul><li>대면</li><li>비대면</li></ul><p><strong>예상 맨토링 일정(횟수)</strong>:&nbsp;3회</p><p><br></p><p><br></p><h1><br></h1><h1><br></h1>`;
-
-type newPostFormData = {
-    title: string;
-    introduce: string;
-    target: string;
-    content: string;
-    consultTime: number;
-    times: { startTime: string; endTime: string }[];
-    availableDays: string[];
-    boardCategory: string;
-};
 
 function formatTime(minutes: number) {
     const hours = Math.floor(minutes / 60);
@@ -46,6 +37,8 @@ function mapDaysToEnglish(days: string[]) {
 function MentorFormPage() {
     const [completeModalOpen, setCompleteModalOpen] = React.useState(false);
     const [warningModalOpen, setWarningModalOpen] = React.useState('');
+    const [mainImage, setMainImage] = useState<File[]>([]);
+
     const router = useRouter();
     const titleRef = React.useRef<HTMLInputElement>(null); //제목
     const introduceRef = React.useRef<HTMLInputElement>(null); //간략한 소개글
@@ -55,17 +48,7 @@ function MentorFormPage() {
     const state = useMentoNewPost();
     const { content, setContent } = useMentoNewPost();
 
-    const mutation = useMutation({
-        mutationFn: (data: newPostFormData) => Axios.post('/api/board', data),
-
-        onSuccess: () => {
-            setCompleteModalOpen(true);
-        },
-        onError: (err: AxiosError<ErrorResponse>) => {
-            console.log(err.response?.data);
-            setWarningModalOpen('등록에 실패했습니다. 다시 시도해주세요.');
-        },
-    }); //useMutation 사용
+    const postMentorMutation = usePostMentorMutation();
 
     const onSubmit = () => {
         const formatTimes = state.times.map((time) => ({
@@ -73,6 +56,7 @@ function MentorFormPage() {
             endTime: formatTime(time.endTime),
         }));
         const days = mapDaysToEnglish(state.days);
+
         if (
             !titleRef.current?.value ||
             !introduceRef.current?.value ||
@@ -84,19 +68,29 @@ function MentorFormPage() {
             formatTimes.length === 0
         )
             return setWarningModalOpen('모든 항목을 입력해주세요.');
-        const data = {
-            title: titleRef.current?.value,
-            introduce: introduceRef.current?.value,
-            target: targetRef.current?.value,
-            content: state.content,
-            boardCategory: categoryRef.current?.value,
-            consultTime: state.interver,
-            times: formatTimes,
-            availableDays: days,
-        };
-        mutation.mutate(data);
-
-        console.log('submit', data);
+        postMentorMutation.mutate(
+            {
+                request: {
+                    title: titleRef.current?.value,
+                    introduce: introduceRef.current?.value,
+                    target: targetRef.current?.value,
+                    content: state.content,
+                    boardCategory: categoryRef.current?.value,
+                    consultTime: state.interver,
+                    times: formatTimes,
+                    availableDays: days,
+                },
+                images: mainImage,
+            },
+            {
+                onError: (error) => {
+                    pushNotification('오류가 발생했습니다.', 'error', 'light');
+                },
+                onSuccess: () => {
+                    setCompleteModalOpen(true);
+                },
+            },
+        );
     };
 
     const handleInfoClose = () => {
@@ -112,6 +106,9 @@ function MentorFormPage() {
         }, 400), // 디바운스 시간을 300ms로 설정
         [],
     ); //
+    const handleMainImage = async (file: File) => {
+        setMainImage([...mainImage, file]);
+    };
     return (
         <div className="flex flex-grow flex-col pb-36">
             <div className=" mt-10 flex h-14 w-full flex-row items-center justify-center rounded-lg bg-indigo-100">
@@ -161,8 +158,13 @@ function MentorFormPage() {
             />
             {/* 대상 키워드 입력창 */}
             {/* <TinyMceEditor />  */}
-            <QuillEditor defualtValue={defaultContent} setContent={setContent} />
-            <SubmitButton cancelUrl="/quest" onSubmit={onSubmit} isLoading={mutation.isPending} />
+            <QuillEditor
+                defualtValue={defaultContent}
+                setContent={setContent}
+                content={content}
+                setMainImage={handleMainImage}
+            />
+            <SubmitButton cancelUrl="/quest" onSubmit={onSubmit} isLoading={postMentorMutation.isPending} />
             {/* 모달 */}
             <InfoModal
                 open={completeModalOpen}

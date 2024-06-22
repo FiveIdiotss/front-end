@@ -5,8 +5,10 @@ export type Message = {
     senderId: number;
     chatRoomId: number;
     localDateTime: string;
-    chatId: number;
-    image: string | null;
+    // chatId: number;
+    readCount: number;
+    fileURL: string;
+    messageType: 'TEXT' | 'IMAGE' | 'VIDEO' | 'CONSULT_EXTEND' | 'CONSULT_EXTEND_ACCEPT' | 'CONSULT_EXTEND_DECLINE'; //CONSULT_EXTEND: 상담 연장(서버메시지)
 };
 type Props = {
     pageParam?: number;

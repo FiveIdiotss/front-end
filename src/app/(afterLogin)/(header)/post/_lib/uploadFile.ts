@@ -8,21 +8,56 @@ export const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append('multipartFile', file);
 
-    const response = await Axios.post('/api/saveSubBoardImage', formData);
+    const response = await Axios.post('/api/image', formData);
     console.log(response.data.data);
 
     return response.data.data;
 };
 
 type QuestRequestType = {
-    title: string;
-    content: string;
-    boardCategory: string;
+    request: {
+        title: string;
+        content: string;
+        boardCategory: string;
+        subBoardType: string;
+    };
+
+    images: File[] | [];
 };
 
 const postQuest = async (data: QuestRequestType) => {
-    const response = await Axios.post('/api/subBoard', data);
-    return response.data.data;
+    const formData = new FormData();
+    const requestBlob = new Blob(
+        [
+            JSON.stringify({
+                title: data.request.title,
+                content: data.request.content,
+                boardCategory: data.request.boardCategory,
+                subBoardType: data.request.subBoardType,
+            }),
+        ],
+        { type: 'application/json' },
+    );
+    formData.append('request', requestBlob);
+
+    // Append each image in the data.images array to formData
+    if (data.images.length > 0) {
+        formData.append('images', JSON.stringify(data.images));
+    }
+    console.log('formData', formData.get('request'));
+    console.log('formData', formData.get('images[0]'));
+
+    try {
+        const response = await Axios.post('/api/android/subBoard', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data.data;
+    } catch (error) {
+        console.error('Error uploading data:', error);
+        throw error;
+    }
 };
 const postRequest = async (data: QuestRequestType) => {
     const response = await Axios.post('/api/requestBoard', data);
