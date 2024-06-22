@@ -19,6 +19,7 @@ export type ChatRoomType = {
     mentorId: number; //멘토 아이디
     startTime: string; //매칭 시작시간
     consultTime: number; //상담시간
+    date: string; //매칭날짜
 }; // 채팅방 리스트
 
 const url = process.env.NEXT_PUBLIC_API_URL;

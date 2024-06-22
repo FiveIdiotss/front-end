@@ -15,6 +15,7 @@ type ChatStoreType = {
     isLoginMentor: boolean; //보내는 사람 멘토 여부{true:멘토, false:멘티}
     startTime: string; //매칭 시작시간
     consultTime: number; //상담시간
+    date: string; //매칭날짜
     latestMessageDTO: {
         content: string;
         hasImage: boolean;
@@ -40,6 +41,7 @@ type ChatStoreType = {
         isLoginMentor,
         startTime,
         consultTime,
+        date,
     }: {
         receiverId: number;
         boardTitle: string;
@@ -50,6 +52,7 @@ type ChatStoreType = {
         isLoginMentor: boolean;
         startTime: string;
         consultTime: number;
+        date: string;
     }) => void; //채팅방 정보 설정
 
     setChat: (chatList: Message) => void; //로컬에서 새로운 채팅리스트 추가
@@ -64,6 +67,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
     boardTitle: '',
     startTime: '',
     consultTime: 0,
+    date: '',
     loginId: undefined,
     loginName: '',
     isLoginMentor: false,
@@ -88,6 +92,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
         isLoginMentor,
         startTime,
         consultTime,
+        date,
     }: {
         receiverId: number;
         boardTitle: string;
@@ -98,6 +103,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
         isLoginMentor: boolean;
         startTime: string;
         consultTime: number;
+        date: string;
     }) => {
         set({
             receiverId,
