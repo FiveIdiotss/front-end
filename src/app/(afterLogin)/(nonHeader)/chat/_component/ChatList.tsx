@@ -126,7 +126,7 @@ function ChatList() {
                     <CategorySearch />
                 </div>
             </div>
-            <ul className="flex flex-col ">
+            <ul className="flex w-full flex-col ">
                 {users.map((user) => {
                     return <ChatListCard key={user.chatRoomId} user={user}></ChatListCard>;
                 })}

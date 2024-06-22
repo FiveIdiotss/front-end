@@ -26,29 +26,31 @@ function ChatItemContainer({ chat }: Props) {
     const isUserSentMessage = chat.senderId === loginId;
 
     return (
-        <div className={`flex ${isUserSentMessage ? 'flex-row-reverse' : 'flex-row'} gap-1 px-4 py-3`}>
+        <div className={`flex ${isUserSentMessage ? 'flex-row-reverse ' : 'flex-row'} w-full gap-1  px-4 py-3`}>
             {!isUserSentMessage && (
                 <div>
                     <Image
                         src={receiverImageUrl}
                         alt="avatar"
-                        className="rounded-2xl object-cover"
+                        className="flex-shrink-0 rounded-2xl object-cover"
                         width={40}
                         height={40}
                     />
                 </div>
             )}
-            <div className={`flex flex-col ${isUserSentMessage ? 'items-end' : 'items-start'} justify-center gap-1`}>
+            <div
+                className={`flex flex-col ${isUserSentMessage ? 'items-end' : 'items-start'} max-w-96   flex-grow justify-center gap-1 `}
+            >
                 {!isUserSentMessage && <span className="font-sans text-xs font-medium">{receiverName}</span>}
-                <div className="flex flex-row gap-1">
+                <div className={`flex  w-full   flex-grow flex-row gap-1 ${isUserSentMessage ? 'justify-end' : ''} `}>
                     <div
-                        className={`flex flex-col ${isUserSentMessage ? 'items-end ' : 'hidden items-start'} justify-end`}
+                        className={`flex flex-shrink-0 flex-col ${isUserSentMessage ? 'items-end ' : 'hidden items-start'} justify-end`}
                     >
                         <span className="font-sans text-xs font-normal">{dateTransform(chat.localDateTime)}</span>
                     </div>
                     <ChatItem isUserSentMessage={isUserSentMessage} chat={chat} isLoginMentor={isLoginMentor} />
                     <div
-                        className={`flex flex-col ${isUserSentMessage ? 'hidden items-end' : 'items-start'} justify-end`}
+                        className={`flex flex-shrink-0 flex-col ${isUserSentMessage ? 'hidden ' : 'items-start'} justify-end`}
                     >
                         <span className="font-sans text-xs font-normal">{dateTransform(chat.localDateTime)}</span>
                     </div>

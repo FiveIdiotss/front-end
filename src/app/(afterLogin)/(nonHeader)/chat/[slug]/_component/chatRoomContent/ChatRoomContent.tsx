@@ -144,7 +144,7 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
         return <Loading />;
     }
     return (
-        <div className="chatScroll    flex  w-full flex-grow flex-col overflow-y-scroll " ref={scrollContainerRef}>
+        <div className="chatScroll    flex   flex-grow flex-col overflow-y-scroll " ref={scrollContainerRef}>
             {/* 무한스크롤 옵저버 */}
             <div ref={ref} className={`flex w-full justify-center ${!hasNextPage ? 'hidden' : ''}  `}>
                 <div className="h-10 w-10">
