@@ -20,7 +20,7 @@ type ReceiverInfo = {
 };
 
 function StatusReceiverInfo() {
-    const { receiverId } = useChatStore();
+    const { receiverId, isLoginMentor } = useChatStore();
     const router = useRouter();
 
     const { data: receiverInfo, isPending } = useQuery({
@@ -43,6 +43,7 @@ function StatusReceiverInfo() {
 
     return (
         <div className="flex   w-full flex-col  	   pb-7 pt-4 ">
+            <span className="mb-4 font-semibold">{`${isLoginMentor ? '멘티 정보' : '멘토 정보'}`}</span>
             <div className=" flex w-full  flex-row items-center gap-3">
                 {/* 이미지필요 */}
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border-2  text-neutral-500 ">
