@@ -39,9 +39,16 @@ function ConfirmationModal({
                 <div className="text-md mt-2 text-center">{subTitle}</div>
                 <div>{description}</div>
                 <div className="mt-10 flex w-full flex-col justify-center gap-2  ">
-                    <button className="h-10  min-w-48 rounded-md bg-primary text-white" onClick={onClose}>
-                        {confirmButtonLabel ? confirmButtonLabel : '확인'}
-                    </button>
+                    {isLoading ? (
+                        <button className="h-10  min-w-48 rounded-md bg-primary text-white" onClick={onConfirm}>
+                            <Loading />
+                        </button>
+                    ) : (
+                        <button className="h-10  min-w-48 rounded-md bg-primary text-white" onClick={onConfirm}>
+                            확인
+                        </button>
+                    )}
+
                     <button className=" h-10  min-w-48 rounded-md bg-gray-300 text-white" onClick={onClose}>
                         취소
                     </button>
