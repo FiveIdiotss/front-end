@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import arrowIcon from '@/../public/arrow-right-double.svg';
 import Image from 'next/image';
 import PlusIcon from '../icon/PlusIcon';
+import EditIcon from '../icon/Menu/EditIcon';
 
 function HeaderRegist() {
     const [isHovered, setIsHovered] = useState(false);
@@ -12,11 +13,14 @@ function HeaderRegist() {
         <div onMouseLeave={() => setIsHovered(false)} className="flex h-full items-center">
             <div className="relative">
                 <button
-                    className={`flex h-10  w-36 shrink-0  cursor-pointer items-center justify-center gap-2     rounded-sm border border-neutral-300 px-4  transition-transform duration-200`}
+                    className={` hidden h-10 w-36  shrink-0 cursor-pointer items-center justify-center gap-2 rounded-sm border    border-neutral-300 px-4 transition-transform duration-200  mobile:flex  `}
                     onMouseEnter={() => setIsHovered(true)}
                 >
-                    <span className="  text-sm font-normal text-neutral-700  ">게시글 등록</span>
-                    <PlusIcon className="h-6 w-6" />
+                    <span className="   text-sm font-normal text-neutral-700   ">게시글 등록</span>
+                    <EditIcon className="h-5 w-5" />
+                </button>
+                <button className="ml-4 flex  h-full shrink-0 flex-row items-center gap-1 rounded-md border border-neutral-300   px-6   py-2  shadow-md mobile:hidden">
+                    <EditIcon className="h-5 w-5 text-primary" />
                 </button>
                 <div
                     className={`absolute     flex w-32 cursor-pointer flex-col   pt-2 ${isHovered ? ' transition-all duration-300 ease-in' : ''} ${isHovered ? ' max-h-44   opacity-100' : 'max-h-0  overflow-hidden opacity-0'}  `}

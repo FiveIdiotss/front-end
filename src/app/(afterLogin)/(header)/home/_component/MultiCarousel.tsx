@@ -6,34 +6,34 @@ type Props = {
 };
 function MultiCarousel({ children }: Props) {
     const responsive = {
+        // desktop: {
+        //     breakpoint: {
+        //         max: 3000,
+        //         min: 1801,
+        //     },
+        //     items: 5,
+        //     slidesToSlide: 5,
+        // },
+
         desktop: {
             breakpoint: {
                 max: 3000,
-                min: 1460,
-            },
-            items: 5,
-            slidesToSlide: 5,
-        },
-
-        tablet: {
-            breakpoint: {
-                max: 1459,
-                min: 1200,
+                min: 1401,
             },
             items: 4,
             slidesToSlide: 4,
         },
-        mobile: {
+        tablet: {
             breakpoint: {
-                max: 1199,
-                min: 600,
+                max: 1400,
+                min: 1101,
             },
             items: 3,
             slidesToSlide: 3,
         },
-        smallMobile: {
+        mobile: {
             breakpoint: {
-                max: 601,
+                max: 1100,
                 min: 0,
             },
             items: 2,
