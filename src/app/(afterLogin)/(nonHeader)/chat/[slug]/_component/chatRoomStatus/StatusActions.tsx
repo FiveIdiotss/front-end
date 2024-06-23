@@ -6,44 +6,51 @@ import ConsultDelayModal from './ConsultDelayModal';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
 import { set } from 'lodash';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
+import { useMutation } from '@tanstack/react-query';
+import Axios from '@/app/util/axiosInstance';
+import { pushNotification } from '@/app/util/pushNotification';
+import { AxiosError } from 'axios';
+import { ErrorResponse } from '@/app/Models/AxiosResponse';
 
 function StatusActions() {
-    const [modalOpen, setModalOpen] = useState(false);
-    const {} = useChatStore();
-    const { handleOpenModal, ConfirmationModalComponent } = useConfirmationModal({
-        onConfirm: () => {
-            console.log('confirm');
+    const { chatRoomId, isLoginMentor } = useChatStore();
+
+    const mutation = useMutation({
+        mutationFn: () => Axios.post(`/api/chat/extend/${chatRoomId}`),
+        onSuccess: () => {
+            pushNotification('상담 연장이 요청 되었습니다.', 'success', 'light');
         },
-        title: '상담 종료',
-        subTitle: '상담을 종료하시겠습니까?',
+        onError: (error: AxiosError<ErrorResponse>) => {
+            pushNotification('서버 에러', 'error', 'light');
+            console.error(error.response?.data);
+        },
     });
 
-    const delayModalOpen = () => {
-        setModalOpen(true);
-    };
-    const delayModalClose = () => {
-        setModalOpen(false);
-    };
+    const { handleOpenModal, ConfirmationModalComponent } = useConfirmationModal({
+        onConfirm: () => {
+            mutation.mutate();
+        },
+        title: '상담 연장',
+        subTitle: '상담을 연장하시겠습니까?',
+        description: '',
+        isPending: mutation.isPending,
+    });
+
+    if (isLoginMentor) {
+        return null;
+    }
 
     return (
         <>
-            <div className="flex flex-row   border-b py-8 ">
-                <button
-                    className=" mx-auto flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-md border border-neutral-300 bg-red-50 "
-                    onClick={handleOpenModal}
-                >
-                    <CloseIcon className="h-6 w-6 text-red-400" />
-                    <span className="text-sm text-red-400">상담종료</span>
-                </button>
+            <div className="flex flex-row   border-b py-8  ">
                 <button
                     className="mx-auto flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-md border border-neutral-300 bg-blue-50 "
-                    onClick={delayModalOpen}
+                    onClick={handleOpenModal}
                 >
                     <TimeExtendIcon className="h-6 w-6 text-blue-500" />
                     <span className="text-sm text-blue-500">상담연장</span>
                 </button>
             </div>
-            <ConsultDelayModal onClose={delayModalClose} open={modalOpen} />
             {ConfirmationModalComponent}
         </>
     );

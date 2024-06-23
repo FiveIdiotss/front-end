@@ -1,5 +1,5 @@
 import React from 'react';
-import { Message } from '../../../_lib/chatContentList';
+import { Message } from '../../_lib/chatContentList';
 import Link from 'next/link';
 import Image from 'next/image';
 import PdfIcon from '@/app/(afterLogin)/_component/icon/Chat/PdfIcon';
@@ -10,6 +10,7 @@ import PptIcon from '@/app/(afterLogin)/_component/icon/Chat/PptIcon';
 import ExcelIcon from '@/app/(afterLogin)/_component/icon/Chat/ExcelIcon';
 import ZipIcon from '@/app/(afterLogin)/_component/icon/Chat/ZipIcon';
 import NormalFile from '@/app/(afterLogin)/_component/icon/Chat/NormalFile';
+import SystemMessageItem from './systemMessage/SystemMessageItem';
 
 const noOfficeFileTypeMapping: { [key: string]: string } = {
     IMAGE: 'image',
@@ -67,8 +68,13 @@ const fileTypeToIcon: Record<FileType, React.JSX.Element> = {
 function isMessageType(value: string): value is FileType {
     return value in fileTypeToIcon;
 }
+type Props = {
+    chat: Message;
+    isUserSentMessage: boolean;
+    isLoginMentor: boolean;
+};
 
-function ChatItem({ chat, isSender }: { chat: Message; isSender: boolean }) {
+function ChatItem({ chat, isUserSentMessage, isLoginMentor }: Props) {
     const messageType = determineFileType(chat);
 
     if (messageType.type === 'noOffice') {
@@ -79,18 +85,18 @@ function ChatItem({ chat, isSender }: { chat: Message; isSender: boolean }) {
                         <Image
                             src={chat.fileURL}
                             alt="image"
-                            className={` object-cover ${isSender ? 'rounded-l-xl rounded-br-xl' : 'rounded-r-xl rounded-bl-xl'}`}
+                            className={` object-cover ${isUserSentMessage ? 'rounded-l-xl rounded-br-xl' : 'rounded-r-xl rounded-bl-xl'}`}
                             width={150}
                             height={120}
                         />
                     </Link>
                 )}
                 {messageType.value === 'text' && (
-                    <span
-                        className={`inline-block max-w-96 break-words ${isSender ? 'rounded-l-xl rounded-tr-xl bg-primary text-white' : 'rounded-r-xl rounded-bl-xl bg-neutral-200'} px-3 py-2 text-sm`}
+                    <p
+                        className={` inline-block min-w-0 max-w-72  overflow-auto   break-words ${isUserSentMessage ? 'rounded-l-xl rounded-tr-xl bg-primary text-white' : 'rounded-r-xl rounded-bl-xl bg-neutral-200'} px-3 py-2 text-sm`}
                     >
                         {chat.content}
-                    </span>
+                    </p>
                 )}
             </>
         );
@@ -101,7 +107,7 @@ function ChatItem({ chat, isSender }: { chat: Message; isSender: boolean }) {
             <Link
                 href={chat.fileURL}
                 target="_blank"
-                className={`flex w-64 flex-row  items-center  gap-3  rounded-md border-2  bg-indigo-50  p-2   ${isSender ? ' border-primary' : ' border-neutral-400 bg-neutral-200'}`}
+                className={`flex w-64 flex-row  items-center  gap-3  rounded-md border-2  bg-indigo-50  p-2   ${isUserSentMessage ? ' border-primary' : ' border-neutral-400 bg-neutral-200'}`}
             >
                 {fileTypeToIcon[messageType.value]}
 
@@ -115,39 +121,7 @@ function ChatItem({ chat, isSender }: { chat: Message; isSender: boolean }) {
     } //office관련 문서거나 unknown인 파일
 
     if (messageType.type === 'server') {
-        if (messageType.value === 'consultExtend') {
-            return (
-                <span
-                    className={`inline-block max-w-96 break-words ${isSender ? 'rounded-l-xl rounded-tr-xl bg-primary text-white' : 'rounded-r-xl rounded-bl-xl bg-neutral-200'} px-3 py-2 text-sm`}
-                >
-                    {chat.content}
-                </span>
-            );
-        } else if (messageType.value === 'consultExtendDecline') {
-            return (
-                <span
-                    className={`inline-block max-w-96 break-words ${isSender ? 'rounded-l-xl rounded-tr-xl bg-primary text-white' : 'rounded-r-xl rounded-bl-xl bg-neutral-200'} px-3 py-2 text-sm`}
-                >
-                    {chat.content}
-                </span>
-            );
-        } else if (messageType.value === 'consultExtendAccept') {
-            return (
-                <span
-                    className={`inline-block max-w-96 break-words ${isSender ? 'rounded-l-xl rounded-tr-xl bg-primary text-white' : 'rounded-r-xl rounded-bl-xl bg-neutral-200'} px-3 py-2 text-sm`}
-                >
-                    {chat.content}
-                </span>
-            );
-        } else {
-            return (
-                <span
-                    className={`inline-block max-w-96 break-words ${isSender ? 'rounded-l-xl rounded-tr-xl bg-primary text-white' : 'rounded-r-xl rounded-bl-xl bg-neutral-200'} px-3 py-2 text-sm`}
-                >
-                    {chat.content}
-                </span>
-            );
-        }
+        return <SystemMessageItem chat={chat} isUserSentMessage={isUserSentMessage} messageType={messageType} />;
     } //서버에서 보내는 Notification
 }
 
