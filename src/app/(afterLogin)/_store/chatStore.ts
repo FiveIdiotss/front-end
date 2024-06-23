@@ -4,7 +4,7 @@ import { Message } from '../(nonHeader)/chat/[slug]/_lib/chatContentList';
 
 type ChatStoreType = {
     //---------채팅방 정보----------
-    chatRoomId: number; //채팅방 아이디
+    chatRoomId: number | undefined; //채팅방 아이디
 
     receiverId: number | undefined; //받는 사람 아이디
     receiverName: string; //받는 사람 이름
@@ -42,6 +42,7 @@ type ChatStoreType = {
         startTime,
         consultTime,
         date,
+        chatRoomId,
     }: {
         receiverId: number;
         boardTitle: string;
@@ -53,6 +54,7 @@ type ChatStoreType = {
         startTime: string;
         consultTime: number;
         date: string;
+        chatRoomId: number;
     }) => void; //채팅방 정보 설정
 
     setChat: (chatList: Message) => void; //로컬에서 새로운 채팅리스트 추가
@@ -60,7 +62,7 @@ type ChatStoreType = {
     setChatReset: () => void; //채팅리스트 초기화
 };
 export const useChatStore = create<ChatStoreType>((set) => ({
-    chatRoomId: -1,
+    chatRoomId: undefined,
     receiverId: undefined,
     receiverName: '',
     receiverImageUrl: '',
@@ -93,6 +95,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
         startTime,
         consultTime,
         date,
+        chatRoomId,
     }: {
         receiverId: number;
         boardTitle: string;
@@ -104,6 +107,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
         startTime: string;
         consultTime: number;
         date: string;
+        chatRoomId: number;
     }) => {
         set({
             receiverId,
@@ -116,6 +120,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
             startTime,
             consultTime,
             date,
+            chatRoomId,
         });
     }, //채팅방 정보 설정
 

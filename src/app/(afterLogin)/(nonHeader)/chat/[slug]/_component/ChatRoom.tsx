@@ -35,6 +35,7 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
                     startTime: data.startTime,
                     consultTime: data.consultTime,
                     date: data.date,
+                    chatRoomId: data.chatRoomId,
                 });
             console.log('현제 채팅방 정보 조회', data);
         }
