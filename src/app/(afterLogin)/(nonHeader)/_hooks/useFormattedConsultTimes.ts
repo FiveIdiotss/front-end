@@ -32,7 +32,7 @@ export const useFormattedTime = () => {
     }; //분을 매개변수로 받으면 종료시간에서 연장될 분을 추가
 
     return {
-        formattedTime: formatTime(startTimeDate), // 포맷팅된 시작시간
+        formattedStartTime: formatTime(startTimeDate), // 포맷팅된 시작시간
         formattedEndTime: formatTime(endTimeDate), // 포맷팅된 종료시간
         formattedDate: formatDate(startTimeDate), // 포맷팅된 날짜
         formattedExtendedTime: addExtendedTime(endTimeDate), // 종료시간에서 연장될 분을 추가
