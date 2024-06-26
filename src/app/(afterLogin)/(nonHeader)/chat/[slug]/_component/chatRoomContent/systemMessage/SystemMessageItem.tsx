@@ -6,24 +6,24 @@ import MessageExtendConfirm from './MessageExtendConfirm';
 import SystemMessageContainer from './SystemMessageContainer';
 import Check2Icon from '@/app/(afterLogin)/_component/icon/Check2Icon';
 import CloseIcon from '@/app/(afterLogin)/_component/icon/CloseIcon';
+import { ServerValueType } from '../ChatItem';
 
 type Props = {
     chat: Message;
     isUserSentMessage: boolean;
     messageType: {
         type: string;
-        value: string;
+        value: ServerValueType;
     };
 };
 
 function SystemMessageItem({ chat, isUserSentMessage, messageType }: Props) {
-    const { isLoginMentor, receiverName, consultTime, startTime } = useChatStore();
-    const { formattedStartTime, formattedEndTime } = useFormattedTime(); // 상담 연장 시간 계산
+    const { isLoginMentor, completeExtendMessagesId } = useChatStore();
 
-    if (messageType.value === 'consultExtend') {
+    if (messageType.value === 'consultExtend' || messageType.value === 'consultExtendComplete') {
         return (
             <SystemMessageContainer>
-                <MessageExtendConfirm />
+                <MessageExtendConfirm chatId={chat.chatId} messageType={messageType} />
             </SystemMessageContainer>
         );
     } else if (messageType.value === 'consultExtendDecline') {
