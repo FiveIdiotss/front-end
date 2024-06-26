@@ -5,7 +5,7 @@ import PostsRequests from '../../posts/request/_component/PostsRequests';
 export default function HomeRequestsBoard() {
     return (
         <section className="flex w-full flex-col">
-            <Link className="mb-3 flex w-full flex-row items-end justify-between  " href="/posts/requests">
+            <Link className="mb-3 flex w-full flex-row items-end justify-between  " href="/posts/request">
                 <span className="text-xl font-medium text-neutral-700">멘토링 주제 요청</span>
                 {/* <ArrowRightIcon className="ml-1 h-7 w-7 text-neutral-700" /> */}
                 <span className="text-sm font-extralight text-neutral-600">더보기 +</span>
