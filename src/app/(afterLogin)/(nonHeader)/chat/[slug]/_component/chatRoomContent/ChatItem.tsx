@@ -11,14 +11,37 @@ import ExcelIcon from '@/app/(afterLogin)/_component/icon/Chat/ExcelIcon';
 import ZipIcon from '@/app/(afterLogin)/_component/icon/Chat/ZipIcon';
 import NormalFile from '@/app/(afterLogin)/_component/icon/Chat/NormalFile';
 import SystemMessageItem from './systemMessage/SystemMessageItem';
+type ValueType =
+    | 'pdf'
+    | 'doc'
+    | 'hwp'
+    | 'ppt'
+    | 'xls'
+    | 'zip'
+    | 'unknown'
+    | 'image'
+    | 'text'
+    | 'video'
+    | 'consultExtend'
+    | 'consultExtendDecline'
+    | 'consultExtendAccept'
+    | 'consultExtendComplete';
 
-const noOfficeFileTypeMapping: { [key: string]: string } = {
+type NoOfficeValueType = 'image' | 'text' | 'video';
+type OfficeValueType = 'pdf' | 'doc' | 'hwp' | 'ppt' | 'excel' | 'zip' | 'unknown';
+export type ServerValueType =
+    | 'consultExtend'
+    | 'consultExtendDecline'
+    | 'consultExtendAccept'
+    | 'consultExtendComplete';
+
+const noOfficeFileTypeMapping: { [key: string]: NoOfficeValueType } = {
     IMAGE: 'image',
     TEXT: 'text',
     VIDEO: 'video',
     //기본
 };
-const officeFileTypeMapping: { [key: string]: string } = {
+const officeFileTypeMapping: { [key: string]: OfficeValueType } = {
     pdf: 'pdf',
     doc: 'doc',
     docx: 'doc',
@@ -31,15 +54,21 @@ const officeFileTypeMapping: { [key: string]: string } = {
     unknown: 'unknown',
     //이미지, 메시지,비디오 빼고 파일들
 };
-const serverMessageTypeMapping: { [key: string]: string } = {
+const serverMessageTypeMapping: { [key: string]: ServerValueType } = {
     CONSULT_EXTEND: 'consultExtend',
     CONSULT_EXTEND_DECLINE: 'consultExtendDecline',
     CONSULT_EXTEND_ACCEPT: 'consultExtendAccept',
+    CONSULT_EXTEND_COMPLETE: 'consultExtendComplete',
 
     //서버에서 보내는 상담 연장 메시지
 };
 
-function determineFileType(chat: Message) {
+function determineFileType(
+    chat: Message,
+):
+    | { type: 'noOffice'; value: NoOfficeValueType }
+    | { type: 'office'; value: OfficeValueType }
+    | { type: 'server'; value: ServerValueType } {
     if (noOfficeFileTypeMapping[chat.messageType]) {
         return { type: 'noOffice', value: noOfficeFileTypeMapping[chat.messageType] };
     } else if (serverMessageTypeMapping[chat.messageType]) {
