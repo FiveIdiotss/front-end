@@ -10,6 +10,7 @@ function RequestFormPage() {
     const titleRef = useRef<HTMLInputElement>(null);
     const postMutation = useRequestMutation();
     const [content, setContent] = useState<string>('');
+    const [mainImage, setMainImage] = useState<File[]>([]);
 
     const debouncedHandleSubmit = useCallback(
         debounce((value: string) => {
@@ -32,10 +33,18 @@ function RequestFormPage() {
             return;
         }
         postMutation.mutate({
-            title: titleRef.current?.value,
-            content: content,
-            boardCategory: categoryRef.current?.value,
+            request: {
+                title: titleRef.current?.value,
+                content: content,
+                boardCategory: categoryRef.current?.value,
+                subBoardType: 'REQUEST',
+                platform: 'WEB',
+            },
+            images: [],
         });
+    };
+    const handleMainImage = async (file: File) => {
+        setMainImage([...mainImage, file]);
     };
 
     useEffect(() => {
@@ -65,11 +74,11 @@ function RequestFormPage() {
             </select>
             <input
                 ref={titleRef}
-                className="mt-6 w-full bg-inherit text-2xl outline-none"
+                className="mb-3 mt-6 w-full bg-inherit text-2xl outline-none"
                 placeholder="제목에 핵심 내용을 요약해보세요."
             />
             {/* <QuestRequestEditor content={content} setContent={debouncedHandleSubmit} /> */}
-            <QuillEditor setContent={debouncedHandleSubmit} />
+            <QuillEditor setContent={debouncedHandleSubmit} content={content} setMainImage={handleMainImage} />
 
             <SubmitButton cancelUrl="/post" onSubmit={onSubmit} isLoading={postMutation.isPending} />
         </div>

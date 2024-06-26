@@ -42,6 +42,7 @@ function QuestFormPage() {
                 content: content,
                 boardCategory: categoryRef.current?.value,
                 subBoardType: 'QUEST',
+                platform: 'WEB',
             },
 
             images: mainImage,
@@ -54,7 +55,9 @@ function QuestFormPage() {
     useEffect(() => {
         console.log('content', content);
     }, [content]);
-
+    useEffect(() => {
+        console.log('mainImage', mainImage);
+    }, [mainImage]);
     return (
         <div className="flex w-full flex-col pb-36">
             <div className=" mt-10 flex h-14 flex-row items-center justify-center rounded-lg bg-indigo-100">
@@ -79,7 +82,7 @@ function QuestFormPage() {
             </select>
             <input
                 ref={titleRef}
-                className="mt-6 w-full bg-inherit text-2xl outline-none"
+                className="mb-3 mt-6 w-full bg-inherit text-2xl outline-none"
                 placeholder="제목에 핵심 내용을 요약해보세요."
             />
             {/* <QuestRequestEditor content={content} setContent={debouncedHandleSubmit} /> */}

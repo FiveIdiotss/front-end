@@ -11,6 +11,7 @@ type newPostFormData = {
         times: { startTime: string; endTime: string }[];
         availableDays: string[];
         boardCategory: string;
+        platform: 'WEB' | 'APP';
     };
     images: File[];
 };
@@ -28,6 +29,7 @@ const postMentor = async ({ request, images }: newPostFormData) => {
                 times: request.times,
                 availableDays: request.availableDays,
                 boardCategory: request.boardCategory,
+                platform: request.platform,
             }),
         ],
         { type: 'application/json' },
@@ -35,7 +37,7 @@ const postMentor = async ({ request, images }: newPostFormData) => {
     formData.append('request', requestBlob);
 
     if (images.length > 0) {
-        formData.append('images', JSON.stringify(images));
+        formData.append('images', images[0]);
     }
 
     try {

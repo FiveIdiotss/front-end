@@ -19,13 +19,14 @@ type QuestRequestType = {
         title: string;
         content: string;
         boardCategory: string;
-        subBoardType: string;
+        subBoardType: 'QUEST' | 'REQUEST';
+        platform: 'WEB' | 'APP';
     };
 
     images: File[] | [];
 };
 
-const postQuest = async (data: QuestRequestType) => {
+const postQuestRequest = async (data: QuestRequestType) => {
     const formData = new FormData();
     const requestBlob = new Blob(
         [
@@ -34,6 +35,7 @@ const postQuest = async (data: QuestRequestType) => {
                 content: data.request.content,
                 boardCategory: data.request.boardCategory,
                 subBoardType: data.request.subBoardType,
+                platform: data.request.platform,
             }),
         ],
         { type: 'application/json' },
@@ -42,13 +44,13 @@ const postQuest = async (data: QuestRequestType) => {
 
     // Append each image in the data.images array to formData
     if (data.images.length > 0) {
-        formData.append('images', JSON.stringify(data.images));
+        console.log('data.images', data.images);
+        formData.append('images', data.images[0]);
     }
-    console.log('formData', formData.get('request'));
-    console.log('formData', formData.get('images[0]'));
+    console.log('formData', formData.get('images'));
 
     try {
-        const response = await Axios.post('/api/android/subBoard', formData, {
+        const response = await Axios.post('/api/subBoard', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -59,16 +61,12 @@ const postQuest = async (data: QuestRequestType) => {
         throw error;
     }
 };
-const postRequest = async (data: QuestRequestType) => {
-    const response = await Axios.post('/api/requestBoard', data);
-    return response.data.data;
-};
 
 export const useQuestMutation = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: (data: QuestRequestType) => postQuest(data),
+        mutationFn: (data: QuestRequestType) => postQuestRequest(data),
         onSuccess: (data, variable) => {
             queryClient.invalidateQueries({
                 queryKey: ['posts', 'quests'],
@@ -82,13 +80,13 @@ export const useQuestMutation = () => {
         },
     });
     return mutation;
-};
+}; //질문 게시판 등록
 
 export const useRequestMutation = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: (data: QuestRequestType) => postRequest(data),
+        mutationFn: (data: QuestRequestType) => postQuestRequest(data),
         onSuccess: (data, variable) => {
             queryClient.invalidateQueries({
                 queryKey: ['posts', 'requests'],
@@ -102,4 +100,4 @@ export const useRequestMutation = () => {
         },
     });
     return mutation;
-};
+}; //요청 게시판 등록
