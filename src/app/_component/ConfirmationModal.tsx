@@ -45,7 +45,7 @@ function ConfirmationModal({
                         </button>
                     ) : (
                         <button className="h-10  min-w-48 rounded-md bg-primary text-white" onClick={onConfirm}>
-                            확인
+                            {confirmButtonLabel || '확인'}
                         </button>
                     )}
 
