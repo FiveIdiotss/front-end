@@ -9,7 +9,6 @@ import UpListsIcon from '@/app/(afterLogin)/_component/icon/UpListsIcon';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.

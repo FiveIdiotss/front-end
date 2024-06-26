@@ -22,6 +22,8 @@ type ChatStoreType = {
         localDateTime: string;
     }; //마지막 메시지에대한 정보
 
+    completeExtendMessagesId: number[];
+
     //---------채팅리스트 정보----------
     chatList: Message[];
     isSending: boolean;
@@ -60,6 +62,8 @@ type ChatStoreType = {
     setChat: (chatList: Message) => void; //로컬에서 새로운 채팅리스트 추가
     setChatList: (chatList: Message[]) => void; //서버에서 새로운 채팅리스트 추가
     setChatReset: () => void; //채팅리스트 초기화
+    setCompleteExtendMessagesId: (id: number) => void;
+    setAddConsultTime: (consultTime: number) => void;
 };
 export const useChatStore = create<ChatStoreType>((set) => ({
     chatRoomId: undefined,
@@ -83,6 +87,7 @@ export const useChatStore = create<ChatStoreType>((set) => ({
     isSending: false,
     isReceiving: false,
     image: '', //채팅리스트 정보
+    completeExtendMessagesId: [],
 
     setUserInformation: ({
         receiverId,
@@ -141,4 +146,14 @@ export const useChatStore = create<ChatStoreType>((set) => ({
     setChatReset: () => {
         set({ chatList: [] });
     }, //채팅리스트 초기화
+    setCompleteExtendMessagesId: (id: number) => {
+        set((state) => ({
+            completeExtendMessagesId: [...state.completeExtendMessagesId, id],
+        }));
+    },
+    setAddConsultTime: (consultTime: number) => {
+        set((state) => ({
+            consultTime: state.consultTime + consultTime,
+        }));
+    },
 }));

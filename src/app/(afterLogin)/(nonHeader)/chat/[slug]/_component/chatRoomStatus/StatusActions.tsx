@@ -16,12 +16,9 @@ function StatusActions() {
     const { chatRoomId, isLoginMentor } = useChatStore();
 
     const mutation = useMutation({
-        mutationFn: () => Axios.post(`/api/chat/extend/${chatRoomId}`),
-        onSuccess: () => {
-            pushNotification('상담 연장이 요청 되었습니다.', 'success', 'light');
-        },
+        mutationFn: () => Axios.post(`/api/chat/extend/request/${chatRoomId}`),
         onError: (error: AxiosError<ErrorResponse>) => {
-            pushNotification('서버 에러', 'error', 'light');
+            pushNotification(error.response?.data.message || '서버에러', 'error', 'light');
             console.error(error.response?.data);
         },
     });
