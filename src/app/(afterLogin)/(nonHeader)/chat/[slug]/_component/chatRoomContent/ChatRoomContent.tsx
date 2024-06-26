@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
-import { v4 as uuidv4 } from 'uuid';
 import { DefaultError, InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
@@ -161,7 +160,7 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
                             ref={chatList.length - index === 3 ? isMessageInViewRef : null}
                             className={`${chatList.length - index === 3 ? '' : 'hidden'}`}
                         />
-                        <ChatItemContainer key={uuidv4()} chat={chat} />
+                        <ChatItemContainer key={chat.chatId} chat={chat} />
                     </>
                 );
             })}
