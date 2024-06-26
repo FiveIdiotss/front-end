@@ -77,7 +77,7 @@ export default function EmailVerificationInput({
             const checkRes = await axios.post(`${url}/api/email/verify`, data); //이메일 인증코드 확인
             console.log(checkRes.data);
             if (checkRes.data.success === false) {
-                setCodeError('유효하지 않은 인증코드 입니다.');
+                setCodeError(checkRes.data.message);
                 setLoading(false);
                 return;
             }
