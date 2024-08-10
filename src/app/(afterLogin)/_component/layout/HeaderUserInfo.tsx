@@ -33,7 +33,7 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
                 </div>
 
                 <div
-                    className={`absolute  right-0 top-12 flex    flex-col  ${isHovered ? ' transition-all duration-300 ease-in' : ''} ${
+                    className={`absolute  right-0 top-12 flex    flex-col  ${isHovered ? ' transition-all duration-200 ease-in' : ''} ${
                         isHovered ? ' max-h-[1000px] w-fit  opacity-100' : 'max-h-0  w-0 overflow-hidden opacity-0'
                     }  `}
                 >

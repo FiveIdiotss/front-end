@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import HeartIcon from '../icon/HeartIcon';
 import ChatIcon from '../icon/ChatIcon';
 
 function HeaderUserChat() {
@@ -23,11 +22,11 @@ function HeaderUserChat() {
                 <div className="relative h-8  w-8 shrink-0 ">
                     <a onClick={() => openChatInPopup('/chat')}>
                         <ChatIcon className="cursor-pointer p-1 text-neutral-800 text-opacity-80  hover:text-primary" />
-                        <div className="absolute -right-[1px] top-0 flex h-4 w-4 items-center justify-center rounded-full bg-pink-500 bg-opacity-95 text-xs font-light text-white ">{`1`}</div>
+                        {/* <div className="absolute -right-[1px] top-0 flex h-4 w-4 items-center justify-center rounded-full bg-pink-500 bg-opacity-95 text-xs font-light text-white ">{`1`}</div> */}
                     </a>
                 </div>
 
-                <div
+                {/* <div
                     className={`absolute  -right-2 top-12 flex w-fit  flex-col  hover:cursor-default ${isHovered ? ' transition-all duration-300 ease-in' : ''} ${
                         isHovered ? ' max-h-[1000px]   opacity-100' : 'max-h-0 w-0  overflow-hidden opacity-0'
                     }  `}
@@ -37,7 +36,7 @@ function HeaderUserChat() {
                             <span className="text-sm font-semibold text-neutral-500">채팅</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
