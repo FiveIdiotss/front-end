@@ -5,8 +5,8 @@ import { DefaultError, InfiniteData, useInfiniteQuery, useQuery, useQueryClient 
 import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
 import Loading from '@/app/_component/Loading';
-import DotLoadingIcon from '@/app/_icons/icon/DotLoadingIcon';
-import ArrowDropIcon from '@/app/_icons/icon/ArrowDropIcon';
+import DotLoadingIcon from '@/app/_icons/common/DotLoadingIcon';
+import ArrowDropIcon from '@/app/_icons/common/ArrowDropIcon';
 import ChatItemContainer from './ChatItemContainer';
 
 function ChatRoomContent({ roomId }: { roomId: number }) {

@@ -3,7 +3,7 @@ import NonStandardModal from '@/app/(afterLogin)/_component/common/NonStandardMo
 import React, { use, useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import ImageIcon from '@/app/_icons/icon/ImageIcon';
+import ImageIcon from '@/app/_icons/common/ImageIcon';
 import { useMutation } from '@tanstack/react-query';
 import { postDefaultImage, postImageData } from '../_lib/profileImageChange';
 import { updateSessionImage } from '../_lib/updateSession';

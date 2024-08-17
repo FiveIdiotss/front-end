@@ -4,7 +4,7 @@ import PdfIcon from '@/app/_icons/Chat/PdfIcon';
 import PptIcon from '@/app/_icons/Chat/PptIcon';
 import WordIcon from '@/app/_icons/Chat/WordIcon';
 import ZipIcon from '@/app/_icons/Chat/ZipIcon';
-import FileIcon from '@/app/_icons/icon/FileIcon';
+import FileIcon from '@/app/_icons/common/FileIcon';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';

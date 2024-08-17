@@ -1,5 +1,5 @@
 import React from 'react';
-import HeartIcon from '../../_icons/icon/HeartIcon';
+import HeartIcon from '../../_icons/common/HeartIcon';
 import EngineeringIcon from '../../_icons/Category/EngineeringIcon';
 import EducationIcon from '../../_icons/Category/EducationIcon';
 import SocialIcon from '../../_icons/Category/SocialIcon';

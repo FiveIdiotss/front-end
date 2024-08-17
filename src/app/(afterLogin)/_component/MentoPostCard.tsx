@@ -1,6 +1,6 @@
 'use client';
 import SectionDivider from './SectionDivider';
-import HeartIcon from '../../_icons/icon/HeartIcon';
+import HeartIcon from '../../_icons/common/HeartIcon';
 import { useAddBookmarkMutation, useDeleteBookmarkMutation } from '../_lib/BookmarkService';
 import { pushNotification } from '@/app/util/pushNotification';
 import Axios from '@/app/util/axiosInstance';

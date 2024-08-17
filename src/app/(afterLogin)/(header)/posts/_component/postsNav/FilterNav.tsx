@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import CategorySearch from './CategorySearch';
 
-import Check2Icon from '@/app/_icons/icon/Check2Icon';
+import Check2Icon from '@/app/_icons/common/Check2Icon';
 import CategorySelector from './CategorySelector';
 import CategorySchoolSelector from './CategorySchoolSelector';
 import { usePathname } from 'next/navigation';

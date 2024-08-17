@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import arrowIcon from '@/../public/arrow-right-double.svg';
 import Image from 'next/image';
-import PlusIcon from '../../../_icons/icon/PlusIcon';
+import PlusIcon from '../../../_icons/common/PlusIcon';
 import EditIcon from '../../../_icons/Menu/EditIcon';
 
 function HeaderRegist() {

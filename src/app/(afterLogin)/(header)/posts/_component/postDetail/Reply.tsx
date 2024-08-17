@@ -1,8 +1,8 @@
-import ResetIcon from '@/app/_icons/icon/ResetIcon';
+import ResetIcon from '@/app/_icons/common/ResetIcon';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
 import { getReplies, usePostReplyMutation } from '../../_lib/reply';
-import DotLoadingIcon from '@/app/_icons/icon/DotLoadingIcon';
+import DotLoadingIcon from '@/app/_icons/common/DotLoadingIcon';
 import ReplyCard from './ReplyCard';
 import ConfirmationModal from '@/app/_component/ConfirmationModal';
 type Reply = {

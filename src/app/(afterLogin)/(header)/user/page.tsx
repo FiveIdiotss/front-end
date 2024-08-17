@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { auth } from '@/auth';
-import PencilIcon from '../../../_icons/icon/PencilIcon';
+import PencilIcon from '../../../_icons/common/PencilIcon';
 import SectionDivider from '../../_component/SectionDivider';
 import ProfileDashBoard from './_component/ProfileDashBoard/ProfileDashBoard';
 

@@ -1,4 +1,4 @@
-import BookIcon from '../../../_icons/icon/BookIcon';
+import BookIcon from '../../../_icons/common/BookIcon';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (

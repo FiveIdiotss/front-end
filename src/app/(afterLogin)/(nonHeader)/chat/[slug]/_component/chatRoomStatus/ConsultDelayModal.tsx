@@ -1,5 +1,5 @@
 import NonStandardModal from '@/app/(afterLogin)/_component/common/NonStandardModal';
-import WarnningCircle from '@/app/_icons/icon/WarnningCircle';
+import WarnningCircle from '@/app/_icons/common/WarnningCircle';
 import React from 'react';
 
 type Props = {

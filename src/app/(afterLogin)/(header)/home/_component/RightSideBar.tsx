@@ -1,5 +1,5 @@
 import React from 'react';
-import HotIcon from '../../../../_icons/icon/HotIcon';
+import HotIcon from '../../../../_icons/common/HotIcon';
 import Image from 'next/image';
 import { faker } from '@faker-js/faker';
 const HOT_TAGS = ['컴퓨터', 'Next.js', '애견', '호텔', '생물', '개발자', '면접', '취업', '편입'];

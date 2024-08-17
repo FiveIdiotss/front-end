@@ -4,7 +4,7 @@ import send from '@/../public/chat/send.svg';
 import Image from 'next/image';
 import { Client } from '@stomp/stompjs';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
-import ClipIcon from '@/app/_icons/icon/ClipIcon';
+import ClipIcon from '@/app/_icons/common/ClipIcon';
 import { Message } from '../_lib/chatContentList';
 
 function ChatInputForm({ roomId }: { roomId: number }) {

@@ -2,7 +2,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
-import SchoolIcon from '@/app/_icons/icon/SchoolIcon';
+import SchoolIcon from '@/app/_icons/common/SchoolIcon';
 import Image from 'next/image';
 import Loading from '@/app/_component/Loading';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';

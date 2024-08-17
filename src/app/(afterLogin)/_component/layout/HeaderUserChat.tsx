@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import ChatIcon from '../../../_icons/icon/ChatIcon';
+import ChatIcon from '../../../_icons/common/ChatIcon';
 
 function HeaderUserChat() {
     const [isHovered, setIsHovered] = React.useState(false);

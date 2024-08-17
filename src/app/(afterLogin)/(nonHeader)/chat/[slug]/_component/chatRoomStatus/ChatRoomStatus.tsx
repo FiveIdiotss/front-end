@@ -1,7 +1,7 @@
-import Check2Icon from '@/app/_icons/icon/Check2Icon';
+import Check2Icon from '@/app/_icons/common/Check2Icon';
 import React, { useState } from 'react';
 import StatusReceiverInfo from './StatusReceiverInfo';
-import TimeExtendIcon from '@/app/_icons/icon/TimeExtendIcon';
+import TimeExtendIcon from '@/app/_icons/common/TimeExtendIcon';
 import StatusActions from './StatusActions';
 import StatusMoreDetails from './StatusMoreDetails';
 

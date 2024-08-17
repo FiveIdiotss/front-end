@@ -1,6 +1,6 @@
 'use client';
-import ArrowLeftBackIcon from '@/app/_icons/icon/ArrowLeftBackIcon';
-import ListIcon from '@/app/_icons/icon/ListIcon';
+import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
+import ListIcon from '@/app/_icons/common/ListIcon';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';

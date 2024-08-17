@@ -1,5 +1,5 @@
 'use client';
-import FaChevronRight from '@/app/_icons/icon/chevronRight';
+import FaChevronRight from '@/app/_icons/common/chevronRight';
 import { MentoringReq, MentoringReqData } from '../../_lib/mentoringReq';
 import MentoringRequestDetailReview from './RequestDetailReview';
 import { useState } from 'react';

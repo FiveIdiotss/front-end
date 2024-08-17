@@ -2,7 +2,7 @@
 import React from 'react';
 import { CATEGORY_LIST as list } from '@/app/(afterLogin)/utils/categoryConstants';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import Check2Icon from '@/app/_icons/icon/Check2Icon';
+import Check2Icon from '@/app/_icons/common/Check2Icon';
 
 function CategorySelectorList() {
     const CATEGORY_LIST = list.filter((category) => category.name !== '북마크');

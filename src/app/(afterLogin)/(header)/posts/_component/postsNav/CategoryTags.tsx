@@ -1,6 +1,6 @@
 'use client';
-import Check2Icon from '@/app/_icons/icon/Check2Icon';
-import FilterIcon from '@/app/_icons/icon/FilterIcon';
+import Check2Icon from '@/app/_icons/common/Check2Icon';
+import FilterIcon from '@/app/_icons/common/FilterIcon';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 

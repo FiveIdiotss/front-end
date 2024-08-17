@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import PropTypes from 'prop-types';
-import RefreshIcon from '../_icons/icon/RefreshIcon';
+import RefreshIcon from '../_icons/common/RefreshIcon';
 import Image from 'next/image';
 import fixImage from '@/../public/fixImage.png';
 
