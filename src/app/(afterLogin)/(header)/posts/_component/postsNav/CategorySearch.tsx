@@ -1,10 +1,10 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
 import SectionDivider from '@/app/(afterLogin)/_component/SectionDivider';
-import SearchIcon from '@/app/(afterLogin)/_component/icon/SearchIcon';
+import SearchIcon from '@/app/_icons/icon/SearchIcon';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { debounce } from 'lodash';
-import DotLoadingIcon from '@/app/(afterLogin)/_component/icon/DotLoadingIcon';
+import DotLoadingIcon from '@/app/_icons/icon/DotLoadingIcon';
 
 function CategorySearch() {
     const [isFocused, setIsFocused] = useState(false);

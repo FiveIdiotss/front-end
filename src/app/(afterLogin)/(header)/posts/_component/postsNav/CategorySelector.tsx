@@ -1,6 +1,6 @@
 'use client';
-import ArrowDropIcon from '@/app/(afterLogin)/_component/icon/ArrowDropIcon';
-import CloseIcon from '@/app/(afterLogin)/_component/icon/CloseIcon';
+import ArrowDropIcon from '@/app/_icons/icon/ArrowDropIcon';
+import CloseIcon from '@/app/_icons/icon/CloseIcon';
 import React from 'react';
 import { CloseButton } from 'react-toastify';
 import CategorySelectorList from './CategorySelectorList';

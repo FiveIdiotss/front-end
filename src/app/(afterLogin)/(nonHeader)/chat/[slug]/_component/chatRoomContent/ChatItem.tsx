@@ -2,14 +2,14 @@ import React from 'react';
 import { Message } from '../../_lib/chatContentList';
 import Link from 'next/link';
 import Image from 'next/image';
-import PdfIcon from '@/app/(afterLogin)/_component/icon/Chat/PdfIcon';
-import DownLoadIcon from '@/app/(afterLogin)/_component/icon/Chat/DownLoadIcon';
-import WordIcon from '@/app/(afterLogin)/_component/icon/Chat/WordIcon';
-import HwpIcon from '@/app/(afterLogin)/_component/icon/Chat/HwpIcon';
-import PptIcon from '@/app/(afterLogin)/_component/icon/Chat/PptIcon';
-import ExcelIcon from '@/app/(afterLogin)/_component/icon/Chat/ExcelIcon';
-import ZipIcon from '@/app/(afterLogin)/_component/icon/Chat/ZipIcon';
-import NormalFile from '@/app/(afterLogin)/_component/icon/Chat/NormalFile';
+import PdfIcon from '@/app/_icons/Chat/PdfIcon';
+import DownLoadIcon from '@/app/_icons/Chat/DownLoadIcon';
+import WordIcon from '@/app/_icons/Chat/WordIcon';
+import HwpIcon from '@/app/_icons/Chat/HwpIcon';
+import PptIcon from '@/app/_icons/Chat/PptIcon';
+import ExcelIcon from '@/app/_icons/Chat/ExcelIcon';
+import ZipIcon from '@/app/_icons/Chat/ZipIcon';
+import NormalFile from '@/app/_icons/Chat/NormalFile';
 import SystemMessageItem from './systemMessage/SystemMessageItem';
 type ValueType =
     | 'pdf'

@@ -1,4 +1,4 @@
-import LikeIcon from '@/app/(afterLogin)/_component/icon/LikeIcon';
+import LikeIcon from '@/app/_icons/icon/LikeIcon';
 import React from 'react';
 import { OpenQuestionType } from '../../_lib/qeustsRequest';
 import Image from 'next/image';

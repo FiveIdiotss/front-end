@@ -1,5 +1,5 @@
-import ArrowLeftBackIcon from '@/app/(afterLogin)/_component/icon/ArrowLeftBackIcon';
-import ListIcon from '@/app/(afterLogin)/_component/icon/ListIcon';
+import ArrowLeftBackIcon from '@/app/_icons/icon/ArrowLeftBackIcon';
+import ListIcon from '@/app/_icons/icon/ListIcon';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 

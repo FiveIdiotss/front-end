@@ -2,13 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import CategorySearch from './CategorySearch';
 
-import Check2Icon from '@/app/(afterLogin)/_component/icon/Check2Icon';
-import FilterIcon from '@/app/(afterLogin)/_component/icon/FilterIcon';
+import Check2Icon from '@/app/_icons/icon/Check2Icon';
 import CategorySelector from './CategorySelector';
 import CategorySchoolSelector from './CategorySchoolSelector';
 import { usePathname } from 'next/navigation';
 import CategoryTags from './CategoryTags';
-import useScroll from '@/app/util/useScroll';
 
 const ACCESS_URL_LIST: string[] = ['/posts/mentor', '/posts/request', '/posts/quest'];
 

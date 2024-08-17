@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Notification from '../icon/Notification';
+import Notification from '../../../_icons/icon/Notification';
 import { useQuery } from '@tanstack/react-query';
 import { getPushCount } from '../../_lib/PushService';
 import NotificationList from './NotificationList';
-import CloseIcon from '../icon/CloseIcon';
+import CloseIcon from '../../../_icons/icon/CloseIcon';
 
 function HeaderUserNotification() {
     const [isHovered, setIsHovered] = useState(false);

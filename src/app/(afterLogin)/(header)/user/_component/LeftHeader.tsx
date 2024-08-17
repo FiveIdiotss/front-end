@@ -2,8 +2,8 @@
 import { auth } from '@/auth';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import PencilIcon from '@/app/(afterLogin)/_component/icon/PencilIcon';
-import LogoutIcon from '@/app/(afterLogin)/_component/icon/LogoutIcon';
+import PencilIcon from '@/app/_icons/icon/PencilIcon';
+import LogoutIcon from '@/app/_icons/icon/LogoutIcon';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';

@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchIcon from '@/app/(afterLogin)/_component/icon/SearchIcon';
+import SearchIcon from '@/app/_icons/icon/SearchIcon';
 import SectionDivider from '@/app/(afterLogin)/_component/SectionDivider';
 
 function UserFilter({ title }: { title: string }) {

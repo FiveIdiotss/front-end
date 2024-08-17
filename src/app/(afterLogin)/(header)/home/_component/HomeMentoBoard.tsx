@@ -7,7 +7,7 @@ import MultiCarousel from './MultiCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMentorPosts } from '../../posts/mentor/_lib/posts';
 import { MentoPostsType } from '../../../Models/mentoPostsType';
-import DotLoadingIcon from '../../../_component/icon/DotLoadingIcon';
+import DotLoadingIcon from '../../../../_icons/icon/DotLoadingIcon';
 
 export default function HomeMentoBoard() {
     const [mouseDownPosition, setMouseDownPosition] = useState({ x: 0, y: 0 });

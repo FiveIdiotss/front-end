@@ -1,6 +1,6 @@
 'use client';
-import CloseIcon from '@/app/(afterLogin)/_component/icon/CloseIcon';
-import TimeExtendIcon from '@/app/(afterLogin)/_component/icon/TimeExtendIcon';
+import CloseIcon from '@/app/_icons/icon/CloseIcon';
+import TimeExtendIcon from '@/app/_icons/icon/TimeExtendIcon';
 import React, { useState } from 'react';
 import ConsultDelayModal from './ConsultDelayModal';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';

@@ -2,10 +2,10 @@
 import React, { use, useState } from 'react';
 import Image from 'next/image';
 import { ChatRoomType } from '../_lib/chatRooms';
-import ArrowRightIcon from '@/app/(afterLogin)/_component/icon/ArrowRightIcon';
+import ArrowRightIcon from '@/app/_icons/icon/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
-import DownListsIcon from '@/app/(afterLogin)/_component/icon/DownListsIcon';
-import UpListsIcon from '@/app/(afterLogin)/_component/icon/UpListsIcon';
+import DownListsIcon from '@/app/_icons/icon/DownListsIcon';
+import UpListsIcon from '@/app/_icons/icon/UpListsIcon';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';

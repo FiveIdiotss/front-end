@@ -4,8 +4,7 @@ import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import { useFormattedTime } from '@/app/(afterLogin)/(nonHeader)/_hooks/useFormattedConsultTimes';
 import MessageExtendConfirm from './MessageExtendConfirm';
 import SystemMessageContainer from './SystemMessageContainer';
-import Check2Icon from '@/app/(afterLogin)/_component/icon/Check2Icon';
-import CloseIcon from '@/app/(afterLogin)/_component/icon/CloseIcon';
+import Check2Icon from '@/app/_icons/icon/Check2Icon';
 import { ServerValueType } from '../ChatItem';
 
 type Props = {

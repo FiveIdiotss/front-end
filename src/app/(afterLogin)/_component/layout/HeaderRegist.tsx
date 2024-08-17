@@ -3,8 +3,8 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import arrowIcon from '@/../public/arrow-right-double.svg';
 import Image from 'next/image';
-import PlusIcon from '../icon/PlusIcon';
-import EditIcon from '../icon/Menu/EditIcon';
+import PlusIcon from '../../../_icons/icon/PlusIcon';
+import EditIcon from '../../../_icons/Menu/EditIcon';
 
 function HeaderRegist() {
     const [isHovered, setIsHovered] = useState(false);

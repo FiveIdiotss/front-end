@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
 import { getPushList } from '../../_lib/PushService';
 import Image from 'next/image';
-import CloseIcon from '../icon/CloseIcon';
+import CloseIcon from '../../../_icons/icon/CloseIcon';
 import Loading from '@/app/_component/Loading';
 import Link from 'next/link';
 

@@ -1,4 +1,4 @@
-import LikeIcon from '@/app/(afterLogin)/_component/icon/LikeIcon';
+import LikeIcon from '@/app/_icons/icon/LikeIcon';
 import React from 'react';
 import { useAddLikeMutation, useUnLikeMutation } from '../../_lib/like';
 

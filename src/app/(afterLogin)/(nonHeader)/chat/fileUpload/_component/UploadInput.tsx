@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { ChangeEvent, DragEvent, useCallback, useEffect, useRef } from 'react';
 import fileAdd from '@/../public/chat/fileAdd.png';
-import CloseIcon from '@/app/(afterLogin)/_component/icon/CloseIcon';
+import CloseIcon from '@/app/_icons/icon/CloseIcon';
 import UploadPreload from './UploadPreload';
 
 function UploadInput({ setFile, file }: { setFile: (file: File | null) => void; file: File | null }) {

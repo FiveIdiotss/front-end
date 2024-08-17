@@ -1,10 +1,10 @@
-import ExcelIcon from '@/app/(afterLogin)/_component/icon/Chat/ExcelIcon';
-import HwpIcon from '@/app/(afterLogin)/_component/icon/Chat/HwpIcon';
-import PdfIcon from '@/app/(afterLogin)/_component/icon/Chat/PdfIcon';
-import PptIcon from '@/app/(afterLogin)/_component/icon/Chat/PptIcon';
-import WordIcon from '@/app/(afterLogin)/_component/icon/Chat/WordIcon';
-import ZipIcon from '@/app/(afterLogin)/_component/icon/Chat/ZipIcon';
-import FileIcon from '@/app/(afterLogin)/_component/icon/FileIcon';
+import ExcelIcon from '@/app/_icons/Chat/ExcelIcon';
+import HwpIcon from '@/app/_icons/Chat/HwpIcon';
+import PdfIcon from '@/app/_icons/Chat/PdfIcon';
+import PptIcon from '@/app/_icons/Chat/PptIcon';
+import WordIcon from '@/app/_icons/Chat/WordIcon';
+import ZipIcon from '@/app/_icons/Chat/ZipIcon';
+import FileIcon from '@/app/_icons/icon/FileIcon';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
