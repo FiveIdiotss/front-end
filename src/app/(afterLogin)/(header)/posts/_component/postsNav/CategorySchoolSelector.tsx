@@ -19,7 +19,11 @@ function CategorySchoolSelector() {
             params.delete('schoolFilter');
         }
         router.replace(pathname + '?' + params, { scroll: false });
-        pushNotification('학교 필터링이 ' + (isToggled ? '적용' : '해제') + '되었습니다.', 'success', 'dark');
+        pushNotification({
+            msg: '학교 필터링이 ' + (isToggled ? '적용' : '해제') + '되었습니다.',
+            type: 'success',
+            theme: 'dark',
+        });
     };
 
     return (

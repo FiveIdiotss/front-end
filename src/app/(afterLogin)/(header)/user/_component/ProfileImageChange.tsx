@@ -27,11 +27,19 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
             await updateSessionImage(imageUrl); //서버액션으로 이미지 서버 세션에 업데이트
             await UpdateSession(); //클라이언트도 세션 업데이트&새로고침
             router.refresh();
-            pushNotification('이미지가 성공적으로 변경되었습니다.', 'success', 'light');
+            pushNotification({
+                msg: '이미지가 성공적으로 변경 되었습니다.',
+                type: 'success',
+                theme: 'light',
+            });
         },
         onError: (err) => {
             console.log(err);
-            pushNotification('등록에 실패했습니다. 다시 시도해주세요.', 'error', 'light');
+            pushNotification({
+                msg: '이미지 변경에 실패했습니다. 다시 시도해주세요.',
+                type: 'error',
+                theme: 'light',
+            });
         },
     }); //사용자 이미지 업로드
     const defaultImageMutation = useMutation({
@@ -41,12 +49,20 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
             await updateSessionImage(data); //서버액션으로 이미지 서버 세션에 업데이트
             await UpdateSession(); //클라이언트도 세션 업데이트&새로고침
             setSelectedImage(null);
-            pushNotification('이미지가 성공적으로 변경되었습니다.', 'success', 'light');
+            pushNotification({
+                msg: '이미지가 성공적으로 변경 되었습니다.',
+                type: 'success',
+                theme: 'light',
+            });
         },
         onError: (err: AxiosError<ErrorResponse>) => {
             console.log('에러 데이터', err.response?.data);
 
-            pushNotification(err.response?.data.message || '등록에 실패했습니다. 다시 시도해주세요.', 'error', 'light');
+            pushNotification({
+                msg: err.response?.data.message || '이미지 변경에 실패했습니다. 다시 시도해주세요.',
+                type: 'error',
+                theme: 'light',
+            });
         },
     }); //기본 이미지 변경
 
@@ -62,7 +78,12 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
     };
 
     const handleImageSubmit = () => {
-        if (!selectedImage) return pushNotification('이미지를 선택해주세요.', 'error', 'light');
+        if (!selectedImage)
+            return pushNotification({
+                msg: '이미지를 선택해주세요.',
+                type: 'error',
+                theme: 'light',
+            });
         imageMutation.mutate();
     };
     const handleDefaultImageSubmit = () => {

@@ -29,7 +29,11 @@ function MessageExtendConfirm({
     const acceptMutation = useMutation({
         mutationFn: async () => await Axios.post(`/api/chat/extend/${chatId}?status=ACCEPT`),
         onError: () => {
-            pushNotification('서버 에러', 'error', 'light');
+            pushNotification({
+                msg: '서버 에러',
+                type: 'error',
+                theme: 'light',
+            });
         },
         onSuccess: () => {
             setCompleteExtendMessagesId(chatId); // 상담 연장 요청 수락시 상담 연장 완료 메시지로 변경(옵티미스틱)
@@ -39,7 +43,11 @@ function MessageExtendConfirm({
     const rejectMutation = useMutation({
         mutationFn: async () => await Axios.post(`/api/chat/extend/${chatId}?status=DECLINE`),
         onError: () => {
-            pushNotification('서버 에러', 'error', 'light');
+            pushNotification({
+                msg: '서버 에러',
+                type: 'error',
+                theme: 'light',
+            });
         },
         onSuccess: () => {
             setCompleteExtendMessagesId(chatId); // 상담 연장 요청 거절시 상담 연장 완료 메시지로 변경(옵티미스틱)

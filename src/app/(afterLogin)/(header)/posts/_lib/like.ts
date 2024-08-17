@@ -36,12 +36,20 @@ export const useAddLikeMutation = () => {
             return { previousData };
         },
         onSuccess: (res) => {
-            pushNotification('게시글에 좋아요를 눌렀습니다', 'success', 'dark');
+            pushNotification({
+                msg: '게시글에 좋아요를 눌렀습니다',
+                type: 'success',
+                theme: 'dark',
+            });
         },
         onError: (error: AxiosError, variable, previousData) => {
             console.log('x', previousData);
             console.log(error);
-            pushNotification('좋아요 불가', 'error', 'dark');
+            pushNotification({
+                msg: '좋아요 누르기 불가',
+                type: 'error',
+                theme: 'dark',
+            });
             queryClient.setQueryData(['posts', variable.boardType, 'detail', variable.boardId], previousData);
         },
         onSettled: (data, error, variable) => {
@@ -81,7 +89,11 @@ export const useUnLikeMutation = () => {
         onError: (error: AxiosError, variable, previousData) => {
             console.log('x', previousData);
             console.log(error);
-            pushNotification('좋아요 취소 불가', 'error', 'dark');
+            pushNotification({
+                msg: '좋아요 취소 불가',
+                type: 'error',
+                theme: 'dark',
+            });
             queryClient.setQueryData(['posts', variable.boardType, 'detail', variable.boardId], previousData);
         },
         onSettled: (data, error, variable) => {

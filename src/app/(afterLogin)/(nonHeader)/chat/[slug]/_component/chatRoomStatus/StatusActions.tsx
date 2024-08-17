@@ -18,7 +18,11 @@ function StatusActions() {
     const mutation = useMutation({
         mutationFn: () => Axios.post(`/api/chat/extend/request/${chatRoomId}`),
         onError: (error: AxiosError<ErrorResponse>) => {
-            pushNotification(error.response?.data.message || '서버에러', 'error', 'light');
+            pushNotification({
+                msg: error.response?.data.message || '서버에러',
+                type: 'error',
+                theme: 'light',
+            });
             console.error(error.response?.data);
         },
     });

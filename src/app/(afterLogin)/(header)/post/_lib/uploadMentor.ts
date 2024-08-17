@@ -1,5 +1,8 @@
+import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import Axios from '@/app/util/axiosInstance';
+import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 type newPostFormData = {
     request: {
@@ -56,6 +59,13 @@ const postMentor = async ({ request, images }: newPostFormData) => {
 export const usePostMentorMutation = () => {
     const mutation = useMutation({
         mutationFn: postMentor,
+        onError: (error: AxiosError<ErrorResponse>) => {
+            pushNotification({
+                msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                type: 'error',
+                theme: 'dark',
+            });
+        },
     });
 
     return mutation;

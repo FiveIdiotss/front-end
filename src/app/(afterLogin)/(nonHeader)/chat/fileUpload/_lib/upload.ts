@@ -36,7 +36,11 @@ export const useUploadMutaion = () => {
             return data;
         },
         onError: (error: AxiosError<ErrorResponse>) => {
-            pushNotification(error.response?.data.message || '이미지 전송에 실패하였습니다.', 'error', 'light');
+            pushNotification({
+                msg: error.response?.data.message || '이미지 전송에 실패하였습니다.',
+                type: 'error',
+                theme: 'dark',
+            });
             console.error('Error uploading data:', error.response?.data.message);
         },
     });

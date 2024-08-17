@@ -28,13 +28,21 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
         onSuccess: () => {
             setIsConfirmModalOpen(false);
             setAction(null);
-            pushNotification('수락 완료', 'success', 'dark');
+            pushNotification({
+                msg: '수락 완료',
+                type: 'success',
+                theme: 'dark',
+            });
         },
         onError: () => {
             setIsConfirmModalOpen(false);
             setAction(null);
 
-            pushNotification('에러', 'error', 'dark');
+            pushNotification({
+                msg: '에러',
+                type: 'error',
+                theme: 'dark',
+            });
         },
     }); //수락 요청
     const mutationReject = useMutation({
@@ -43,12 +51,20 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
         onSuccess: () => {
             setIsConfirmModalOpen(false);
             setAction(null);
-            pushNotification('거절 완료', 'success', 'dark');
+            pushNotification({
+                msg: '거절 완료',
+                type: 'success',
+                theme: 'dark',
+            });
         },
         onError: () => {
             setIsConfirmModalOpen(false);
             setAction(null);
-            pushNotification('에러', 'error', 'dark');
+            pushNotification({
+                msg: '에러',
+                type: 'error',
+                theme: 'dark',
+            });
         },
     }); //거절 요청
 

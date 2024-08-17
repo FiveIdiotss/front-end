@@ -17,7 +17,11 @@ const deleteTest = async (boardId: number) => {
         return response.data;
     } catch (error) {
         console.log(error);
-        pushNotification('게시글 삭제에 실패했습니다.', 'error', 'dark');
+        pushNotification({
+            msg: '게시글 삭제에 실패했습니다. 다시 시도해주세요.',
+            type: 'error',
+            theme: 'dark',
+        });
     }
     console.log('deleteTest', boardId);
 };

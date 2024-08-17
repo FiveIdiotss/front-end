@@ -59,12 +59,20 @@ export const useAddBookmarkMutation = () => {
             return { previousData };
         },
         onSuccess: (res) => {
-            pushNotification('북마크가 추가되었습니다.', 'success', 'dark');
+            pushNotification({
+                msg: '북마크가 추가되었습니다.',
+                type: 'success',
+                theme: 'dark',
+            });
         },
         onError: (error: AxiosError, variable, previousData) => {
             console.log('x', previousData);
             console.log(error);
-            pushNotification('북마크 추가에 실패했습니다.', 'error', 'dark');
+            pushNotification({
+                msg: '북마크 추가에 실패했습니다.',
+                type: 'error',
+                theme: 'dark',
+            });
             queryClient.setQueryData(variable.keys, previousData);
         },
         onSettled: (data, error, variable) => {
@@ -105,13 +113,21 @@ export const useDeleteBookmarkMutation = () => {
                 return { previousData };
             },
             onSuccess: () => {
-                pushNotification('북마크가 삭제되었습니다.', 'success', 'dark');
+                pushNotification({
+                    msg: '북마크가 삭제되었습니다.',
+                    type: 'success',
+                    theme: 'dark',
+                });
             },
             onError: (error: AxiosError, variable, previousData) => {
                 console.log('이전데이터xx', previousData);
                 console.log('pageParamxx', variable);
 
-                pushNotification('북마크 삭제에 실패했습니다.', 'error', 'dark');
+                pushNotification({
+                    msg: '북마크 삭제에 실패했습니다.',
+                    type: 'error',
+                    theme: 'dark',
+                });
                 queryClient.setQueryData(variable.keys, previousData);
             },
             onSettled: (data, error, variable) => {

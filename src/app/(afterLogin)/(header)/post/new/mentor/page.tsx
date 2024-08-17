@@ -84,9 +84,6 @@ function MentorFormPage() {
                 images: mainImage,
             },
             {
-                onError: (error) => {
-                    pushNotification('오류가 발생했습니다.', 'error', 'light');
-                },
                 onSuccess: () => {
                     setCompleteModalOpen(true);
                 },

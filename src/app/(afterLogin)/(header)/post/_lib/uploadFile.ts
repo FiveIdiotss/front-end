@@ -76,7 +76,11 @@ export const useQuestMutation = () => {
         },
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);
-            pushNotification(error.response?.data.message || '오류입니다', 'error', 'dark');
+            pushNotification({
+                msg: error.response?.data.message || '오류입니다',
+                type: 'error',
+                theme: 'dark',
+            });
         },
     });
     return mutation;
@@ -96,7 +100,11 @@ export const useRequestMutation = () => {
         },
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);
-            pushNotification(error.response?.data.message || '오류입니다', 'error', 'dark');
+            pushNotification({
+                msg: error.response?.data.message || '오류입니다',
+                type: 'error',
+                theme: 'dark',
+            });
         },
     });
     return mutation;
