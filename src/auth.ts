@@ -93,7 +93,7 @@ async function refreshAccessToken(token: JWT) {
     } catch (error) {
         if (error instanceof Response) {
             const errorResponse: ErrorResponse = await error.json();
-            if (errorResponse.message === '유효하지 않은 토큰입니다.') {
+            if (errorResponse.message === '유효하지 않은 토큰입니다.' || errorResponse.message === '권한 없음') {
                 return null;
             }
         }
