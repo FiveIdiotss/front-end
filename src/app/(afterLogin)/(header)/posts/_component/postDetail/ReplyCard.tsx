@@ -40,7 +40,7 @@ function ReplyCard({
     };
     const { handleOpenModal: handleOpenDeleteModal, ConfirmationModalComponent } = useConfirmationModal({
         onConfirm: handleDelete,
-        message: '댓글을 삭제하시겠습니까?',
+        title: '댓글을 삭제하시겠습니까?',
     });
     useEffect(() => {
         console.log('reply', reply);

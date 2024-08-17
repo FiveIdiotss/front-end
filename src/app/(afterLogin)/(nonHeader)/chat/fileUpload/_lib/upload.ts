@@ -1,7 +1,7 @@
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Message } from '../../_lib/chatContentList';
+import { Message } from '../../[slug]/_lib/chatContentList';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 

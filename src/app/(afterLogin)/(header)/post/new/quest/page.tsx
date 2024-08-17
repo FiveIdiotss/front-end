@@ -4,7 +4,6 @@ import { useQuestMutation } from '../../_lib/uploadFile';
 import { debounce, set } from 'lodash';
 import QuillEditor from '../../_components/TestEditor';
 import SubmitButton from '../../_components/SubmitButton';
-import Image from 'next/image';
 
 function QuestFormPage() {
     const categoryRef = useRef<HTMLSelectElement>(null);

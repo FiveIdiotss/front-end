@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import BookIcon from '../../_component/icon/BookIcon';
 const CATEGORY_LIST = [
     {
         url: '/posts/mentor',

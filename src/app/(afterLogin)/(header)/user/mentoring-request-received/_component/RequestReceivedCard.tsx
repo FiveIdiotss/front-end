@@ -173,7 +173,7 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
             <ConfirmationModal
                 open={isConfirmModalOpen}
                 onClose={closeConfirmModal}
-                text={action === 'accept' ? '수락하시겠습니까?' : '거절하시겠습니까?'}
+                title={action === 'accept' ? '수락하시겠습니까?' : '거절하시겠습니까?'}
                 onConfirm={handleconfirm}
                 isLoading={mutationAccept.isPending || mutationReject.isPending}
             />
