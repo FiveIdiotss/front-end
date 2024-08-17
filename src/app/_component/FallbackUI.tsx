@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import PropTypes from 'prop-types';
 import RefreshIcon from '../(afterLogin)/_component/icon/RefreshIcon';
 import Image from 'next/image';
-import fixImage from '@/../public/fixImage.svg';
+import fixImage from '@/../public/fixImage.png';
 
 type Props = {
     error: Error;
@@ -61,7 +61,7 @@ const FallbackUI = ({ error, resetErrorBoundary }: Props) => {
                     <RefreshIcon className="h-4 w-4 text-white" />
                 </button>
             </div>
-            <span className="mb-2 text-sm text-gray-500">담당자: 010-7728-6267</span>
+            <span className="mb-2 text-sm text-gray-500">담당자: 정진혁, 구민회, 김동연, 이종현</span>
         </div>
     );
 };
