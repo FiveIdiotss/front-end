@@ -7,7 +7,7 @@ import Loading from '@/app/_component/Loading';
 import { useSearchParams } from 'next/navigation';
 import QuestRequestsCard from '../../_component/questsRequests/QuestsRequestsCard';
 
-function PostsRequests({ pageType }: { pageType: 'posts' | 'home' }) {
+function PostsRequests() {
     const searchParams = useSearchParams();
     const pageParam = Number(searchParams.get('page')) || 1;
     const categoryParam = searchParams.get('category') || '';
@@ -15,8 +15,7 @@ function PostsRequests({ pageType }: { pageType: 'posts' | 'home' }) {
     const schoolParam = Boolean(searchParams.get('schoolFilter')) || false;
     const starParam = Boolean(searchParams.get('star')) || false;
 
-    const isPostsPage = pageType === 'posts';
-    const sizeParam = isPostsPage ? 15 : 7; //홈페이지에서는 7개, 포스트페이지에서는 15개
+    const sizeParam = 15; //홈페이지에서는 7개, 포스트페이지에서는 15개
 
     const {
         data: requests,
@@ -51,7 +50,7 @@ function PostsRequests({ pageType }: { pageType: 'posts' | 'home' }) {
                     ))}
                 </div>
             </div>
-            {isPostsPage && <Pagination page={pageParam} totalPages={requests.pageInfo.totalPages} />}
+            <Pagination page={pageParam} totalPages={requests.pageInfo.totalPages} />
         </div>
     );
 }

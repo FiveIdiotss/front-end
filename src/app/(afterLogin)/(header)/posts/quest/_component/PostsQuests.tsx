@@ -7,16 +7,14 @@ import Loading from '@/app/_component/Loading';
 import { useSearchParams } from 'next/navigation';
 import QuestRequestsCard from '../../_component/questsRequests/QuestsRequestsCard';
 
-function PostsQuests({ pageType }: { pageType: 'posts' | 'home' }) {
+function PostsQuests() {
     const searchParams = useSearchParams();
     const pageParam = Number(searchParams.get('page')) || 1;
     const categoryParam = searchParams.get('category') || '';
     const searchParam = searchParams.get('search') || '';
     const schoolParam = Boolean(searchParams.get('schoolFilter')) || false;
     const starParam = Boolean(searchParams.get('star')) || false;
-
-    const isPostsPage = pageType === 'posts'; //포스트페이지인지  확인
-    const sizeParam = isPostsPage ? 15 : 7; //홈페이지에서는 7개, 포스트페이지에서는 15개
+    const sizeParam = 15; //홈페이지에서는 7개, 포스트페이지에서는 15개
 
     const {
         data: openQuestions,
@@ -51,7 +49,7 @@ function PostsQuests({ pageType }: { pageType: 'posts' | 'home' }) {
                     ))}
                 </div>
             </div>
-            {isPostsPage && <Pagination page={pageParam} totalPages={openQuestions.pageInfo.totalPages} />}
+            <Pagination page={pageParam} totalPages={openQuestions.pageInfo.totalPages} />
             {/*홈일 경우 */}
         </div>
     );
