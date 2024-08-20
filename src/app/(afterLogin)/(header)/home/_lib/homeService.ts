@@ -1,5 +1,5 @@
-import { MentoPostsType } from '@/app/(afterLogin)/Models/mentoPostsType';
-import { PageInfotype } from '@/app/(afterLogin)/Models/pageInfoType';
+import { MentorPostsType } from '@/app/Models/mentorType';
+import { PageInfotype } from '@/app/Models/pageInfoType';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import Axios from '@/app/util/axiosInstance';
 import { useQuery } from '@tanstack/react-query';
@@ -15,7 +15,7 @@ export const getHomeMentorPosts = async () => {
     };
 
     const res = await Axios.get('/api/boards/filter', { params: params });
-    return res.data.data as Promise<MentoPostsType>; //나중에 타입 수정해야함
+    return res.data.data as Promise<MentorPostsType>; //나중에 타입 수정해야함
 };
 
 type OpenQuestionResponseType = {
@@ -47,7 +47,7 @@ export const getHomeQuestsOrRequests = async ({
 //----------------------------------useQuery----------------------------------
 
 export const useHomeMentorPostsQeury = () => {
-    const query = useQuery<MentoPostsType, AxiosError<ErrorResponse>>({
+    const query = useQuery<MentorPostsType, AxiosError<ErrorResponse>>({
         queryKey: ['posts', 'mento', 'home'],
         queryFn: getHomeMentorPosts,
         staleTime: 1000 * 60,
