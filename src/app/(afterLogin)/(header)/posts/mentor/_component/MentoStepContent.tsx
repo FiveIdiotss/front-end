@@ -1,7 +1,5 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
-import { fetchMentoDetail, MentoDetail } from '../_lib/posts';
 import Loading from '@/app/_component/Loading';
 import SchoolIcon from '@/app/_icons/common/SchoolIcon';
 import HeartIcon from '@/app/_icons/common/HeartIcon';
@@ -11,20 +9,22 @@ import { usePostsStore } from '@/app/(afterLogin)/_store/postsStore';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-type Props = {
+import { useMentorDetailQuery } from '../../_lib/mentorService';
+import ErrorDataUI from '@/app/_component/ErrorDataUI';
+
+interface Props {
     id: number;
     onlyContent?: boolean;
-};
+}
 
 function MentoStepContent({ id, onlyContent }: Props) {
     const router = useRouter();
 
     // onlyContent가 true면 신청하기 버튼이 아닌 리스트로 이동하는 버튼으로 변경
-    const { data, isLoading, isError } = useQuery<MentoDetail>({
-        queryKey: ['mento', 'detail', id],
-        queryFn: () => fetchMentoDetail(id),
-    });
+    const mentorDetailQuery = useMentorDetailQuery({ mentorId: id });
+    const { data, isPending, error } = mentorDetailQuery;
     const { data: session } = useSession();
+
     const { setPageStep, setSchedule, setErrorMessage } = usePostsStore();
 
     let year;
@@ -52,8 +52,8 @@ function MentoStepContent({ id, onlyContent }: Props) {
         setPageStep(1);
     };
 
-    if (isLoading) return <Loading />;
-    if (isError) return <div className="text-red-500">서버에러</div>;
+    if (isPending) return <Loading className="h-full" description="데이터를 불러오는 중이에요!" />;
+    if (error) return <ErrorDataUI text="에러가 발생했습니다. " />;
     return (
         <>
             <div className="mt-7 flex  w-full flex-grow flex-col overflow-y-auto">

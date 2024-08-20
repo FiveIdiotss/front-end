@@ -2,31 +2,12 @@
 import SectionDivider from './SectionDivider';
 import HeartIcon from '../../_icons/common/HeartIcon';
 import { useAddBookmarkMutation, useDeleteBookmarkMutation } from '../_lib/BookmarkService';
-import { pushNotification } from '@/app/util/pushNotification';
-import Axios from '@/app/util/axiosInstance';
-import { MentoContentType } from '../Models/mentoPostsType';
+import { MentorBoardDTOType } from '@/app/Models/mentorType';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import MentoModal from '../(header)/posts/mentor/_component/MentoModal';
 import { useEffect, useState } from 'react';
-import { set } from 'lodash';
 
-const deleteTest = async (boardId: number) => {
-    try {
-        const response = await Axios.delete(`api/board/${boardId}`);
-        pushNotification;
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        pushNotification({
-            msg: '게시글 삭제에 실패했습니다. 다시 시도해주세요.',
-            type: 'error',
-            theme: 'dark',
-        });
-    }
-    console.log('deleteTest', boardId);
-};
-
-function MentoPostCard({ post, queryKeys }: { post: MentoContentType; queryKeys: string[] }) {
+function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKeys: (string | number | boolean)[] }) {
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); //모달창 상태
 
     let year;
@@ -41,15 +22,13 @@ function MentoPostCard({ post, queryKeys }: { post: MentoContentType; queryKeys:
     const searchParams = useSearchParams();
     const boardIdParam = searchParams.get('mentor_board_id'); //모달창 열기위한 boardId파라미터
 
-    const addBookmarkMutation = useAddBookmarkMutation();
-    const deleteBookmarkMutation = useDeleteBookmarkMutation();
+    const addBookmarkMutation = useAddBookmarkMutation(); //북마크 추가
+    const deleteBookmarkMutation = useDeleteBookmarkMutation(); //북마크 삭제
     const handleToggleBookmark = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         event.preventDefault();
 
         if (post.favorite) {
-            // deleteTest(post.boardId);
-
             deleteBookmarkMutation.mutate({
                 boardId: post.boardId,
                 keys: queryKeys,
@@ -137,7 +116,6 @@ function MentoPostCard({ post, queryKeys }: { post: MentoContentType; queryKeys:
                 </div>
             </div>
             {isDetailModalOpen && <MentoModal id={post.boardId} onClose={handleDetailModalClose} />}
-            {}
         </>
     );
 }
