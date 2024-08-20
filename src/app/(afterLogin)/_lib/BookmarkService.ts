@@ -2,9 +2,9 @@ import Axios from '@/app/util/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { pushNotification } from '@/app/util/pushNotification';
-import { MentoPostsType } from '../Models/mentoPostsType';
+import { MentorPostsType } from '@/app/Models/mentorType';
 
-export const getBookmark = async (pageParam: number, size?: number): Promise<MentoPostsType> => {
+export const getBookmark = async (pageParam: number, size?: number): Promise<MentorPostsType> => {
     const params = {
         page: pageParam,
         size: size ? size : 24,
@@ -28,7 +28,7 @@ const deleteBookmark = async (boardId: number) => {
 
 export type BookmarkKeysType = {
     boardId: number;
-    keys: string[];
+    keys: (number | string | boolean)[];
 };
 
 export const useAddBookmarkMutation = () => {
@@ -42,7 +42,7 @@ export const useAddBookmarkMutation = () => {
             await queryClient.cancelQueries();
             const previousData = queryClient.getQueryData(keys);
 
-            queryClient.setQueryData(keys, (old: MentoPostsType | undefined) => {
+            queryClient.setQueryData(keys, (old: MentorPostsType | undefined) => {
                 return {
                     ...old,
                     data: old?.data.map((post) => {
@@ -96,7 +96,7 @@ export const useDeleteBookmarkMutation = () => {
                 await queryClient.cancelQueries();
                 const previousData = queryClient.getQueryData(keys);
 
-                queryClient.setQueryData(keys, (old: MentoPostsType | undefined) => {
+                queryClient.setQueryData(keys, (old: MentorPostsType | undefined) => {
                     return {
                         ...old,
                         data: old?.data.map((post) => {
