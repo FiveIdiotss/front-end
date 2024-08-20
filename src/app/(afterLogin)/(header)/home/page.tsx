@@ -2,11 +2,12 @@ import React from 'react';
 import HomeMain from './_component/HomeMain';
 import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getHomeMentorPosts, getHomeQuestsOrRequests } from './_lib/homeService';
+import { HOME_MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
 
 async function HomePage() {
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery({
-        queryKey: ['posts', 'mento', 'home'],
+        queryKey: HOME_MENTOR_QUERYKEY,
         queryFn: getHomeMentorPosts,
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,

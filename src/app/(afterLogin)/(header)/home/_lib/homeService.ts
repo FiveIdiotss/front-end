@@ -5,6 +5,7 @@ import Axios from '@/app/util/axiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { OpenQuestionType } from '../../posts/_lib/qeustsRequest';
+import { POSTS_MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
 
 export const getHomeMentorPosts = async () => {
     const params = {
@@ -48,7 +49,7 @@ export const getHomeQuestsOrRequests = async ({
 
 export const useHomeMentorPostsQeury = () => {
     const query = useQuery<MentorPostsType, AxiosError<ErrorResponse>>({
-        queryKey: ['posts', 'mento', 'home'],
+        queryKey: POSTS_MENTOR_QUERYKEY,
         queryFn: getHomeMentorPosts,
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
