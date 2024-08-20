@@ -4,7 +4,7 @@ import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import Axios from '@/app/util/axiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { OpenQuestionType } from '../../posts/_lib/qeustsRequest';
+import { OpenQuestionType } from '../../posts/_lib/qeustsRequestService';
 import { POSTS_MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
 
 export const getHomeMentorPosts = async () => {
