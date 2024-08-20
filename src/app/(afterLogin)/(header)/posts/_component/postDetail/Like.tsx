@@ -1,6 +1,6 @@
 import LikeIcon from '@/app/_icons/common/LikeIcon';
 import React from 'react';
-import { useAddLikeMutation, useUnLikeMutation } from '../../_lib/like';
+import { useAddLikeMutation, useUnLikeMutation } from '../../_lib/likeService';
 
 function Like({
     boardId,
