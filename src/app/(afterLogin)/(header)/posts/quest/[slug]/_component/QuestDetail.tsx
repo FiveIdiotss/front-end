@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import { getQuestDetail } from '../../../_lib/qeustsRequest';
+import { getQuestDetail } from '../../../_lib/qeustsRequestService';
 import Loading from '@/app/_component/Loading';
 import Image from 'next/image';
 import Reply from '../../../_component/postDetail/Reply';

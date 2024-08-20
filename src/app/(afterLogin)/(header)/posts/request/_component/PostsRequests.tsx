@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getQuests } from '../../_lib/qeustsRequest';
+import { getQuests } from '../../_lib/qeustsRequestService';
 import Pagination from '../../_component/Pagination';
 import Loading from '@/app/_component/Loading';
 import { useSearchParams } from 'next/navigation';

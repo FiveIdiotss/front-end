@@ -1,5 +1,5 @@
 import Axios from '@/app/util/axiosInstance';
-import { PageInfotype } from '@/app/(afterLogin)/Models/pageInfoType';
+import { PageInfotype } from '@/app/Models/pageInfoType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';

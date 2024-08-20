@@ -1,5 +1,5 @@
 import Axios from '@/app/util/axiosInstance';
-import { PageInfotype } from '@/app/(afterLogin)/Models/pageInfoType';
+import { PageInfotype } from '@/app/Models/pageInfoType';
 
 export type OpenQuestionType = {
     content: string;
