@@ -62,7 +62,7 @@ function ChatList() {
         console.log('연결결결결');
         const initializeChat = async () => {
             const stomp = new Client({
-                brokerURL: 'ws://menteetor.site:8080/ws',
+                brokerURL: 'wss://menteetor.site/ws',
 
                 debug: (str: string) => {
                     console.log('연결 상태', str);

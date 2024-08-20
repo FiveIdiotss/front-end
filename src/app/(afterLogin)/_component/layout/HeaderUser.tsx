@@ -22,7 +22,7 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
 
         const initializeChat = async () => {
             const stomp = new Client({
-                brokerURL: 'ws://menteetor.site:8080/ws',
+                brokerURL: 'wss://menteetor.site/ws',
 
                 debug: (str: string) => {
                     console.log('연결 상태', str);
