@@ -1,6 +1,6 @@
 import LikeIcon from '@/app/_icons/common/LikeIcon';
 import React from 'react';
-import { OpenQuestionType } from '../../_lib/qeustsRequestService';
+import { OpenQuestionType } from '../../_lib/qeustOrRequestService';
 import Image from 'next/image';
 import Link from 'next/link';
 

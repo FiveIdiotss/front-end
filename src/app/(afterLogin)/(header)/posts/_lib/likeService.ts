@@ -1,6 +1,6 @@
 import Axios from '@/app/util/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { OpenQuestionDetailType } from './qeustsRequestService';
+import { OpenQuestionDetailType } from './qeustOrRequestService';
 import { pushNotification } from '@/app/util/pushNotification';
 import { AxiosError } from 'axios';
 
