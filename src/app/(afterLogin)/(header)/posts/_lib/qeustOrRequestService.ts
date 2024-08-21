@@ -1,28 +1,7 @@
 import Axios from '@/app/util/axiosInstance';
-import { PageInfotype } from '@/app/Models/pageInfoType';
+import { SubBoardDetailType, SubBoardPostsType } from '@/app/Models/subBoardType';
 
-export type OpenQuestionType = {
-    content: string;
-    imageUrl: string;
-    like: boolean; //
-    likeCount: number;
-    memberId: number;
-    memberName: string;
-    replyCount: number; //댓글수
-    schoolName: string;
-    majorName: string;
-    subBoardId: number;
-    title: string;
-    writeTime: string;
-    year: number;
-    boardCategory: string;
-};
-type OpenQuestionResponseType = {
-    data: OpenQuestionType[];
-    pageInfo: PageInfotype;
-};
-
-type ParamsType = {
+interface ParamsType {
     page: number;
     size: number;
     boardCategory?: string;
@@ -30,7 +9,7 @@ type ParamsType = {
     schoolFilter: boolean;
     subBoardType: string;
     favoriteFilter: boolean;
-};
+}
 
 export const getQuests = async ({
     pageParam,
@@ -68,15 +47,10 @@ export const getQuests = async ({
     console.log('params', params);
 
     const response = await Axios.get(`/api/subBoards`, { params: params });
-    return response.data.data as Promise<OpenQuestionResponseType>;
-};
-
-export type OpenQuestionDetailType = {
-    subBoardDTO: OpenQuestionType;
-    subBoardImageUrls: { subBoardImageUrl: string }[];
+    return response.data.data as Promise<SubBoardPostsType>;
 };
 
 export const getQuestDetail = async (subBoardId: number) => {
     const response = await Axios.get(`/api/subBoard/${subBoardId}`);
-    return response.data.data as Promise<OpenQuestionDetailType>;
+    return response.data.data as Promise<SubBoardDetailType>;
 };
