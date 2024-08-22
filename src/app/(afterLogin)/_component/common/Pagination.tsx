@@ -3,16 +3,16 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 type Props = {
-    page: number;
     // setPage: (page: number) => void;
 
     totalPages: number; //전체 페이지 수
 };
 
-function Pagination({ page, totalPages }: Props) {
+function Pagination({ totalPages }: Props) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
+    const page = Number(searchParams.get('page')) || 1; //현재 페이지
 
     const [startPage, setStartPage] = useState<number>(2); //시작 페이지
 
