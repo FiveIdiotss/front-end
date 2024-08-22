@@ -1,7 +1,7 @@
 import React from 'react';
 
-function ErrorDataUI({ text }: { text: string }) {
-    return <div className="flex flex-1 items-center justify-center text-gray-300">{text}</div>;
+function ErrorDataUI({ text, className }: { text: string; className?: string }) {
+    return <div className={`flex w-full items-center justify-center text-gray-300 ${className}`}>{text}</div>;
 }
 
 export default ErrorDataUI;
