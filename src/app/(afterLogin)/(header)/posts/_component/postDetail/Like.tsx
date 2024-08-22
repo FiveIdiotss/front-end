@@ -11,7 +11,7 @@ function Like({
     boardId: number;
     likeCount: number;
     like: boolean;
-    boardType: 'quests' | 'requests';
+    boardType: 'QUEST' | 'REQUEST';
 }) {
     const addLikeMutation = useAddLikeMutation();
     const unLikeMutation = useUnLikeMutation();
@@ -19,12 +19,12 @@ function Like({
     const handleToggleLike = () => {
         if (like) {
             unLikeMutation.mutate({
-                boardId: String(boardId),
+                boardId: boardId,
                 boardType: boardType,
             });
         } else {
             addLikeMutation.mutate({
-                boardId: String(boardId),
+                boardId: boardId,
                 boardType: boardType,
             });
         }

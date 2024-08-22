@@ -16,7 +16,7 @@ export type MentorBoardDTOType = {
     favorite: boolean; //수정중
 }; //멘토 게시판 각 카드에 들어갈 정보
 
-export type MentorPostsType = {
+export type MentorResponseType = {
     data: MentorBoardDTOType[]; //멘토 게시판 각 카드에 들어갈 정보
     pageInfo: PageInfotype; //페이지 정보
 }; //멘토 게시판 전체 정보

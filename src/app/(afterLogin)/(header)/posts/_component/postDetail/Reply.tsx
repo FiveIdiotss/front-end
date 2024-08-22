@@ -1,28 +1,24 @@
 import ResetIcon from '@/app/_icons/common/ResetIcon';
-import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
-import { getReplies, usePostReplyMutation } from '../../_lib/reply';
-import DotLoadingIcon from '@/app/_icons/common/DotLoadingIcon';
+import { usePostReplyMutation, useRepliesQeury } from '../../_lib/replySerive';
 import ReplyCard from './ReplyCard';
-import ConfirmationModal from '@/app/_component/ConfirmationModal';
-type Reply = {
+import Loading from '@/app/_component/Loading';
+import ErrorDataUI from '@/app/_component/ErrorDataUI';
+import SimplePagination from '@/app/(afterLogin)/_component/common/SimplePagination';
+
+interface Props {
     replyCount: number;
     subBoardId: number;
     writerId: number;
     sessionId?: number;
-    boardType: 'requests' | 'quests';
-};
+    boardType: 'QUEST' | 'REQUEST';
+}
 
-function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Reply) {
+function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Props) {
     const inputRef = useRef<HTMLTextAreaElement>(null);
 
-    const { data, error, isPending, isError } = useQuery({
-        queryKey: ['posts', boardType, 'detail', String(subBoardId), 'reply', 1],
-        queryFn: () => getReplies(subBoardId, 1, 10),
-    });
-    useEffect(() => {
-        console.log('data', data);
-    }, [data]);
+    const repliesQeury = useRepliesQeury({ subBoardId, boardType });
+    const { data: repliesData, error, isPending } = repliesQeury;
 
     const postMutation = usePostReplyMutation();
 
@@ -32,13 +28,18 @@ function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Reply
             inputRef.current.value = '';
         }
     };
+    useEffect(() => {
+        console.log('댓글 목록', repliesData);
+    }, [repliesData]);
 
     return (
         <>
             <div className="mt-6 flex w-full flex-col gap-4 ">
                 <div className=" flex w-full flex-row items-center justify-between ">
-                    <span className="text-sm text-neutral-600">댓글 {replyCount}</span>
-                    <ResetIcon className="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-800" />
+                    <span className="text-sm text-neutral-600">댓글 {replyCount || 0}</span>
+                    <button onClick={() => repliesQeury.refetch()}>
+                        <ResetIcon className="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-800" />
+                    </button>
                 </div>
                 <div className="flex flex-row">
                     <textarea
@@ -56,9 +57,11 @@ function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Reply
                     </div>
                 </div>
                 <div className="flex w-full flex-col border-t-2  border-neutral-400">
-                    {isPending && <DotLoadingIcon />}
+                    {isPending && <Loading className="h-40" description="댓글 데이터를 불러오는 중입니다." />}
+                    {error && <ErrorDataUI text="댓글을 불러오는데 실패하였습니다." className="h-40" />}
                     {!isPending &&
-                        data?.data.map((reply) => (
+                        !error &&
+                        repliesData.data.map((reply) => (
                             <ReplyCard
                                 key={reply.replyId}
                                 reply={reply}
@@ -69,6 +72,7 @@ function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Reply
                             />
                         ))}
                 </div>
+                <SimplePagination totalPages={repliesData?.pageInfo.totalPages || 1} isPageScroll={false} />
             </div>
         </>
     );

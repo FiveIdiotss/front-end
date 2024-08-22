@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { MentoringReq, mentoringReqFetch } from '../_lib/mentoringReq';
 import Loading from '@/app/_component/Loading';
 
-import SimplePagination from '../_component/SimplePagination';
+import SimplePagination from '@/app/(afterLogin)/_component/common/SimplePagination';
 import { useSearchParams } from 'next/navigation';
 
 function MentoringReqPage() {
@@ -47,7 +47,7 @@ function MentoringReqPage() {
                         {dataList?.data.map((data, index) => <MentoringRequestCard key={index} data={data} />)}
                     </div>
                 )}
-                <SimplePagination page={pageParam} totalPages={dataList?.pageInfo.totalPages || 1} />
+                <SimplePagination totalPages={dataList?.pageInfo.totalPages || 1} />
             </div>
         </>
     );

@@ -16,7 +16,7 @@ export type SubBoardDTOType = {
     year: number;
     boardCategory: string;
 };
-export type SubBoardPostsType = {
+export type SubBoardResponseType = {
     data: SubBoardDTOType[];
     pageInfo: PageInfotype;
 };

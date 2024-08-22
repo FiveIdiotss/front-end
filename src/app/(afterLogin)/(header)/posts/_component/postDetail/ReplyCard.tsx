@@ -1,12 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { ReplyType, usePostDeleteMutation } from '../../_lib/reply';
+import { usePostReplyDeleteMutation } from '../../_lib/replySerive';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import ConfirmationModal from '@/app/_component/ConfirmationModal';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
+import { ReplyType } from '@/app/Models/replyType';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
@@ -22,11 +23,11 @@ function ReplyCard({
     subBoardId: number;
     writerId: number;
     sessionId?: number;
-    boardType: 'requests' | 'quests';
+    boardType: 'REQUEST' | 'QUEST';
 }) {
     const now = dayjs();
     const date = dayjs(reply.localDateTime);
-    const deleteMutation = usePostDeleteMutation();
+    const deleteMutation = usePostReplyDeleteMutation();
 
     let displayDate;
     if (now.isSame(date, 'day')) {
@@ -61,7 +62,7 @@ function ReplyCard({
                         <span className="text-xs text-neutral-500">{reply.majorName}</span>
                     </div>
                     <div className="flex w-full flex-col gap-1">
-                        <span className="text-sm ">{reply.content}</span>
+                        <span className=" text-sm ">{reply.content}</span>
                     </div>
                 </div>
 

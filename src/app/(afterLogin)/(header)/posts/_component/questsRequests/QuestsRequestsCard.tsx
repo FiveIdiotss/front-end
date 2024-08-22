@@ -1,6 +1,6 @@
 import LikeIcon from '@/app/_icons/common/LikeIcon';
 import React from 'react';
-import { OpenQuestionType } from '../../_lib/qeustOrRequestService';
+import { SubBoardDTOType } from '@/app/Models/subBoardType';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -23,7 +23,7 @@ function formatDate(dateString: string) {
     }
 }
 
-function QuestsRequestsCard({ data, boardType }: { data: OpenQuestionType; boardType: 'request' | 'quest' }) {
+function QuestsRequestsCard({ data, boardType }: { data: SubBoardDTOType; boardType: 'request' | 'quest' }) {
     const isQuestion = data.replyCount === 0;
     const url = boardType === 'quest' ? `/posts/quest/${data.subBoardId}` : `/posts/request/${data.subBoardId}`;
     return (
@@ -37,15 +37,15 @@ function QuestsRequestsCard({ data, boardType }: { data: OpenQuestionType; board
                         <span className="mr-1 text-xs text-green-600">{`[질문]`}</span>
                     )}
                     {!isQuestion && boardType === 'quest' && (
-                        <span className="mr-1 text-xs text-blue-600">{`[답변완료]`}</span>
+                        <span className="mr-1 shrink-0 text-xs text-blue-600">{`[답변완료]`}</span>
                     )}
-                    <span className="mr-1 text-xs text-gray-400">[{data.boardCategory}]</span>
-                    <span className="text-sm text-neutral-600">{data.title}</span>
+                    <span className="mr-1 shrink-0 text-xs text-gray-400">[{data.boardCategory}]</span>
+                    <span className="line-clamp-2 text-sm text-neutral-600">{data.title}</span>
                     <span className="text-xs text-neutral-400">{`(${data.replyCount})`}</span>
                 </div>
             </div>
 
-            <div className="flex flex-row items-center  gap-6">
+            <div className="flex shrink-0 flex-row  items-center gap-6">
                 <div className="flex flex-row items-center gap-1 text-xs font-light  ">
                     <Image src={data.imageUrl} width={20} height={20} alt="프로필 이미지" className="rounded-full" />
                     <span className="text-neutral-700">{data.memberName}</span>

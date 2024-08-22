@@ -1,5 +1,9 @@
 import Axios from '@/app/util/axiosInstance';
-import { SubBoardDetailType, SubBoardPostsType } from '@/app/Models/subBoardType';
+import { SubBoardDetailType, SubBoardResponseType } from '@/app/Models/subBoardType';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+import { createSubBoardDetailKey, createSubBoardPostsKey } from '@/app/queryKeys/subBoardKey';
+import { ErrorResponse } from '@/app/Models/AxiosResponse';
 
 interface ParamsType {
     page: number;
@@ -11,7 +15,7 @@ interface ParamsType {
     favoriteFilter: boolean;
 }
 
-export const getQuests = async ({
+export const getSubBoardsPosts = async ({
     pageParam,
     size,
     categoryParam,
@@ -47,10 +51,53 @@ export const getQuests = async ({
     console.log('params', params);
 
     const response = await Axios.get(`/api/subBoards`, { params: params });
-    return response.data.data as Promise<SubBoardPostsType>;
+    return response.data.data as Promise<SubBoardResponseType>;
 };
 
-export const getQuestDetail = async (subBoardId: number) => {
+export const getSubBoardDetail = async (subBoardId: number) => {
     const response = await Axios.get(`/api/subBoard/${subBoardId}`);
     return response.data.data as Promise<SubBoardDetailType>;
+};
+
+//----------------------------------useQuery----------------------------------
+
+export const useSubBoardPostsQuery = ({ subBoardType }: { subBoardType: 'QUEST' | 'REQUEST' }) => {
+    const searchParams = useSearchParams();
+    const pageParam = Number(searchParams.get('page')) || 1;
+    const categoryParam = searchParams.get('category') || '';
+    const searchParam = searchParams.get('search') || '';
+    const schoolParam = Boolean(searchParams.get('schoolFilter')) || false;
+    const starParam = Boolean(searchParams.get('star')) || false;
+    const sizeParam = 15; //홈페이지에서는 7개, 포스트페이지에서는 15개
+
+    const query = useQuery<SubBoardResponseType, ErrorResponse>({
+        queryKey: createSubBoardPostsKey(
+            subBoardType,
+            pageParam,
+            sizeParam,
+            categoryParam,
+            searchParam,
+            schoolParam,
+            starParam,
+        ),
+        queryFn: () =>
+            getSubBoardsPosts({
+                pageParam,
+                size: sizeParam,
+                categoryParam,
+                searchParam,
+                isSchool: schoolParam,
+                subBoardType: subBoardType,
+                isStar: starParam,
+            }),
+    });
+    return query;
+};
+
+export const useSubBoardDetailQuery = ({ subBoardId }: { subBoardId: number }) => {
+    const query = useQuery({
+        queryKey: createSubBoardDetailKey(subBoardId),
+        queryFn: () => getSubBoardDetail(subBoardId),
+    });
+    return query;
 };

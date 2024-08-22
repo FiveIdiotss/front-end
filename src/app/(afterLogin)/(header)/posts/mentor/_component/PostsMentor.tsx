@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
 import Loading from '@/app/_component/Loading';
-import Pagination from '../../_component/Pagination';
+import Pagination from '@/app/(afterLogin)/_component/common/Pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMentorPostsQuery } from '../../_lib/mentorService';
 import { MentorBoardDTOType } from '@/app/Models/mentorType';
@@ -15,6 +15,7 @@ export default function PostsMentor() {
     const searchParams = useSearchParams();
     const categoryParam = searchParams.get('category') || ''; //카테고리 선택
     const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
+    const sizeParam = Number(searchParams.get('size')) || 24; //페이지 사이즈
     const searchParam = searchParams.get('search') || ''; //검색어
     const schoolFilter = Boolean(searchParams.get('schoolFilter')) || false; //학교필터
     const starParam = Boolean(searchParams.get('star')) || false; //북마크 필터
@@ -60,12 +61,19 @@ export default function PostsMentor() {
                     <MentoPostCard
                         post={post}
                         key={post.boardId}
-                        queryKeys={createMentorPostsKey(pageParam, categoryParam, searchParam, schoolFilter, starParam)} //쿼리키, 북마크 옵티미스틱 업데이트를 위해
+                        queryKeys={createMentorPostsKey(
+                            pageParam,
+                            sizeParam,
+                            categoryParam,
+                            searchParam,
+                            schoolFilter,
+                            starParam,
+                        )} //쿼리키, 북마크 옵티미스틱 업데이트를 위해
                     />
                 ))}
             </div>
             {/* 페이지네이션 */}
-            <Pagination page={pageParam} totalPages={mentorPostsData!.pageInfo.totalPages} />
+            <Pagination totalPages={mentorPostsData!.pageInfo.totalPages} />
         </div>
     );
 }

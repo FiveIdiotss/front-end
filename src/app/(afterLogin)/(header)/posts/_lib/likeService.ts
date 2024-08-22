@@ -1,14 +1,19 @@
 import Axios from '@/app/util/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { OpenQuestionDetailType } from './qeustOrRequestService';
+import { SubBoardDetailType } from '@/app/Models/subBoardType';
 import { pushNotification } from '@/app/util/pushNotification';
 import { AxiosError } from 'axios';
+import {
+    QUEST_SUBBOARD_QUERYKEY,
+    REQUEST_SUBBOARD_QUERYKEY,
+    createSubBoardDetailKey,
+} from '@/app/queryKeys/subBoardKey';
 
-const addLike = async (postId: string) => {
+const addLike = async (postId: number) => {
     const response = await Axios.post(`api/like/${postId}`);
     return response.data.data;
 };
-const postUnlike = async (postId: string) => {
+const postUnlike = async (postId: number) => {
     const response = await Axios.delete(`api/like/${postId}`);
     return response.data.data;
 };
@@ -17,13 +22,13 @@ export const useAddLikeMutation = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: ({ boardId, boardType }: { boardId: string; boardType: string }) => addLike(boardId),
+        mutationFn: ({ boardId, boardType }: { boardId: number; boardType: 'QUEST' | 'REQUEST' }) => addLike(boardId),
         onMutate: async ({ boardId, boardType }) => {
             console.log('boardId', boardId);
             await queryClient.cancelQueries();
-            const previousData = queryClient.getQueryData(['posts', boardType, 'detail', boardId]);
+            const previousData = queryClient.getQueryData(createSubBoardDetailKey(boardId));
 
-            queryClient.setQueryData(['posts', boardType, 'detail', boardId], (old: OpenQuestionDetailType) => {
+            queryClient.setQueryData(createSubBoardDetailKey(boardId), (old: SubBoardDetailType) => {
                 return {
                     ...old,
                     subBoardDTO: {
@@ -54,7 +59,7 @@ export const useAddLikeMutation = () => {
         },
         onSettled: (data, error, variable) => {
             queryClient.invalidateQueries({
-                queryKey: ['posts', variable.boardType],
+                queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
                 refetchType: 'all',
             });
         },
@@ -67,13 +72,13 @@ export const useUnLikeMutation = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: ({ boardId, boardType }: { boardId: string; boardType: string }) => postUnlike(boardId),
+        mutationFn: ({ boardId, boardType }: { boardId: number; boardType: string }) => postUnlike(boardId),
         onMutate: async ({ boardId, boardType }) => {
             console.log('boardId', boardId);
             await queryClient.cancelQueries();
-            const previousData = queryClient.getQueryData(['posts', boardType, 'detail', boardId]);
+            const previousData = queryClient.getQueryData(createSubBoardDetailKey(boardId));
 
-            queryClient.setQueryData(['posts', boardType, 'detail', boardId], (old: OpenQuestionDetailType) => {
+            queryClient.setQueryData(createSubBoardDetailKey(boardId), (old: SubBoardDetailType) => {
                 return {
                     ...old,
                     subBoardDTO: {
@@ -98,7 +103,7 @@ export const useUnLikeMutation = () => {
         },
         onSettled: (data, error, variable) => {
             queryClient.invalidateQueries({
-                queryKey: ['posts', variable.boardType],
+                queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
                 refetchType: 'all',
             });
         },

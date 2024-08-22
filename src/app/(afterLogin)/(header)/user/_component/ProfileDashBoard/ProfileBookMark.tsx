@@ -1,10 +1,10 @@
-import { MentoContentType, MentoPostsType } from '@/app/(afterLogin)/Models/mentoPostsType';
+import { MentorBoardDTOType, MentorResponseType } from '@/app/Models/mentorType';
 import { getBookmark } from '@/app/(afterLogin)/_lib/BookmarkService';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
 import ProfilePostsContent from './ProfilePostsContent';
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
-import SimplePagination from '../SimplePagination';
+import SimplePagination from '@/app/(afterLogin)/_component/common/SimplePagination';
 import { useSearchParams } from 'next/navigation';
 
 function ProfileBookMark() {
@@ -16,7 +16,7 @@ function ProfileBookMark() {
         isLoading: bookmarksIsLoading,
         isError: bookmarksIsError,
         error: bookmarksError,
-    } = useQuery<MentoPostsType>({
+    } = useQuery<MentorResponseType>({
         queryKey: ['posts', 'mento', 'user', 'bookMark', String(pageParam)],
         queryFn: () => getBookmark(pageParam, 6),
     }); //북마크 데이터
@@ -31,7 +31,7 @@ function ProfileBookMark() {
     return (
         <>
             <div className=" my-5 grid w-full grid-cols-2 gap-4 px-3 md:grid-cols-2 xl:grid-cols-3">
-                {bookmarksData?.data.map((post: MentoContentType) => (
+                {bookmarksData?.data.map((post: MentorBoardDTOType) => (
                     <div key={post.boardId} onClick={() => handleModalOpen(post.boardId)}>
                         <MentoPostCard
                             post={post}
@@ -41,7 +41,7 @@ function ProfileBookMark() {
                 ))}
             </div>
             {boardId && <ProfilePostsContent boardId={boardId} onClose={handleModalClose} />}
-            <SimplePagination page={pageParam} totalPages={bookmarksData?.pageInfo.totalPages || 1} />
+            <SimplePagination totalPages={bookmarksData?.pageInfo.totalPages || 1} />
         </>
     );
 }

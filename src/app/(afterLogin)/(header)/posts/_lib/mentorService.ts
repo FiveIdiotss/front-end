@@ -1,5 +1,5 @@
 import Axios from '@/app/util/axiosInstance';
-import { MentorPostsType } from '@/app/Models/mentorType';
+import { MentorResponseType } from '@/app/Models/mentorType';
 import { MentorDetailType } from '@/app/Models/mentorType';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -48,7 +48,7 @@ export const getMentorPosts = async ({
     }
 
     const res = await Axios.get('/api/boards/filter', { params: params });
-    return res.data.data as Promise<MentorPostsType>;
+    return res.data.data as Promise<MentorResponseType>;
 };
 
 export const getMentorDetail = async (id: number) => {
@@ -65,12 +65,14 @@ export const useMentorPostsQuery = () => {
     const searchParam = searchParams.get('search') || ''; //검색어
     const schoolFilter = Boolean(searchParams.get('schoolFilter')) || false; //학교필터
     const starParam = Boolean(searchParams.get('star')) || false; //북마크 필터
-    const query = useQuery<MentorPostsType, AxiosError<ErrorResponse>>({
-        queryKey: createMentorPostsKey(pageParam, categoryParam, searchParam, schoolFilter, starParam),
+    const sizeParam = 24; //홈페이지에서는 7개, 포스트페이지에서는 15개
+
+    const query = useQuery<MentorResponseType, AxiosError<ErrorResponse>>({
+        queryKey: createMentorPostsKey(pageParam, sizeParam, categoryParam, searchParam, schoolFilter, starParam),
         queryFn: () =>
             getMentorPosts({
                 pageParam,
-                size: 24,
+                size: sizeParam,
                 categoryParam,
                 searchParam,
                 isSchool: schoolFilter,

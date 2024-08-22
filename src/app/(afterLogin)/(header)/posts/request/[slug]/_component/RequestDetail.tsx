@@ -1,17 +1,16 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import { getQuestDetail } from '../../../_lib/qeustOrRequestService';
+import { useSubBoardDetailQuery } from '../../../_lib/qeustOrRequestService';
 import Loading from '@/app/_component/Loading';
 import Image from 'next/image';
 import Reply from '../../../_component/postDetail/Reply';
 import PostsDetailNav from '../../../_component/postDetail/PostsDetailNav';
 import Like from '../../../_component/postDetail/Like';
 import { MemberDto } from '@/auth';
+import ErrorDataUI from '@/app/_component/ErrorDataUI';
 function formatDate(dateString: string, dateType: string) {
     const date = new Date(dateString);
-    const now = new Date();
 
     // 시간과 분만 표시
     if (dateType === 'time')
@@ -23,20 +22,19 @@ function formatDate(dateString: string, dateType: string) {
 }
 
 function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: MemberDto }) {
-    const router = useRouter();
-
-    const { data, error, isPending, isError } = useQuery({
-        queryKey: ['posts', 'requests', 'detail', String(boardId)],
-        queryFn: () => getQuestDetail(boardId),
+    const subBoardDetailQuery = useSubBoardDetailQuery({
+        subBoardId: boardId,
     });
+    const { data: requestDetailData, error, isPending } = subBoardDetailQuery;
 
     useEffect(() => {
-        console.log('data', data);
-    }, [data]);
+        console.log('멘토찾기(요청) 상세 데이터', requestDetailData);
+    }, [requestDetailData]);
 
-    if (isPending || !data) return <Loading />;
+    if (isPending) return <Loading className="h-full" />;
+    if (error) return <ErrorDataUI text="오류가 발생했습니다." />;
 
-    const writerId = data?.subBoardDTO.memberId; //작성자 아이디
+    const writerId = requestDetailData?.subBoardDTO.memberId; //작성자 아이디
     const sessionId = memberDTO.id; //로그인한  맴버아이디
 
     return (
@@ -44,27 +42,31 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Mem
             <PostsDetailNav />
             <div className="flex flex-grow flex-col   border-t-2 border-neutral-400">
                 <div className="flex w-full flex-row items-center    gap-3 bg-white  p-5 text-lg ">
-                    <span className=" text-gray-400">[{data?.subBoardDTO.boardCategory}]</span>
-                    <span className=" text-neutral-700">{`${data?.subBoardDTO.title}`}</span>
+                    <span className=" text-gray-400">[{requestDetailData?.subBoardDTO.boardCategory}]</span>
+                    <span className=" text-neutral-700">{`${requestDetailData?.subBoardDTO.title}`}</span>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between border-y border-neutral-200 px-5 py-3 text-sm font-normal text-neutral-600 ">
                     <div className="flex w-full flex-row items-center  gap-2  ">
                         <Image
-                            src={data?.subBoardDTO.imageUrl}
+                            src={requestDetailData?.subBoardDTO.imageUrl}
                             width={30}
                             height={30}
                             alt="프로필 이미지"
                             className="rounded-full"
                         />
-                        <span className="">{data?.subBoardDTO.memberName}&nbsp;</span>
-                        <span className="text-xs text-neutral-500">{data.subBoardDTO.schoolName}</span>·
-                        <span className="text-xs text-neutral-500">{data.subBoardDTO.majorName}</span>
+                        <span className="">{requestDetailData?.subBoardDTO.memberName}&nbsp;</span>
+                        <span className="text-xs text-neutral-500">{requestDetailData.subBoardDTO.schoolName}</span>·
+                        <span className="text-xs text-neutral-500">{requestDetailData.subBoardDTO.majorName}</span>
                     </div>
 
                     <div className="flex w-40 flex-row items-center gap-2 text-neutral-500">
-                        <span className="  text-center  ">{formatDate(data.subBoardDTO.writeTime, 'date')}</span>
+                        <span className="  text-center  ">
+                            {formatDate(requestDetailData.subBoardDTO.writeTime, 'date')}
+                        </span>
                         <span className="text-xs font-extralight">|</span>
-                        <span className="  text-center  ">{formatDate(data.subBoardDTO.writeTime, 'time')}</span>
+                        <span className="  text-center  ">
+                            {formatDate(requestDetailData.subBoardDTO.writeTime, 'time')}
+                        </span>
                     </div>
                 </div>
                 {writerId === sessionId && (
@@ -75,22 +77,22 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Mem
                 )}
                 <div
                     className="html-content min-h-72 w-full border-b p-5 text-sm "
-                    dangerouslySetInnerHTML={{ __html: data?.subBoardDTO.content }}
+                    dangerouslySetInnerHTML={{ __html: requestDetailData?.subBoardDTO.content }}
                 />
                 <Like
                     boardId={boardId}
-                    likeCount={data.subBoardDTO.likeCount}
-                    like={data.subBoardDTO.like}
-                    boardType="requests"
+                    likeCount={requestDetailData.subBoardDTO.likeCount}
+                    like={requestDetailData.subBoardDTO.like}
+                    boardType="REQUEST"
                 />
 
                 {/* 댓글컴포넌트 */}
                 <Reply
-                    replyCount={data.subBoardDTO.replyCount}
-                    subBoardId={data.subBoardDTO.subBoardId}
+                    replyCount={requestDetailData.subBoardDTO.replyCount}
+                    subBoardId={requestDetailData.subBoardDTO.subBoardId}
                     writerId={writerId}
                     sessionId={sessionId}
-                    boardType="requests"
+                    boardType="REQUEST"
                 />
             </div>
         </div>

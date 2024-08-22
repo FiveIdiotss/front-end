@@ -1,10 +1,11 @@
 'use client';
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
 import React, { useEffect, useState } from 'react';
-import SimplePagination from '../SimplePagination';
+import SimplePagination from '@/app/(afterLogin)/_component/common/SimplePagination';
 import { useQuery } from '@tanstack/react-query';
 import { getProfilePosts } from '../_lib/profilePosts';
-import { MentoContentType, MentoPostsType } from '@/app/(afterLogin)/Models/mentoPostsType';
+import { MentorBoardDTOType, MentorResponseType } from '@/app/Models/mentorType';
+
 import Loading from '@/app/_component/Loading';
 import { useSearchParams } from 'next/navigation';
 
@@ -17,7 +18,7 @@ function ProfilePosts() {
         data: myPosts,
         isLoading: myPostsIsLoading,
         isError: myPostsIsError,
-    } = useQuery<MentoPostsType>({
+    } = useQuery<MentorResponseType>({
         queryKey: ['posts', 'mento', 'user', 'self', String(pageParam)],
         queryFn: () => getProfilePosts(pageParam, 6),
     });
@@ -31,7 +32,7 @@ function ProfilePosts() {
     return (
         <>
             <div className=" my-5 grid w-full grid-cols-2 gap-4 px-3 md:grid-cols-2 xl:grid-cols-3">
-                {myPosts?.data.map((post: MentoContentType) => (
+                {myPosts?.data.map((post: MentorBoardDTOType) => (
                     <MentoPostCard
                         post={post}
                         key={post.boardId}
@@ -40,7 +41,7 @@ function ProfilePosts() {
                 ))}
             </div>
             {/* {boardId && <ProfilePostsContent boardId={boardId} onClose={handleModalClose} />} */}
-            <SimplePagination page={pageParam} totalPages={myPosts?.pageInfo.totalPages || 1} />
+            <SimplePagination totalPages={myPosts?.pageInfo.totalPages || 1} />
         </>
     );
 }
