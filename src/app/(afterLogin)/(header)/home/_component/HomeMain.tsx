@@ -16,11 +16,12 @@ function HomeMain() {
 
                 <HomeCategoryBar />
 
-                <div className="mt-12 flex w-full flex-col gap-6 mobile:flex-row">
+                <div className="mt-12 flex w-full flex-col gap-6 desktop:flex-row">
                     <HomeQuestsBoard />
                     <HomeRequestsBoard />
                 </div>
             </div>
+
             <RightSideBar />
             {/* 192px */}
         </div>
