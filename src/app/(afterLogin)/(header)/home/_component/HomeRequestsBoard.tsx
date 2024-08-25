@@ -31,9 +31,7 @@ export default function HomeRequestsBoard() {
     return (
         <section className="flex w-full flex-col">
             <Link className="mb-3 flex w-full flex-row items-end justify-between  " href="/posts/request">
-                <div
-                    className="flex h-14 w-full transform   flex-row items-center gap-2  px-3 "
-                >
+                <div className="flex h-14 w-full transform   flex-row items-center gap-4  ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <FocusIcon className="h-6 w-6 text-primary" />
                     </div>
@@ -42,7 +40,7 @@ export default function HomeRequestsBoard() {
                         <span className="text-sm text-gray-500">많은 멘티들이 다양한 멘토링을 원하고 있어요.</span>
                     </div>
                     <div className="flex flex-grow justify-end">
-                        <ArrowRightIcon className=" h-7 w-7  text-gray-400" />
+                        <ArrowRightIcon className=" h-6 w-6  text-gray-400" />
                     </div>
                 </div>
             </Link>

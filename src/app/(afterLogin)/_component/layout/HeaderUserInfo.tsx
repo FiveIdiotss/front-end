@@ -19,13 +19,14 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
             onMouseEnter={() => setIsHovered(true)}
         >
             <div className="relative">
-                <div className="h-[33px] w-[33px] shrink-0 rounded-full  border-2 border-gray-400 hover:cursor-pointer  hover:border-2 hover:border-primary hover:p-0 ">
+                <div className="relative h-[33px] w-[33px] shrink-0 rounded-full   border-gray-400 hover:cursor-pointer   hover:border-primary hover:p-0 ">
                     <Link href="/user">
                         <Image
                             src={memberDto?.memberImageUrl || '/assets/images/default-user.svg'}
                             alt="user"
+                            sizes="200px"
                             className=" rounded-full object-cover "
-                            fill
+                            fill={true}
                             quality={100}
                             loading="eager"
                         />
@@ -38,14 +39,15 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
                     }  `}
                 >
                     <div className="mt-2  flex w-60 flex-col border bg-white    shadow-sm shadow-neutral-300 ">
-                        <div className="flex w-full flex-row   items-center justify-start gap-2 border-b p-4">
-                            <div className="">
+                        <div className="flex w-full flex-row items-center   justify-start gap-3  border-b p-4">
+                            <div className="relative h-12 w-12">
                                 <Image
                                     src={memberDto?.memberImageUrl || '/assets/images/default-user.svg'}
                                     alt="user"
-                                    className=" rounded-full"
-                                    width={45}
-                                    height={45}
+                                    className=" rounded-full object-cover"
+                                    quality={100}
+                                    fill={true}
+                                    sizes="100px"
                                 />
                             </div>
                             <div className="flex flex-col ">

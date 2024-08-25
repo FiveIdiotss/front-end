@@ -43,7 +43,7 @@ function Header() {
                 </div>
             </div>
             {isPage && (
-                <div className=" z-[3] flex w-full flex-col items-center justify-center bg-gray-700 bg-opacity-80 py-7  ">
+                <div className=" z-[3] flex w-full flex-col items-center justify-center bg-opacity-60  bg-gradient-to-r from-gray-400 via-gray-500 to-gray-400 py-7  ">
                     <div className="flex flex-row items-center justify-center gap-7 ">
                         {/* <BookIcon className="h-12 w-12 text-white" /> */}
                         <span className="text-4xl">{category?.icon}</span>

@@ -31,7 +31,7 @@ export default function HomeQuestsBoard() {
     return (
         <section className="flex w-full flex-col">
             <Link className=" mb-3  flex w-full flex-row items-end justify-between " href="/posts/quest">
-                <div className="flex h-14 w-full flex-row items-center gap-2 ">
+                <div className="flex h-14 w-full flex-row items-center gap-4 ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <MegaPhoneIcon className="h-6 w-6 text-primary" />
                     </div>
@@ -40,7 +40,7 @@ export default function HomeQuestsBoard() {
                         <span className="text-sm text-gray-500">여러 주제로 대화를 나눠요</span>
                     </div>
                     <div className="flex flex-grow justify-end">
-                        <ArrowRightIcon className=" h-7 w-7  text-gray-400" />
+                        <ArrowRightIcon className=" h-6 w-6  text-gray-400" />
                     </div>
                 </div>
             </Link>

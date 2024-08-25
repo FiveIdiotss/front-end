@@ -30,9 +30,9 @@ export default function HomeMentoBoard() {
     }, [mentorPosts]);
 
     return (
-        <section className=" flex flex-col ">
+        <section className="flex flex-col">
             <Link className="mb-3 flex w-full  flex-row items-end justify-between   " href="/posts/mentor">
-                <div className="flex h-14 w-full  flex-row items-center gap-2 ">
+                <div className="flex h-14 w-full  flex-row items-center gap-4 ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <ShackHandsIcon className="h-6 w-6 text-primary" />
                     </div>
@@ -40,7 +40,9 @@ export default function HomeMentoBoard() {
                         <span className=" font-semibold  mobile:text-lg">멘토링</span>
                         <span className="text-sm text-gray-500">많은 사람들이 지식을 나누고 있어요</span>
                     </div>
-                    <ArrowRightIcon className="ml-10 h-7 w-7  text-gray-400" />
+                    <div className="flex flex-grow justify-end">
+                        <ArrowRightIcon className="ml-10 h-6 w-6  text-gray-400" />
+                    </div>
                 </div>
             </Link>
             {isPending && <Loading className="h-[278px]" description="멘토링 데이터를 불러오는중입니다..." />}
