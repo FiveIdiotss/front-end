@@ -14,6 +14,8 @@ export type MentorBoardDTOType = {
     writeTime: string;
     boardCategory: string;
     favorite: boolean; //수정중
+    memberImageUrl: string;
+    representImage: string;
 }; //멘토 게시판 각 카드에 들어갈 정보
 
 export type MentorResponseType = {
