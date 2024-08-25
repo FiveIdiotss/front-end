@@ -6,6 +6,8 @@ import { MentorBoardDTOType } from '@/app/Models/mentorType';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import MentoModal from '../(header)/posts/mentor/_component/MentoModal';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import BookMarkIcon from '@/app/_icons/common/BookMarkIcon';
 
 function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKeys: (string | number | boolean)[] }) {
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); //모달창 상태
@@ -68,15 +70,18 @@ function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKey
     return (
         <>
             <div
-                className=" my-1 flex h-[270px] w-full  transform cursor-pointer flex-col rounded-md border border-neutral-200 bg-white px-5 py-4 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
+                className=" my-1 flex h-[330px] w-full  transform cursor-pointer flex-col rounded-md border border-gray-100 bg-white bg-opacity-50 px-5 py-4 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
                 onClick={handleDetailModalOpen}
             >
                 <div className="flex flex-grow flex-col">
-                    <h3 className="line-clamp-3 text-base  font-semibold">
-                        <span className="text-neutral-500">[{post.boardCategory}]</span>
-                        &nbsp;
-                        {post.title}
-                    </h3>
+                    <div className="relative flex h-24 w-full flex-col ">
+                        <h3 className="line-clamp-3 text-base  font-semibold">
+                            <span className="text-neutral-500">[{post.boardCategory}]</span>
+                            &nbsp;
+                            {post.title}
+                        </h3>
+                        {/* <Image src={post.representImage || ''} alt="post" fill={true} className="object-cover" /> */}
+                    </div>
                     <dl className="mt-2 ">
                         <div className="flex flex-row gap-2">
                             <dt className="text-sm  text-gray-400 ">학교</dt>
@@ -101,17 +106,20 @@ function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKey
                     </dl>
                 </div>
                 <div className="my-3">
-                    <SectionDivider />
+                    <SectionDivider color="border-purple-100" />
                 </div>
-                <div className="flex h-7 justify-between ">
-                    <span className="rounded-lg bg-yellow-100  px-2  text-sm text-neutral-500 underline underline-offset-2 hover:scale-105 hover:text-black">
-                        {post.memberName}
-                    </span>
+                <div className="flex h-8 ">
+                    <div className="flex flex-grow items-center gap-2">
+                        <div className=" relative h-7 w-7 overflow-hidden rounded-full">
+                            <Image src={post.memberImageUrl} alt="profile" fill={true} className="object-cover" />
+                        </div>
+                        <span className="text-sm  font-semibold text-neutral-500">{post.memberName}</span>
+                    </div>
                     <button
-                        className="h-8 w-8 rounded-full  p-1 hover:bg-red-100 "
+                        className="h-8 w-8 rounded-full  bg-gray-100  p-1 hover:bg-purple-100 "
                         onClick={(event) => handleToggleBookmark(event)}
                     >
-                        <HeartIcon fill="red" className="text-red-500" isCheck={post.favorite} />
+                        <BookMarkIcon className="text-red-500" isCheck={post.favorite} />
                     </button>
                 </div>
             </div>
