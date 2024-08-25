@@ -47,14 +47,16 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Mem
                 </div>
                 <div className="flex w-full flex-row items-center justify-between border-y border-neutral-200 px-5 py-3 text-sm font-normal text-neutral-600 ">
                     <div className="flex w-full flex-row items-center  gap-2  ">
-                        <Image
-                            src={requestDetailData?.subBoardDTO.imageUrl}
-                            width={30}
-                            height={30}
-                            alt="프로필 이미지"
-                            className="rounded-full"
-                        />
-                        <span className="">{requestDetailData?.subBoardDTO.memberName}&nbsp;</span>
+                        <div className="relative h-8 w-8 ">
+                            <Image
+                                src={requestDetailData?.subBoardDTO.imageUrl}
+                                alt="프로필 이미지"
+                                fill={true}
+                                sizes="32px"
+                                className="rounded-full"
+                            />
+                        </div>
+                        <span className="font-medium">{requestDetailData?.subBoardDTO.memberName}&nbsp;</span>
                         <span className="text-xs text-neutral-500">{requestDetailData.subBoardDTO.schoolName}</span>·
                         <span className="text-xs text-neutral-500">{requestDetailData.subBoardDTO.majorName}</span>
                     </div>

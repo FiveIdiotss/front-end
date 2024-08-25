@@ -110,8 +110,15 @@ function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKey
                 </div>
                 <div className="flex h-8 ">
                     <div className="flex flex-grow items-center gap-2">
-                        <div className=" relative h-7 w-7 overflow-hidden rounded-full">
-                            <Image src={post.memberImageUrl} alt="profile" fill={true} className="object-cover" />
+                        <div className=" relative h-7 w-7  ">
+                            <Image
+                                src={post.memberImageUrl}
+                                alt="profile"
+                                fill={true}
+                                sizes="56px"
+                                quality={100}
+                                className="rounded-full object-cover"
+                            />
                         </div>
                         <span className="text-sm  font-semibold text-neutral-500">{post.memberName}</span>
                     </div>

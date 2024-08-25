@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import PencilIcon from '../../../_icons/common/PencilIcon';
 import SectionDivider from '../../_component/SectionDivider';
 import ProfileDashBoard from './_component/ProfileDashBoard/ProfileDashBoard';
+import Link from 'next/link';
 
 async function UserPage() {
     const session = await auth();
@@ -11,14 +12,17 @@ async function UserPage() {
     return (
         <div className="flex h-full w-full flex-col gap-1 p-7">
             <div className="flex  flex-row gap-6 ">
-                <Image
-                    src={session?.user?.memberDTO.memberImageUrl || ''}
-                    alt="profile"
-                    width={140}
-                    height={140}
-                    loading="eager"
-                    className=" rounded-full object-cover "
-                />
+                <Link href={session?.user?.memberDTO.memberImageUrl || ''} className="relative h-[140px] w-[140px]  ">
+                    <Image
+                        src={session?.user?.memberDTO.memberImageUrl || ''}
+                        alt="profile"
+                        fill={true}
+                        sizes="200px"
+                        quality={100}
+                        loading="eager"
+                        className="rounded-full object-cover"
+                    />
+                </Link>
                 <div className="flex flex-col justify-center gap-1">
                     <span className="text-2xl font-extrabold ">{session?.user?.memberDTO.name}</span>
                     <span className="text-base font-semibold text-neutral-600">

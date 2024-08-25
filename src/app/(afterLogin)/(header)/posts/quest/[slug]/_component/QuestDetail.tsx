@@ -46,14 +46,16 @@ function QuestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Membe
                 </div>
                 <div className="flex w-full flex-row items-center justify-between border-y border-neutral-200 px-5 py-3 text-sm font-normal text-neutral-600 ">
                     <div className="flex w-full flex-row items-center  gap-2  ">
-                        <Image
-                            src={questDetailData?.subBoardDTO.imageUrl}
-                            width={30}
-                            height={30}
-                            alt="프로필 이미지"
-                            className="rounded-full"
-                        />
-                        <span className="">{questDetailData?.subBoardDTO.memberName}&nbsp;</span>
+                        <div className="relative h-7 w-7">
+                            <Image
+                                src={questDetailData?.subBoardDTO.imageUrl}
+                                fill={true}
+                                sizes="28px"
+                                alt="프로필 이미지"
+                                className="rounded-full object-cover "
+                            />
+                        </div>
+                        <span className="font-medium">{questDetailData?.subBoardDTO.memberName}&nbsp;</span>
                         <span className="text-xs text-neutral-500">{questDetailData.subBoardDTO.schoolName}</span>·
                         <span className="text-xs text-neutral-500">{questDetailData.subBoardDTO.majorName}</span>
                     </div>

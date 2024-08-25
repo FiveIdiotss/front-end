@@ -29,7 +29,7 @@ function QuestsRequestsCard({ data, boardType }: { data: SubBoardDTOType; boardT
     return (
         <Link
             href={url}
-            className="flex w-full cursor-pointer flex-row items-center gap-4 border-b px-2 py-4 hover:bg-neutral-200 "
+            className="flex w-full cursor-pointer flex-row items-center gap-4 border-b px-2 py-4 hover:bg-gray-100 "
         >
             <div className="flex flex-grow flex-row items-center gap-4 ">
                 <div className="flex items-center gap-1  font-medium">
@@ -47,7 +47,15 @@ function QuestsRequestsCard({ data, boardType }: { data: SubBoardDTOType; boardT
 
             <div className="flex shrink-0 flex-row  items-center gap-6">
                 <div className="flex flex-row items-center gap-1 text-xs font-light  ">
-                    <Image src={data.imageUrl} width={20} height={20} alt="프로필 이미지" className="rounded-full" />
+                    <div className="relative h-5 w-5 ">
+                        <Image
+                            src={data.imageUrl}
+                            sizes="20px"
+                            fill={true}
+                            className="rounded-full object-cover"
+                            alt="프로필 이미지"
+                        />
+                    </div>
                     <span className="text-neutral-700">{data.memberName}</span>
                 </div>
                 <div className="flex w-fit flex-row items-center gap-1">
