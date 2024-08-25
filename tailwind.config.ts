@@ -32,6 +32,9 @@ const config: Config = {
                 primary: {
                     DEFAULT: '#6554BD',
                 },
+                // primary: {
+                //     DEFAULT: '#3b82f6',
+                // },
                 secondary: {
                     DEFAULT: '#C1BBEB',
                 },

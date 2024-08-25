@@ -6,6 +6,8 @@ import { useHomeQuestsQuery } from '../_lib/homeService';
 import EmptyDataUI from '@/app/_component/EmptyDataUI';
 import { pushNotification } from '@/app/util/pushNotification';
 import Loading from '@/app/_component/Loading';
+import MegaPhoneIcon from '@/app/_icons/Menu/MegaPhoneIcon';
+import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 
 export default function HomeQuestsBoard() {
     const homeQuestsQuery = useHomeQuestsQuery();
@@ -29,9 +31,18 @@ export default function HomeQuestsBoard() {
     return (
         <section className="flex w-full flex-col">
             <Link className=" mb-3  flex w-full flex-row items-end justify-between " href="/posts/quest">
-                <span className="text-xl font-medium text-neutral-700">자유로운 질문</span>
-                {/* <ArrowRightIcon className="ml-1 h-7 w-7 text-neutral-700" /> */}
-                <span className="text-sm font-extralight text-neutral-600">더보기 +</span>
+                <div className="flex h-14 w-full flex-row items-center gap-2 ">
+                    <div className="rounded-md border p-1 shadow-sm">
+                        <MegaPhoneIcon className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className=" font-semibold mobile:text-lg">질문 하기</span>
+                        <span className="text-sm text-gray-500">여러 주제로 대화를 나눠요</span>
+                    </div>
+                    <div className="flex flex-grow justify-end">
+                        <ArrowRightIcon className=" h-7 w-7  text-gray-400" />
+                    </div>
+                </div>
             </Link>
             {questsData?.data.length === 0 && <EmptyDataUI text="게시글 없음" />}
             {isPending && <Loading className="h-full min-h-[378px]" description="질문 데이터를 불러오는중입니다..." />}

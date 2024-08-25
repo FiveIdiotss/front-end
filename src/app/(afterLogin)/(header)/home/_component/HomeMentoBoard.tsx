@@ -1,11 +1,15 @@
 'use client';
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
 import Link from 'next/link';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import MultiCarousel from './MultiCarousel';
 import { useHomeMentorPostsQeury } from '../_lib/homeService';
 import { pushNotification } from '@/app/util/pushNotification';
 import Loading from '@/app/_component/Loading';
+import FocusIcon from '@/app/_icons/Menu/FocusIcon';
+import ShackHandsIcon from '@/app/_icons/Menu/ShackHandsIcon';
+import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
+import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 
 export default function HomeMentoBoard() {
     const mentorPostsQeury = useHomeMentorPostsQeury();
@@ -26,11 +30,18 @@ export default function HomeMentoBoard() {
     }, [mentorPosts]);
 
     return (
-        <section className="flex flex-col ">
-            <Link className="mb-3 flex w-full flex-row items-end justify-between  pt-12  " href="/posts/mentor">
-                <span className="text-xl font-medium text-neutral-700">멘토들의 지식 공유</span>
-                {/* <ArrowRightIcon className="ml-2 h-8 w-8 text-neutral-700" /> */}
-                <span className="text-sm font-extralight text-neutral-600">더보기 +</span>
+        <section className=" flex flex-col ">
+            <Link className="mb-3 flex w-full  flex-row items-end justify-between   " href="/posts/mentor">
+                <div className="flex h-14 w-full  flex-row items-center gap-2 ">
+                    <div className="rounded-md border p-1 shadow-sm">
+                        <ShackHandsIcon className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex flex-col ">
+                        <span className=" font-semibold  mobile:text-lg">멘토링</span>
+                        <span className="text-sm text-gray-500">많은 사람들이 지식을 나누고 있어요</span>
+                    </div>
+                    <ArrowRightIcon className="ml-10 h-7 w-7  text-gray-400" />
+                </div>
             </Link>
             {isPending && <Loading className="h-[278px]" description="멘토링 데이터를 불러오는중입니다..." />}
 

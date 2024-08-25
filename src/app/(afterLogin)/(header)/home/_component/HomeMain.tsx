@@ -8,15 +8,13 @@ import Loading from '@/app/_component/Loading';
 
 function HomeMain() {
     return (
-        <div className=" mx-auto flex w-full max-w-[1500px] flex-row gap-8  px-8 py-5  ">
+        <div className=" mx-auto flex w-full max-w-[1500px] flex-row justify-between gap-4 px-4     py-5 mobile:px-8  ">
             {/* 32px */}
-            <div className=" flex w-full  flex-col mobile:w-[calc(100%-256px)]">
-                {/* 192px-gap+sidebar_width */}
+            <div className=" mx-auto flex  w-full flex-col  gap-10 tablet:w-[calc(100%-208px)]">
+                <HomeCategoryBar />
                 <HomeMentoBoard />
 
-                <HomeCategoryBar />
-
-                <div className="mt-12 flex w-full flex-col gap-6 desktop:flex-row">
+                <div className=" mt-6 flex w-full flex-col gap-6 desktop:flex-row">
                     <HomeQuestsBoard />
                     <HomeRequestsBoard />
                 </div>

@@ -6,6 +6,8 @@ import { useHomeRequestsQuery } from '../_lib/homeService';
 import Loading from '@/app/_component/Loading';
 import { pushNotification } from '@/app/util/pushNotification';
 import EmptyDataUI from '@/app/_component/EmptyDataUI';
+import FocusIcon from '@/app/_icons/Menu/FocusIcon';
+import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 
 export default function HomeRequestsBoard() {
     const homeRequestsQuery = useHomeRequestsQuery();
@@ -29,8 +31,20 @@ export default function HomeRequestsBoard() {
     return (
         <section className="flex w-full flex-col">
             <Link className="mb-3 flex w-full flex-row items-end justify-between  " href="/posts/request">
-                <span className="text-xl font-medium text-neutral-700">멘토링 주제 요청</span>
-                <span className="text-sm font-extralight text-neutral-600">더보기 +</span>
+                <div
+                    className="flex h-14 w-full transform   flex-row items-center gap-2  px-3 "
+                >
+                    <div className="rounded-md border p-1 shadow-sm">
+                        <FocusIcon className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="  font-semibold mobile:text-lg">멘토링 주제 요청</span>
+                        <span className="text-sm text-gray-500">많은 멘티들이 다양한 멘토링을 원하고 있어요.</span>
+                    </div>
+                    <div className="flex flex-grow justify-end">
+                        <ArrowRightIcon className=" h-7 w-7  text-gray-400" />
+                    </div>
+                </div>
             </Link>
             {isPending && <Loading className="h-full min-h-[378px]" description="질문 데이터를 불러오는중입니다..." />}{' '}
             {requestsData?.data.length === 0 && <EmptyDataUI text="게시글 없음" />}
