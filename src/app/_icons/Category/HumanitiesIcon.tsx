@@ -9,7 +9,9 @@ function HumanitiesIcon({ className }: { className: string }) {
             y="0px"
             viewBox="0 0 64 64"
             enable-background="new 0 0 64 64"
-            fill="currentColor"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
             className={className}
         >
             <g id="_x30_1"></g>
