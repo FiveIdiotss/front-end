@@ -1,4 +1,4 @@
-import { uploadImage as uploadFile } from '../_lib/uploadFile';
+import { uploadImage as uploadFile } from '../_lib/uploadFileService';
 import { use, useEffect, useMemo, useRef, useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -112,18 +112,13 @@ const QuillEditor = ({ defualtValue, setContent, content, setMainImage }: QuestR
                         { background: [] },
                     ],
                     ['image', 'video'],
-                    ['clean'],
-                    ['#toolbar'],
                 ],
 
                 handlers: {
                     image: imageHandler,
                 },
             },
-            // ImageResize: {
-            //     parchment: Quill.import('parchment'),
-            //     modules: ['Resize', 'DisplaySize'],
-            // },
+
             resize: {
                 locale: {
                     // change them depending on your language
@@ -149,7 +144,7 @@ const QuillEditor = ({ defualtValue, setContent, content, setMainImage }: QuestR
                                 className={`relative border  ${url === imageFocus ? ' border-neutral-500' : ' border-white'}`}
                             >
                                 <button
-                                    className={` relative h-[72px] w-[72px] `} // 이미지 미리보기 크기
+                                    className={`relative  flex h-[72px] w-[72px] `} // 이미지 미리보기 크기
                                     onClick={() => handleImageFocusToggle(url)}
                                 >
                                     <Image
