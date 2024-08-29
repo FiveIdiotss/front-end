@@ -31,7 +31,10 @@ export default function HomeMentoBoard() {
 
     return (
         <section className="flex flex-col">
-            <Link className="mb-3 flex w-full  flex-row items-end justify-between   " href="/posts/mentor">
+            <Link
+                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
+                href="/posts/mentor"
+            >
                 <div className="flex h-14 w-full  flex-row items-center gap-4 ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <ShackHandsIcon className="h-6 w-6 text-primary" />

@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-import QuestsRequestsCard from '../../posts/_component/questsRequests/QuestsRequestsCard';
+import SubBoardCard from '../../posts/_component/subBoard/SubBoardCard';
 import { useHomeQuestsQuery } from '../_lib/homeService';
 import EmptyDataUI from '@/app/_component/EmptyDataUI';
 import { pushNotification } from '@/app/util/pushNotification';
@@ -30,7 +30,10 @@ export default function HomeQuestsBoard() {
 
     return (
         <section className="flex w-full flex-col">
-            <Link className=" mb-3  flex w-full flex-row items-end justify-between " href="/posts/quest">
+            <Link
+                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
+                href="/posts/quest"
+            >
                 <div className="flex h-14 w-full flex-row items-center gap-4 ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <MegaPhoneIcon className="h-6 w-6 text-primary" />
@@ -49,7 +52,7 @@ export default function HomeQuestsBoard() {
 
             <div className="flex w-full flex-col">
                 {questsData?.data.map((openQuestion, index) => (
-                    <QuestsRequestsCard key={index} data={openQuestion} boardType="quest" />
+                    <SubBoardCard key={index} data={openQuestion} boardType="quest" />
                 ))}
             </div>
 
