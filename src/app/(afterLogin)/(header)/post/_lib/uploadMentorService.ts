@@ -1,25 +1,11 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { newMentorFormType } from '@/app/Models/mentorType';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-type newPostFormData = {
-    request: {
-        title: string;
-        introduce: string;
-        target: string;
-        content: string;
-        consultTime: number;
-        times: { startTime: string; endTime: string }[];
-        availableDays: string[];
-        boardCategory: string;
-        platform: 'WEB' | 'APP';
-    };
-    images: File[];
-};
-
-const postMentor = async ({ request, images }: newPostFormData) => {
+const postMentor = async ({ request, images }: newMentorFormType) => {
     const formData = new FormData();
     const requestBlob = new Blob(
         [
@@ -55,6 +41,8 @@ const postMentor = async ({ request, images }: newPostFormData) => {
         throw error;
     }
 };
+
+//-------------------------------------------hooks-------------------------------------------
 
 export const usePostMentorMutation = () => {
     const mutation = useMutation({

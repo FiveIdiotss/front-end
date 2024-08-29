@@ -1,32 +1,11 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { newSubBoardFormType } from '@/app/Models/subBoardType';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-export const uploadImage = async (file: File) => {
-    const formData = new FormData();
-    formData.append('multipartFile', file);
-
-    const response = await Axios.post('/api/image', formData);
-    console.log(response.data.data);
-
-    return response.data.data;
-};
-
-type QuestRequestType = {
-    request: {
-        title: string;
-        content: string;
-        boardCategory: string;
-        subBoardType: 'QUEST' | 'REQUEST';
-        platform: 'WEB' | 'APP';
-    };
-
-    images: File[] | [];
-};
-
-const postQuestRequest = async (data: QuestRequestType) => {
+const postQuestRequest = async (data: newSubBoardFormType) => {
     const formData = new FormData();
     const requestBlob = new Blob(
         [
@@ -61,12 +40,13 @@ const postQuestRequest = async (data: QuestRequestType) => {
         throw error;
     }
 };
+//-------------------------------------------hooks-------------------------------------------
 
 export const useQuestMutation = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: (data: QuestRequestType) => postQuestRequest(data),
+        mutationFn: (data: newSubBoardFormType) => postQuestRequest(data),
         onSuccess: (data, variable) => {
             queryClient.invalidateQueries({
                 queryKey: ['posts', 'quests'],
@@ -90,7 +70,7 @@ export const useRequestMutation = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: (data: QuestRequestType) => postQuestRequest(data),
+        mutationFn: (data: newSubBoardFormType) => postQuestRequest(data),
         onSuccess: (data, variable) => {
             queryClient.invalidateQueries({
                 queryKey: ['posts', 'requests'],
