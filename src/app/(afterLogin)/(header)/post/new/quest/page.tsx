@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useQuestMutation } from '../../_lib/uploadFile';
 import { debounce, set } from 'lodash';
-import QuillEditor from '../../_components/TestEditor';
+import QuillEditor from '../../_components/Editor';
 import SubmitButton from '../../_components/SubmitButton';
 
 function QuestFormPage() {

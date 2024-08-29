@@ -12,7 +12,7 @@ import WarningMessage from '@/app/_component/WarningMessage';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
-import QuillEditor from '../../_components/TestEditor';
+import QuillEditor from '../../_components/Editor';
 import { debounce } from 'lodash';
 import SubmitButton from '../../_components/SubmitButton';
 import { usePostMentorMutation } from '../../_lib/uploadMentor';
