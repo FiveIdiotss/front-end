@@ -12,7 +12,7 @@ export default function HomeLayout({ children }: Props) {
     return (
         // Wrapper
 
-        <div className=" w-dvh flex   h-dvh flex-col overflow-y-auto bg-gray-50">
+        <div className=" w-dvh flex h-dvh  flex-col  overflow-x-hidden bg-gray-50">
             {/* Home */}
 
             <Header />
