@@ -18,43 +18,53 @@ function MultiCarousel({ children }: Props) {
         desktop: {
             breakpoint: {
                 max: 3000,
-                min: 1401,
+                min: 120,
             },
             items: 4,
             slidesToSlide: 4,
         },
         tablet: {
             breakpoint: {
-                max: 1400,
-                min: 1101,
+                max: 1200,
+                min: 769,
             },
             items: 3,
             slidesToSlide: 3,
         },
         mobile: {
             breakpoint: {
-                max: 1100,
-                min: 0,
+                max: 768,
+                min: 580,
             },
             items: 2,
             slidesToSlide: 2,
         },
+        miniMobile: {
+            breakpoint: {
+                max: 579,
+                min: 0,
+            },
+            items: 1,
+            slidesToSlide: 1,
+            partialVisibilityGutter: 70,
+        },
     };
     return (
         <Carousel
+            partialVisible={true}
             additionalTransfrom={0}
             containerClass="carousel-container"
             arrows
             autoPlaySpeed={3000}
             centerMode={false}
-            className=""
             dotListClass=""
             draggable={true}
             focusOnSelect={false}
-            itemClass="px-2"
+            itemClass="px-1"
             pauseOnHover
             // minimumTouchDrag
             renderArrowsWhenDisabled={false}
+            removeArrowOnDeviceType={['miniMobile']}
             renderButtonGroupOutside={false}
             renderDotsOutside={false}
             rewind={false}
@@ -62,7 +72,6 @@ function MultiCarousel({ children }: Props) {
             rtl={false}
             showDots={false}
             sliderClass=""
-            swipeable
             responsive={responsive}
             ssr={false} // means to render carousel on server-side.
         >
