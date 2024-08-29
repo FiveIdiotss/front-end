@@ -70,9 +70,9 @@ body {
     width: calc(100% - 240px);
 }
 
-.carousel-container {
-    width: 100%;
-}
+/* .carousel-container {
+    @apply overflow-hidden !important;
+} */
 @keyframes slide-up {
     0% {
         transform: translateY(100%);
