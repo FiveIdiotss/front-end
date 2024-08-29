@@ -17,7 +17,8 @@ function FilterNav() {
     if (!isPage) return null;
     return (
         <div
-            className={` sticky top-[114px] z-[2] flex w-full  max-w-[1300px]  flex-col gap-10 border-b border-gray-400  border-opacity-80 bg-neutral-50   pb-4  pt-7 `}
+            className={`  flex w-full  max-w-[1300px]  flex-col gap-10 border-b border-gray-400  border-opacity-80 bg-neutral-50   pb-4  pt-7 `}
+            // sticky top-[114px] z-[2]
         >
             <div className="flex w-full flex-row justify-between">
                 <CategorySelector />
