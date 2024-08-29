@@ -19,8 +19,8 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
             onMouseEnter={() => setIsHovered(true)}
         >
             <div className="relative">
-                <div className="relative h-[33px] w-[33px] shrink-0 rounded-full   border-gray-400 hover:cursor-pointer   hover:border-primary hover:p-0 ">
-                    <Link href="/user">
+                <Link href="/user">
+                    <div className="relative h-[33px] w-[33px] shrink-0 rounded-full   border-gray-400 hover:cursor-pointer   hover:border-primary hover:p-0 ">
                         <Image
                             src={memberDto?.memberImageUrl || '/assets/images/default-user.svg'}
                             alt="user"
@@ -30,8 +30,8 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
                             quality={100}
                             loading="eager"
                         />
-                    </Link>
-                </div>
+                    </div>
+                </Link>
 
                 <div
                     className={`absolute  right-0 top-12 flex    flex-col  ${isHovered ? ' transition-all duration-200 ease-in' : ''} ${
