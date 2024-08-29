@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Pagination from '@/app/(afterLogin)/_component/common/Pagination';
 import Loading from '@/app/_component/Loading';
-import { useSearchParams } from 'next/navigation';
-import QuestRequestsCard from '../../_component/questsRequests/QuestsRequestsCard';
+import SubBoardCard from '../../_component/subBoard/SubBoardCard';
 import { useSubBoardPostsQuery } from '../../_lib/qeustOrRequestService';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 
@@ -26,7 +25,7 @@ function PostsRequests() {
             <div className="w-full flex-col">
                 <div className=" flex w-full   flex-col ">
                     {requestsData.data.map((request, index) => (
-                        <QuestRequestsCard key={index} data={request} boardType="request" />
+                        <SubBoardCard key={index} data={request} boardType="request" />
                     ))}
                 </div>
             </div>
