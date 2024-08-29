@@ -3,6 +3,8 @@ import React from 'react';
 import { SubBoardDTOType } from '@/app/Models/subBoardType';
 import Image from 'next/image';
 import Link from 'next/link';
+import MobileIcon from '@/app/_icons/common/MobileIcon';
+import ImageIcon from '@/app/_icons/common/ImageIcon';
 
 function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -23,29 +25,33 @@ function formatDate(dateString: string) {
     }
 }
 
-function QuestsRequestsCard({ data, boardType }: { data: SubBoardDTOType; boardType: 'request' | 'quest' }) {
+function SubBoardCard({ data, boardType }: { data: SubBoardDTOType; boardType: 'request' | 'quest' }) {
     const isQuestion = data.replyCount === 0;
     const url = boardType === 'quest' ? `/posts/quest/${data.subBoardId}` : `/posts/request/${data.subBoardId}`;
     return (
         <Link
             href={url}
-            className="flex w-full cursor-pointer flex-row items-center gap-4 border-b px-2 py-4 hover:bg-gray-100 "
+            className="flex w-full cursor-pointer flex-col items-center gap-4 border-b px-2 py-4 hover:bg-gray-100 mobile:flex-row "
         >
-            <div className="flex flex-grow flex-row items-center gap-4 ">
-                <div className="flex items-center gap-1  font-medium">
+            <div className="mr-auto  flex flex-grow flex-row items-center gap-3  mobile:mr-0 ">
+                <div className="flex  items-center gap-1  font-medium">
+                    {data.platform === 'APP' && <MobileIcon className="h-4  w-4 shrink-0 text-primary" />}
                     {isQuestion && boardType === 'quest' && (
-                        <span className="mr-1 text-xs text-green-600">{`[질문]`}</span>
+                        <span className="mr-1 shrink-0  text-xs text-green-600">{`[질문]`}</span>
                     )}
                     {!isQuestion && boardType === 'quest' && (
                         <span className="mr-1 shrink-0 text-xs text-blue-600">{`[답변완료]`}</span>
                     )}
-                    <span className="mr-1 shrink-0 text-xs text-gray-400">[{data.boardCategory}]</span>
-                    <span className="line-clamp-2 text-sm text-neutral-600">{data.title}</span>
-                    <span className="text-xs text-neutral-400">{`(${data.replyCount})`}</span>
+                    <span className="mr-1 shrink-0  text-xs text-gray-400">[{data.boardCategory}]</span>
+                    <span className="line-clamp-1 flex-grow  text-sm text-neutral-600">{data.title}</span>
+                    <span className="shrink-0 text-xs text-neutral-400">{`(${data.replyCount})`}</span>
+                    {(data.representImage !== '' || data.representImage) && (
+                        <ImageIcon className="h-4 w-4 shrink-0 text-neutral-400 " />
+                    )}
                 </div>
             </div>
 
-            <div className="flex shrink-0 flex-row  items-center gap-6">
+            <div className="ml-auto flex shrink-0 flex-row items-center gap-3  mobile:ml-0 mobile:gap-6">
                 <div className="flex flex-row items-center gap-1 text-xs font-light  ">
                     <div className="relative h-5 w-5 ">
                         <Image
@@ -62,7 +68,7 @@ function QuestsRequestsCard({ data, boardType }: { data: SubBoardDTOType; boardT
                     <LikeIcon className="h-4 w-4 text-primary" isLike={false} />
                     <span className="text-xs text-primary">{data.likeCount}</span>
                 </div>
-                <span className="w-20  text-center text-xs text-neutral-700">{formatDate(data.writeTime)}</span>
+                <span className="w-16  text-center text-xs text-neutral-700">{formatDate(data.writeTime)}</span>
             </div>
             {/* <span className="text-xs font-light text-neutral-700">333</span>
                             <span className="text-xs font-light text-neutral-700">11</span> */}
@@ -70,4 +76,4 @@ function QuestsRequestsCard({ data, boardType }: { data: SubBoardDTOType; boardT
     );
 }
 
-export default QuestsRequestsCard;
+export default SubBoardCard;
