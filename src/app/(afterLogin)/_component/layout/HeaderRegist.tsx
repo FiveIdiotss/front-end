@@ -14,7 +14,7 @@ function HeaderRegist() {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div onMouseLeave={() => setIsHovered(false)} className="flex h-full items-center">
+        <div onMouseLeave={() => setIsHovered(false)} className=" hidden h-full items-center mobile:flex">
             <div className="relative">
                 <button
                     className={` hidden h-10 shrink-0  cursor-pointer items-center justify-center gap-2 rounded-lg border      px-4 shadow-sm transition-transform duration-200  mobile:flex  `}

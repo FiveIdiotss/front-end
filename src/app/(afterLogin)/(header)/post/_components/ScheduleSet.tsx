@@ -21,16 +21,16 @@ function ScheduleSet() {
     const { times, interver, days } = useMentoNewPost(); //zustand
     const handleAddTimeModal = () => {
         setModalOpen(true);
-    };
+    }; //시간선택모달열기
     const handleDeleteTime = (key: string) => {
         useMentoNewPost.setState({ times: times.filter((time) => time.key !== key) });
-    };
+    }; //시간삭제
     const handleInterverChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         useMentoNewPost.setState({ times: [] });
 
         const value = Number(event.target.value);
         useMentoNewPost.setState({ interver: value });
-    };
+    }; //시간간격설정
     const handledaysChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         if (days.includes(value)) {
@@ -38,24 +38,25 @@ function ScheduleSet() {
         } else {
             useMentoNewPost.setState({ days: [...days, value] });
         }
-    };
+    }; //요일선택
 
     return (
         <>
             <div className="mt-3 flex flex-col  items-start gap-3">
                 {/* 요일선택 */}
-                <div className="mt-4 flex w-full flex-row justify-center gap-10 border-b p-2">
+                <div className="mt-4 grid w-full grid-cols-4 justify-between  border-b p-2 mobile:grid-cols-7">
                     {DAYS.map((day) => (
                         <label
                             key={day}
-                            className="flex  cursor-pointer items-center justify-center gap-2 rounded-3xl px-3 py-2 text-lg  text-neutral-700 hover:bg-primary hover:bg-opacity-15"
+                            className="flex cursor-pointer items-center  justify-center gap-2 rounded-lg px-3 py-2 text-sm text-neutral-700   hover:bg-gray-300 hover:bg-opacity-15 mobile:text-base"
                         >
                             {day}
                             <input
                                 type="checkbox"
-                                className="h-5 w-5 cursor-pointer"
+                                className="h-4 w-4 cursor-pointer mobile:h-5 mobile:w-5 "
                                 value={day}
                                 onChange={handledaysChange}
+                                checked={days.includes(day)}
                             />
                         </label>
                     ))}
@@ -63,14 +64,16 @@ function ScheduleSet() {
 
                 {/* 시간선택 */}
                 <div className="flex w-full flex-row flex-wrap items-center justify-start gap-2 border-b py-2">
-                    <div className="mb-6 flex w-full  flex-row items-center gap-2 border border-yellow-200 p-2">
-                        <div>
-                            <Image src={warning_yellow} alt="warning" height={30} width={30} />
+                    <div className="mb-6 flex w-full  flex-col items-center gap-2 border border-yellow-200 p-2 mobile:flex-row">
+                        <div className="flex flex-row items-center gap-2 ">
+                            <div className="flex-shrink-0">
+                                <Image src={warning_yellow} alt="warning" height={20} width={20} />
+                            </div>
+                            <span className="ml-2 flex-grow text-xs leading-5 text-gray-500 mobile:text-sm">
+                                지정한 시간 범위안에서 자동으로 선택한 시간으로 나눠집니다. <br />예{`)`} 10:00 ~ 12:00
+                                사이에 30분 단위로 선택시 10:00, 10:30, 11:00, 11:30 으로 설정됩니다.
+                            </span>
                         </div>
-                        <span className="ml-2 flex-grow text-sm leading-5 text-gray-500">
-                            지정한 시간 범위안에서 자동으로 선택한 시간으로 나눠집니다. <br />예{`)`} 10:00 ~ 12:00
-                            사이에 30분 단위로 선택시 10:00, 10:30, 11:00, 11:30 으로 설정됩니다.
-                        </span>
                         <div className="mx-3 flex flex-shrink-0    flex-row items-center gap-2 rounded-lg border border-dashed border-neutral-300 p-2">
                             <label className="flex cursor-pointer items-center justify-center  gap-1 text-sm">
                                 30분
@@ -113,11 +116,10 @@ function ScheduleSet() {
                         </div>
                     ))}
                     <div
-                        className="flex h-10 w-28 cursor-pointer flex-row items-center justify-center gap-1 rounded-md border border-dashed border-indigo-200 bg-gray-100  text-sm  hover:bg-gray-200 hover:font-bold"
+                        className="flex h-10 w-28 cursor-pointer flex-row  items-center justify-center gap-1 rounded-md border border-gray-300 bg-gray-100 text-sm text-gray-500  hover:bg-gray-200 "
                         onClick={handleAddTimeModal}
                     >
-                        시간 추가
-                        <Image alt="addTime" src={addTime2} className="h-6 w-6 " />
+                        시간 추가 <span className="mt-[1px] text-2xl"> +</span>
                     </div>
                 </div>
             </div>
