@@ -15,6 +15,8 @@ export type SubBoardDTOType = {
     writeTime: string;
     year: number;
     boardCategory: string;
+    representImage: string;
+    platform: 'WEB' | 'APP';
 };
 export type SubBoardResponseType = {
     data: SubBoardDTOType[];
@@ -24,4 +26,16 @@ export type SubBoardResponseType = {
 export type SubBoardDetailType = {
     subBoardDTO: SubBoardDTOType;
     subBoardImageUrls: { subBoardImageUrl: string }[];
+};
+
+export type newSubBoardFormType = {
+    request: {
+        title: string;
+        content: string;
+        boardCategory: string;
+        subBoardType: 'QUEST' | 'REQUEST';
+        platform: 'WEB' | 'APP';
+    };
+
+    images: File[] | [];
 };

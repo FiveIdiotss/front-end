@@ -16,6 +16,7 @@ export type MentorBoardDTOType = {
     favorite: boolean; //수정중
     memberImageUrl: string;
     representImage: string;
+    platform: 'WEB' | 'APP';
 }; //멘토 게시판 각 카드에 들어갈 정보
 
 export type MentorResponseType = {
@@ -30,3 +31,18 @@ export type MentorDetailType = {
     times: { startTime: string; endTime: string }[]; // 가능한 시간대
     unavailableTimes: { data: string; startTime: string }[]; // 비어있는 시간
 }; //멘토 상세 정보
+
+export type newMentorFormType = {
+    request: {
+        title: string;
+        introduce: string;
+        target: string;
+        content: string;
+        consultTime: number;
+        times: { startTime: string; endTime: string }[];
+        availableDays: string[];
+        boardCategory: string;
+        platform: 'WEB' | 'APP';
+    };
+    images: File[];
+}; //멘토 등록시 필요한 정보
