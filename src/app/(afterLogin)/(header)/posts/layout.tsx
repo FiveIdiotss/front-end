@@ -17,7 +17,7 @@ export default function PostsLayout({ children }: Props) {
             {/* Home */}
             <Header />
 
-            <div className=" mx-auto flex w-full  max-w-[1300px] flex-1  flex-col   px-10 pb-10   ">
+            <div className=" mx-auto flex w-full  max-w-[1300px] flex-1  flex-col   px-2 pb-10 mobile:px-10   ">
                 <FilterNav />
                 {children}
             </div>

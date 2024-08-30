@@ -31,7 +31,7 @@ function SubBoardCard({ data, boardType }: { data: SubBoardDTOType; boardType: '
     return (
         <Link
             href={url}
-            className="flex w-full cursor-pointer flex-col items-center gap-4 border-b px-2 py-4 hover:bg-gray-100 mobile:flex-row "
+            className="flex w-full cursor-pointer flex-col items-center gap-2 border-b px-2 py-4 hover:bg-gray-100  mobile:flex-row mobile:gap-4 "
         >
             <div className="mr-auto  flex flex-grow flex-row items-center gap-3  mobile:mr-0 ">
                 <div className="flex  items-center gap-1  font-medium">
