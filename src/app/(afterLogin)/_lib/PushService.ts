@@ -1,5 +1,5 @@
 import Axios from '@/app/util/axiosInstance';
-import { PageInfotype } from '../Models/pageInfoType';
+import { PageInfotype } from '@/app/Models/pageInfoType';
 
 export const getPushCount = async (): Promise<number> => {
     const response = await Axios.get('/api/count');
