@@ -27,6 +27,10 @@ export type MentorResponseType = {
 export type MentorDetailType = {
     availableDays: string[];
     boardDTO: MentorBoardDTOType;
+    boardImageUrls: {
+        boardImageUrl: string;
+    }[];
+
     consultTime: number; // 상담 시간(30,60 단위)
     times: { startTime: string; endTime: string }[]; // 가능한 시간대
     unavailableTimes: { data: string; startTime: string }[]; // 비어있는 시간
