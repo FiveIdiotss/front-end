@@ -9,6 +9,7 @@ import PostsDetailNav from '../../../_component/postDetail/PostsDetailNav';
 import Like from '../../../_component/postDetail/Like';
 import { MemberDto } from '@/auth';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
+import MobileIcon from '@/app/_icons/common/MobileIcon';
 function formatDate(dateString: string, dateType: string) {
     const date = new Date(dateString);
 
@@ -34,34 +35,37 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Mem
     if (isPending) return <Loading className="h-full" />;
     if (error) return <ErrorDataUI text="오류가 발생했습니다." />;
 
-    const writerId = requestDetailData?.subBoardDTO.memberId; //작성자 아이디
+    const writerId = requestDetailData.subBoardDTO.memberId; //작성자 아이디
     const sessionId = memberDTO.id; //로그인한  맴버아이디
 
     return (
         <div className="flex w-full flex-row gap-6 pt-10  ">
             <PostsDetailNav />
             <div className="flex flex-grow flex-col   border-t-2 border-neutral-400">
-                <div className="flex w-full flex-row items-center    gap-3 bg-white  p-5 text-lg ">
-                    <span className=" text-gray-400">[{requestDetailData?.subBoardDTO.boardCategory}]</span>
-                    <span className=" text-neutral-700">{`${requestDetailData?.subBoardDTO.title}`}</span>
+                <div className="flex w-full flex-row items-center    gap-3 bg-white  p-5 text-base mobile:text-lg ">
+                    {requestDetailData.subBoardDTO.platform === 'APP' && (
+                        <MobileIcon className="h-5 w-5 text-primary" />
+                    )}
+                    <span className=" text-gray-400">[{requestDetailData.subBoardDTO.boardCategory}]</span>
+                    <span className=" text-neutral-700">{`${requestDetailData.subBoardDTO.title}`}</span>
                 </div>
-                <div className="flex w-full flex-row items-center justify-between border-y border-neutral-200 px-5 py-3 text-sm font-normal text-neutral-600 ">
-                    <div className="flex w-full flex-row items-center  gap-2  ">
-                        <div className="relative h-8 w-8 ">
+                <div className="flex w-full flex-col items-center justify-between gap-2 border-y border-neutral-200 px-2 py-3 text-sm font-normal text-neutral-600 mobile:flex-row ">
+                    <div className="flex w-full  flex-row items-center  gap-2  ">
+                        <div className="relative h-7 w-7">
                             <Image
-                                src={requestDetailData?.subBoardDTO.imageUrl}
+                                src={requestDetailData.subBoardDTO.imageUrl}
                                 alt="프로필 이미지"
                                 fill={true}
-                                sizes="32px"
+                                sizes="56px"
                                 className="rounded-full"
                             />
                         </div>
-                        <span className="font-medium">{requestDetailData?.subBoardDTO.memberName}&nbsp;</span>
+                        <span className="font-medium">{requestDetailData.subBoardDTO.memberName}&nbsp;</span>
                         <span className="text-xs text-neutral-500">{requestDetailData.subBoardDTO.schoolName}</span>·
                         <span className="text-xs text-neutral-500">{requestDetailData.subBoardDTO.majorName}</span>
                     </div>
 
-                    <div className="flex w-40 flex-row items-center gap-2 text-neutral-500">
+                    <div className="ml-auto flex  flex-row items-center gap-2 text-neutral-500 mobile:ml-0">
                         <span className="  text-center  ">
                             {formatDate(requestDetailData.subBoardDTO.writeTime, 'date')}
                         </span>
@@ -77,10 +81,28 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Mem
                         <button className="text-sm text-red-400 underline underline-offset-1">삭제</button>{' '}
                     </div>
                 )}
-                <div
-                    className="html-content min-h-72 w-full border-b p-5 text-sm "
-                    dangerouslySetInnerHTML={{ __html: requestDetailData?.subBoardDTO.content }}
-                />
+                {/* 본문 */}
+                {requestDetailData?.subBoardDTO.platform === 'WEB' ? (
+                    <div
+                        className="html-content min-h-72 w-full border-b p-5 text-sm "
+                        dangerouslySetInnerHTML={{ __html: requestDetailData.subBoardDTO.content }}
+                    />
+                ) : (
+                    <div className="html-content flex min-h-72  w-full flex-col border-b p-5 text-sm ">
+                        <p className="mb-10">{requestDetailData.subBoardDTO.content}</p>
+                        {requestDetailData.subBoardImageUrls.map((imageUrl, index) => (
+                            <div key={index} className="relative h-72 w-full">
+                                <Image
+                                    src={imageUrl.subBoardImageUrl}
+                                    alt="게시글 이미지"
+                                    fill={true}
+                                    sizes="100%"
+                                    className="rounded-lg"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <Like
                     boardId={boardId}
                     likeCount={requestDetailData.subBoardDTO.likeCount}

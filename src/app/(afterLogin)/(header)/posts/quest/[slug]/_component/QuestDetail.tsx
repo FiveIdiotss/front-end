@@ -8,6 +8,8 @@ import Like from '../../../_component/postDetail/Like';
 import { MemberDto } from '@/auth';
 import { useSubBoardDetailQuery } from '../../../_lib/qeustOrRequestService';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
+import MobileIcon from '@/app/_icons/common/MobileIcon';
+import Link from 'next/link';
 function formatDate(dateString: string, dateType: string) {
     const date = new Date(dateString);
 
@@ -39,20 +41,21 @@ function QuestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Membe
     return (
         <div className="flex w-full flex-row gap-6 pt-10  ">
             <PostsDetailNav />
-            <div className="flex flex-grow flex-col   border-t-2 border-neutral-400">
-                <div className="flex w-full flex-row items-center    gap-3 bg-white  p-5 text-lg ">
+            <div className="flex flex-grow flex-col   border-t-2 border-gray-400">
+                <div className="flex w-full flex-row  items-center    gap-3 bg-white   p-5 text-base mobile:text-lg ">
+                    {questDetailData.subBoardDTO.platform === 'APP' && <MobileIcon className="h-5 w-5 text-gray-400" />}
                     <span className=" text-gray-400">[{questDetailData?.subBoardDTO.boardCategory}]</span>
                     <span className=" text-neutral-700">{`${questDetailData?.subBoardDTO.title}`}</span>
                 </div>
-                <div className="flex w-full flex-row items-center justify-between border-y border-neutral-200 px-5 py-3 text-sm font-normal text-neutral-600 ">
-                    <div className="flex w-full flex-row items-center  gap-2  ">
+                <div className="flex w-full flex-col items-center justify-between gap-2 border-y border-neutral-200 px-2 py-3 text-sm font-normal text-neutral-600 mobile:flex-row ">
+                    <div className="flex w-full  flex-row items-center  gap-2  ">
                         <div className="relative h-7 w-7">
                             <Image
                                 src={questDetailData?.subBoardDTO.imageUrl}
                                 fill={true}
-                                sizes="28px"
+                                sizes="56px"
                                 alt="프로필 이미지"
-                                className="rounded-full object-cover "
+                                className="shrink-0 rounded-full object-cover "
                             />
                         </div>
                         <span className="font-medium">{questDetailData?.subBoardDTO.memberName}&nbsp;</span>
@@ -60,7 +63,7 @@ function QuestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Membe
                         <span className="text-xs text-neutral-500">{questDetailData.subBoardDTO.majorName}</span>
                     </div>
 
-                    <div className="flex w-40 flex-row items-center gap-2 text-neutral-500">
+                    <div className="ml-auto flex  flex-row items-center gap-2 text-neutral-500 mobile:ml-0">
                         <span className="  text-center  ">
                             {formatDate(questDetailData.subBoardDTO.writeTime, 'date')}
                         </span>
@@ -70,16 +73,37 @@ function QuestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Membe
                         </span>
                     </div>
                 </div>
+
+                {/* 수정, 삭제 버튼 */}
                 {writerId === sessionId && (
                     <div className="mt-2 flex w-full flex-row justify-end gap-3 px-5">
                         <button className="text-sm  text-neutral-600 underline underline-offset-1">수정</button>
-                        <button className="text-sm text-red-400 underline underline-offset-1">삭제</button>{' '}
+                        <button className="text-sm text-red-400 underline underline-offset-1">삭제</button>
                     </div>
                 )}
-                <div
-                    className="html-content min-h-72 w-full border-b p-5 text-sm "
-                    dangerouslySetInnerHTML={{ __html: questDetailData?.subBoardDTO.content }}
-                />
+
+                {/* 본문 */}
+                {questDetailData?.subBoardDTO.platform === 'WEB' ? (
+                    <div
+                        className="html-content min-h-72 w-full border-b p-5 text-sm "
+                        dangerouslySetInnerHTML={{ __html: questDetailData?.subBoardDTO.content }}
+                    />
+                ) : (
+                    <div className="html-content flex min-h-72  w-full flex-col border-b p-5 text-sm ">
+                        <p className="mb-10">{questDetailData.subBoardDTO.content}</p>
+                        {questDetailData.subBoardImageUrls.map((imageUrl, index) => (
+                            <div key={index} className="relative h-72 w-full">
+                                <Image
+                                    src={imageUrl.subBoardImageUrl}
+                                    alt="게시글 이미지"
+                                    fill={true}
+                                    sizes="100%"
+                                    className="rounded-lg"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 <Like
                     boardId={boardId}
