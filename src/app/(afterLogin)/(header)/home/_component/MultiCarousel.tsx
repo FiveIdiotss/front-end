@@ -38,6 +38,7 @@ function MultiCarousel({ children }: Props) {
             },
             items: 2,
             slidesToSlide: 2,
+            partialVisibilityGutter: 70,
         },
         miniMobile: {
             breakpoint: {
@@ -64,7 +65,7 @@ function MultiCarousel({ children }: Props) {
             pauseOnHover
             // minimumTouchDrag
             renderArrowsWhenDisabled={false}
-            removeArrowOnDeviceType={['miniMobile']}
+            removeArrowOnDeviceType={['miniMobile', 'mobile']}
             renderButtonGroupOutside={false}
             renderDotsOutside={false}
             rewind={false}
