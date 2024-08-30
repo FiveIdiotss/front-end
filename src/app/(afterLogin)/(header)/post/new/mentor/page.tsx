@@ -8,10 +8,12 @@ import useMentoNewPost from '../../../../_store/mentoNewPost';
 import InfoModal from '../../_components/InfoModal';
 import WarningMessage from '@/app/_component/WarningMessage';
 import { useRouter } from 'next/navigation';
-import QuillEditor from '../../_components/Editor';
 import { debounce } from 'lodash';
 import SubmitButton from '../../_components/SubmitButton';
 import { usePostMentorMutation } from '../../_lib/uploadMentorService';
+import dynamic from 'next/dynamic';
+
+const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
 const defaultContent = `<h1><strong>반갑습니다! 🙌</strong></h1><p><br></p><p><strong>멘토링 내용</strong>: 프론트의 모든것</p><p><br></p><p><strong>가능한 멘토링 영역</strong>:&nbsp;</p><ul><li>next.js, react.js</li><li>auth.js (서버 쿠기, 서버세션과 리프레쉬 토큰 로직을 구현하며 안전하게 관리 해봅시다.)</li><li>js</li><li>react query</li><li>justand</li><li>git</li><li>tailwind3</li></ul><p><strong>멘토링 진행방식</strong>:</p><ul><li>대면</li><li>비대면</li></ul><p><strong>예상 맨토링 일정(횟수)</strong>:&nbsp;3회</p><p><br></p><p><br></p><h1><br></h1><h1><br></h1>`;
 

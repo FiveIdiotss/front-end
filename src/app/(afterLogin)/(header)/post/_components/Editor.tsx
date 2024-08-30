@@ -1,9 +1,11 @@
+'use client';
 import { uploadImage as uploadFile } from '../_lib/uploadFileService';
-import { use, useEffect, useMemo, useRef, useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import ReactQuill, { Quill, ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ResizeModule from '@botom/quill-resize-module';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 type IMediaItem = {
     name: string;

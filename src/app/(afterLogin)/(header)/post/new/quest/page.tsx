@@ -2,8 +2,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useQuestMutation } from '../../_lib/uploadSubBoardService';
 import { debounce } from 'lodash';
-import QuillEditor from '../../_components/Editor';
 import SubmitButton from '../../_components/SubmitButton';
+import dynamic from 'next/dynamic';
+const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
 function QuestFormPage() {
     const categoryRef = useRef<HTMLSelectElement>(null);
