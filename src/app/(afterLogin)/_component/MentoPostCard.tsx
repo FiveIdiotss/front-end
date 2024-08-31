@@ -75,11 +75,13 @@ function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKey
                 onClick={handleDetailModalOpen}
             >
                 <div className="relative flex h-28 w-full  flex-col justify-end ">
-                    <h3 className="z-10 line-clamp-2 flex w-full flex-row items-center rounded-t-lg bg-white bg-opacity-90 px-3 py-2  text-base  font-semibold text-black">
+                    <h3 className="z-10 line-clamp-2 flex w-full flex-row items-center rounded-t-lg bg-white bg-opacity-90 px-3 py-2  text-sm  font-semibold text-black">
                         {post.platform === 'WEB' ? '' : <MobileIcon className="mr-1 h-4 w-4 text-blue-500" />}
-                        <span className="text-gray-700">[{post.boardCategory}]</span>
-                        &nbsp;
-                        {post.title}
+                        <span>
+                            <span className="text-gray-700">[{post.boardCategory}]</span>
+                            &nbsp;
+                            {post.title}
+                        </span>
                     </h3>
                     <Image
                         src={post.representImage || ''}
@@ -90,28 +92,28 @@ function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKey
                         className="z-0 object-cover  "
                     />
                 </div>
-                <div className="flex flex-grow flex-col px-5 pb-3 pt-1  ">
-                    <div className="flex flex-grow flex-col">
+                <div className="flex flex-grow flex-col px-3 pb-3 pt-1 mobile:px-5  ">
+                    <div className="flex flex-grow flex-col text-sm">
                         <dl className="mt-2 ">
                             <div className="flex flex-row gap-2">
-                                <dt className="text-sm  text-gray-400 ">학교</dt>
-                                <dd className="text-sm  text-neutral-500">{post.schoolName}</dd>
+                                <dt className="  text-gray-400 ">학교</dt>
+                                <dd className="  text-neutral-500">{post.schoolName}</dd>
                             </div>
                             <div className="flex flex-row gap-2">
-                                <dt className="text-sm  text-gray-400">전공</dt>
-                                <dd className="text-sm  text-neutral-500">{post.majorName}</dd>
+                                <dt className="  text-gray-400">전공</dt>
+                                <dd className="  text-neutral-500">{post.majorName}</dd>
                             </div>
                             <div className="flex flex-row gap-2">
-                                <dt className="text-sm  text-gray-400">학번</dt>
-                                <dd className="text-sm  text-neutral-500">{year}학번</dd>
+                                <dt className="  text-gray-400">학번</dt>
+                                <dd className="  text-neutral-500">{year}학번</dd>
                             </div>
                             <div className="flex flex-row gap-2">
-                                <dt className="flex-shrink-0  text-sm text-gray-400">대상</dt>
-                                <dd className="line-clamp-1  text-sm text-neutral-500">{post.target}</dd>
+                                <dt className="flex-shrink-0   text-gray-400">대상</dt>
+                                <dd className="line-clamp-1   text-neutral-500">{post.target}</dd>
                             </div>
                             <div className="flex flex-row gap-2">
-                                <dt className="flex-shrink-0  text-sm text-gray-400">소개</dt>
-                                <dd className="line-clamp-2  text-sm text-neutral-500">{post.introduce}</dd>
+                                <dt className="flex-shrink-0   text-gray-400">소개</dt>
+                                <dd className="line-clamp-2   text-neutral-500">{post.introduce}</dd>
                             </div>
                         </dl>
                     </div>

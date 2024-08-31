@@ -1,38 +1,37 @@
 import { MentorBoardDTOType, MentorResponseType } from '@/app/Models/mentorType';
-import { getBookmark } from '@/app/(afterLogin)/_lib/BookmarkService';
-import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import ProfilePostsContent from './ProfilePostsContent';
 import MentoPostCard from '@/app/(afterLogin)/_component/MentoPostCard';
 import SimplePagination from '@/app/(afterLogin)/_component/common/SimplePagination';
 import { useSearchParams } from 'next/navigation';
+import { useMemberBookmarksQuery } from '../../_lib/profileService/profileBookmarksService';
+import EmptyDataUI from '@/app/_component/EmptyDataUI';
+import Loading from '@/app/_component/Loading';
+import ErrorDataUI from '@/app/_component/ErrorDataUI';
 
 function ProfileBookMark() {
     const [boardId, setBoardId] = useState<number | null>(null);
     const searchParams = useSearchParams();
     const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
-    const {
-        data: bookmarksData,
-        isLoading: bookmarksIsLoading,
-        isError: bookmarksIsError,
-        error: bookmarksError,
-    } = useQuery<MentorResponseType>({
-        queryKey: ['posts', 'mento', 'user', 'bookMark', String(pageParam)],
-        queryFn: () => getBookmark(pageParam, 6),
-    }); //북마크 데이터
 
-    const handleModalOpen = (boardId: number) => {
-        setBoardId(boardId);
-    };
+    const memberBookmarksQuery = useMemberBookmarksQuery();
+    const { data: bookmarksData, isPending, error, refetch } = memberBookmarksQuery;
 
-    const handleModalClose = () => {
-        setBoardId(null);
-    };
+    if (isPending) return <Loading description="북마크 데이터를 불러오는 중입니다." />;
+    if (error)
+        return (
+            <ErrorDataUI
+                text={error.response?.data.message || '데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.'}
+                onReset={refetch}
+            />
+        );
+
     return (
         <>
-            <div className=" my-5 grid w-full grid-cols-2 gap-4 px-3 md:grid-cols-2 xl:grid-cols-3">
+            {bookmarksData?.pageInfo.totalElements === 0 && <EmptyDataUI text="작성한 게시글이 없습니다." />}
+
+            <div className=" my-5 grid   w-full grid-cols-2 gap-2 mobile:grid-cols-3  ">
                 {bookmarksData?.data.map((post: MentorBoardDTOType) => (
-                    <div key={post.boardId} onClick={() => handleModalOpen(post.boardId)}>
+                    <div key={post.boardId}>
                         <MentoPostCard
                             post={post}
                             queryKeys={['posts', 'mento', 'user', 'bookMark', String(pageParam)]}
@@ -40,7 +39,6 @@ function ProfileBookMark() {
                     </div>
                 ))}
             </div>
-            {boardId && <ProfilePostsContent boardId={boardId} onClose={handleModalClose} />}
             <SimplePagination totalPages={bookmarksData?.pageInfo.totalPages || 1} />
         </>
     );
