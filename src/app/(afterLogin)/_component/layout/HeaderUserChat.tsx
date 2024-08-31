@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import ChatIcon from '../../../_icons/common/ChatIcon';
+import Link from 'next/link';
 
 function HeaderUserChat() {
     const [isHovered, setIsHovered] = React.useState(false);
@@ -20,10 +21,11 @@ function HeaderUserChat() {
         >
             <div className="relative">
                 <div className="relative h-8  w-8 shrink-0 ">
-                    <a onClick={() => openChatInPopup('/chat')}>
+                    {/* <a onClick={() => openChatInPopup('/chat')}> */}
+                    <Link href="/chat">
                         <ChatIcon className="cursor-pointer p-1 text-gray-700 text-opacity-80  hover:text-primary" />
                         {/* <div className="absolute -right-[1px] top-0 flex h-4 w-4 items-center justify-center rounded-full bg-pink-500 bg-opacity-95 text-xs font-light text-white ">{`1`}</div> */}
-                    </a>
+                    </Link>
                 </div>
 
                 {/* <div

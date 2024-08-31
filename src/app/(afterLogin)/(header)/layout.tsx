@@ -3,7 +3,7 @@
 import React from 'react';
 
 import Header from './../_component/layout/Header';
-import MobileNav from '../_component/layout/MobileNav';
+import MobileNav from '../_component/layout/moblieNav/MobileNav';
 
 type Props = {
     children: React.ReactNode;
@@ -13,7 +13,7 @@ export default function HomeLayout({ children }: Props) {
     return (
         // Wrapper
 
-        <div className=" flex    h-full min-h-dvh  flex-col  overflow-x-hidden bg-gray-50">
+        <div className=" flex h-full min-h-dvh    flex-col overflow-x-hidden  bg-gray-50  pb-16 mobile:pb-0">
             {/* Home */}
 
             <Header />
