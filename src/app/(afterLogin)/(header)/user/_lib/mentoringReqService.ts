@@ -2,7 +2,7 @@ import Axios from '@/app/util/axiosInstance';
 
 export type MentoringReqData = {
     applyId: number;
-    applyState: string;
+    applyState: 'HOLDING' | 'COMPLETE' | 'REJECT';
     applyTime: string;
     boardId: number;
     boardTitle: string;

@@ -3,7 +3,8 @@ import StandardModal from '@/app/(afterLogin)/_component/common/StandardModal';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import React, { useEffect } from 'react';
-import { MentoringReqDetail, mentoringReqDetailFetch } from '../../_lib/mentoringReq';
+import { MentoringReqDetail, mentoringReqDetailFetch } from '../../_lib/mentoringReqService';
+
 type Props = {
     onClose: () => void;
     applyId: number;

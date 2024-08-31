@@ -3,7 +3,7 @@ import StandardModal from '@/app/(afterLogin)/_component/common/StandardModal';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
-import { MentoringReqDetail, mentoringReqDetailFetch } from '../../_lib/mentoringReq';
+import { MentoringReqDetail, mentoringReqDetailFetch } from '../../_lib/mentoringReqService';
 import { useEffect } from 'react';
 import SectionDivider from '@/app/(afterLogin)/_component/SectionDivider';
 import Loading from '@/app/_component/Loading';

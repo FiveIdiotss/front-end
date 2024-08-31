@@ -30,15 +30,15 @@ function MentoringReqRecPage() {
 
     return (
         <>
-            <div className="flex h-full w-full flex-col gap-10   px-14 py-9">
-                {/* 필터 컴포넌트 */}
-                <UserFilter title="신청 받은 내역" />
+            <div className="flex h-full w-full flex-col gap-7  px-3  py-9 mobile:px-14">
                 {/* 상단 안내문구 */}
                 <div className="flex items-center justify-center">
-                    <span className=" flex h-14 w-full items-center justify-center rounded-lg bg-indigo-100 px-3 text-sm text-primary">
+                    <span className=" flex  w-full items-center justify-center rounded-lg bg-indigo-50 p-3 text-sm text-primary">
                         신청 받은 멘토링 상담을 수락 또는 거절할 수 있고 멘토링 진행상태를 확인할 수 있습니다.
                     </span>
                 </div>
+                {/* 필터 컴포넌트 */}
+                <UserFilter title="신청 받은 내역" />
                 {/* 신청내역 */}
                 {isLoading ? (
                     <Loading />
