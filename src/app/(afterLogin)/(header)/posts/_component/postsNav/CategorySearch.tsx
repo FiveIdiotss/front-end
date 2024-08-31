@@ -50,10 +50,11 @@ function CategorySearch() {
 
     return (
         <div
-            className={` flex h-10 w-full  flex-row items-center  rounded-md border  bg-white p-2 shadow-sm  ${isFocused ? 'border-gray-400' : 'border-gray-300'} `}
+            className={` flex h-10 w-full  flex-row items-center  rounded-md border  bg-white p-2 shadow-sm  ${isFocused ? 'border-gray-400' : 'border-gray-200'} `}
         >
             <input
                 ref={inputRef}
+                type="search"
                 onFocus={() => inputRef.current?.focus()}
                 placeholder="제목, 내용 검색"
                 className=" ml-2 mr-4 h-5  w-full bg-inherit text-sm text-neutral-500 outline-none "
@@ -63,11 +64,11 @@ function CategorySearch() {
             <SectionDivider
                 position="y"
                 className="mx-1 py-[2px]"
-                color={`${isFocused ? 'border-blue-600' : 'border-neutral-300'}`}
+                color={`${isFocused ? 'border-blue-600' : 'border-gray-200'}`}
             />
             <button className="flex h-full w-11 cursor-pointer items-center justify-center">
                 {!loading && (
-                    <SearchIcon className={`h-5 w-5 ${isFocused ? 'rotate-90 text-blue-600' : 'text-neutral-300'}`} />
+                    <SearchIcon className={`h-5 w-5 ${isFocused ? 'rotate-90 text-blue-600' : 'text-gray-200'}`} />
                 )}
                 {loading && (
                     <div className=" h-full w-full ">

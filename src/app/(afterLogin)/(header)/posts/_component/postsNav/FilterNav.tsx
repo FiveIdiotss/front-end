@@ -17,7 +17,7 @@ function FilterNav() {
     if (!isPage) return null;
     return (
         <div
-            className={`  flex w-full  max-w-[1300px]  flex-col gap-10 border-b border-gray-400  border-opacity-80 bg-neutral-50   pb-4  pt-7 `}
+            className={`  flex w-full max-w-[1300px]  flex-col  gap-7 border-b border-gray-400 border-opacity-80  bg-neutral-50 px-1   py-4 `}
             // sticky top-[114px] z-[2]
         >
             <div className="flex w-full flex-row justify-between">
@@ -25,11 +25,11 @@ function FilterNav() {
                 <CategorySchoolSelector />
             </div>
 
-            <div className="flex w-full flex-row items-center justify-between gap-5">
-                <CategoryTags />
-                <div className="w-full max-w-[370px] ">
+            <div className="flex w-full flex-col items-start gap-2  mobile:flex-row mobile:items-center  mobile:gap-5">
+                <div className="w-full mobile:max-w-[370px] ">
                     <CategorySearch />
                 </div>
+                <CategoryTags />
             </div>
         </div>
     );

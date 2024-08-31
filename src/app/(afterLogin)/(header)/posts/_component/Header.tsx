@@ -29,13 +29,13 @@ function Header() {
 
     return (
         <>
-            <div className="sticky top-[69px] z-[4] flex  w-full justify-center border-b bg-white shadow-sm-bottom">
+            <div className="sticky top-[69px] z-30 flex  w-full justify-center border-b bg-white shadow-sm-bottom">
                 <div className=" flex h-11  max-w-[1300px]    ">
                     {CATEGORY_LIST.map((category) => (
                         <Link
                             href={category.url}
                             key={category.name}
-                            className={`border-b-[3px]  ${pathName === category.url ? ' border-primary  font-semibold text-primary' : 'border-white text-neutral-600  hover:border-gray-300  hover:text-primary'} flex h-full items-center px-3   font-medium transition-all duration-300 ease-in-out `}
+                            className={`border-b-[3px]  ${pathName.startsWith(category.url) ? ' border-primary  font-semibold text-primary' : 'border-white text-neutral-600  hover:border-gray-300  '} flex h-full items-center px-3   font-medium transition-all duration-300 ease-in-out `}
                         >
                             {category.name}
                         </Link>
@@ -43,13 +43,15 @@ function Header() {
                 </div>
             </div>
             {isPage && (
-                <div className=" z-[3] flex w-full flex-col items-center justify-center bg-opacity-60  bg-gradient-to-r from-gray-400 via-gray-500 to-gray-400 py-7  ">
+                <div className=" z-[3] mt-3 flex w-full flex-col items-center justify-center bg-opacity-60 bg-gradient-to-r  from-gray-400 via-gray-500 to-gray-400  py-7  ">
                     <div className="flex flex-row items-center justify-center gap-7 ">
                         {/* <BookIcon className="h-12 w-12 text-white" /> */}
-                        <span className="text-4xl">{category?.icon}</span>
+                        <span className="text-3xl mobile:text-4xl">{category?.icon}</span>
                         <div className=" flex  flex-col items-start justify-center gap-1">
-                            <span className="text-3xl font-bold text-white">{category?.name}</span>
-                            <span className="text-lg font-semibold text-white">{category?.intro}</span>
+                            <span className="text-2xl font-bold text-white mobile:text-3xl">{category?.name}</span>
+                            <span className=" text-base font-semibold text-white mobile:text-lg">
+                                {category?.intro}
+                            </span>
                         </div>
                     </div>
                 </div>

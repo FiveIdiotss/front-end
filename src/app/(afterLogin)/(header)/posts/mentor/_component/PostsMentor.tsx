@@ -56,7 +56,7 @@ export default function PostsMentor() {
 
     return (
         <div className="flex  flex-1  flex-col items-center justify-between  pt-1">
-            <div className="grid w-full grid-cols-2 gap-4  md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid w-full grid-cols-2 gap-2 mobile:gap-4  md:grid-cols-3 lg:grid-cols-4">
                 {mentorPostsData?.data.map((post: MentorBoardDTOType) => (
                     <MentoPostCard
                         post={post}
