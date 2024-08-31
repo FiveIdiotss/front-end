@@ -32,7 +32,7 @@ export default function HomeMentoBoard() {
     return (
         <section className="flex flex-col">
             <Link
-                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
+                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg border-y bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
                 href="/posts/mentor"
             >
                 <div className="flex h-14 w-full  flex-row items-center gap-4 ">
