@@ -4,19 +4,6 @@ import { AxiosError } from 'axios';
 import { pushNotification } from '@/app/util/pushNotification';
 import { MentorResponseType } from '@/app/Models/mentorType';
 
-export const getBookmark = async (pageParam: number, size?: number): Promise<MentorResponseType> => {
-    const params = {
-        page: pageParam,
-        size: size ? size : 24,
-        schoolFilter: false,
-        favoriteFilter: true,
-    };
-
-    const response = await Axios.get('/api/boards/filter', { params: params });
-
-    return response.data.data;
-}; //북마크 데이터 조회
-
 const addBookmark = async (boardId: number) => {
     const response = await Axios.post(`api/board/favorite/${boardId}`);
     return response.data.data;
