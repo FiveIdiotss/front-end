@@ -32,7 +32,7 @@ function SimplePagination({ totalPages, isPageScroll = true }: { totalPages: num
     };
 
     return (
-        <div className="flex w-full items-center justify-between   py-2">
+        <div className="mt-auto flex w-full items-center justify-between  py-2">
             <button
                 onClick={goToPreviousPage}
                 disabled={forcePage === 0}
