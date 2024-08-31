@@ -13,7 +13,7 @@ export default async function UserLayout({ children }: { children: React.ReactNo
                     <ProfileLeftHeader memberDTO={session?.user?.memberDTO} />
                 </div>
             </div>
-            <div className="flex w-full flex-row bg-white shadow-md tablet:hidden">
+            <div className="flex w-full flex-row bg-white shadow-sm tablet:hidden">
                 <ProfileTopHeader memberDTO={session?.user?.memberDTO} />
             </div>
 

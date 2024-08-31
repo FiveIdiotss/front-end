@@ -54,7 +54,7 @@ export type MentoringReqDetail = {
 export const mentoringReqDetailFetch = async (applyId: number): Promise<MentoringReqDetail> => {
     try {
         const response = await Axios.get(`/api/apply/${applyId}`);
-        return response.data;
+        return response.data.data;
     } catch (error) {
         throw error;
     }

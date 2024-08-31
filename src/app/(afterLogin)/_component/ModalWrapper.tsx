@@ -27,10 +27,10 @@ function ModalWrapper({ children, className, title, subTitle, onClose, closeUrl 
             onClick={onClose}
         >
             <div
-                className={`animate-slide-up  fixed bottom-0 left-0 h-full  max-h-[850px] w-full sm:relative sm:max-h-[750px] sm:max-w-[540px] `}
+                className={`animate-slide-up  fixed bottom-0 left-0 h-full  max-h-[850px] w-full mobile:relative mobile:max-h-[750px] mobile:max-w-[540px] `}
                 onClick={(e) => e.stopPropagation()}
             >
-                <section className="flex h-full w-full flex-col rounded-xl  bg-white  p-5  shadow-xl mobile:p-7">
+                <section className="flex h-full w-full flex-col bg-white  p-5  shadow-xl  mobile:rounded-xl mobile:p-7">
                     {/* 헤더 */}
                     <header className="flex h-10 w-full flex-shrink-0 flex-row items-center  ">
                         <div className="flex flex-row items-center">

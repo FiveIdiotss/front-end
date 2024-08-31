@@ -92,7 +92,7 @@ function MentoringRequestCard({ data }: { data: MentoringReqData }) {
                             </div>
                         </div>
                     </div>
-                    <div className=" flex h-full w-full flex-col items-center  justify-center   mobile:w-28">
+                    <div className=" flex h-full  flex-col items-center  justify-center   mobile:w-28">
                         {data.applyState === 'HOLDING' && (
                             <button className="w-full rounded-sm border border-indigo-300 py-2 text-xs text-indigo-400">
                                 신청 취소

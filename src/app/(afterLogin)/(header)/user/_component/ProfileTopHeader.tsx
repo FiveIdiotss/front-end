@@ -33,7 +33,7 @@ function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
     };
     return (
         <>
-            <div className="flex h-full w-full  flex-col       border-b border-gray-300 px-3 py-3  ">
+            <div className="flex h-full w-full  flex-col       border-b border-gray-300 px-3 py-2  ">
                 <div className="flex w-full flex-row  items-center justify-center ">
                     <button
                         className="rouned-md flex shrink-0 flex-row items-center p-1 hover:bg-gray-50"
