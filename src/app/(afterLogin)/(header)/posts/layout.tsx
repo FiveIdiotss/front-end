@@ -13,7 +13,7 @@ export default function PostsLayout({ children }: Props) {
     return (
         // Wrapper
 
-        <div className=" w-dvh flex   h-dvh flex-col  bg-gray-50 ">
+        <div className=" flex w-full flex-col  bg-gray-50 ">
             {/* Home */}
             <Header />
 

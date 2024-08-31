@@ -3,7 +3,7 @@ import HeaderSearch from '../../_component/layout/HeaderSearch';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <>
+        <div className="flex  w-full flex-col ">
             <div className="w-dvh z-[2] flex w-full flex-col items-center justify-center gap-5 bg-opacity-70 bg-gradient-to-r from-white via-secondary to-white py-7 ">
                 <div className=" flex flex-row items-center justify-center gap-7 ">
                     <BookIcon className="h-auto w-9 text-green-600 mobile:w-12 " />
@@ -21,6 +21,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </div>
             </div>
             {children}
-        </>
+        </div>
     );
 }

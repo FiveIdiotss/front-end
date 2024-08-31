@@ -8,7 +8,7 @@ import Loading from '@/app/_component/Loading';
 
 function HomeMain() {
     return (
-        <div className=" mx-auto flex w-full max-w-[1500px] flex-row justify-between gap-4 px-4     py-5 mobile:px-8  ">
+        <div className=" mx-auto flex  w-full max-w-[1500px] flex-row justify-between gap-4 px-4     py-5 mobile:px-8  ">
             {/* 32px */}
             <div className=" mx-auto flex  w-full flex-col  gap-10 tablet:w-[calc(100%-208px)]">
                 <HomeCategoryBar />
