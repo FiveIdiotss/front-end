@@ -1,16 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import SectionDivider from '@/app/(afterLogin)/_component/SectionDivider';
 import ProfileMentoPosts from './ProfileMentoPosts';
 import ProfileBookMark from './ProfileBookMark';
 import BookMarkIcon from '@/app/_icons/common/BookMarkIcon';
 import ProfileSubBoards from './ProfileSubBoards';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useQueryParameter } from '@/app/(afterLogin)/_hooks/useQueryParameter';
 type Tab = '멘토링' | '멘토링 요청' | '질문' | '북마크';
 const tabs: Tab[] = ['멘토링', '멘토링 요청', '질문', '북마크'];
 
 function ProfileDashBoard() {
-    const [tab, setTab] = useState<Tab>('멘토링');
+    const { currentValue: tab, handleChange: handleChangeTab } = useQueryParameter('tab', '멘토링');
+
     return (
         <div className="mt-4 flex h-full  w-full flex-col">
             <div className="flex flex-row gap-2">
@@ -18,7 +21,7 @@ function ProfileDashBoard() {
                     <div
                         key={tabItem}
                         className={`p-3 text-base hover:cursor-pointer  hover:border-b-2  mobile:text-base ${tab === tabItem ? 'border-b-2 border-black font-medium hover:border-black' : 'text-gray-600 hover:border-gray-300'}`}
-                        onClick={() => setTab(tabItem)}
+                        onClick={() => handleChangeTab(tabItem)}
                     >
                         <span className={`flex items-center gap-2  ${tabItem === '북마크' ? 'text-red-500' : ''}`}>
                             {tabItem}
