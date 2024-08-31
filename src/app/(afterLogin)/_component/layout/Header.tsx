@@ -24,7 +24,7 @@ async function Header() {
                         height={50}
                         quality={75} // 이미지 품질 (기본값은 75)
                     /> */}
-                    <span className="   py-2  text-3xl font-semibold tracking-tighter  text-primary ">멘_티_토</span>
+                    <span className="   py-2   text-3xl font-semibold tracking-tighter  text-primary ">Menteeto</span>
                 </Link>
 
                 {/* <HeaderSearch /> */}
