@@ -8,10 +8,10 @@ function HumanitiesIcon({ className }: { className: string }) {
             x="0px"
             y="0px"
             viewBox="0 0 64 64"
-            enable-background="new 0 0 64 64"
+            enableBackground="new 0 0 64 64"
             fill="none"
             stroke="currentColor"
-            stroke-width="3"
+            strokeWidth="3"
             className={className}
         >
             <g id="_x30_1"></g>

@@ -8,7 +8,7 @@ function EngineeringIcon({ className }: { className: string }) {
             className={className}
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            strokeWidth="2"
         >
             <g id="Layer_7" data-name="Layer 7">
                 <path d="M22.08,35.4A8.65,8.65,0,0,0,13.44,44c.45,11.46,16.83,11.45,17.29,0A8.65,8.65,0,0,0,22.08,35.4Zm0,15.28A6.65,6.65,0,0,1,15.44,44c.31-8.79,13-8.79,13.29,0A6.65,6.65,0,0,1,22.08,50.68Z"></path>

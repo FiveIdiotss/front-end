@@ -17,7 +17,7 @@ function CateogryIcon({ className, category }: { className: string; category: st
                     viewBox="0 0 64 64"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="4"
+                    strokeWidth="4"
                 >
                     <g id="Layer_39" data-name="Layer 39">
                         <path d="M60,2H4A2,2,0,0,0,2,4V60a2,2,0,0,0,2,2H60a2,2,0,0,0,2-2V4A2,2,0,0,0,60,2ZM58,30H34V6H58ZM30,6V30H6V6ZM6,34H30V58H6ZM34,58V34H58V58Z"></path>
@@ -32,7 +32,7 @@ function CateogryIcon({ className, category }: { className: string; category: st
                     viewBox="0 0 64 64"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     className={className}
                     xmlns="http://www.w3.org/2000/svg"
                 >
@@ -61,7 +61,7 @@ function CateogryIcon({ className, category }: { className: string; category: st
                     viewBox="0 0 99.313 99.313"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="4"
+                    strokeWidth="4"
                 >
                     <g>
                         <path
@@ -90,7 +90,7 @@ function CateogryIcon({ className, category }: { className: string; category: st
                     viewBox="0 0 64 64"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2.5"
+                    strokeWidth="2.5"
                 >
                     <path d="M62.951,19.854a1,1,0,0,0-.807-.68L45.39,16.739,37.9,1.558a1.041,1.041,0,0,0-1.794,0L28.61,16.739,11.856,19.174A1,1,0,0,0,11.3,20.88l8.039,7.836,1.4-1.432-6.589-6.422,15.269-2.219a1,1,0,0,0,.753-.547L37,4.259,43.829,18.1a1,1,0,0,0,.753.547l15.269,2.219L48.8,31.632a1,1,0,0,0-.288.885l2.609,15.208L47.465,45.8l-.93,1.77,5.45,2.866a1,1,0,0,0,1.452-1.054L50.575,32.7,62.7,20.88A1,1,0,0,0,62.951,19.854Z"></path>
                     <path d="M38.749,48.949l3,1a1,1,0,0,0,1.306-.807l1-6.977a4,4,0,0,0-6.312-3.8l-3.43,2.5L35,34.624l8.549-4.75A1,1,0,0,0,44.065,29V25a1,1,0,0,0-1.486-.874l-9.79,5.439A4.929,4.929,0,0,0,33.065,28a5,5,0,1,0-6.179,4.844L15.579,39.126a1,1,0,0,0-.514.874v4a1,1,0,0,0,1.515.857l8.311-4.986-.782,8.6L16.465,54.2a1,1,0,0,0-.4.8v4a1,1,0,0,0,1.594.8L38.672,44.273l-.593,3.562A1,1,0,0,0,38.749,48.949ZM25.065,28a3,3,0,1,1,3,3A3,3,0,0,1,25.065,28Zm-7,29.018V55.5l7.6-5.7a1,1,0,0,0,.4-.71l1-11a1,1,0,0,0-1.511-.947l-8.485,5.091V40.588l25-13.888v1.712l-8.486,4.714a1,1,0,0,0-.508.764l-1,9a1,1,0,0,0,1.582.919l5.263-3.828a2,2,0,0,1,3.156,1.9l-.827,5.79-1.053-.35.859-5.157a1,1,0,0,0-1.58-.969Z"></path>
