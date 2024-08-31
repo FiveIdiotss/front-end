@@ -19,7 +19,7 @@ function ProfileSubBoards({ subBoardType }: { subBoardType: 'QUEST' | 'REQUEST' 
         }
     }, [subBoardData]);
 
-    if (isPending) return <Loading description="작성된 멘토링 요청 데이터를 불러오는 중입니다." />;
+    if (isPending) return <Loading description="작성된 글을 불러오는 중입니다." className="min-h-72" />;
     if (error)
         return (
             <ErrorDataUI

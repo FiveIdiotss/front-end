@@ -18,7 +18,7 @@ function ProfileMentoPosts() {
     const profilePostsQuery = useMemberPostsQuery();
     const { data: mentorPostsData, isPending, error, refetch } = profilePostsQuery;
 
-    if (isPending) return <Loading description="작성된 멘토링 데이터를 불러오는 중입니다." />;
+    if (isPending) return <Loading description="작성된 글을 불러오는 중입니다." className="min-h-72" />;
     if (error)
         return (
             <ErrorDataUI

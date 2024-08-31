@@ -17,7 +17,7 @@ function ProfileDashBoard() {
                 {tabs.map((tabItem) => (
                     <div
                         key={tabItem}
-                        className={`p-3 text-base hover:cursor-pointer  hover:border-b-2 hover:border-gray-300 mobile:text-base ${tab === tabItem ? 'border-b-2 border-black hover:border-black' : ''}`}
+                        className={`p-3 text-base hover:cursor-pointer  hover:border-b-2  mobile:text-base ${tab === tabItem ? 'border-b-2 border-black font-medium hover:border-black' : 'text-gray-600 hover:border-gray-300'}`}
                         onClick={() => setTab(tabItem)}
                     >
                         <span className={`flex items-center gap-2  ${tabItem === '북마크' ? 'text-red-500' : ''}`}>
