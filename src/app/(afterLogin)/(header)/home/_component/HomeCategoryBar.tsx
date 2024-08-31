@@ -17,7 +17,7 @@ import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 // ];
 function HomeCategoryBar() {
     return (
-        <div className="  mt-6  grid w-full grid-cols-4 justify-center   mobile:grid-cols-8">
+        <div className="  mt-6  grid w-full grid-cols-4 justify-center gap-y-5   mobile:grid-cols-8">
             {CATEGORY_LIST.map((category, index) =>
                 category.parameter === 'bookmark' ? null : (
                     <Link
