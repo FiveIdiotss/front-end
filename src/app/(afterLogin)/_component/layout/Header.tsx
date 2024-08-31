@@ -34,8 +34,6 @@ async function Header() {
                     <button className="flex flex-row items-center gap-1">자유 질문</button>
                 </div>
 
-                <HeaderRegist />
-                <SectionDivider position="y" className="mx-5 hidden py-6 mobile:block" color="border-neutral-300" />
                 <HeaderUser memberDto={session?.user?.memberDTO} />
             </div>
         </nav>

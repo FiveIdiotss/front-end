@@ -14,14 +14,14 @@ function HeaderUserChat() {
     };
     return (
         <div
-            className="flex h-full flex-shrink-0 items-center justify-center  p-1"
+            className="hidden h-full flex-shrink-0 items-center justify-center p-1  mobile:flex"
             onMouseLeave={() => setIsHovered(false)}
             onMouseEnter={() => setIsHovered(true)}
         >
             <div className="relative">
                 <div className="relative h-8  w-8 shrink-0 ">
                     <a onClick={() => openChatInPopup('/chat')}>
-                        <ChatIcon className="cursor-pointer p-1 text-neutral-800 text-opacity-80  hover:text-primary" />
+                        <ChatIcon className="cursor-pointer p-1 text-gray-700 text-opacity-80  hover:text-primary" />
                         {/* <div className="absolute -right-[1px] top-0 flex h-4 w-4 items-center justify-center rounded-full bg-pink-500 bg-opacity-95 text-xs font-light text-white ">{`1`}</div> */}
                     </a>
                 </div>
