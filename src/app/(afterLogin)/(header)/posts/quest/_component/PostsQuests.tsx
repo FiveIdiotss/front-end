@@ -24,7 +24,7 @@ function PostsQuests() {
             <div className="w-full flex-col">
                 <div className=" flex w-full   flex-col ">
                     {questsData.data.map((openQuestion, index) => (
-                        <SubBoardCard key={index} data={openQuestion} boardType="quest" />
+                        <SubBoardCard key={index} data={openQuestion} boardType="QUEST" />
                     ))}
                 </div>
             </div>

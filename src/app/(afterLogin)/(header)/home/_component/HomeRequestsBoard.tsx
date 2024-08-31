@@ -52,7 +52,7 @@ export default function HomeRequestsBoard() {
             <div className="w-full flex-col">
                 <div className=" flex w-full   flex-col ">
                     {requestsData?.data.map((request, index) => (
-                        <SubBoardCard key={index} data={request} boardType="request" />
+                        <SubBoardCard key={index} data={request} boardType="REQUEST" />
                     ))}
                 </div>
             </div>

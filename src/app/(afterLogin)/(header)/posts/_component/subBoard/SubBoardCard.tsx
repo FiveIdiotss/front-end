@@ -25,9 +25,9 @@ function formatDate(dateString: string) {
     }
 }
 
-function SubBoardCard({ data, boardType }: { data: SubBoardDTOType; boardType: 'request' | 'quest' }) {
+function SubBoardCard({ data, boardType }: { data: SubBoardDTOType; boardType: 'REQUEST' | 'QUEST' }) {
     const isQuestion = data.replyCount === 0;
-    const url = boardType === 'quest' ? `/posts/quest/${data.subBoardId}` : `/posts/request/${data.subBoardId}`;
+    const url = boardType === 'QUEST' ? `/posts/quest/${data.subBoardId}` : `/posts/request/${data.subBoardId}`;
     return (
         <Link
             href={url}
@@ -36,10 +36,10 @@ function SubBoardCard({ data, boardType }: { data: SubBoardDTOType; boardType: '
             <div className="mr-auto  flex flex-grow flex-row items-center gap-3  mobile:mr-0 ">
                 <div className="flex  items-center gap-1  font-medium">
                     {data.platform === 'APP' && <MobileIcon className="h-4  w-4 shrink-0 text-primary" />}
-                    {isQuestion && boardType === 'quest' && (
+                    {isQuestion && boardType === 'QUEST' && (
                         <span className="mr-1 shrink-0  text-xs text-green-600">{`[질문]`}</span>
                     )}
-                    {!isQuestion && boardType === 'quest' && (
+                    {!isQuestion && boardType === 'QUEST' && (
                         <span className="mr-1 shrink-0 text-xs text-blue-600">{`[답변완료]`}</span>
                     )}
                     <span className="mr-1 shrink-0  text-xs text-gray-400">[{data.boardCategory}]</span>
