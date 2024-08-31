@@ -17,7 +17,7 @@ const menuItems = [
 
 function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
     const params = usePathname();
-    const [isLinkToggle, setIsLinkToggle] = useState(true);
+    const [isLinkToggle, setIsLinkToggle] = useState(false);
     const [isProfileImageModal, setIsProfileImageModal] = useState(false);
 
     const handleModalOpen = () => {
@@ -36,18 +36,19 @@ function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
             <div className="flex h-full w-full  flex-col       border-b border-gray-300 px-3 py-2  ">
                 <div className="flex w-full flex-row  items-center justify-center ">
                     <button
-                        className="rouned-md flex shrink-0 flex-row items-center p-1 hover:bg-gray-50"
+                        className="rouned-md flex flex-grow flex-row items-center p-1 hover:bg-gray-50"
                         onClick={() => setIsLinkToggle(!isLinkToggle)}
                     >
                         <ArrowDropIcon className="h-6 w-6 text-gray-500" isOpen={isLinkToggle} />
+                        <span className=" text-gray-500">탭</span>
                     </button>
-                    <div className="flex w-full flex-grow justify-end ">
-                        <span className="flex items-center px-4 py-[8px] text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-100 hover:font-semibold hover:text-neutral-600">
+                    <div className="flex  justify-end ">
+                        <span className="flex items-center rounded-md px-4 py-[8px] text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-50 hover:font-semibold hover:text-neutral-600">
                             문의하기
                         </span>
                         <button
                             type="button"
-                            className="flex items-center px-4 py-[8px] text-sm text-neutral-500 hover:cursor-pointer hover:bg-red-100 hover:font-semibold hover:text-red-400"
+                            className="flex items-center rounded-md px-4 py-[8px] text-sm text-neutral-500 hover:cursor-pointer hover:bg-red-50 hover:font-semibold hover:text-red-400"
                             onClick={handleSigOut}
                         >
                             로그아웃
