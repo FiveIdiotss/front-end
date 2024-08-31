@@ -71,7 +71,7 @@ function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
                     <div className="flex flex-row  items-center justify-end">
                         <button
                             className="mt-1 flex items-center justify-center p-1 text-sm text-gray-500 hover:bg-gray-50"
-                            onClick={() => setIsLinkToggle(!isLinkToggle)}
+                            onClick={() => setIsLinkToggle(false)}
                         >
                             닫기
                         </button>
