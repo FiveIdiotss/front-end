@@ -64,7 +64,7 @@ function MentoringRequestCard({ data }: { data: MentoringReqData }) {
                             )}
                         </div>
 
-                        <div className="flex w-full  items-start gap-2 mobile:flex-col">
+                        <div className="flex w-full  items-start gap-3 mobile:flex-col">
                             <button
                                 type="button"
                                 className="flex flex-grow flex-row justify-start text-sm text-neutral-800"
