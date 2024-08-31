@@ -85,11 +85,11 @@ function QuestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Membe
                 {/* 본문 */}
                 {questDetailData?.subBoardDTO.platform === 'WEB' ? (
                     <div
-                        className="html-content min-h-72 w-full border-b p-5 text-sm "
+                        className="html-content min-h-72 w-full border-b p-3 text-sm mobile:p-5 "
                         dangerouslySetInnerHTML={{ __html: questDetailData?.subBoardDTO.content }}
                     />
                 ) : (
-                    <div className="html-content flex min-h-72  w-full flex-col border-b p-5 text-sm ">
+                    <div className="html-content flex min-h-72  w-full flex-col border-b p-3 text-sm mobile:p-5 ">
                         <p className="mb-10">{questDetailData.subBoardDTO.content}</p>
                         {questDetailData.subBoardImageUrls.map((imageUrl, index) => (
                             <div key={index} className="relative h-72 w-full">
