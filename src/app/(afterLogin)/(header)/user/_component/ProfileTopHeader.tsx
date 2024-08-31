@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 import ProfileImageChange from './ProfileImageChange';
 import { signOut } from 'next-auth/react';
+import ArrowDropIcon from '@/app/_icons/common/ArrowDropIcon';
 
 const menuItems = [
     { name: '프로필', link: '/user' },
@@ -16,6 +17,7 @@ const menuItems = [
 
 function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
     const params = usePathname();
+    const [isLinkToggle, setIsLinkToggle] = useState(true);
     const [isProfileImageModal, setIsProfileImageModal] = useState(false);
 
     const handleModalOpen = () => {
@@ -31,9 +33,15 @@ function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
     };
     return (
         <>
-            <div className="flex h-full w-full  flex-col  gap-3      border-b border-gray-300 px-3 py-3  ">
-                <div className="flex w-full flex-col items-center justify-center ">
-                    <div className="flex w-full flex-row justify-end ">
+            <div className="flex h-full w-full  flex-col       border-b border-gray-300 px-3 py-3  ">
+                <div className="flex w-full flex-row  items-center justify-center ">
+                    <button
+                        className="rouned-md flex shrink-0 flex-row items-center p-1 hover:bg-gray-50"
+                        onClick={() => setIsLinkToggle(!isLinkToggle)}
+                    >
+                        <ArrowDropIcon className="h-6 w-6 text-gray-500" isOpen={isLinkToggle} />
+                    </button>
+                    <div className="flex w-full flex-grow justify-end ">
                         <span className="flex items-center px-4 py-[8px] text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-100 hover:font-semibold hover:text-neutral-600">
                             문의하기
                         </span>
@@ -46,17 +54,29 @@ function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
                         </button>
                     </div>
                 </div>
-                <div className="flex flex-grow  flex-col gap-1 border-t pt-3">
+                <div
+                    className={`flex flex-grow flex-col  transition-all ${isLinkToggle ? 'mt-3 max-h-[999px] gap-1 pt-3 opacity-100 ' : 'max-h-0 overflow-hidden opacity-0 '} border-t `}
+                >
                     {menuItems.map((item, index) => (
                         <Link key={index} href={item.link}>
                             <span
-                                className={`flex w-full items-center px-4 py-[10px] text-base text-neutral-600  hover:cursor-pointer hover:bg-indigo-100 hover:font-semibold hover:text-primary ${params === item.link ? 'bg-indigo-100 font-semibold text-primary ' : ''}`}
+                                className={`flex w-full items-center px-4 py-[10px] text-base text-neutral-600  hover:cursor-pointer  hover:font-semibold  ${params === item.link ? 'bg-indigo-100 font-semibold text-primary ' : ' hover:bg-gray-50 hover:text-primary'}`}
                             >
                                 {item.name}
                             </span>
                         </Link>
                     ))}
                 </div>
+                {isLinkToggle && (
+                    <div className="flex flex-row  items-center justify-end">
+                        <button
+                            className="mt-1 flex items-center justify-center p-1 text-sm text-gray-500 hover:bg-gray-50"
+                            onClick={() => setIsLinkToggle(!isLinkToggle)}
+                        >
+                            닫기
+                        </button>
+                    </div>
+                )}
             </div>
             <ProfileImageChange open={isProfileImageModal} onClose={handleModalClose} />
         </>
