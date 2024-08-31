@@ -145,7 +145,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
             <div className="flex h-fit w-full  justify-end">
                 {onlyContent && (
                     <Link
-                        href={`/posts/mentor?id=${id}`}
+                        href={`/posts/mentor?mentor_board_id=${id}`}
                         prefetch={false}
                         className="mt-7 flex h-10  cursor-pointer items-center  px-5 font-semibold text-neutral-600 underline underline-offset-2 hover:text-primary "
                     >
@@ -164,7 +164,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
                         </button>
                     ) : (
                         <button
-                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
+                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105"
                             onClick={() => router.push('/posts/mentor')}
                         >
                             수정하기
