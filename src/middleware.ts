@@ -8,12 +8,12 @@ export async function middleware() {
     //     }
 
     const session = await auth();
-    if (session) {
+    if (!session) {
         return NextResponse.redirect('http://localhost:3000/home');
     }
 }
 export const config = {
-    matcher: ['/'],
+    matcher: ['/user', '/user/mentoring-request', '/user/mentoring-request-received', '/chat', '/post/new/mentor'],
 };
 
 // export function middleware() {}
