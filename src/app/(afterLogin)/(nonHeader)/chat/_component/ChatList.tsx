@@ -8,6 +8,10 @@ import Loading from '@/app/_component/Loading';
 import CategorySearch from '@/app/(afterLogin)/(header)/posts/_component/postsNav/CategorySearch';
 import { Client } from '@stomp/stompjs';
 import NoDataMessage from '@/app/_component/NoDataMessage';
+import BackButton from '@/app/(beforeLogin)/_component/BackButton';
+import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
+import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
+import { useRouter } from 'next/navigation';
 type UreadChatRoomType = {
     chatRoomId: number;
     unreadMessageCount: number;
@@ -21,6 +25,7 @@ function ChatList() {
     const stompClientRef = useRef<Client | null>(null); //stompClientRef
     const [isPageRendered, setIsPageRendered] = useState<boolean>(false); //컴포넌트가 처음 사용자에게 보여질때 한번만 실행
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const {
         data: users,
@@ -120,17 +125,26 @@ function ChatList() {
     }
 
     return (
-        <div className=" flex h-full   w-full flex-col border-r  p-6">
-            <div className=" flex w-full flex-row  items-center justify-between  border-b-2 border-neutral-600  pb-3">
-                <div className="w-[350px]">
-                    <CategorySearch />
+        <div className="w-full flex-col">
+            <button
+                onClick={() => router.back()}
+                className="flex  w-full flex-row items-center gap-2  p-4 text-gray-600 "
+            >
+                <ArrowRightIcon className="h-8 w-8 rotate-180" />
+                이전
+            </button>
+            <div className=" flex h-full   w-full flex-col border-r  p-6">
+                <div className=" flex w-full flex-row  items-center justify-between  border-b-2 border-neutral-600  pb-3">
+                    <div className="w-[350px]">
+                        <CategorySearch />
+                    </div>
                 </div>
+                <ul className="flex w-full flex-col ">
+                    {users.map((user) => {
+                        return <ChatListCard key={user.chatRoomId} user={user}></ChatListCard>;
+                    })}
+                </ul>
             </div>
-            <ul className="flex w-full flex-col ">
-                {users.map((user) => {
-                    return <ChatListCard key={user.chatRoomId} user={user}></ChatListCard>;
-                })}
-            </ul>
         </div>
     );
 }
