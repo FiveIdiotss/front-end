@@ -85,7 +85,7 @@ function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKey
                     </h3>
                     <Image
                         src={post.representImage || ''}
-                        alt="post"
+                        alt="MentoringRepresentImage"
                         quality={100}
                         fill={true}
                         sizes="600px"
