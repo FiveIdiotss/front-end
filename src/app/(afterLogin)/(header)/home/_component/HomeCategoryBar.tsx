@@ -2,26 +2,45 @@ import React from 'react';
 import { CATEGORY_LIST } from '../../../utils/categoryConstants';
 import CateogryIcon from '../../../_component/CategoryIcon';
 import Link from 'next/link';
-import SectionDivider from '../../../_component/SectionDivider';
+import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 
+// const COLOR_LIST = [
+//     '',
+//     '',
+//     'bg-gradient-to-r from-purple-50 via-purple-100 to-purple-200',
+//     'bg-gradient-to-r from-purple-50 via-purple-100 to-purple-200',
+//     'bg-gradient-to-r from-purple-50 via-purple-100 to-purple-200',
+//     'bg-gradient-to-r from-purple-50 via-purple-100 to-purple-200',
+//     'bg-gradient-to-r from-purple-50 via-purple-100 to-purple-200',
+//     'bg-gradient-to-r from-purple-50 via-purple-100 to-purple-200',
+//     'bg-gradient-to-r from-purple-50 via-purple-100 to-purple-200',
+// ];
 function HomeCategoryBar() {
     return (
-        <div className="mb-4 mt-10 flex w-full flex-row flex-wrap justify-center">
+        <div className="  mt-6  grid w-full grid-cols-4 justify-center gap-y-5   mobile:grid-cols-8">
             {CATEGORY_LIST.map((category, index) =>
                 category.parameter === 'bookmark' ? null : (
-                    <div
+                    <Link
                         key={category.parameter}
-                        className="flex flex-col items-center justify-center gap-1  border-neutral-300 border-opacity-70  transition-all duration-300  hover:-translate-y-1 hover:bg-primary hover:bg-opacity-85 "
+                        href={`/posts/mentor${category.parameter === 'all' ? '' : `?category=${category.name}`}`}
                     >
-                        <Link href={`/posts/mentor${category.parameter === 'all' ? '' : `?category=${category.name}`}`}>
-                            <div
-                                className={`h-28 w-32 cursor-pointer   ${index !== 8 ? 'border-r border-neutral-200' : ''} flex flex-col items-center justify-center gap-3    hover:text-white`}
-                            >
-                                <CateogryIcon className="h-14 w-14 text-inherit  " category={category.parameter} />
-                                <span className="text-sm font-light ">{category.name}</span>
+                        <div
+                            className={`flex h-20 flex-row items-center justify-center    text-gray-500 transition-all duration-300 hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 `}
+                        >
+                            <div className="flex w-full cursor-pointer flex-col items-center justify-between gap-3 ">
+                                <CateogryIcon
+                                    className="h-7 w-7 text-primary text-opacity-50"
+                                    category={category.parameter}
+                                />
+                                <span className="flex flex-row items-center justify-center gap-1 text-sm ">
+                                    {category.name} <ArrowLeftBackIcon className="h-3 w-3 rotate-180 text-gray-400" />
+                                </span>
                             </div>
-                        </Link>
-                    </div>
+                            <div
+                                className={`h-full border-l ${index === 4 ? 'hidden mobile:block' : ''}   ${index === 8 ? 'hidden ' : ''} `}
+                            />
+                        </div>
+                    </Link>
                 ),
             )}
         </div>

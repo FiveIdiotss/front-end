@@ -1,5 +1,5 @@
 'use client';
-import ArrowLeftBackIcon from '@/app/(afterLogin)/_component/icon/ArrowLeftBackIcon';
+import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
 import { useRouter } from 'next/navigation';
 import React from 'react';

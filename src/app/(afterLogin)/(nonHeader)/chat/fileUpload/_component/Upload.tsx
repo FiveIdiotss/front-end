@@ -22,7 +22,11 @@ function Upload() {
 
     const handleUpload = () => {
         if (!file) {
-            pushNotification('파일을 선택해주세요.', 'error', 'light');
+            pushNotification({
+                msg: '파일을 선택해주세요.',
+                type: 'error',
+                theme: 'light',
+            });
             return;
         }
         uploadMutation.mutate(

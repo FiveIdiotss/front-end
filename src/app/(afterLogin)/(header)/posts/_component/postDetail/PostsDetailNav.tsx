@@ -1,5 +1,5 @@
-import ArrowLeftBackIcon from '@/app/(afterLogin)/_component/icon/ArrowLeftBackIcon';
-import ListIcon from '@/app/(afterLogin)/_component/icon/ListIcon';
+import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
+import ListIcon from '@/app/_icons/common/ListIcon';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -10,7 +10,7 @@ function PostsDetailNav() {
         router.back();
     };
     return (
-        <div className="   flex w-36 flex-col items-center ">
+        <div className="    hidden w-36 flex-col items-center mobile:flex ">
             <div className="sticky top-[170px] flex flex-col gap-7">
                 <span
                     className=" flex h-11 w-11 rotate-45 cursor-pointer  items-center justify-center  rounded-md border  border-neutral-400  bg-white font-medium shadow-sm  "

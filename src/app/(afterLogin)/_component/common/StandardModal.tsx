@@ -15,7 +15,7 @@ function StandardModal({ children, onClose, title, subTitle, closeUrl }: Props) 
             title={title}
             subTitle={subTitle}
             closeUrl={closeUrl}
-            className="max-h-[750px]  sm:max-w-[600px]"
+            className="max-h-[750px]  mobile:max-w-[600px]"
             onClose={onClose}
         >
             {children}

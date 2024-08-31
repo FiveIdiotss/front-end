@@ -1,5 +1,5 @@
 import React from 'react';
-import HotIcon from '../../../_component/icon/HotIcon';
+import HotIcon from '../../../../_icons/common/HotIcon';
 import Image from 'next/image';
 import { faker } from '@faker-js/faker';
 const HOT_TAGS = ['컴퓨터', 'Next.js', '애견', '호텔', '생물', '개발자', '면접', '취업', '편입'];
@@ -28,8 +28,8 @@ const HOT_POSTS = [
 
 function RightSideBar() {
     return (
-        <div className=" w-48 flex-shrink-0">
-            <div className="sticky top-[200px] flex flex-col gap-2   ">
+        <div className=" hidden w-48 flex-shrink-0 tablet:block ">
+            <div className="sticky top-[100px] flex flex-col gap-2   ">
                 <div className="flex flex-col gap-4 rounded-md border border-neutral-300 p-3">
                     <div className="flex items-center gap-1">
                         <span className="text-sm font-semibold">인기 태그</span>

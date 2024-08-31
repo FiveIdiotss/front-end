@@ -7,12 +7,14 @@ function useConfirmationModal({
     title,
     subTitle,
     description,
+    isPending,
 }: {
     onConfirm: () => void;
     confirmButtonLabel?: string;
     title: string;
     subTitle?: string;
     description?: string;
+    isPending?: boolean;
 }) {
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -38,7 +40,7 @@ function useConfirmationModal({
             description={description}
             onClose={handleCloseModal}
             onConfirm={handleConfirm}
-            isLoading={false}
+            isLoading={isPending}
         />
     );
 

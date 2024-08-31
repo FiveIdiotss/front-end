@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
 import warning_red from '@/../public/warning_red.png';
-import SuccessCheckIcon from '../(afterLogin)/_component/icon/SuccessCheckIcon';
+import SuccessCheckIcon from '../_icons/common/SuccessCheckIcon';
 type Props = {
     text: string;
     isOpen: boolean;

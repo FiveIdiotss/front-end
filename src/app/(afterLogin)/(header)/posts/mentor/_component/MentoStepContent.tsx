@@ -1,30 +1,31 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
 import React, { useEffect } from 'react';
-import { fetchMentoDetail, MentoDetail } from '../_lib/posts';
 import Loading from '@/app/_component/Loading';
-import SchoolIcon from '@/app/(afterLogin)/_component/icon/SchoolIcon';
-import HeartIcon from '@/app/(afterLogin)/_component/icon/HeartIcon';
+import SchoolIcon from '@/app/_icons/common/SchoolIcon';
+import HeartIcon from '@/app/_icons/common/HeartIcon';
 import SectionDivider from '@/app/(afterLogin)/_component/SectionDivider';
-import UserIcon from '@/app/(afterLogin)/_component/icon/UserIcon';
+import UserIcon from '@/app/_icons/common/UserIcon';
 import { usePostsStore } from '@/app/(afterLogin)/_store/postsStore';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-type Props = {
+import { useMentorDetailQuery } from '../../_lib/mentorService';
+import ErrorDataUI from '@/app/_component/ErrorDataUI';
+import Image from 'next/image';
+
+interface Props {
     id: number;
     onlyContent?: boolean;
-};
+}
 
 function MentoStepContent({ id, onlyContent }: Props) {
     const router = useRouter();
 
     // onlyContent가 true면 신청하기 버튼이 아닌 리스트로 이동하는 버튼으로 변경
-    const { data, isLoading, isError } = useQuery<MentoDetail>({
-        queryKey: ['mento', 'detail', id],
-        queryFn: () => fetchMentoDetail(id),
-    });
+    const mentorDetailQuery = useMentorDetailQuery({ mentorId: id });
+    const { data, isPending, error } = mentorDetailQuery;
     const { data: session } = useSession();
+
     const { setPageStep, setSchedule, setErrorMessage } = usePostsStore();
 
     let year;
@@ -52,17 +53,24 @@ function MentoStepContent({ id, onlyContent }: Props) {
         setPageStep(1);
     };
 
-    if (isLoading) return <Loading />;
-    if (isError) return <div className="text-red-500">서버에러</div>;
+    if (isPending) return <Loading className="h-full" description="데이터를 불러오는 중이에요!" />;
+    if (error) return <ErrorDataUI text="에러가 발생했습니다. " />;
     return (
         <>
             <div className="mt-7 flex  w-full flex-grow flex-col overflow-y-auto">
                 <div className="flex   w-full flex-col ">
-                    <h3 className="mb-11">{data?.boardDTO.title}</h3>
+                    <h3 className="mb-8">{data?.boardDTO.title}</h3>
+
                     <div className=" flex w-full  flex-row items-center gap-3">
                         {/* 이미지필요 */}
-                        <div className="flex h-20 w-20 items-center justify-center rounded-full border-2  text-neutral-500 ">
-                            image
+                        <div className="i relative flex h-20 w-20 rounded-full border-2  text-neutral-500 ">
+                            <Image
+                                src={data?.boardDTO.memberImageUrl}
+                                alt="멘토 이미지"
+                                fill={true}
+                                sizes="130"
+                                className="rounded-full object-cover"
+                            />
                         </div>
                         <div className="flex  flex-col gap-1">
                             <span className="text-lg text-neutral-700  ">{data?.boardDTO.memberName}</span>
@@ -82,7 +90,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
                             </span>
                         </div>
                     </div>
-                    <dl>
+                    {/* <dl>
                         <div className=" mx-auto  mt-10 flex h-20 w-4/5 flex-row rounded-md border bg-gray-100 py-3">
                             <div className="flex flex-1 flex-col items-center justify-center">
                                 <dt className=" text-sm font-light text-neutral-700">관심</dt>
@@ -104,26 +112,32 @@ function MentoStepContent({ id, onlyContent }: Props) {
                                     <span className="text-neutral-700">70회</span>
                                 </dd>
                             </div>
-                            {/* <SectionDivider className="mx-2" position="y" />
-                                <div className="flex flex-1 flex-col  items-center justify-center">
-                                    <dt className="text-sm font-light text-neutral-700">채팅답변</dt>
-                                    <dd className="flex  flex-row items-center gap-1 ">
-                                        <div className="mt-[1px] h-4 w-4 ">
-                                            <CheckIcon fill="green" />
-                                        </div>
-                                        <span>20회</span>
-                                    </dd>
-                                </div> */}
-                            {/* 나중에 추가할수도 */}
                         </div>
-                    </dl>
+                    </dl> */}
                     <SectionDivider className="my-4" />
                     <div className="flex  w-full flex-col">
-                        <span className=" mb-2 font-semibold">멘토링 설명</span>
-                        <div
-                            className="html-content w-full space-y-2"
-                            dangerouslySetInnerHTML={{ __html: data?.boardDTO.content as string }}
-                        />
+                        {/* <span className=" mb-2 font-semibold">멘토링 설명</span> */}
+                        {data?.boardDTO.platform === 'WEB' ? (
+                            <div
+                                className="html-content min-h-72 w-full border-b  p-2 text-sm "
+                                dangerouslySetInnerHTML={{ __html: data.boardDTO.content }}
+                            />
+                        ) : (
+                            <div className="html-content flex min-h-72  w-full flex-col border-b p-5 text-sm ">
+                                <p className="mb-10">{data.boardDTO.content}</p>
+                                {data.boardImageUrls.map((imageUrl, index) => (
+                                    <div key={index} className="relative h-72 w-full">
+                                        <Image
+                                            src={imageUrl.boardImageUrl}
+                                            alt="게시글 이미지"
+                                            fill={true}
+                                            sizes="100%"
+                                            className="rounded-lg"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -131,7 +145,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
             <div className="flex h-fit w-full  justify-end">
                 {onlyContent && (
                     <Link
-                        href={`/posts/mentor?id=${id}`}
+                        href={`/posts/mentor?mentor_board_id=${id}`}
                         prefetch={false}
                         className="mt-7 flex h-10  cursor-pointer items-center  px-5 font-semibold text-neutral-600 underline underline-offset-2 hover:text-primary "
                     >
@@ -150,7 +164,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
                         </button>
                     ) : (
                         <button
-                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
+                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105"
                             onClick={() => router.push('/posts/mentor')}
                         >
                             수정하기

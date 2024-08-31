@@ -19,19 +19,23 @@ function CategorySchoolSelector() {
             params.delete('schoolFilter');
         }
         router.replace(pathname + '?' + params, { scroll: false });
-        pushNotification('학교 필터링이 ' + (isToggled ? '적용' : '해제') + '되었습니다.', 'success', 'dark');
+        pushNotification({
+            msg: '학교 필터링이 ' + (isToggled ? '적용' : '해제') + '되었습니다.',
+            type: 'success',
+            theme: 'dark',
+        });
     };
 
     return (
-        <div className="flex flex-row gap-1 rounded-md  bg-gray-200 p-[3px] shadow-sm ">
+        <div className="flex flex-row gap-1 rounded-md  bg-gray-200 p-[2px] shadow-sm ">
             <button
-                className={`flex items-center justify-center rounded-md border px-5 py-[6px] text-sm font-semibold   ${searchParams.has('schoolFilter') ? ' text-neutral-500 hover:bg-primary hover:bg-opacity-20' : ' bg-primary text-white'} transition-all duration-200 ease-out`}
+                className={`flex items-center justify-center rounded-md border px-3 py-2 text-xs   mobile:text-sm   ${searchParams.has('schoolFilter') ? ' text-gray-700 hover:bg-primary hover:bg-opacity-20' : ' bg-primary text-white'} transition-all duration-200 ease-out`}
                 onClick={() => handleToggle(false)}
             >
                 전체 대학
             </button>
             <button
-                className={`flex items-center justify-center rounded-md border px-5 py-[6px] text-sm font-semibold   ${searchParams.has('schoolFilter') ? ' bg-primary text-white' : 'text-neutral-500 hover:bg-primary hover:bg-opacity-20'} transition-all duration-200 ease-out  `}
+                className={`flex items-center justify-center rounded-md border px-3 py-2 text-xs  mobile:text-sm   ${searchParams.has('schoolFilter') ? ' bg-primary text-white' : 'text-gray-700 hover:bg-primary hover:bg-opacity-20'} transition-all duration-200 ease-out  `}
                 onClick={() => handleToggle(true)}
             >
                 나의 대학

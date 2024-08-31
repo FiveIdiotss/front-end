@@ -1,26 +1,20 @@
 'use client';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useChatStore } from '@/app/(afterLogin)/_store/chatStore';
-import { v4 as uuidv4 } from 'uuid';
-
 import { DefaultError, InfiniteData, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
-import { MemberDto } from '@/auth';
 import Loading from '@/app/_component/Loading';
-import DotLoadingIcon from '@/app/(afterLogin)/_component/icon/DotLoadingIcon';
-import ArrowDropIcon from '@/app/(afterLogin)/_component/icon/ArrowDropIcon';
+import DotLoadingIcon from '@/app/_icons/common/DotLoadingIcon';
+import ArrowDropIcon from '@/app/_icons/common/ArrowDropIcon';
 import ChatItemContainer from './ChatItemContainer';
 
 function ChatRoomContent({ roomId }: { roomId: number }) {
     const queryClient = useQueryClient();
     const scrollContainerRef = useRef<HTMLDivElement>(null); // 스크롤 컨테이너 ref
     const [isNewMessage, setIsNewMessage] = useState<boolean>(false); //새로운 메시지 팝업 여부
-    const [isMessage, setIsMovingBar] = useState<boolean>(false); //스크롤바 이동 여부
     const {
-        receiverImageUrl,
         receiverId,
-        receiverName,
         chatList,
         isSending,
         isReceiving,
@@ -149,7 +143,7 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
         return <Loading />;
     }
     return (
-        <div className="chatScroll    flex  w-full flex-grow flex-col overflow-y-scroll " ref={scrollContainerRef}>
+        <div className="chatScroll    flex   flex-grow flex-col overflow-y-scroll " ref={scrollContainerRef}>
             {/* 무한스크롤 옵저버 */}
             <div ref={ref} className={`flex w-full justify-center ${!hasNextPage ? 'hidden' : ''}  `}>
                 <div className="h-10 w-10">
@@ -159,8 +153,6 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
 
             {/* 메시지카드를 렌더링하는 부분 */}
             {[...chatList].reverse().map((chat, index) => {
-                const isUserSentMessage = chat.senderId === loginId;
-
                 return (
                     <>
                         {/*특정 메시지 사라짐 감지 옵저버*/}
@@ -168,13 +160,7 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
                             ref={chatList.length - index === 3 ? isMessageInViewRef : null}
                             className={`${chatList.length - index === 3 ? '' : 'hidden'}`}
                         />
-                        <ChatItemContainer
-                            key={uuidv4()}
-                            chat={chat}
-                            isSender={isUserSentMessage}
-                            receiverImageUrl={receiverImageUrl}
-                            receiverName={receiverName}
-                        />
+                        <ChatItemContainer key={chat.chatId} chat={chat} />
                     </>
                 );
             })}
@@ -188,7 +174,7 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
                         onClick={handleScrollBottom}
                         className="flex flex-row items-center gap-1 rounded-md border border-gray-300 bg-white bg-opacity-80 px-5 py-2 shadow-md"
                     >
-                        <span className="text-sm font-medium text-green-600">*미확인 메세지</span>
+                        <span className="text-sm font-medium text-green-600">*메세지</span>
                     </button>
                 </div>
                 <button

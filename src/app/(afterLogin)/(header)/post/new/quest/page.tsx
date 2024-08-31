@@ -1,10 +1,10 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useQuestMutation } from '../../_lib/uploadFile';
-import { debounce, set } from 'lodash';
-import QuillEditor from '../../_components/TestEditor';
+import { useQuestMutation } from '../../_lib/uploadSubBoardService';
+import { debounce } from 'lodash';
 import SubmitButton from '../../_components/SubmitButton';
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
+const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
 function QuestFormPage() {
     const categoryRef = useRef<HTMLSelectElement>(null);
@@ -42,6 +42,7 @@ function QuestFormPage() {
                 content: content,
                 boardCategory: categoryRef.current?.value,
                 subBoardType: 'QUEST',
+                platform: 'WEB',
             },
 
             images: mainImage,
@@ -54,16 +55,18 @@ function QuestFormPage() {
     useEffect(() => {
         console.log('content', content);
     }, [content]);
-
+    useEffect(() => {
+        console.log('mainImage', mainImage);
+    }, [mainImage]);
     return (
         <div className="flex w-full flex-col pb-36">
-            <div className=" mt-10 flex h-14 flex-row items-center justify-center rounded-lg bg-indigo-100">
+            <div className=" mt-10 flex min-h-12 flex-row items-center justify-center rounded-lg bg-indigo-100 p-3">
                 <span className="text-2xl">🙋‍♂️</span>
-                <span className="  ml-4 text-base text-primary ">궁금한 것들 질문하세요!</span>
+                <span className="  ml-4 text-sm text-primary mobile:text-base ">궁금한 것들 질문하세요!</span>
             </div>
             <select
                 ref={categoryRef}
-                className="mt-6 w-52 cursor-pointer rounded-md  border border-neutral-400 bg-inherit bg-white p-2  text-sm  outline-none"
+                className="mt-6 w-52 cursor-pointer rounded-md  border border-neutral-400 bg-inherit bg-white p-2  text-sm text-gray-400  outline-none"
                 defaultValue="" // 기본값 설정 필수
             >
                 <option disabled hidden value="">
@@ -79,7 +82,7 @@ function QuestFormPage() {
             </select>
             <input
                 ref={titleRef}
-                className="mt-6 w-full bg-inherit text-2xl outline-none"
+                className="mb-3 mt-6 w-full bg-inherit text-2xl outline-none"
                 placeholder="제목에 핵심 내용을 요약해보세요."
             />
             {/* <QuestRequestEditor content={content} setContent={debouncedHandleSubmit} /> */}

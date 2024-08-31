@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePostsStore } from '@/app/(afterLogin)/_store/postsStore';
 import DaySelectPicker from './DaySelectPicker';
-import ArrowDropIcon from '@/app/(afterLogin)/_component/icon/ArrowDropIcon';
+import ArrowDropIcon from '@/app/_icons/common/ArrowDropIcon';
 
 function MentoStepConsultationForm() {
     const { pageStep, setPageStep, mentoForm, setMentoForm, setErrorMessage } = usePostsStore();

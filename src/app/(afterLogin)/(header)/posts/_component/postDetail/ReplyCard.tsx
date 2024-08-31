@@ -1,12 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { ReplyType, usePostDeleteMutation } from '../../_lib/reply';
+import { usePostReplyDeleteMutation } from '../../_lib/replySerive';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import ConfirmationModal from '@/app/_component/ConfirmationModal';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
+import { ReplyType } from '@/app/Models/replyType';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
@@ -22,11 +23,11 @@ function ReplyCard({
     subBoardId: number;
     writerId: number;
     sessionId?: number;
-    boardType: 'requests' | 'quests';
+    boardType: 'REQUEST' | 'QUEST';
 }) {
     const now = dayjs();
     const date = dayjs(reply.localDateTime);
-    const deleteMutation = usePostDeleteMutation();
+    const deleteMutation = usePostReplyDeleteMutation();
 
     let displayDate;
     if (now.isSame(date, 'day')) {
@@ -40,7 +41,7 @@ function ReplyCard({
     };
     const { handleOpenModal: handleOpenDeleteModal, ConfirmationModalComponent } = useConfirmationModal({
         onConfirm: handleDelete,
-        message: '댓글을 삭제하시겠습니까?',
+        title: '댓글을 삭제하시겠습니까?',
     });
     useEffect(() => {
         console.log('reply', reply);
@@ -55,13 +56,22 @@ function ReplyCard({
             <div className="flex w-full flex-row  border-b ">
                 <div className="flex w-full flex-col justify-between gap-2 p-3">
                     <div className="flex flex-row items-center gap-2">
-                        <Image src={reply.imageUrl} alt="profile" width={18} height={18} className="rounded-full" />
+                        <div className="relative h-6  w-6 ">
+                            <Image
+                                src={reply.imageUrl}
+                                fill={true}
+                                sizes="24px"
+                                quality={100}
+                                alt="profile"
+                                className="rounded-full object-cover"
+                            />
+                        </div>
                         {!isWriter && <span className="text-xs text-neutral-600">{reply.memberName}</span>}
                         {isWriter && <span className="text-xs text-blue-600">글쓴이</span>}·
                         <span className="text-xs text-neutral-500">{reply.majorName}</span>
                     </div>
                     <div className="flex w-full flex-col gap-1">
-                        <span className="text-sm ">{reply.content}</span>
+                        <span className=" text-sm ">{reply.content}</span>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 import PostsQuests from './_component/PostsQuests';
 
 export default function RequestsPage() {
-    return <PostsQuests pageType="posts" />;
+    return <PostsQuests />;
 }

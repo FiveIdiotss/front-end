@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import mainLogo from '../../../../public/3.png';
 import naver from '@/../public/social/naver.png';
+
 export default async function Main() {
     return (
         <>
@@ -37,7 +38,7 @@ export default async function Main() {
                     </div>
 
                     <Link href="/user/signup">
-                        <div className=" bg-primary m-auto  mt-4 flex h-9 w-64  items-center justify-center rounded-3xl text-white">
+                        <div className=" m-auto mt-4  flex h-9 w-64 items-center  justify-center rounded-3xl bg-primary text-white">
                             회원가입
                         </div>
                     </Link>

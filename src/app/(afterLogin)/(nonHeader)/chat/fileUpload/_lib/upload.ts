@@ -1,7 +1,7 @@
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Message } from '../../_lib/chatContentList';
+import { Message } from '../../[slug]/_lib/chatContentList';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 
@@ -36,7 +36,11 @@ export const useUploadMutaion = () => {
             return data;
         },
         onError: (error: AxiosError<ErrorResponse>) => {
-            pushNotification(error.response?.data.message || '이미지 전송에 실패하였습니다.', 'error', 'light');
+            pushNotification({
+                msg: error.response?.data.message || '이미지 전송에 실패하였습니다.',
+                type: 'error',
+                theme: 'dark',
+            });
             console.error('Error uploading data:', error.response?.data.message);
         },
     });

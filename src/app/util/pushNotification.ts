@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 type ToastType = 'error' | 'error' | 'success';
 type ThemeType = 'light' | 'dark';
 
-export const pushNotification = (msg: string, type: ToastType, theme: ThemeType) => {
+export const pushNotification = ({ msg, type, theme }: { msg: string; type: ToastType; theme: ThemeType }) => {
     toast[type](msg, {
         duration: 1000,
         position: 'bottom-center',
