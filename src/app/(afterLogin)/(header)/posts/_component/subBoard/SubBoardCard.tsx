@@ -31,11 +31,11 @@ function SubBoardCard({ data, boardType }: { data: SubBoardDTOType; boardType: '
     return (
         <Link
             href={url}
-            className="flex w-full cursor-pointer flex-col items-center gap-2 border-b px-2 py-2 hover:bg-gray-100 mobile:flex-row  mobile:gap-4 mobile:py-4 "
+            className="flex w-full cursor-pointer flex-col items-center gap-3 border-b px-2 py-2 hover:bg-gray-100 mobile:flex-row  mobile:gap-4 mobile:py-4 "
         >
             <div className="mr-auto  flex flex-grow flex-row items-center gap-3  mobile:mr-0 ">
                 <div className="flex  items-center gap-1  font-medium">
-                    {data.platform === 'APP' && <MobileIcon className="h-4  w-4 shrink-0 text-primary" />}
+                    {data.platform === 'APP' && <MobileIcon className="h-4  w-4 shrink-0 text-gray-400" />}
                     {isQuestion && boardType === 'QUEST' && (
                         <span className="mr-1 shrink-0  text-xs text-green-600">{`[질문]`}</span>
                     )}
