@@ -49,17 +49,17 @@ jobs:
             echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
             # Docker Compose를 사용하여 기존 컨테이너 중지 및 제거
-            docker-compose -f /home/ubuntu/compose/docker-compose.yml down --rmi all --remove-orphans
+            docker-compose -f /home/ubuntu/compose_f/docker-compose.yml down --rmi all --remove-orphans
             docker network prune -f
 
             # 최신 이미지를 Docker Hub에서 pull
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
 
             # Docker Compose를 사용하여 컨테이너 시작
-            docker-compose -f /home/ubuntu/compose/docker-compose.yml up -d
+            docker-compose -f /home/ubuntu/compose_f/docker-compose.yml up -d
 
             # (옵션) 최신 상태 로그 확인
-            # docker-compose -f /home/ubuntu/compose/docker-compose.yml logs
+            # docker-compose -f /home/ubuntu/compose_f/docker-compose.yml logs
 
 
 
