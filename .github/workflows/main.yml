@@ -8,8 +8,6 @@ on:
   # 수동으로 해당 action을 실행하고 싶을때 필요한 옵션
   workflow_dispatch:
 env:
-  NEXT_PUBLIC_API_URL: https://menteetor.site
-  NEXT_PUBLIC_HOST: https://menteetor.site
   AWS_REGION: <아직 모름>
 
 
