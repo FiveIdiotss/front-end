@@ -45,7 +45,7 @@ function RQProviders({ children }: Props) {
         <QueryClientProvider client={client}>
             {children}
             {/* ReactQueryDevtools 컴포넌트를 사용하여 개발 도구를 활성화합니다. */}
-            <ReactQueryDevtools initialIsOpen={true} />
+            {/* <ReactQueryDevtools initialIsOpen={true} /> */}
         </QueryClientProvider>
     );
 }

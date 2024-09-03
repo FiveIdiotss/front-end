@@ -6,7 +6,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import 'next-auth/jwt';
 import { ErrorResponse } from './app/Models/AxiosResponse';
 import { JWT } from 'next-auth/jwt';
-import { throttle } from 'lodash';
+
+const baseUrl = process.env.NEXT_PUBLIC_HOST || 'http://localhost:3000';
 
 export type MemberDto = {
     id?: number;
@@ -113,6 +114,7 @@ export const {
         signIn: '/user/login',
         newUser: '/user/signup',
     },
+    trustHost: true,
 
     providers: [
         CredentialsProvider({
@@ -194,7 +196,7 @@ export const {
             );
             return session;
         },
-        async redirect({ url, baseUrl }) {
+        async redirect({ url }) {
             // Allows relative callback URLs
             if (url.startsWith('/')) return `${baseUrl}${url}`;
             // Allows callback URLs on the same origin
