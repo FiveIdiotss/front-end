@@ -7,9 +7,6 @@ on:
 
   # 수동으로 해당 action을 실행하고 싶을때 필요한 옵션
   workflow_dispatch:
-env:
-  AWS_REGION: <아직 모름>
-
 
 jobs:
   deploy:
@@ -20,15 +17,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Create .env file
-        run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
-          echo "NEXT_PUBLIC_HOST=${{ secrets.NEXT_PUBLIC_HOST }}" >> .env
-          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
-          echo "AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}" >> .env
-
-
+        
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
