@@ -26,7 +26,7 @@ function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
     };
     const handleSigOut = async () => {
         if (confirm('로그아웃 하시겠습니까?')) {
-            await signOut({ callbackUrl: '/home' });
+            await signOut({ callbackUrl: '/' });
         }
     };
     return (

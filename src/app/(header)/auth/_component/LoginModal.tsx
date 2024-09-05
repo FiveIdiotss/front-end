@@ -1,18 +1,21 @@
 'use client';
 
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import BackButton from './BackButton';
 import { signIn } from 'next-auth/react';
 import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 import Link from 'next/link';
+import usePrevPageStore from '@/app/_store/prevUrlStore';
 
 export default function LoginModal() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const router = useRouter();
-
+    const searchParams = useSearchParams();
+    const loginRequired = Boolean(searchParams.get('loginRequired'));
+    const { prevUrl } = usePrevPageStore(); //이전 URL 저장 및 반환
     const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
         setMessage('');
@@ -21,7 +24,8 @@ export default function LoginModal() {
             const response = await signIn('credentials', {
                 username: email,
                 password,
-                callbackUrl: '/home',
+                // redirect: loginRequired,
+                callbackUrl: prevUrl || '/',
             });
             if (response?.error === 'CredentialsSignin') {
                 console.log(response);
@@ -59,7 +63,11 @@ export default function LoginModal() {
                 </div>
                 <div className=" flex  w-full flex-grow flex-col items-center  p-6">
                     <span className="font-mono text-3xl font-bold text-primary ">Menteeto</span>
-                    <span className="text-sm text-gray-500">로그인하여 멘토링을 시작하세요.</span>
+                    {loginRequired && (
+                        <span className="text-sm font-medium text-gray-500">로그인이 필요한 서비스 입니다.</span>
+                    )}
+                    {!loginRequired && <span className="text-sm text-gray-500">로그인하여 멘토링을 시작하세요.</span>}
+
                     <form onSubmit={onSubmit} className="mt-5 flex w-full flex-grow flex-col gap-5">
                         <div className="flex w-full flex-col gap-1">
                             <label htmlFor="email">이메일</label>
@@ -96,6 +104,7 @@ export default function LoginModal() {
                                 아직도 회원이 아니신가요?&nbsp;&nbsp;
                                 <Link
                                     href="/auth/signup"
+                                    replace
                                     className="font-semibold text-blue-500 underline underline-offset-2"
                                 >
                                     회원 가입
