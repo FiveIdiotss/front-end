@@ -7,7 +7,7 @@ import 'next-auth/jwt';
 import { ErrorResponse } from './app/Models/AxiosResponse';
 import { JWT } from 'next-auth/jwt';
 
-const baseUrl = process.env.NEXT_PUBLIC_HOST || 'http://localhost:3000';
+const baseUrl = process.env.HOST_URL || 'http://localhost:3000';
 
 export type MemberDto = {
     id?: number;
