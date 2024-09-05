@@ -9,8 +9,9 @@ import { useMentorPostsQuery } from '../../_lib/mentorService';
 import { MentorBoardDTOType } from '@/app/Models/mentorType';
 import { pushNotification } from '@/app/util/pushNotification';
 import { createMentorPostsKey } from '@/app/queryKeys/mentorKey';
+import { Session } from 'next-auth';
 
-export default function PostsMentor() {
+export default function PostsMentor({ session }: { session?: Session | null }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const categoryParam = searchParams.get('category') || ''; //카테고리 선택
@@ -59,6 +60,7 @@ export default function PostsMentor() {
             <div className="grid w-full grid-cols-2 gap-2 mobile:gap-4  md:grid-cols-3 lg:grid-cols-4">
                 {mentorPostsData?.data.map((post: MentorBoardDTOType) => (
                     <MentoPostCard
+                        isLogin={Boolean(session)}
                         post={post}
                         key={post.boardId}
                         queryKeys={createMentorPostsKey(

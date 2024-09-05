@@ -10,10 +10,8 @@ import * as Yup from 'yup';
 import SignupStep1 from './userForm/SignupStep1';
 import SignupStep2 from './userForm/SignupStep2';
 import SignupStep3 from './userForm/SignupStep3';
-import { useRouter } from 'next/navigation';
 import { useSignupMutation } from '../_lib/signupService';
 import SuccessStep from './userForm/SuccessStep';
-import { signIn } from 'next-auth/react';
 import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 
 type RequiredField = {
@@ -62,7 +60,6 @@ type PageStepType = '학사정보' | '학사정보검색' | '이메일인증' | 
 //컴포넌트 시작
 export default function SignupModal() {
     const [step, setStep] = useState<PageStepType>('학사정보');
-    const router = useRouter();
     const signupMutation = useSignupMutation();
 
     const formik = useFormik<SignupFormValue>({
@@ -113,13 +110,7 @@ export default function SignupModal() {
                 if (isFormValid) {
                     signupMutation.mutate(values, {
                         onSuccess: () => {
-                            signIn('credentials', {
-                                username: values.email,
-                                password: values.password,
-                                redirect: false,
-                            }).then(() => {
-                                setStep('회원가입완료');
-                            });
+                            setStep('회원가입완료');
                         },
                     });
                 } else {
@@ -157,7 +148,7 @@ export default function SignupModal() {
                 <div className="flex  h-14 w-full shrink-0 flex-row items-center border-b border-solid px-3 text-gray-700 ">
                     {/* 모달헤더 */}
                     <div className="absolute">
-                        {step === '학사정보' && <BackButton />}
+                        {(step === '학사정보' || step === '회원가입완료') && <BackButton />}
                         {step !== '학사정보' && step !== '회원가입완료' && (
                             <button
                                 onClick={backHandler}
@@ -184,7 +175,7 @@ export default function SignupModal() {
 
                         {step === '이메일인증' && <SignupStep2 formik={formik} />}
                         {step === '개인정보' && <SignupStep3 formik={formik} />}
-                        {step === '회원가입완료' && <SuccessStep />}
+                        {step === '회원가입완료' && <SuccessStep formik={formik} />}
                     </div>
 
                     <div

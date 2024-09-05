@@ -1,17 +1,26 @@
 'use client';
+import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 import Check2Icon from '@/app/_icons/common/Check2Icon';
 import FilterIcon from '@/app/_icons/common/FilterIcon';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
-function CategoryTags() {
+function CategoryTags({ isLogin }: { isLogin: boolean }) {
     const pathName = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
     const starParam = searchParams.get('star') || 'false';
     const tagParm = searchParams.get('tag') || '전체'; //일단은 사용중이지 않음
 
+    const { navigateToLogin } = useRouteLogin({
+        isLoginRequired: true,
+    });
+
     const handleToggleTag = (tag: string) => {
+        if (!isLogin) {
+            navigateToLogin();
+            return;
+        }
         if (tag === 'star') {
             const params = new URLSearchParams(searchParams.toString());
             if (searchParams.has('star')) {

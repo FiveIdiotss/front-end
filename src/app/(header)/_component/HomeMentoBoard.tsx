@@ -6,13 +6,12 @@ import MultiCarousel from './MultiCarousel';
 
 import { pushNotification } from '@/app/util/pushNotification';
 import Loading from '@/app/_component/Loading';
-import FocusIcon from '@/app/_icons/Menu/FocusIcon';
 import ShackHandsIcon from '@/app/_icons/Menu/ShackHandsIcon';
-import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 import { useHomeMentorPostsQeury } from '../_lib/homeService';
+import { Session } from 'next-auth';
 
-export default function HomeMentoBoard() {
+export default function HomeMentoBoard({ session }: { session: Session | null }) {
     const mentorPostsQeury = useHomeMentorPostsQeury();
     const { data: mentorPosts, error, isPending } = mentorPostsQeury;
 
@@ -54,7 +53,12 @@ export default function HomeMentoBoard() {
             {mentorPosts && (
                 <MultiCarousel>
                     {mentorPosts?.data.map((post, index) => (
-                        <MentoPostCard post={post} key={post.boardId} queryKeys={['posts', 'mento', 'home']} />
+                        <MentoPostCard
+                            isLogin={Boolean(session)}
+                            post={post}
+                            key={post.boardId}
+                            queryKeys={['posts', 'mento', 'home']}
+                        />
                     ))}
                 </MultiCarousel>
             )}

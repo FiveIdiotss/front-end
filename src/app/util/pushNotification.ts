@@ -1,12 +1,35 @@
 import toast from 'react-hot-toast';
 
-type ToastType = 'error' | 'error' | 'success';
+type ToastType = 'error' | 'success';
 type ThemeType = 'light' | 'dark';
 
-export const pushNotification = ({ msg, type, theme }: { msg: string; type: ToastType; theme: ThemeType }) => {
+export const pushNotification = ({
+    msg,
+    type,
+    theme,
+    isIcon = true,
+}: {
+    msg: string;
+    type: ToastType;
+    theme: ThemeType;
+    isIcon?: boolean;
+}) => {
+    let icon;
+    switch (type) {
+        case 'error':
+            icon = '❌';
+            break;
+        case 'success':
+            icon = '✅';
+            break;
+        default:
+            icon = '👋';
+            break;
+    }
     toast[type](msg, {
         duration: 1000,
         position: 'bottom-center',
+        icon: isIcon ? icon : null,
 
         // Styling
         style: {

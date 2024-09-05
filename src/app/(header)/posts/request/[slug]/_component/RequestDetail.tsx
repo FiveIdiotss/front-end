@@ -22,7 +22,7 @@ function formatDate(dateString: string, dateType: string) {
         return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
 }
 
-function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: MemberDto }) {
+function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO?: MemberDto }) {
     const subBoardDetailQuery = useSubBoardDetailQuery({
         subBoardId: boardId,
     });
@@ -36,7 +36,7 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Mem
     if (error) return <ErrorDataUI text="오류가 발생했습니다." />;
 
     const writerId = requestDetailData.subBoardDTO.memberId; //작성자 아이디
-    const sessionId = memberDTO.id; //로그인한  맴버아이디
+    const sessionId = memberDTO?.id; //로그인한  맴버아이디
 
     return (
         <div className="flex w-full flex-row gap-6 pt-10  ">
@@ -108,6 +108,7 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO: Mem
                     likeCount={requestDetailData.subBoardDTO.likeCount}
                     like={requestDetailData.subBoardDTO.like}
                     boardType="REQUEST"
+                    isLogin={Boolean(memberDTO)}
                 />
 
                 {/* 댓글컴포넌트 */}

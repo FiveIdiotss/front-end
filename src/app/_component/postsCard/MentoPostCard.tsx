@@ -9,8 +9,17 @@ import Image from 'next/image';
 import BookMarkIcon from '@/app/_icons/common/BookMarkIcon';
 import MobileIcon from '@/app/_icons/common/MobileIcon';
 import { useAddBookmarkMutation, useDeleteBookmarkMutation } from '../../_lib/BookmarkService';
+import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 
-function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKeys: (string | number | boolean)[] }) {
+function MentoPostCard({
+    isLogin = false,
+    post,
+    queryKeys,
+}: {
+    isLogin?: boolean;
+    post: MentorBoardDTOType;
+    queryKeys: (string | number | boolean)[];
+}) {
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); //모달창 상태
 
     let year;
@@ -23,13 +32,21 @@ function MentoPostCard({ post, queryKeys }: { post: MentorBoardDTOType; queryKey
     const router = useRouter();
     const pathName = usePathname();
     const searchParams = useSearchParams();
+
     const boardIdParam = searchParams.get('mentor_board_id'); //모달창 열기위한 boardId파라미터
+    const { navigateToLogin } = useRouteLogin({
+        isLoginRequired: true,
+    }); //로그인 체크
 
     const addBookmarkMutation = useAddBookmarkMutation(); //북마크 추가
     const deleteBookmarkMutation = useDeleteBookmarkMutation(); //북마크 삭제
     const handleToggleBookmark = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         event.preventDefault();
+        if (!isLogin) {
+            navigateToLogin();
+            return;
+        }
 
         if (post.favorite) {
             deleteBookmarkMutation.mutate({

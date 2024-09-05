@@ -10,9 +10,16 @@ import CategoryTags from './CategoryTags';
 
 const ACCESS_URL_LIST: string[] = ['/posts/mentor', '/posts/request', '/posts/quest'];
 
-function FilterNav() {
+function FilterNav({ isLogin }: { isLogin: boolean }) {
     const pathName = usePathname();
-    const isPage = ACCESS_URL_LIST.some((url) => url === pathName);
+    const [isPage, setIsPage] = useState(false); //페이지 여부
+    useEffect(() => {
+        if (pathName.startsWith('/auth')) {
+            return;
+        } //auth 페이지는 제외
+        const isPage = ACCESS_URL_LIST.some((url) => url === pathName);
+        setIsPage(isPage); //글목록 페이지이에서만 필터링 필터바 노출
+    }, [pathName]);
 
     if (!isPage) return null;
     return (
@@ -22,14 +29,14 @@ function FilterNav() {
         >
             <div className="flex w-full flex-row justify-between">
                 <CategorySelector />
-                <CategorySchoolSelector />
+                <CategorySchoolSelector isLogin={isLogin} />
             </div>
 
             <div className="flex w-full flex-col items-start gap-2  mobile:flex-row mobile:items-center  mobile:gap-5">
                 <div className="w-full mobile:max-w-[370px] ">
                     <CategorySearch />
                 </div>
-                <CategoryTags />
+                <CategoryTags isLogin={isLogin} />
             </div>
         </div>
     );

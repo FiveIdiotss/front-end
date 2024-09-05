@@ -5,6 +5,10 @@ import ReplyCard from './ReplyCard';
 import Loading from '@/app/_component/Loading';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import SimplePagination from '@/app/_component/common/SimplePagination';
+import Link from 'next/link';
+import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
+import { usePathname } from 'next/navigation';
+import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 
 interface Props {
     replyCount: number;
@@ -16,6 +20,10 @@ interface Props {
 
 function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Props) {
     const inputRef = useRef<HTMLTextAreaElement>(null);
+    const pathName = usePathname();
+    const { navigateToLogin } = useRouteLogin({
+        isLoginRequired: true,
+    });
 
     const repliesQeury = useRepliesQeury({ subBoardId, boardType });
     const { data: repliesData, error, isPending } = repliesQeury;
@@ -41,7 +49,7 @@ function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Props
                         <ResetIcon className="h-4 w-4 cursor-pointer text-neutral-400 hover:text-neutral-800" />
                     </button>
                 </div>
-                <div className="flex flex-row">
+                <div className="relative flex w-full flex-row">
                     <textarea
                         ref={inputRef}
                         className="min-h-20 w-full resize-none border border-neutral-300 p-3 text-xs outline-none"
@@ -55,6 +63,17 @@ function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Props
                             등록
                         </span>
                     </div>
+                    {!sessionId && (
+                        <div className="absolute right-0  top-0 flex h-20  w-full items-center  justify-center bg-gray-800 bg-opacity-40 ">
+                            <button
+                                onClick={navigateToLogin}
+                                className=" flex flex-row items-center gap-1 border bg-white px-4 py-2 text-xs text-gray-500 "
+                            >
+                                로그인 후 댓글을 작성할 수 있습니다.
+                                <ArrowRightIcon className="h-4 w-4 " />
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className="flex w-full flex-col border-t-2  border-neutral-400">
                     {isPending && <Loading className="h-40" description="댓글 데이터를 불러오는 중입니다." />}

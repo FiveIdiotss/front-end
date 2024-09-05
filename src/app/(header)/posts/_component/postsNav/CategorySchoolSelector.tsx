@@ -1,14 +1,22 @@
 'use client';
+import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 import { pushNotification } from '@/app/util/pushNotification';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
-function CategorySchoolSelector() {
+function CategorySchoolSelector({ isLogin }: { isLogin: boolean }) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+    const { navigateToLogin } = useRouteLogin({
+        isLoginRequired: true,
+    });
 
     const handleToggle = (isToggled: boolean) => {
+        if (!isLogin) {
+            navigateToLogin();
+            return;
+        }
         if ((searchParams.has('schoolFilter') && isToggled) || (!searchParams.has('schoolFilter') && !isToggled)) {
             return;
         }
@@ -19,11 +27,11 @@ function CategorySchoolSelector() {
             params.delete('schoolFilter');
         }
         router.replace(pathname + '?' + params, { scroll: false });
-        pushNotification({
-            msg: '학교 필터링이 ' + (isToggled ? '적용' : '해제') + '되었습니다.',
-            type: 'success',
-            theme: 'dark',
-        });
+        // pushNotification({
+        //     msg: '학교 필터링이 ' + (isToggled ? '적용' : '해제') + '되었습니다.',
+        //     type: 'success',
+        //     theme: 'dark',
+        // });
     };
 
     return (

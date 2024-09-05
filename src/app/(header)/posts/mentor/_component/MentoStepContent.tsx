@@ -10,6 +10,8 @@ import { useRouter } from 'next/navigation';
 import { useMentorDetailQuery } from '../../_lib/mentorService';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import Image from 'next/image';
+import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
+import { pushNotification } from '@/app/util/pushNotification';
 
 interface Props {
     id: number;
@@ -18,6 +20,9 @@ interface Props {
 
 function MentoStepContent({ id, onlyContent }: Props) {
     const router = useRouter();
+    const { navigateToLogin } = useRouteLogin({
+        isLoginRequired: true,
+    }); //로그인 체크
 
     // onlyContent가 true면 신청하기 버튼이 아닌 리스트로 이동하는 버튼으로 변경
     const mentorDetailQuery = useMentorDetailQuery({ mentorId: id });
@@ -46,6 +51,15 @@ function MentoStepContent({ id, onlyContent }: Props) {
     }, [data]);
 
     const nextHandler = () => {
+        if (!session) {
+            pushNotification({
+                msg: '로그인이 필요한 서비스입니다.',
+                type: 'error',
+                theme: 'light',
+            });
+
+            return;
+        }
         if (data?.boardDTO.memberName === session?.user?.memberDTO.name)
             return setErrorMessage('자신의 멘토링은 신청할수 없습니다');
         setPageStep(1);

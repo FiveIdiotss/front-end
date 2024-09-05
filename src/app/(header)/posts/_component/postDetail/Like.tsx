@@ -1,22 +1,32 @@
 import LikeIcon from '@/app/_icons/common/LikeIcon';
 import React from 'react';
 import { useAddLikeMutation, useUnLikeMutation } from '../../_lib/likeService';
+import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 
 function Like({
     boardId,
     likeCount,
     like,
     boardType,
+    isLogin,
 }: {
     boardId: number;
     likeCount: number;
     like: boolean;
     boardType: 'QUEST' | 'REQUEST';
+    isLogin: boolean;
 }) {
+    const { navigateToLogin } = useRouteLogin({
+        isLoginRequired: true,
+    });
     const addLikeMutation = useAddLikeMutation();
     const unLikeMutation = useUnLikeMutation();
 
     const handleToggleLike = () => {
+        if (!isLogin) {
+            navigateToLogin();
+            return;
+        }
         if (like) {
             unLikeMutation.mutate({
                 boardId: boardId,
