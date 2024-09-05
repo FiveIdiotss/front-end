@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Noto_Sans_KR, Jua, Montserrat } from 'next/font/google';
 import './globals.css';
 import AuthSession from './_component/AuthSession';
-import RQProviders from './(afterLogin)/_component/RQProvider';
+import RQProviders from './(main)/_component/RQProvider';
 import { Toaster } from 'react-hot-toast';
 
 // const inter = Noto_Sans_KR({ subsets: ['latin'] });

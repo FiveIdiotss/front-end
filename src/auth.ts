@@ -111,8 +111,8 @@ export const {
     unstable_update: update, //실험 기능
 } = NextAuth({
     pages: {
-        signIn: '/user/login',
-        newUser: '/user/signup',
+        signIn: '/auth/login',
+        newUser: '/auth/signup',
     },
     trustHost: true,
 

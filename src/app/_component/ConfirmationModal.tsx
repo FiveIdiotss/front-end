@@ -1,4 +1,4 @@
-import NonStandardModal from '../(afterLogin)/_component/common/NonStandardModal';
+import NonStandardModal from '../(main)/_component/common/NonStandardModal';
 import WarnningCircle from '../_icons/common/WarnningCircle';
 import Loading from './Loading';
 
