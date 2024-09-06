@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import NextAuth, { User } from 'next-auth';
+import NextAuth, { CredentialsSignin, User } from 'next-auth';
 
 import CredentialsProvider from 'next-auth/providers/credentials';
 import 'next-auth/jwt';
@@ -111,8 +111,8 @@ export const {
     unstable_update: update, //실험 기능
 } = NextAuth({
     pages: {
-        signIn: '/auth/login',
-        newUser: '/auth/signup',
+        signIn: '/account/login',
+        newUser: '/account/signup',
     },
     trustHost: true,
 
@@ -124,21 +124,33 @@ export const {
                     password: credentials.password,
                 };
 
-                try {
-                    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/member/signIn`, data);
-                    const userResponse = response.data.data;
+                const authResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/member/signIn`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
 
-                    const user: User = {
-                        access_Token: userResponse.tokenDTO.accessToken,
-                        refresh_Token: userResponse.tokenDTO.refreshToken,
-                        memberDTO: userResponse.memberDTO,
-                    };
-
-                    return user;
-                } catch (error: any) {
-                    console.log(error.response);
-                    return null;
+                if (!authResponse.ok) {
+                    const credentialsSignin = new CredentialsSignin();
+                    if (authResponse.status === 401) {
+                        credentialsSignin.code = 'wrong_password';
+                    } else if (authResponse.status === 404) {
+                        credentialsSignin.code = 'no_user';
+                    }
+                    throw credentialsSignin;
                 }
+
+                const userResponse = await authResponse.json();
+                console.log('유저응답', userResponse);
+                const user: User = {
+                    access_Token: userResponse.data.tokenDTO.accessToken,
+                    refresh_Token: userResponse.data.tokenDTO.refreshToken,
+                    memberDTO: userResponse.data.memberDTO,
+                };
+
+                return user;
             },
         }),
     ],
