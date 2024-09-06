@@ -11,7 +11,7 @@ export async function middleware() {
 
     const session = await auth();
     if (!session) {
-        return NextResponse.redirect(`${baseUrl}/auth/login?loginRequired=true`);
+        return NextResponse.redirect(`${baseUrl}/account/login?loginRequired=true`);
     }
 }
 export const config = {

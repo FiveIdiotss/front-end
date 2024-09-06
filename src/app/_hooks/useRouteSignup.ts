@@ -6,7 +6,7 @@ export const useRouteSignup = () => {
     const router = useRouter();
     const { setPrevUrl } = usePrevPageStore();
 
-    const routeUrl = '/auth/signup';
+    const routeUrl = '/account/signup';
 
     const navigateToSignup = () => {
         setPrevUrl(pathName);
