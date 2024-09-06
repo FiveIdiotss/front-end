@@ -1,7 +1,8 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation } from '@tanstack/react-query';
-import axios, { Axios, AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 const url = process.env.NEXT_PUBLIC_API_URL;
 
 export type SignupFormValue = {
@@ -26,7 +27,7 @@ const postSiginup = async (data: SignupFormValue) => {
     console.log(data);
 
     try {
-        const response = await axios.post(`${url}/api/member/signUp`, data);
+        const response = await Axios.post(`/api/member/signUp`, data);
         return { message: '회원가입이 완료되었습니다.', success: true };
     } catch (error) {
         console.log(error);
@@ -39,8 +40,9 @@ export type School = {
     name: string;
 };
 export const fetchSchoolsData = async (): Promise<School[]> => {
+    console.log('url', url);
     try {
-        const response = await axios.get(`${url}/api/schools`);
+        const response = await Axios.get(`/api/schools`);
         return response.data.data as School[];
     } catch (error) {
         console.log(error);
@@ -54,7 +56,7 @@ export type Major = {
 };
 export const fetchMajorsData = async (name: string = '가천대학교'): Promise<Major[]> => {
     try {
-        const response = await axios.get(`${url}/api/school/${name}`);
+        const response = await Axios.get(`/api/school/${name}`);
         console.log('학교이름', name);
         console.log('해당학교의 학과', response.data);
 
