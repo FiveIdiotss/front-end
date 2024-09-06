@@ -5,11 +5,11 @@ import { pushNotification } from '@/app/util/pushNotification';
 import { MentorResponseType } from '@/app/Models/mentorType';
 
 const addBookmark = async (boardId: number) => {
-    const response = await Axios.post(`api/board/favorite/${boardId}`);
+    const response = await Axios.post(`/api/board/favorite/${boardId}`);
     return response.data.data;
 }; //북마크 추가
 const deleteBookmark = async (boardId: number) => {
-    const response = await Axios.delete(`api/board/favorite/${boardId}`);
+    const response = await Axios.delete(`/api/board/favorite/${boardId}`);
     return response.data.data;
 }; //북마크 삭제
 
