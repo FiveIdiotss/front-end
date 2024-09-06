@@ -1,5 +1,5 @@
 'use client';
-import BackButton from '@/app/(header)/auth/_component/BackButton';
+import BackButton from '@/app/(header)/account/_component/BackButton';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 

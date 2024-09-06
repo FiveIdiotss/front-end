@@ -103,7 +103,7 @@ export default function LoginModal() {
                             <span className="text-sm text-gray-600 ">
                                 아직도 회원이 아니신가요?&nbsp;&nbsp;
                                 <Link
-                                    href="/auth/signup"
+                                    href="/account/signup"
                                     replace
                                     className="font-semibold text-blue-500 underline underline-offset-2"
                                 >

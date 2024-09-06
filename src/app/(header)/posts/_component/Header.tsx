@@ -32,9 +32,9 @@ function Header() {
         icon: string;
     }>(); //카테고리 정보
     useEffect(() => {
-        if (pathName.startsWith('/auth')) {
+        if (pathName.startsWith('/account')) {
             return;
-        } //auth 페이지는 제외
+        } //account 페이지는 제외
         const isPage = CATEGORY_LIST.some((category) => category.url === pathName);
         setIsPage(isPage); //페이지 여부
         const category = CATEGORY_LIST.find((category) => category.url === pathName);

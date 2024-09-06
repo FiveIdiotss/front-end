@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import BackButton from '@/app/(header)/auth/_component/BackButton';
+import BackButton from '@/app/(header)/account/_component/BackButton';
 import ReactDOM from 'react-dom';
 
 type ModalWrapperProps = {

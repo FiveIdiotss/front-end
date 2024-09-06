@@ -6,7 +6,7 @@ export const useRouteLogin = ({ isLoginRequired = false }: { isLoginRequired?: b
     const router = useRouter();
     const { prevUrl, setPrevUrl } = usePrevPageStore();
 
-    const routeUrl = '/auth/login' + (isLoginRequired ? '?loginRequired=true' : '');
+    const routeUrl = '/account/login' + (isLoginRequired ? '?loginRequired=true' : '');
 
     const navigateToLogin = () => {
         console.log('prevUrl', pathName);
