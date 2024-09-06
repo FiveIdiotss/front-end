@@ -7,7 +7,7 @@ import 'next-auth/jwt';
 import { ErrorResponse } from './app/Models/AxiosResponse';
 import { JWT } from 'next-auth/jwt';
 
-const baseUrl = process.env.HOST_URL || 'http://localhost:3000';
+// const baseUrl = process.env.HOST_URL || 'http://localhost:3000';
 
 export type MemberDto = {
     id?: number;
@@ -208,13 +208,13 @@ export const {
             );
             return session;
         },
-        async redirect({ url }) {
-            // Allows relative callback URLs
-            if (url.startsWith('/')) return `${baseUrl}${url}`;
-            // Allows callback URLs on the same origin
-            else if (new URL(url).origin === baseUrl) return url;
-            return baseUrl;
-        },
+        // async redirect({ url }) {
+        //     // Allows relative callback URLs
+        //     if (url.startsWith('/')) return `${baseUrl}${url}`;
+        //     // Allows callback URLs on the same origin
+        //     else if (new URL(url).origin === baseUrl) return url;
+        //     return baseUrl;
+        // },
     },
 });
 
