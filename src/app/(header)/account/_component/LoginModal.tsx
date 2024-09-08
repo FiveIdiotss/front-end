@@ -27,6 +27,7 @@ export default function LoginModal() {
         await signIn('credentials', {
             username: email,
             password,
+
             // redirect: loginRequired,
             callbackUrl: prevUrl || '/',
         });
