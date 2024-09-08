@@ -4,7 +4,7 @@ import BackButton from './BackButton';
 
 import { useEffect, useState } from 'react';
 import UniSearch from './UniSearch';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import SignupStep1 from './userForm/SignupStep1';
@@ -15,7 +15,7 @@ import SuccessStep from './userForm/SuccessStep';
 import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 
 type RequiredField = {
-    field: keyof SignupFormValue;
+    field: keyof SignupFormType;
     message: string;
 };
 const stepsRequired: RequiredField[][] = [
@@ -62,7 +62,7 @@ export default function SignupModal() {
     const [step, setStep] = useState<PageStepType>('학사정보');
     const signupMutation = useSignupMutation();
 
-    const formik = useFormik<SignupFormValue>({
+    const formik = useFormik<SignupFormType>({
         initialValues: {
             email: '',
             name: '',
@@ -82,7 +82,7 @@ export default function SignupModal() {
             passwordConfirm: Yup.string().oneOf([Yup.ref('password')], '비밀번호가 일치하지 않습니다.'),
         }),
         validateOnChange: true,
-        onSubmit: async (values: SignupFormValue) => {
+        onSubmit: async (values: SignupFormType) => {
             if (step === '학사정보') {
                 stepsRequired[0].forEach(({ field, message }) => {
                     if (values[field] === '' || values[field] === undefined || values[field] === false) {

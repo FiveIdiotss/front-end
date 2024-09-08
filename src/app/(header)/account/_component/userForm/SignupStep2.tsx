@@ -1,10 +1,10 @@
 import { FormikProps } from 'formik';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import EmailVerificationInput from './EmailVerificationInput';
 import UserInput from './UserInput';
 import UserDivider from '../UserDivider';
 interface SignupStep1Props {
-    formik: FormikProps<SignupFormValue>;
+    formik: FormikProps<SignupFormType>;
 }
 const SignupStep1: React.FC<SignupStep1Props> = ({ formik }) => {
     return (

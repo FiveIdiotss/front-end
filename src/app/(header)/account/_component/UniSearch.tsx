@@ -2,11 +2,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { SchoolDatas } from './userForm/SignupStep1';
 import { FormikProps } from 'formik';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import { fetchMajorsData, School, Major, fetchSchoolsData } from '../_lib/signupService';
 
 interface Props {
-    formik: FormikProps<SignupFormValue>;
+    formik: FormikProps<SignupFormType>;
 }
 
 function UniSearch({ formik }: Props) {

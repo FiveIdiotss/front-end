@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { signIn, useSession } from 'next-auth/react';
 import { FormikProps } from 'formik';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import usePrevPageStore from '@/app/_store/prevUrlStore';
 import { pushNotification } from '@/app/util/pushNotification';
 
-function SuccessStep({ formik }: { formik: FormikProps<SignupFormValue> }) {
+function SuccessStep({ formik }: { formik: FormikProps<SignupFormType> }) {
     const { prevUrl } = usePrevPageStore();
 
     const onLogin = async () => {

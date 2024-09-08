@@ -3,7 +3,7 @@ import axios from 'axios';
 import UserInput from './UserInput';
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { FormikProps } from 'formik';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import { set } from 'react-hook-form';
 import Loading from '@/app/_component/Loading';
 import { on } from 'events';
@@ -17,7 +17,7 @@ type props = {
     onBlur?: any;
     onChange?: any;
     name: string;
-    formik: FormikProps<SignupFormValue>;
+    formik: FormikProps<SignupFormType>;
 };
 export default function EmailVerificationInput({
     placeholder,

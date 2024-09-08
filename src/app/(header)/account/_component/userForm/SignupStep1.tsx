@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import EmailVerificationInput from './EmailVerificationInput';
 import UserInput from './UserInput';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ export type SchoolDatas = {
 };
 
 interface Props {
-    formik: FormikProps<SignupFormValue>;
+    formik: FormikProps<SignupFormType>;
     handleSearchPage: () => void;
 }
 const SignupStep2: React.FC<Props> = ({ formik, handleSearchPage }) => {

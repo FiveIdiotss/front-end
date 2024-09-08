@@ -1,24 +1,12 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { SignupFormType } from '@/app/Models/SignupType';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 const url = process.env.NEXT_PUBLIC_API_URL;
 
-export type SignupFormValue = {
-    email: string;
-    name: string;
-    password: string;
-    year: number | undefined;
-    gender: string;
-    schoolName: string;
-    schoolId?: number;
-    majorName?: string;
-    majorId: number;
-    passwordConfirm?: string;
-    validEmail?: boolean;
-};
-const postSiginup = async (data: SignupFormValue) => {
+const postSiginup = async (data: SignupFormType) => {
     console.log(data);
     delete data.passwordConfirm;
     delete data.majorName;
