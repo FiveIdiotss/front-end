@@ -11,3 +11,13 @@ export type SignupFormType = {
     passwordConfirm?: string;
     validEmail?: boolean;
 };
+
+export type SchoolType = {
+    schoolId: number;
+    name: string;
+};
+
+export type MajorType = {
+    majorId: number;
+    name: string;
+};
