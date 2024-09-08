@@ -8,11 +8,13 @@ export const pushNotification = ({
     type,
     theme,
     isIcon = true,
+    textColor,
 }: {
     msg: string;
     type: ToastType;
     theme: ThemeType;
     isIcon?: boolean;
+    textColor?: string;
 }) => {
     let icon;
     switch (type) {
@@ -26,6 +28,14 @@ export const pushNotification = ({
             icon = '👋';
             break;
     }
+
+    let color;
+    if (textColor) {
+        color = textColor;
+    } else {
+        color = theme === 'dark' ? '#fff' : '#333';
+    }
+
     toast[type](msg, {
         duration: 1000,
         position: 'bottom-center',
@@ -36,7 +46,7 @@ export const pushNotification = ({
             padding: '14px',
             maxWidth: '500px',
             background: `${theme === 'dark' ? '#333' : '#fff'}`,
-            color: `${theme === 'dark' ? '#fff' : '#333'}`,
+            color: color,
         },
         className: 'w-full border text-md text-sm  ',
 
