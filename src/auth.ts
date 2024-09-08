@@ -113,6 +113,7 @@ export const {
     pages: {
         signIn: '/account/login',
         newUser: '/account/signup',
+        error: '/account/login',
     },
     trustHost: true,
 
