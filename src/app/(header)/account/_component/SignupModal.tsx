@@ -13,6 +13,8 @@ import SignupStep3 from './userForm/SignupStep3';
 import { useSignupMutation } from '../_lib/signupService';
 import SuccessStep from './userForm/SuccessStep';
 import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
+import { AxiosError } from 'axios';
+import { ErrorResponse } from '@/app/Models/AxiosResponse';
 
 type RequiredField = {
     field: keyof SignupFormType;
@@ -176,6 +178,11 @@ export default function SignupModal() {
                         {step === '이메일인증' && <SignupStep2 formik={formik} />}
                         {step === '개인정보' && <SignupStep3 formik={formik} />}
                         {step === '회원가입완료' && <SuccessStep formik={formik} />}
+                    </div>
+                    <div className="mx-auto text-sm text-red-600">
+                        {signupMutation.error
+                            ? (signupMutation.error as AxiosError<ErrorResponse>).response?.data.message
+                            : ''}
                     </div>
 
                     <div
