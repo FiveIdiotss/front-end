@@ -1,4 +1,5 @@
 'use client';
+import { useScrollObserver } from '@/app/_hooks/useScrollObserver';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -11,13 +12,13 @@ const CATEGORY_LIST = [
     },
     {
         url: '/posts/request',
-        name: '멘토찾기',
+        name: '멘토 찾기',
         intro: '원하는 멘토링이 없다면 직접 찾아봐요!',
         icon: '🔍',
     },
     {
         url: '/posts/quest',
-        name: '자유질문',
+        name: '자유 질문',
         intro: '자유롭게 질문을 올리고 소통해보세요!',
         icon: '🙋‍♂️',
     },
@@ -31,6 +32,7 @@ function Header() {
         intro: string;
         icon: string;
     }>(); //카테고리 정보
+    const scrollVisible = useScrollObserver(130);
     useEffect(() => {
         if (pathName.startsWith('/account')) {
             return;
@@ -43,13 +45,15 @@ function Header() {
 
     return (
         <>
-            <div className="sticky top-[69px] z-30 flex  w-full justify-center border-b bg-white shadow-sm-bottom">
-                <div className=" flex h-11  max-w-[1300px]    ">
+            <div
+                className={`${scrollVisible ? 'pointer-events-none opacity-0' : 'opacity-100'} sticky top-[68px] z-30 flex w-full justify-center  border-b bg-white  transition-opacity duration-300 ease-in-out`}
+            >
+                <div className=" flex h-14  max-w-[1300px] items-center   gap-1    ">
                     {CATEGORY_LIST.map((category) => (
                         <Link
                             href={category.url}
                             key={category.name}
-                            className={`border-b-[3px]  ${pathName.startsWith(category.url) ? ' border-primary  font-semibold text-primary' : 'border-white text-neutral-600  hover:border-gray-300  '} flex h-full items-center px-3   font-medium transition-all duration-300 ease-in-out `}
+                            className={`h-full   ${pathName.startsWith(category.url) ? '  border-primary text-primary' : ' border-transparent text-neutral-600  hover:border-gray-300  '} flex items-center border-b-[3px] bg-opacity-70 px-4 pt-2  font-medium transition-all duration-300 ease-in-out `}
                         >
                             {category.name}
                         </Link>
@@ -57,7 +61,7 @@ function Header() {
                 </div>
             </div>
             {isPage && (
-                <div className=" z-[3] mt-3 flex w-full flex-col items-center justify-center bg-opacity-60 bg-gradient-to-r  from-gray-400 via-gray-500 to-gray-400  py-7  ">
+                <div className=" z-[3]  flex w-full flex-col items-center justify-center bg-opacity-60 bg-gradient-to-r  from-gray-400 via-gray-500 to-gray-400  py-7  ">
                     <div className="flex flex-row items-center justify-center gap-7 ">
                         {/* <BookIcon className="h-12 w-12 text-white" /> */}
                         <span className="text-3xl mobile:text-4xl">{category?.icon}</span>
