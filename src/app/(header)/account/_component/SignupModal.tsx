@@ -98,6 +98,8 @@ export default function SignupModal() {
                 stepsRequired[1].forEach(({ field, message }) => {
                     if (values[field] === '' || values[field] === undefined || values[field] === false) {
                         formik.setFieldError(field, message);
+                    } else if (!formik.values.validEmail) {
+                        formik.setFieldError('email', '이메일 인증을 완료해주세요.');
                     } else {
                         setStep('개인정보');
                     }
