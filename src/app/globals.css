@@ -16,11 +16,11 @@
     }
 }
 
-html,
+html {
+    @apply h-dvh overflow-y-auto overflow-x-hidden   overscroll-y-none  !important;
+}
 body {
-    max-width: 100dvw;
-    overflow-x: hidden;
-    @apply h-dvh overflow-y-auto !important;
+    @apply h-full    !important;
 }
 a {
     color: inherit;
@@ -179,7 +179,7 @@ ol {
 /*텍스트 에디터 스타일 게시판 전용*/
 
 .ql-toolbar {
-    @apply sticky top-[65px] z-[2] rounded-t-md bg-gray-100;
+    @apply sticky top-[69px] z-[1] rounded-t-md bg-gray-100;
 }
 .ql-container {
     @apply rounded-b-md;

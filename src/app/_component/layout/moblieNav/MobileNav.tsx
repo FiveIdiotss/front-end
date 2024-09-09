@@ -18,6 +18,7 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
     const [modalClicked, setModalClicked] = useState<ModalTap>();
     const pathName = usePathname();
     const router = useRouter();
+    const disabledMoblieNave = pathName.startsWith('/post/new');
 
     const { navigateToLogin } = useRouteLogin({
         isLoginRequired: true,
@@ -61,12 +62,14 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
         }
     }, [modalClicked]); //모달이 열렸을때 활성화된 탭을 변경
 
+    if (disabledMoblieNave) return null;
+
     return (
-        <div className="fixed bottom-0 z-[1002] flex w-full flex-col mobile:hidden">
+        <nav className="fixed bottom-0 z-[1002]  flex w-screen flex-col    mobile:hidden">
             {modalClicked && (
                 <div
                     onClick={() => setModalClicked(null)}
-                    className="flex h-[calc(100dvh-16px)] w-dvw items-end bg-black bg-opacity-30"
+                    className="flex h-[calc(100dvh-16px)] w-dvw items-end bg-black bg-opacity-30 "
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
@@ -78,7 +81,7 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
                 </div>
             )}
             <nav
-                className={`z-20 flex  h-16 w-full flex-shrink-0 flex-row items-center justify-between border-t bg-white  px-10 shadow-sm-top  mobile:hidden  `}
+                className={`z-20   flex h-16 w-full flex-shrink-0 flex-row items-center justify-between border-t  bg-white px-10 shadow-sm-top  mobile:hidden  `}
             >
                 <Link
                     href="/"
@@ -110,7 +113,7 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
                     <span>작성하기</span>
                 </button>
             </nav>
-        </div>
+        </nav>
     );
 }
 

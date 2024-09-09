@@ -52,7 +52,7 @@ function Pagination({ totalPages }: Props) {
     };
 
     return (
-        <div className="mt-4 flex flex-row gap-2">
+        <div className=" flex flex-row gap-2 py-6 ">
             {/* 이전페이지 */}
             <button
                 onClick={handleSinglePrevPage}
