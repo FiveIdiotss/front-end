@@ -16,9 +16,11 @@
     }
 }
 
-html,
-body {
+html {
     @apply h-dvh overflow-y-auto overflow-x-hidden   overscroll-y-none  !important;
+}
+body {
+    /* @apply; */
 }
 a {
     color: inherit;
