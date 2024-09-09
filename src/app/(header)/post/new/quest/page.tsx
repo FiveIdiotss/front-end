@@ -94,8 +94,8 @@ function QuestFormPage() {
         console.log('mainImage', mainImage);
     }, [mainImage]);
     return (
-        <div className="flex w-full flex-col pb-36">
-            <div className=" mt-10 flex min-h-12 flex-row items-center justify-center rounded-lg bg-indigo-100 p-3">
+        <form className="flex w-full flex-col pb-36" onSubmit={onSubmit}>
+            <div className=" mt-10 flex min-h-12 w-full flex-row items-center justify-center rounded-lg bg-indigo-100 p-3">
                 <span className="text-2xl">🙋‍♂️</span>
                 <span className="  ml-4 text-sm text-primary mobile:text-base ">궁금한 것들 질문하세요!</span>
             </div>
@@ -124,14 +124,14 @@ function QuestFormPage() {
 
             <QuillEditor setContent={debouncedHandleSubmit} content={content} setMainImage={handleMainImage} />
 
-            <SubmitButton cancelUrl="/quest" onSubmit={onSubmit} isLoading={postMutation.isPending} />
+            <SubmitButton cancelUrl="/quest" type="submit" isLoading={postMutation.isPending} />
             <InfoModal
                 open={completeModalOpen}
                 onClose={handleInfoClose}
                 completeText={'등록이 완료되었습니다.'}
                 pageText={'잠시후 질문 게시판으로 이동합니다.'}
             />
-        </div>
+        </form>
     );
 }
 
