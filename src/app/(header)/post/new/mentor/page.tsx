@@ -71,7 +71,7 @@ function MentorFormPage() {
                 type: 'error',
                 theme: 'light',
                 isIcon: false,
-                textColor: '#d4c114',
+                textColor: '#dbc821',
             });
         postMentorMutation.mutate(
             {

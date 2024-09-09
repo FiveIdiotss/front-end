@@ -71,13 +71,7 @@ export const useRequestMutation = () => {
 
     const mutation = useMutation({
         mutationFn: (data: newSubBoardFormType) => postQuestRequest(data),
-        onSuccess: (data, variable) => {
-            queryClient.invalidateQueries({
-                queryKey: ['posts', 'requests'],
-                refetchType: 'all',
-            });
-            alert('성공적으로 등록되었습니다.');
-        },
+
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);
             pushNotification({
