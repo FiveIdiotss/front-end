@@ -1,6 +1,14 @@
 'use client';
-import Carousel from 'react-multi-carousel';
+import FaChevronRight from '@/app/_icons/common/chevronRight';
+import Carousel, { ArrowProps } from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+
+interface CustomLeftArrowProps extends ArrowProps {
+    myOwnStuff: string;
+}
+interface CustomRightArrowProps extends ArrowProps {
+    myOwnStuff: string;
+}
 type Props = {
     children: React.ReactNode;
 };
@@ -18,10 +26,11 @@ function MultiCarousel({ children }: Props) {
         desktop: {
             breakpoint: {
                 max: 3000,
-                min: 120,
+                min: 1201,
             },
             items: 4,
             slidesToSlide: 4,
+            // partialVisibilityGutter: 20,
         },
         tablet: {
             breakpoint: {
@@ -30,6 +39,7 @@ function MultiCarousel({ children }: Props) {
             },
             items: 3,
             slidesToSlide: 3,
+            // partialVisibilityGutter: 10,
         },
         mobile: {
             breakpoint: {
@@ -50,6 +60,14 @@ function MultiCarousel({ children }: Props) {
             partialVisibilityGutter: 70,
         },
     };
+    const CustomRightArrow = ({ onClick }: CustomRightArrowProps) => {
+        return (
+            <button onClick={onClick} className="absolute -right-3 z-20  rounded-full bg-primary p-2 ">
+                <FaChevronRight className="h-4 w-4" />
+            </button>
+        );
+    };
+
     return (
         <Carousel
             partialVisible={true}
@@ -62,11 +80,12 @@ function MultiCarousel({ children }: Props) {
             draggable={true}
             focusOnSelect={false}
             itemClass="px-1"
+            className="u"
             pauseOnHover
             // minimumTouchDrag
             renderArrowsWhenDisabled={false}
             removeArrowOnDeviceType={['miniMobile', 'mobile']}
-            renderButtonGroupOutside={false}
+            renderButtonGroupOutside={true}
             renderDotsOutside={false}
             rewind={false}
             rewindWithAnimation={false}
@@ -75,6 +94,8 @@ function MultiCarousel({ children }: Props) {
             sliderClass=""
             responsive={responsive}
             ssr={false} // means to render carousel on server-side.
+            // customLeftArrow={}
+            // customRightArrow={<CustomRightArrow myOwnStuff={''} />}
         >
             {children}
         </Carousel>

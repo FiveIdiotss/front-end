@@ -21,6 +21,7 @@ function MentoPostCard({
     queryKeys: (string | number | boolean)[];
 }) {
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); //모달창 상태
+    const [isCardHover, setIsCardHover] = useState(false); //카드 호버 상태
 
     let year;
     if (year === 0) {
@@ -65,7 +66,7 @@ function MentoPostCard({
         const param = new URLSearchParams(searchParams.toString());
         param.set('mentor_board_id', post.boardId.toString());
 
-        router.replace(pathName + '?' + param);
+        router.replace(pathName + '?' + param, { scroll: false });
         console.log('handleDetailModalOpen', post.boardId);
     }; //모달창 열기
 
@@ -74,8 +75,14 @@ function MentoPostCard({
         if (param.has('mentor_board_id')) {
             param.delete('mentor_board_id');
         }
-        router.replace(pathName + '?' + param);
+        router.replace(pathName + '?' + param, { scroll: false });
     }; //모달창 닫기
+
+    const handleHoverCard = (isHover: boolean) => {
+        if (post.representImage !== '') {
+            setIsCardHover(isHover);
+        }
+    }; //카드 호버
 
     useEffect(() => {
         if (boardIdParam === post.boardId.toString()) {
@@ -88,26 +95,39 @@ function MentoPostCard({
     return (
         <>
             <div
-                className=" my-1 flex h-[330px]   transform cursor-pointer flex-col overflow-hidden rounded-lg border border-gray-100 bg-white bg-opacity-50 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
+                className=" my-1 flex h-[290px]   transform cursor-pointer flex-col overflow-hidden rounded-lg border border-gray-100 bg-white bg-opacity-50 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
                 onClick={handleDetailModalOpen}
             >
-                <div className="relative flex h-28 w-full  flex-col justify-end ">
-                    <h3 className="z-10 line-clamp-2 flex w-full flex-row items-center rounded-t-lg bg-white bg-opacity-90 px-3 py-2  text-sm  font-semibold text-black">
-                        {post.platform === 'WEB' ? '' : <MobileIcon className="mr-1 h-4 w-4 text-blue-500" />}
-                        <span>
-                            <span className="text-gray-700">[{post.boardCategory}]</span>
-                            &nbsp;
+                <div
+                    className="relative flex h-28 w-full  flex-col  "
+                    onMouseEnter={() => handleHoverCard(true)}
+                    onMouseLeave={() => handleHoverCard(false)}
+                >
+                    <div
+                        className={`z-10 ${isCardHover ? 'hidden' : ''}  flex h-full w-full flex-col gap-2    p-3 text-base  font-medium  ${post.representImage !== '' ? 'bg-black bg-opacity-60 text-white' : ''}`}
+                    >
+                        <span className="line-clamp-2 flex flex-row gap-1">
+                            <span
+                                className={`flex flex-row items-center gap-1 ${post.representImage !== '' ? '' : 'text-gray-400'}`}
+                            >
+                                {post.platform === 'WEB' ? '' : <MobileIcon className="mr-1 h-4 w-4 text-blue-500" />}[
+                                {post.boardCategory}]
+                            </span>
+
                             {post.title}
                         </span>
-                    </h3>
-                    <Image
-                        src={post.representImage || ''}
-                        alt="MentoringRepresentImage"
-                        quality={100}
-                        fill={true}
-                        sizes="600px"
-                        className="z-0 object-cover  "
-                    />
+                        <span className="line-clamp-2 text-sm font-normal">{post.introduce}</span>
+                    </div>
+                    {post.representImage !== '' && (
+                        <Image
+                            src={post.representImage || ''}
+                            alt="MentoringRepresentImage"
+                            quality={100}
+                            fill={true}
+                            sizes="600px"
+                            className="z-0 object-cover  "
+                        />
+                    )}
                 </div>
                 <div className="flex flex-grow flex-col px-3 pb-3 pt-1 mobile:px-5  ">
                     <div className="flex flex-grow flex-col text-sm">
@@ -128,10 +148,10 @@ function MentoPostCard({
                                 <dt className="flex-shrink-0   text-gray-400">대상</dt>
                                 <dd className="line-clamp-1   text-neutral-500">{post.target}</dd>
                             </div>
-                            <div className="flex flex-row gap-2">
+                            {/* <div className="flex flex-row gap-2">
                                 <dt className="flex-shrink-0   text-gray-400">소개</dt>
                                 <dd className="line-clamp-2   text-neutral-500">{post.introduce}</dd>
-                            </div>
+                            </div> */}
                         </dl>
                     </div>
                     <div className="my-2">

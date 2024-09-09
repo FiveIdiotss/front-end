@@ -1,7 +1,7 @@
 'use client';
 import ArrowDropIcon from '@/app/_icons/common/ArrowDropIcon';
 import CloseIcon from '@/app/_icons/common/CloseIcon';
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import { CloseButton } from 'react-toastify';
 import CategorySelectorList from './CategorySelectorList';
 import { useSearchParams } from 'next/navigation';
@@ -10,6 +10,10 @@ function CategorySelector() {
     const [isHovered, setIsHovered] = React.useState(false);
     const searchParams = useSearchParams();
     const categoryParam = searchParams.get('category') || '전체 전공';
+
+    const handleClose = () => {
+        setIsHovered(false);
+    };
     return (
         <>
             <div className="relative flex">
@@ -35,7 +39,7 @@ function CategorySelector() {
                                 <CloseIcon className="h-7 w-7 text-inherit" />
                             </button>
                         </div>
-                        <CategorySelectorList />
+                        <CategorySelectorList handleClose={handleClose} />
                     </div>
                 </div>
             </div>
