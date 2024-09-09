@@ -49,7 +49,9 @@ export const useAddBookmarkMutation = () => {
             pushNotification({
                 msg: '북마크가 추가되었습니다.',
                 type: 'success',
-                theme: 'dark',
+                theme: 'light',
+                isIcon: false,
+                textColor: 'rgb(101 84 189 )',
             });
         },
         onError: (error: AxiosError, variable, previousData) => {
@@ -100,11 +102,13 @@ export const useDeleteBookmarkMutation = () => {
                 return { previousData };
             },
             onSuccess: () => {
-                pushNotification({
-                    msg: '북마크가 삭제되었습니다.',
-                    type: 'success',
-                    theme: 'dark',
-                });
+                // pushNotification({
+                //     msg: '북마크가 삭제되었습니다.',
+                //     type: 'success',
+                //     theme: 'light',
+                //     isIcon: false,
+                //     textColor: ' #d1180b ',
+                // });
             },
             onError: (error: AxiosError, variable, previousData) => {
                 console.log('이전데이터xx', previousData);
