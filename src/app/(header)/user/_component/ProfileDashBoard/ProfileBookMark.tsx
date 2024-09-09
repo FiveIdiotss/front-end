@@ -8,7 +8,7 @@ import EmptyDataUI from '@/app/_component/EmptyDataUI';
 import Loading from '@/app/_component/Loading';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 
-function ProfileBookMark() {
+function ProfileBookMark({ isLogin }: { isLogin: boolean }) {
     const [boardId, setBoardId] = useState<number | null>(null);
     const searchParams = useSearchParams();
     const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
@@ -35,6 +35,7 @@ function ProfileBookMark() {
                         <MentoPostCard
                             post={post}
                             queryKeys={['posts', 'mento', 'user', 'bookMark', String(pageParam)]}
+                            isLogin={isLogin}
                         />
                     </div>
                 ))}

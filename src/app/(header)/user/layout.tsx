@@ -7,9 +7,11 @@ export default async function UserLayout({ children }: { children: React.ReactNo
 
     return (
         // Wrapper
-        <div className="flex    w-full flex-shrink-0  flex-col tablet:flex-row">
-            <div className=" hidden w-[340px]   flex-row justify-end bg-white tablet:flex ">
-                <ProfileLeftHeader memberDTO={session?.user?.memberDTO} />
+        <div className="flex  w-full  flex-shrink-0  flex-col tablet:flex-row">
+            <div className=" hidden  flex-grow flex-row justify-end bg-white tablet:flex ">
+                <div className=" w-[340px]">
+                    <ProfileLeftHeader memberDTO={session?.user?.memberDTO} />
+                </div>
             </div>
             <div className="flex w-full flex-row bg-white shadow-sm tablet:hidden">
                 <ProfileTopHeader memberDTO={session?.user?.memberDTO} />
