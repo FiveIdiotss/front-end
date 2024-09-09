@@ -4,6 +4,9 @@ import { useRequestMutation } from '../../_lib/uploadSubBoardService';
 import { debounce } from 'lodash';
 import SubmitButton from '../../_components/SubmitButton';
 import dynamic from 'next/dynamic';
+import InfoModal from '../../_components/InfoModal';
+import { useRouter } from 'next/navigation';
+import { pushNotification } from '@/app/util/pushNotification';
 
 const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
@@ -13,6 +16,8 @@ function RequestFormPage() {
     const postMutation = useRequestMutation();
     const [content, setContent] = useState<string>('');
     const [mainImage, setMainImage] = useState<File[]>([]);
+    const [completeModalOpen, setCompleteModalOpen] = React.useState(false);
+    const router = useRouter();
 
     const debouncedHandleSubmit = useCallback(
         debounce((value: string) => {
@@ -23,32 +28,57 @@ function RequestFormPage() {
 
     const onSubmit = async () => {
         if (!categoryRef.current?.value) {
-            alert('카테고리를 선택해주세요.');
-            return;
+            return pushNotification({
+                msg: '🚨 카테고리를 선택해주세요.',
+                type: 'error',
+                theme: 'light',
+                isIcon: false,
+                textColor: '#d4c114',
+            });
         }
         if (!titleRef.current?.value) {
-            alert('제목을 입력해주세요.');
-            return;
+            return pushNotification({
+                msg: '🚨  제목을 입력해주세요.',
+                type: 'error',
+                theme: 'light',
+                isIcon: false,
+                textColor: '#d4c114',
+            });
         }
         if (!content) {
-            alert('내용을 입력해주세요.');
-            return;
+            return pushNotification({
+                msg: '🚨  내용을 입력해주세요.',
+                type: 'error',
+                theme: 'light',
+                isIcon: false,
+                textColor: '#d4c114',
+            });
         }
-        postMutation.mutate({
-            request: {
-                title: titleRef.current?.value,
-                content: content,
-                boardCategory: categoryRef.current?.value,
-                subBoardType: 'REQUEST',
-                platform: 'WEB',
+        postMutation.mutate(
+            {
+                request: {
+                    title: titleRef.current?.value,
+                    content: content,
+                    boardCategory: categoryRef.current?.value,
+                    subBoardType: 'REQUEST',
+                    platform: 'WEB',
+                },
+                images: [],
             },
-            images: [],
-        });
+            {
+                onSuccess: () => {
+                    setCompleteModalOpen(true);
+                },
+            },
+        );
     };
     const handleMainImage = async (file: File) => {
         setMainImage([...mainImage, file]);
     };
-
+    const handleInfoClose = () => {
+        setCompleteModalOpen(false);
+        router.push('/posts/request');
+    };
     useEffect(() => {
         console.log('content', content);
     }, [content]);
@@ -84,6 +114,12 @@ function RequestFormPage() {
             <QuillEditor setContent={debouncedHandleSubmit} content={content} setMainImage={handleMainImage} />
 
             <SubmitButton cancelUrl="/post" onSubmit={onSubmit} isLoading={postMutation.isPending} />
+            <InfoModal
+                open={completeModalOpen}
+                onClose={handleInfoClose}
+                completeText={'등록이 완료되었습니다.'}
+                pageText={'잠시후 멘토찾기 게시판으로 이동합니다.'}
+            />
         </div>
     );
 }
