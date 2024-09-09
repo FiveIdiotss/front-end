@@ -143,6 +143,16 @@ export default function SignupModal() {
             setStep('학사정보');
     }, [formik.values.majorName, formik.values.schoolName]); //초기에는 실행되지 않고 schoolName이 바뀔때만 실행된다.
 
+    useEffect(() => {
+        // 모달이 열릴 때 body의 overflow를 hidden으로 설정
+        document.body.style.overflow = 'hidden';
+
+        // cleanup 함수를 통해 모달이 닫히거나 컴포넌트가 언마운트될 때 overflow를 복원
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+
     return (
         // 모달배경
         <div className="absolute bottom-0 left-0 right-0 top-0 z-[9999]  flex h-screen w-screen items-center justify-center bg-modal ">

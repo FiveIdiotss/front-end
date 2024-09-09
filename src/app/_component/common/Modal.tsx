@@ -17,6 +17,15 @@ function Modal({ open, onClose, children, className, modalBackground }: ModalPro
     useEffect(() => {
         setIsBrowser(true);
     }, []);
+    useEffect(() => {
+        // 모달이 열릴 때 body의 overflow를 hidden으로 설정
+        document.body.style.overflow = 'hidden';
+
+        // cleanup 함수를 통해 모달이 닫히거나 컴포넌트가 언마운트될 때 overflow를 복원
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
     if (!open || !isBrowser) return null;
     return ReactDOM.createPortal(

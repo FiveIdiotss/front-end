@@ -85,9 +85,19 @@ export default function LoginModal() {
     //     }
     // }, [email, password]);
 
+    useEffect(() => {
+        // 모달이 열릴 때 body의 overflow를 hidden으로 설정
+        document.body.style.overflow = 'hidden';
+
+        // cleanup 함수를 통해 모달이 닫히거나 컴포넌트가 언마운트될 때 overflow를 복원
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+
     return (
         // 모달배경
-        <div className="absolute bottom-0 left-0 right-0 top-0 z-[9999] flex h-full w-screen items-center justify-center bg-modal">
+        <div className="fixed bottom-0 left-0  right-0 top-0 z-[9999] flex h-full w-screen items-center justify-center bg-modal">
             <div
                 className={` relative   flex h-full w-full  flex-col  items-center  overflow-hidden bg-white sm:h-[500px] sm:w-[420px]  sm:rounded-lg `}
             >
