@@ -19,11 +19,28 @@ function ModalWrapper({ children, className, title, subTitle, onClose, closeUrl 
         setIsBrowser(true);
     }, []);
 
+    useEffect(() => {
+        // 모달이 열릴 때 body 스크롤을 막음
+        const scrollY = window.scrollY;
+        document.body.style.overflow = 'hidden'; // 스크롤 차단
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+
+        // 모달이 닫힐 때 스크롤 복원
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            window.scrollTo(0, scrollY); // 스크롤 위치 복원
+        };
+    }, []); // 모달이 열릴 때만 실행
+
     if (!open || !isBrowser) return null;
 
     return ReactDOM.createPortal(
         <div
-            className="fixed bottom-0 left-0 right-0 top-0 z-[2000] flex h-full  w-screen items-center justify-center bg-modal"
+            className="fixed bottom-0 left-0  right-0 top-0 z-[2000] flex h-dvh  w-dvw items-center justify-center bg-modal"
             onClick={onClose}
         >
             <div

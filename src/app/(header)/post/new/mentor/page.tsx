@@ -71,7 +71,7 @@ function MentorFormPage() {
                 type: 'error',
                 theme: 'light',
                 isIcon: false,
-                textColor: '#d4c114',
+                textColor: '#dbc821',
             });
         postMentorMutation.mutate(
             {
@@ -113,7 +113,7 @@ function MentorFormPage() {
         setMainImage([...mainImage, file]);
     };
     return (
-        <form className="flex flex-grow flex-col pb-36" onSubmit={onSubmit}>
+        <form className="flex w-full  flex-col pb-36" onSubmit={onSubmit}>
             <div className=" mt-10 flex min-h-12 w-full flex-row items-center justify-center rounded-lg bg-indigo-100 p-3">
                 <Image src={calenderCheckIcon} alt="check" className="h-6 w-6" />
                 <span className="  ml-4 text-sm text-primary  mobile:text-base ">

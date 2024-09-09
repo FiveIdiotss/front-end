@@ -17,7 +17,7 @@ export default async function HomeLayout({ children, modal }: Props) {
     return (
         // Wrapper
         <>
-            <div className=" flex min-h-dvh   flex-col  bg-gray-50     pb-16   mobile:pb-0  ">
+            <div className=" flex min-h-dvh flex-col bg-gray-50  pb-16     pt-[69px]   mobile:pb-0  ">
                 {/* Home */}
                 <Header />
 

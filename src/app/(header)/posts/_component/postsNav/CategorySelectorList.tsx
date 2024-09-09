@@ -4,7 +4,7 @@ import { CATEGORY_LIST as list } from '@/app/util/categoryConstants';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Check2Icon from '@/app/_icons/common/Check2Icon';
 
-function CategorySelectorList() {
+function CategorySelectorList({ handleClose }: { handleClose: () => void }) {
     const CATEGORY_LIST = list.filter((category) => category.name !== '북마크');
     const pathName = usePathname();
     const searchParams = useSearchParams();
@@ -20,6 +20,7 @@ function CategorySelectorList() {
         }
         params.delete('page');
         router.replace(pathName + '?' + params.toString());
+        handleClose();
     };
 
     return (

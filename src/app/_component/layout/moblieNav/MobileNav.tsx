@@ -9,6 +9,7 @@ import React, { MouseEvent, TouchEvent, useEffect, useState } from 'react';
 import MobileEdit from './MobileEdit';
 import MobilePosts from './MobilePosts';
 import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
+import { useScrollObserver } from '@/app/_hooks/useScrollObserver';
 
 type TabsProps = '홈' | '채팅' | '게시글' | '작성하기' | '';
 type ModalTap = '게시글' | '작성하기' | null;
@@ -19,6 +20,7 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
     const pathName = usePathname();
     const router = useRouter();
     const disabledMoblieNave = pathName.startsWith('/post/new');
+    const isScrollVisible = useScrollObserver(70, 60); //스크롤에따라 투명도 조절
 
     const { navigateToLogin } = useRouteLogin({
         isLoginRequired: true,
@@ -65,7 +67,9 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
     if (disabledMoblieNave) return null;
 
     return (
-        <nav className="fixed bottom-0 z-[1002]  flex w-screen flex-col    mobile:hidden">
+        <nav
+            className={`  fixed bottom-0 z-[1002] flex  w-screen flex-col transition-opacity duration-500 ${isScrollVisible ? 'opacity-30' : 'opacity-100'}    mobile:hidden`}
+        >
             {modalClicked && (
                 <div
                     onClick={() => setModalClicked(null)}

@@ -6,7 +6,6 @@ import { FormikProps } from 'formik';
 import { SignupFormType } from '@/app/Models/SignupType';
 import { set } from 'react-hook-form';
 import Loading from '@/app/_component/Loading';
-import { on } from 'events';
 const url = process.env.NEXT_PUBLIC_API_URL;
 
 type props = {

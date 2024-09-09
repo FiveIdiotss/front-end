@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import { auth } from '@/auth';
 import ProfileDashBoard from './_component/ProfileDashBoard/ProfileDashBoard';
+import Link from 'next/link';
 
 async function UserPage() {
     const session = await auth();
@@ -43,7 +44,7 @@ async function UserPage() {
                 <span className="">좋아요 6</span>
             </div>
             <span className="mt-4 font-light text-neutral-600">아직 자기소개가 없습니다.</span>
-            <ProfileDashBoard />
+            <ProfileDashBoard session={session} />
         </div>
     );
 }

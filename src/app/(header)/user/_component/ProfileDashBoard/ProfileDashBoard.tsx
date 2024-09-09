@@ -8,10 +8,11 @@ import BookMarkIcon from '@/app/_icons/common/BookMarkIcon';
 import ProfileSubBoards from './ProfileSubBoards';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useQueryParameter } from '@/app/_hooks/useQueryParameter';
+import { Session } from 'next-auth';
 type Tab = '멘토링' | '멘토링 요청' | '질문' | '북마크';
 const tabs: Tab[] = ['멘토링', '멘토링 요청', '질문', '북마크'];
 
-function ProfileDashBoard() {
+function ProfileDashBoard({ session }: { session?: Session | null }) {
     const { currentValue: tab, handleChange: handleChangeTab } = useQueryParameter('tab', '멘토링');
 
     return (
@@ -32,10 +33,10 @@ function ProfileDashBoard() {
             </div>
             <SectionDivider color="border-neutral-200" className="" />
             <div className="flex w-full flex-grow  flex-col gap-3">
-                {tab === '멘토링' && <ProfileMentoPosts />}
+                {tab === '멘토링' && <ProfileMentoPosts isLogin={Boolean(session)} />}
                 {tab === '멘토링 요청' && <ProfileSubBoards subBoardType="REQUEST" />}
                 {tab === '질문' && <ProfileSubBoards subBoardType="QUEST" />}
-                {tab === '북마크' && <ProfileBookMark />}
+                {tab === '북마크' && <ProfileBookMark isLogin={Boolean(session)} />}
                 {/* {tab === 'like' && <ProfileLike />} */}
             </div>
         </div>

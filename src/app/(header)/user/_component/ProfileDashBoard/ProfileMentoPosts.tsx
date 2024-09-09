@@ -10,7 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import EmptyDataUI from '@/app/_component/EmptyDataUI';
 
-function ProfileMentoPosts() {
+function ProfileMentoPosts({ isLogin }: { isLogin: boolean }) {
     const searchParams = useSearchParams();
     const pageParam = Number(searchParams.get('page')) || 1;
 
@@ -35,6 +35,7 @@ function ProfileMentoPosts() {
                         post={post}
                         key={post.boardId}
                         queryKeys={['posts', 'mento', 'user', 'self', String(pageParam)]}
+                        isLogin={isLogin}
                     />
                 ))}
             </div>
