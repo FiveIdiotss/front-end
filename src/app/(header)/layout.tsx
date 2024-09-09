@@ -17,11 +17,11 @@ export default async function HomeLayout({ children, modal }: Props) {
     return (
         // Wrapper
         <>
-            <div className=" flex h-full min-h-dvh    flex-col overflow-x-hidden  bg-gray-50  pb-16 mobile:pb-0">
+            <div className=" flex min-h-dvh   flex-col  bg-gray-50     pb-16   mobile:pb-0  ">
                 {/* Home */}
-
                 <Header />
-                <main className="flex flex-1">{children}</main>
+
+                <main className="flex  flex-1 ">{children}</main>
                 <MobileNav isSigin={Boolean(session)} />
             </div>
             {modal}

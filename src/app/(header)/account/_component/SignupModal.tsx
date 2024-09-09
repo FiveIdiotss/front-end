@@ -4,7 +4,7 @@ import BackButton from './BackButton';
 
 import { useEffect, useState } from 'react';
 import UniSearch from './UniSearch';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import SignupStep1 from './userForm/SignupStep1';
@@ -13,9 +13,11 @@ import SignupStep3 from './userForm/SignupStep3';
 import { useSignupMutation } from '../_lib/signupService';
 import SuccessStep from './userForm/SuccessStep';
 import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
+import { AxiosError } from 'axios';
+import { ErrorResponse } from '@/app/Models/AxiosResponse';
 
 type RequiredField = {
-    field: keyof SignupFormValue;
+    field: keyof SignupFormType;
     message: string;
 };
 const stepsRequired: RequiredField[][] = [
@@ -62,7 +64,7 @@ export default function SignupModal() {
     const [step, setStep] = useState<PageStepType>('학사정보');
     const signupMutation = useSignupMutation();
 
-    const formik = useFormik<SignupFormValue>({
+    const formik = useFormik<SignupFormType>({
         initialValues: {
             email: '',
             name: '',
@@ -82,7 +84,7 @@ export default function SignupModal() {
             passwordConfirm: Yup.string().oneOf([Yup.ref('password')], '비밀번호가 일치하지 않습니다.'),
         }),
         validateOnChange: true,
-        onSubmit: async (values: SignupFormValue) => {
+        onSubmit: async (values: SignupFormType) => {
             if (step === '학사정보') {
                 stepsRequired[0].forEach(({ field, message }) => {
                     if (values[field] === '' || values[field] === undefined || values[field] === false) {
@@ -96,6 +98,8 @@ export default function SignupModal() {
                 stepsRequired[1].forEach(({ field, message }) => {
                     if (values[field] === '' || values[field] === undefined || values[field] === false) {
                         formik.setFieldError(field, message);
+                    } else if (!formik.values.validEmail) {
+                        formik.setFieldError('email', '이메일 인증을 완료해주세요.');
                     } else {
                         setStep('개인정보');
                     }
@@ -176,6 +180,11 @@ export default function SignupModal() {
                         {step === '이메일인증' && <SignupStep2 formik={formik} />}
                         {step === '개인정보' && <SignupStep3 formik={formik} />}
                         {step === '회원가입완료' && <SuccessStep formik={formik} />}
+                    </div>
+                    <div className="mx-auto text-sm text-red-600">
+                        {signupMutation.error
+                            ? (signupMutation.error as AxiosError<ErrorResponse>).response?.data.message
+                            : ''}
                     </div>
 
                     <div

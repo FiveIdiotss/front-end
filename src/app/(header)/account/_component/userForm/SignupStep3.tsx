@@ -1,16 +1,16 @@
 import { FormikProps } from 'formik';
-import { SignupFormValue } from '@/app/Models/SignupType';
+import { SignupFormType } from '@/app/Models/SignupType';
 import EmailVerificationInput from './EmailVerificationInput';
 import UserInput from './UserInput';
 import UserDivider from '../UserDivider';
 import UserSelect from './UserSelect';
 interface SignupStep3Props {
-    formik: FormikProps<SignupFormValue>;
+    formik: FormikProps<SignupFormType>;
     step?: number;
     setStep?: React.Dispatch<React.SetStateAction<number>>;
     nextHandler?: (
         step: number,
-        formik: FormikProps<SignupFormValue>,
+        formik: FormikProps<SignupFormType>,
         setStep: React.Dispatch<React.SetStateAction<number>>,
     ) => void;
 }

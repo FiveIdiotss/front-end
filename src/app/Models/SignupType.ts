@@ -1,4 +1,4 @@
-export type SignupFormValue = {
+export type SignupFormType = {
     email: string;
     name: string;
     password: string;
@@ -10,4 +10,14 @@ export type SignupFormValue = {
     majorId: number;
     passwordConfirm?: string;
     validEmail?: boolean;
+};
+
+export type SchoolType = {
+    schoolId: number;
+    name: string;
+};
+
+export type MajorType = {
+    majorId: number;
+    name: string;
 };

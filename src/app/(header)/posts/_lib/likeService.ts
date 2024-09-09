@@ -10,11 +10,11 @@ import {
 } from '@/app/queryKeys/subBoardKey';
 
 const addLike = async (postId: number) => {
-    const response = await Axios.post(`api/like/${postId}`);
+    const response = await Axios.post(`/api/like/${postId}`);
     return response.data.data;
 };
 const postUnlike = async (postId: number) => {
-    const response = await Axios.delete(`api/like/${postId}`);
+    const response = await Axios.delete(`/api/like/${postId}`);
     return response.data.data;
 };
 
@@ -44,7 +44,9 @@ export const useAddLikeMutation = () => {
             pushNotification({
                 msg: '게시글에 좋아요를 눌렀습니다',
                 type: 'success',
-                theme: 'dark',
+                theme: 'light',
+                isIcon: false,
+                textColor: 'rgb(101 84 189 )',
             });
         },
         onError: (error: AxiosError, variable, previousData) => {

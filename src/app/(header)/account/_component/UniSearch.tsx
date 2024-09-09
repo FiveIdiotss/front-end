@@ -2,34 +2,41 @@
 import { useEffect, useRef, useState } from 'react';
 import { SchoolDatas } from './userForm/SignupStep1';
 import { FormikProps } from 'formik';
-import { SignupFormValue } from '@/app/Models/SignupType';
-import { fetchMajorsData, School, Major, fetchSchoolsData } from '../_lib/signupService';
+import { SchoolType, SignupFormType, MajorType } from '@/app/Models/SignupType';
+import { useMajorsQuery, useSchoolsQuery } from '../_lib/signupService';
+import Loading from '@/app/_component/Loading';
+import ErrorDataUI from '@/app/_component/ErrorDataUI';
 
 interface Props {
-    formik: FormikProps<SignupFormValue>;
+    formik: FormikProps<SignupFormType>;
 }
 
 function UniSearch({ formik }: Props) {
-    const schoolsData = useRef<School[]>([]);
-    const [searchSchool, setSearchSchool] = useState<string>('');
-    const [searchResult, setSearchResult] = useState<School[]>([]);
-    const [selectedSchool, setSelectedSchool] = useState<School>({
+    const [searchSchoolKeyword, setSearchSchoolKeyword] = useState<string>('');
+    const [searchResult, setSearchResult] = useState<SchoolType[]>([]);
+    const [selectedSchool, setSelectedSchool] = useState<SchoolType>({
         schoolId: 0,
         name: '',
     });
-    const [majorsData, setMajorsData] = useState<Major[]>([]);
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const schoolsQuery = useSchoolsQuery();
+    const majorsQuery = useMajorsQuery({
+        schoolName: selectedSchool.name,
+        enabled: selectedSchool.name !== '',
+    });
+    const { data: schoolsData, isPending: isSchoolsPending, error: schoolsError } = schoolsQuery;
+    const { data: majorsData, isPending: isMajorsPending, error: majorsError } = majorsQuery;
+
+    const handleSchoolFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newSelectName = event.target.value;
-        setSearchSchool(newSelectName);
-    };
+        setSearchSchoolKeyword(newSelectName);
+    }; //학교검색
 
-    const nextSearchHandler = async (school: School) => {
-        const majorsData = await fetchMajorsData(school.name);
-        setMajorsData(majorsData);
+    const handleMajorsOpen = async (school: SchoolType) => {
         setSelectedSchool(school);
-    };
-    const submitData = (major: Major) => {
+    }; //학교 선택시 학과목록 불러오기
+
+    const submitData = (major: MajorType) => {
         formik.setValues({
             ...formik.values,
             schoolName: selectedSchool.name,
@@ -37,26 +44,47 @@ function UniSearch({ formik }: Props) {
             majorName: major.name,
             majorId: major.majorId,
         });
-        setSearchSchool('');
+        setSearchSchoolKeyword('');
         setSelectedSchool({
             schoolId: 0,
             name: '',
         });
-    };
+    }; //학교, 학과 선택시 formik에 값 전달
+
     useEffect(() => {
-        const fetchSchoolData = async () => {
-            schoolsData.current = await fetchSchoolsData();
-            setSearchResult(schoolsData.current);
-        };
-        fetchSchoolData();
-    }, []);
+        if (schoolsData) {
+            setSearchResult(schoolsData);
+        }
+    }, [schoolsData]); //처음 학교 목록을 불러와 searchResult에 저장
+
     useEffect(() => {
-        const result = schoolsData.current.filter(
+        if (!schoolsData) {
+            return;
+        }
+        const result = schoolsData.filter(
             (school) =>
-                school.name.replace(/\s/g, '').toLowerCase().includes(searchSchool.replace(/\s/g, '').toLowerCase()), //공백제거, 대소문자 구분제거
+                school.name
+                    .replace(/\s/g, '')
+                    .toLowerCase()
+                    .includes(searchSchoolKeyword.replace(/\s/g, '').toLowerCase()), //공백제거, 대소문자 구분제거
         );
         setSearchResult(result);
-    }, [searchSchool]);
+    }, [searchSchoolKeyword]); //학교검색(검색결과를 searchResult에 저장)
+
+    if (majorsError || schoolsError) {
+        return <ErrorDataUI text="데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요." />;
+    }
+
+    if (isSchoolsPending || (selectedSchool.name !== '' && isMajorsPending)) {
+        return (
+            <Loading
+                description={`
+            ${isSchoolsPending ? '학교목록을 불러오는 중입니다.' : '학과목록을 불러오는 중입니다.'}
+        `}
+                className="min-h-72"
+            />
+        );
+    }
 
     return (
         <>
@@ -67,18 +95,18 @@ function UniSearch({ formik }: Props) {
                         name="schoolName"
                         id="schoolName"
                         placeholder="대학교 검색"
-                        value={searchSchool}
-                        onChange={(e) => handleInputChange(e)}
+                        value={searchSchoolKeyword}
+                        onChange={(e) => handleSchoolFilterChange(e)}
                         className=" h-10 w-full rounded-md border border-solid border-gray-300 bg-white   px-3"
                     />
                 </div>
                 <div className="  flex w-full flex-grow  flex-col gap-2  border-solid  border-gray-300    p-2 px-4  pb-4 ">
-                    {searchResult.map((school) => (
+                    {searchResult?.map((school) => (
                         <div
                             key={school.schoolId}
                             className="flex h-10 w-full cursor-pointer items-center border-b   border-solid  border-gray-300 px-3 text-sm hover:bg-gray-100"
                             onClick={() => {
-                                nextSearchHandler(school);
+                                handleMajorsOpen(school);
                                 // selectSchoolHandler(school.name);
                             }}
                         >
@@ -106,7 +134,7 @@ function UniSearch({ formik }: Props) {
                     />
                 </div>
                 <div className="  flex w-full flex-grow   flex-col gap-2  border-solid  border-gray-300    p-2 px-4  pb-4 ">
-                    {majorsData.map((major) => (
+                    {majorsData?.map((major) => (
                         <div
                             key={major.majorId}
                             className="flex h-10 w-full cursor-pointer items-center border-b border-solid   border-gray-300  px-3 text-sm text-gray-600 hover:bg-gray-100"

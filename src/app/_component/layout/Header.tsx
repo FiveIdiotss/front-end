@@ -7,7 +7,7 @@ async function Header() {
     const session = await auth();
 
     return (
-        <nav className="sticky top-0 z-[1001]   flex  h-[69px]  w-full  flex-shrink-0  flex-row  items-center   justify-center border-b border-neutral-200  bg-white  px-4 mobile:px-6  ">
+        <nav className="sticky left-0 right-0 top-0 z-[1001]   flex  h-[69px] w-full    flex-shrink-0  flex-row  items-center   justify-center border-b border-neutral-200  bg-white  px-4 mobile:px-6  ">
             <div className="flex h-full w-full flex-row items-center justify-between mobile:justify-center ">
                 <Link href="/" scroll={true} className=" flex  h-auto shrink-0  flex-row items-center  gap-1  ">
                     {/* <Image
@@ -22,9 +22,15 @@ async function Header() {
 
                 {/* <HeaderSearch /> */}
                 <div className=" ml-8  hidden h-full flex-grow  flex-row items-center justify-start gap-5 pt-1 mobile:flex ">
-                    <button className="flex flex-row items-center gap-1">멘토링</button>
-                    <button className="flex flex-row items-center gap-1">멘토링 요청</button>
-                    <button className="flex flex-row items-center gap-1">자유 질문</button>
+                    <Link href="/posts/mentor" className="flex flex-row items-center gap-1">
+                        멘토링
+                    </Link>
+                    <Link href="/posts/request" className="flex flex-row items-center gap-1">
+                        멘토링 요청
+                    </Link>
+                    <Link href="posts/quest" className="flex flex-row items-center gap-1">
+                        자유 질문
+                    </Link>
                 </div>
 
                 <HeaderUser memberDto={session?.user?.memberDTO} />

@@ -12,6 +12,7 @@ import { debounce } from 'lodash';
 import SubmitButton from '../../_components/SubmitButton';
 import { usePostMentorMutation } from '../../_lib/uploadMentorService';
 import dynamic from 'next/dynamic';
+import { pushNotification } from '@/app/util/pushNotification';
 
 const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
@@ -65,7 +66,13 @@ function MentorFormPage() {
             days.length === 0 ||
             formatTimes.length === 0
         )
-            return setWarningModalOpen('모든 항목을 입력해주세요.');
+            return pushNotification({
+                msg: '모든 항목을 입력해주세요.',
+                type: 'error',
+                theme: 'light',
+                isIcon: false,
+                textColor: '#d4c114',
+            });
         postMentorMutation.mutate(
             {
                 request: {
@@ -164,13 +171,13 @@ function MentorFormPage() {
                 content={content}
                 setMainImage={handleMainImage}
             />
-            <SubmitButton cancelUrl="/quest" isLoading={postMentorMutation.isPending} />
+            <SubmitButton type="submit" cancelUrl="/quest" isLoading={postMentorMutation.isPending} />
             {/* 모달 */}
             <InfoModal
                 open={completeModalOpen}
                 onClose={handleInfoClose}
                 completeText={'등록이 완료되었습니다.'}
-                pageText={'잠시후 게시판으로 이동합니다.'}
+                pageText={'잠시후 멘토링 게시판으로 이동합니다.'}
             />
             <WarningMessage text={warningModalOpen} isOpen={warningModalOpen !== ''} onClose={handleWarningClose} />
         </form>

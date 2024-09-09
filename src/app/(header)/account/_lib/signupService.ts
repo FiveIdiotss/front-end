@@ -1,84 +1,62 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { MajorType, SchoolType, SignupFormType } from '@/app/Models/SignupType';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
-import { useMutation } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
-const url = process.env.NEXT_PUBLIC_API_URL;
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
-export type SignupFormValue = {
-    email: string;
-    name: string;
-    password: string;
-    year: number | undefined;
-    gender: string;
-    schoolName: string;
-    schoolId?: number;
-    majorName?: string;
-    majorId: number;
-    passwordConfirm?: string;
-    validEmail?: boolean;
-};
-const postSiginup = async (data: SignupFormValue) => {
-    console.log(data);
+const postSiginup = async (data: SignupFormType) => {
     delete data.passwordConfirm;
     delete data.majorName;
     delete data.schoolId;
     delete data.validEmail;
-    console.log(data);
 
-    try {
-        const response = await Axios.post(`/api/member/signUp`, data);
-        return { message: '회원가입이 완료되었습니다.', success: true };
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-};
+    const response = await Axios.post(`/api/member/signUp`, data);
 
-export type School = {
-    schoolId: number;
-    name: string;
-};
-export const fetchSchoolsData = async (): Promise<School[]> => {
-    console.log('url', url);
-    try {
-        const response = await Axios.get(`/api/schools`);
-        return response.data.data as School[];
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-};
+    return response.data.data;
+}; //회원가입
 
-export type Major = {
-    majorId: number;
-    name: string;
-};
-export const fetchMajorsData = async (name: string = '가천대학교'): Promise<Major[]> => {
-    try {
-        const response = await Axios.get(`/api/school/${name}`);
-        console.log('학교이름', name);
-        console.log('해당학교의 학과', response.data);
+export const getSchools = async (): Promise<SchoolType[]> => {
+    const response = await Axios.get(`/api/schools`);
+    return response.data.data;
+}; //회원가입시 학교목록
 
-        return response.data.data as Major[];
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-};
+export const getMajors = async (schoolName: string = '가천대학교'): Promise<MajorType[]> => {
+    const response = await Axios.get(`/api/school/${schoolName}`);
+    return response.data.data;
+}; //회원가입시 학교별 학과목록
 
 //---------------------------------------------------------------------hooks---------------------------------------------------------------------
 
 export const useSignupMutation = () => {
     const mutation = useMutation({
         mutationFn: postSiginup,
-        onError: (error: AxiosError<ErrorResponse>) => {
-            pushNotification({
-                msg: error.response?.data.message || '알 수 없는 오류가 발생했습니다.',
-                type: 'error',
-                theme: 'dark',
-            });
-        },
+        // onError: (error: AxiosError<ErrorResponse>) => {
+        //     pushNotification({
+        //         msg: error.response?.data.message || '알 수 없는 오류가 발생했습니다.',
+        //         type: 'error',
+        //         theme: 'dark',
+        //     });
+        // },
     });
     return mutation;
-};
+}; //회원가입
+
+export const useSchoolsQuery = () => {
+    const query = useQuery<SchoolType[], AxiosError<ErrorResponse>>({
+        queryKey: ['schools'],
+        queryFn: getSchools,
+        staleTime: 1000 * 60 * 60 * 24, //자주 바뀔것 같지 않아 24시간으로 설정
+    });
+    return query;
+}; //학교목록
+
+export const useMajorsQuery = ({ schoolName, enabled = false }: { schoolName: string; enabled: boolean }) => {
+    const query = useQuery<MajorType[], AxiosError<ErrorResponse>>({
+        queryKey: ['majors', schoolName],
+        queryFn: () => getMajors(schoolName),
+        staleTime: 1000 * 60 * 60 * 24, //자주 바뀔것 같지 않아 24시간으로 설정
+        enabled: enabled,
+    });
+    return query;
+}; //학교별 학과목록
