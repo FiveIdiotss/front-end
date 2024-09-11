@@ -2,15 +2,15 @@
 import TimeExtendIcon from '@/app/_icons/common/TimeExtendIcon';
 import React from 'react';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
-import { useChatStore } from '@/app/_store/chatContentStore';
 import { useMutation } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 
 function StatusActions() {
-    const { chatRoomId, isLoginMentor } = useChatStore();
+    const { chatRoomId, isLoginMentor } = useChatInfoStore();
 
     const mutation = useMutation({
         mutationFn: () => Axios.post(`/api/chat/extend/request/${chatRoomId}`),

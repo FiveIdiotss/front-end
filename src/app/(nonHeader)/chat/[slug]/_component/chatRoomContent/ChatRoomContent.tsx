@@ -8,22 +8,16 @@ import Loading from '@/app/_component/Loading';
 import DotLoadingIcon from '@/app/_icons/common/DotLoadingIcon';
 import ArrowDropIcon from '@/app/_icons/common/ArrowDropIcon';
 import ChatItemContainer from './ChatItemContainer';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 
 function ChatRoomContent({ roomId }: { roomId: number }) {
     const queryClient = useQueryClient();
     const scrollContainerRef = useRef<HTMLDivElement>(null); // 스크롤 컨테이너 ref
     const [isNewMessage, setIsNewMessage] = useState<boolean>(false); //새로운 메시지 팝업 여부
-    const {
-        receiverId,
-        chatList,
-        isSending,
-        isReceiving,
-        loginId,
-        setIsReceiving,
-        setChatList,
-        setChatReset,
-        setIsSending,
-    } = useChatStore();
+    const { chatList, isSending, isReceiving, setIsReceiving, setChatList, setChatReset, setIsSending } =
+        useChatStore();
+
+    const { receiverId, loginId } = useChatInfoStore();
 
     const { ref, inView } = useInView({
         threshold: 0,

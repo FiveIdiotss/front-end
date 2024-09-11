@@ -1,4 +1,4 @@
-import { useChatStore } from '@/app/_store/chatContentStore';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
@@ -7,7 +7,7 @@ dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
 
 export const useFormattedTime = () => {
-    const { date, startTime, consultTime } = useChatStore(); // Zustand 스토어에서 시간 상태 불러오기
+    const { date, startTime, consultTime } = useChatInfoStore(); // Zustand 스토어에서 시간 상태 불러오기
 
     const dateTimeString = `${date}T${startTime}`; // 시작시간
     const startTimeDate = new Date(dateTimeString); // 시작시간 Date 객체로 변환

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Message } from '../../../_lib/chatContentList';
-import { useChatStore } from '@/app/_store/chatContentStore';
 import MessageExtendConfirm from './MessageExtendConfirm';
 import SystemMessageContainer from './SystemMessageContainer';
 import Check2Icon from '@/app/_icons/common/Check2Icon';
 import { ServerValueType } from '../ChatItem';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 
 type Props = {
     chat: Message;
@@ -16,7 +16,7 @@ type Props = {
 };
 
 function SystemMessageItem({ chat, isUserSentMessage, messageType }: Props) {
-    const { isLoginMentor, completeExtendMessagesId } = useChatStore();
+    const { isLoginMentor } = useChatInfoStore();
 
     if (messageType.value === 'consultExtend' || messageType.value === 'consultExtendComplete') {
         return (

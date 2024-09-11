@@ -6,9 +6,11 @@ import { Client } from '@stomp/stompjs';
 import { useChatStore } from '@/app/_store/chatContentStore';
 import ClipIcon from '@/app/_icons/common/ClipIcon';
 import { Message } from '../_lib/chatContentList';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 
 function ChatInputForm({ roomId }: { roomId: number }) {
-    const { loginId, loginName, setIsSending, setIsReceiving, setChat } = useChatStore();
+    const { setIsSending, setIsReceiving, setChat } = useChatStore();
+    const { loginId, loginName } = useChatInfoStore();
     const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 

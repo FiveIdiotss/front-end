@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
 import ChatItem from './ChatItem';
-import { useChatStore } from '@/app/_store/chatContentStore';
 import { Message } from '../../_lib/chatContentList';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 function dateTransform(date: string) {
     try {
         const dateObj = new Date(date);
@@ -22,7 +22,7 @@ type Props = {
 };
 
 function ChatItemContainer({ chat }: Props) {
-    const { receiverImageUrl, receiverName, loginId, isLoginMentor } = useChatStore(); // 채팅방 정보
+    const { receiverImageUrl, receiverName, loginId, isLoginMentor } = useChatInfoStore(); // 채팅방 정보
     const isUserSentMessage = chat.senderId === loginId;
 
     return (

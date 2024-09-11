@@ -6,14 +6,14 @@ import ChatRoomHeader from './ChatRoomHeader';
 import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
 import { getChatRoom } from '../_lib/chatRoom';
-import { useChatStore } from '@/app/_store/chatContentStore';
 import ChatRoomStatus from './chatRoomStatus/ChatRoomStatus';
 import { ChatRoomType } from '@/app/Models/chatType';
 import Loading from '@/app/_component/Loading';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 
 function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
-    const { setUserInformation } = useChatStore();
+    const { setUserInformation } = useChatInfoStore();
 
     const { data, isPending, error } = useQuery<ChatRoomType>({
         queryKey: ['chat', roomId],

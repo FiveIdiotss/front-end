@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Loading from '@/app/_component/Loading';
 import { useChatStore } from '@/app/_store/chatContentStore';
 import { useRouter } from 'next/navigation';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 
 type ReceiverInfo = {
     member: number;
@@ -20,7 +21,7 @@ type ReceiverInfo = {
 };
 
 function StatusReceiverInfo() {
-    const { receiverId, isLoginMentor } = useChatStore();
+    const { receiverId, isLoginMentor } = useChatInfoStore();
     const router = useRouter();
 
     const { data: receiverInfo, isPending } = useQuery({

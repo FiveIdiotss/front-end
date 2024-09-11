@@ -1,10 +1,10 @@
 'use client';
 import { useFormattedTime } from '@/app/(nonHeader)/_hooks/useFormattedConsultTimes';
-import { useChatStore } from '@/app/_store/chatContentStore';
+import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 import React from 'react';
 
 function StatusMoreDetails() {
-    const { loginName, receiverName, isLoginMentor, consultTime, startTime, date } = useChatStore();
+    const { loginName, receiverName, isLoginMentor, consultTime, startTime, date } = useChatInfoStore();
 
     const mentorName = isLoginMentor ? loginName : receiverName;
     const menteeName = isLoginMentor ? receiverName : loginName;
