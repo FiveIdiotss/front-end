@@ -8,7 +8,7 @@ export default function NonHeaderLayout({ children }: Props) {
     return (
         // Wrapper
 
-        <div className=" w-dvh flex    h-dvh  overflow-y-auto   bg-gray-50">
+        <div className=" flex     min-h-dvh     bg-gray-50">
             {/* Home */}
 
             {children}

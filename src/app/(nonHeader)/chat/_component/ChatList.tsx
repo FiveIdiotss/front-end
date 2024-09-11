@@ -1,39 +1,29 @@
 'use client';
 import ChatListCard from './ChatListCard';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ChatRoomType, getChatRooms } from '../_lib/chatRooms';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
+import { useChatListsQuery } from '../_lib/chatRooms';
 import Loading from '@/app/_component/Loading';
 import CategorySearch from '@/app/(header)/posts/_component/postsNav/CategorySearch';
 import { Client } from '@stomp/stompjs';
 import NoDataMessage from '@/app/_component/NoDataMessage';
 import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
-type UreadChatRoomType = {
-    chatRoomId: number;
-    unreadMessageCount: number;
-    latestMessageDTO: {
-        content: string;
-        localDateTime: string;
-    };
-};
+import { ChatRoomType, UreadChatRoomType } from '@/app/Models/chatType';
+import { Session } from 'next-auth';
 
-function ChatList() {
-    const stompClientRef = useRef<Client | null>(null); //stompClientRef
-    const [isPageRendered, setIsPageRendered] = useState<boolean>(false); //컴포넌트가 처음 사용자에게 보여질때 한번만 실행
+function ChatList({ session }: { session?: Session | null }) {
     const queryClient = useQueryClient();
     const router = useRouter();
 
-    const {
-        data: users,
-        error,
-        isPending,
-    } = useQuery({
-        queryKey: ['chat', 'List'],
-        queryFn: getChatRooms,
-        staleTime: 2 * 60 * 1000, //1분
-        gcTime: 5 * 60 * 1000,
-    });
+    const stompClientRef = useRef<Client | null>(null); //stompClientRef
+    const [isPageRendered, setIsPageRendered] = useState<boolean>(false); //컴포넌트가 처음 사용자에게 보여질때 한번만 실행
+
+    const chatRoomsQuery = useChatListsQuery({
+        loginId: session?.user?.memberDTO.id,
+    }); //채팅방 목록
+
+    const { data: users, error, isPending } = chatRoomsQuery; //채팅방 목록
 
     const handleUnreadCount = async (chatRoom: UreadChatRoomType) => {
         await queryClient.setQueryData(['chat', 'List'], (oldData: any) => {
@@ -61,7 +51,7 @@ function ChatList() {
 
         //컴포넌트가 처음 사용자에게 보여질때 한번만 실행
 
-        console.log('연결결결결');
+        console.log('연결됨');
         const initializeChat = async () => {
             const stomp = new Client({
                 brokerURL: 'wss://menteetor.site/ws',
@@ -94,9 +84,10 @@ function ChatList() {
         };
         initializeChat();
     }, [users]);
+
     useEffect(() => {
         return () => {
-            console.log('컴포넌트 언마운트');
+            console.log('채팅방 목록 컴포넌트 언마운트');
 
             if (stompClientRef.current && stompClientRef.current.connected) {
                 console.log('unreadCount 구독 해제');
@@ -106,12 +97,12 @@ function ChatList() {
         };
     }, []);
 
-    useEffect(() => {
-        console.log('RoomListData', users);
-    }, [users]);
+    // useEffect(() => {
+    //     console.log('RoomListData', users);
+    // }, [users]);
 
     if (isPending) {
-        return <Loading />;
+        return <Loading description="채팅 목록을 불러오는 중입니다." />;
     }
     if (!users || users.length === 0) {
         return <NoDataMessage text="채팅 없음" />;
@@ -122,17 +113,20 @@ function ChatList() {
     }
 
     return (
-        <div className="w-full flex-col">
-            <button
-                onClick={() => router.back()}
-                className="flex  w-full flex-row items-center gap-2  p-4 text-gray-600 "
-            >
-                <ArrowRightIcon className="h-8 w-8 rotate-180" />
-                이전
-            </button>
-            <div className=" flex h-full   w-full flex-col border-r  p-6">
+        <div className="h-full w-full flex-col">
+            <div className="flex w-full flex-row items-center justify-between p-4">
+                <button onClick={() => router.back()} className="  flex flex-row items-center gap-1   text-gray-600 ">
+                    <ArrowRightIcon className="mb-[1px] h-7 w-7 rotate-180" />
+                    이전
+                </button>
+
+                <span className="text-sm">
+                    <span className="text-sm font-medium text-primary">{session?.user?.memberDTO.name}</span>&nbsp;님
+                </span>
+            </div>
+            <div className=" flex h-full   w-full flex-col border-r  p-4">
                 <div className=" flex w-full flex-row  items-center justify-between  border-b-2 border-neutral-600  pb-3">
-                    <div className="w-[350px]">
+                    <div className="w-full mobile:w-[350px]">
                         <CategorySearch />
                     </div>
                 </div>

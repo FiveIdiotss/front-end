@@ -1,7 +1,7 @@
 import Axios from '@/app/util/axiosInstance';
-import { ChatRoomType } from '../../_lib/chatRooms';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { AxiosError } from 'axios';
+import { ChatRoomType } from '@/app/Models/chatType';
 
 export const getChatRoom = async (chatRoomId: number): Promise<ChatRoomType> => {
     try {

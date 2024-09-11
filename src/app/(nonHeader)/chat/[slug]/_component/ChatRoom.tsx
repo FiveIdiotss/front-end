@@ -7,8 +7,8 @@ import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
 import { getChatRoom } from '../_lib/chatRoom';
 import { useChatStore } from '@/app/_store/chatStore';
-import { ChatRoomType } from '../../_lib/chatRooms';
 import ChatRoomStatus from './chatRoomStatus/ChatRoomStatus';
+import { ChatRoomType } from '@/app/Models/chatType';
 
 function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
     const { setUserInformation } = useChatStore();
@@ -42,7 +42,7 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
     }, [data]); //채팅방 정보 조회
 
     return (
-        <div className="flex h-full w-full flex-row">
+        <div className="flex h-dvh w-full flex-row">
             <div className=" flex flex-grow flex-col border-r ">
                 {/* 대화중인 상대 유저정보 상단바 */}
                 <ChatRoomHeader />

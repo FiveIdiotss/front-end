@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ChatRoomType } from '../_lib/chatRooms';
 import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
 import DownListsIcon from '@/app/_icons/common/DownListsIcon';
@@ -9,6 +8,7 @@ import UpListsIcon from '@/app/_icons/common/UpListsIcon';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+import { ChatRoomType } from '@/app/Models/chatType';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
@@ -46,30 +46,40 @@ function ChatListCard({ user }: { user: ChatRoomType }) {
     };
 
     return (
-        <li key={user.chatRoomId} className={`flex w-full  cursor-pointer flex-col  items-center border-b-2  `}>
-            <div className=" flex  h-[70px] w-full flex-row items-center  px-3   " onClick={handleDetailToggle}>
-                {isDetailOpen ? (
-                    <UpListsIcon className="mr-5 h-6 w-6 text-blue-500" />
-                ) : (
-                    <DownListsIcon className="mr-5 h-6 w-6 text-neutral-500" />
-                )}
-                <div className="flex flex-grow flex-row overflow-hidden truncate font-semibold  ">
-                    {user.boardTitle}
+        <li
+            key={user.chatRoomId}
+            className={`flex  w-full  cursor-pointer flex-col  items-center border-b-2 border-gray-300  `}
+        >
+            <div
+                className=" flex min-h-16  w-full flex-col items-center  gap-2 px-3 py-3  mobile:flex-row   "
+                onClick={handleDetailToggle}
+            >
+                <div className="line-clamp-2 flex w-full flex-row justify-start  overflow-hidden font-medium mobile:w-fit mobile:flex-grow  ">
+                    {isDetailOpen ? (
+                        <UpListsIcon className="mr-5 h-6 w-6 text-blue-500" />
+                    ) : (
+                        <DownListsIcon className="mr-5 h-6 w-6 text-neutral-500" />
+                    )}
+                    <span className="font-normal text-gray-600">멘토링:&nbsp;</span>
+                    <span className="text-gray-800">{user.boardTitle}</span>
                 </div>
-                <div className="flex   flex-row items-center  gap-6 ">
-                    <span className="rounded-md bg-yellow-400 px-4 py-2 text-sm font-medium text-white">매칭 대기</span>
+                <div className="flex w-full flex-row items-center   justify-end gap-3 mobile:w-fit  mobile:gap-6 ">
+                    {/* <span className="rounded-md bg-yellow-400 px-4 py-2 text-xs font-medium text-white mobile:text-sm">
+                        매칭 대기
+                    </span> */}
                     {/* <span className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white">매칭 완료</span> */}
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-row items-center gap-2 ">
                         <span className="w-20   text-center  text-sm font-medium text-neutral-500">{displayDate}</span>
                         <span className=" text-sm font-semibold text-red-500">
                             {unreadCountFomat(user.unreadMessageCount)}
+                            {/* {'메시지 2건'} */}
                         </span>
                     </div>
                 </div>
             </div>
             {isDetailOpen && (
                 <div
-                    className="flex  h-[70px] w-full flex-row items-center gap-5 border-t pl-14 pr-3 hover:bg-neutral-100  "
+                    className="flex  h-[70px] w-full flex-row items-center gap-5 border-t border-gray-200 pl-14 pr-3 hover:bg-neutral-100  "
                     onClick={onClickChat}
                 >
                     <div className=" flex flex-grow  items-center gap-2 overflow-hidden">
@@ -84,15 +94,17 @@ function ChatListCard({ user }: { user: ChatRoomType }) {
                         </span>
                     </div>
                     <div className="flex flex-shrink-0 flex-row items-center ">
-                        <Image
-                            src={user.receiverImageUrl}
-                            alt="avatar"
-                            className=" mr-2 rounded-full object-cover"
-                            width={32}
-                            height={32}
-                        />
+                        <div className="relative mr-2 h-7 w-7">
+                            <Image
+                                src={user.receiverImageUrl}
+                                alt="avatar"
+                                className=" rounded-full object-cover"
+                                fill
+                                sizes="35px"
+                            />
+                        </div>
 
-                        <span className="mr-7 text-sm">
+                        <span className="mr-5 text-sm">
                             <span className="font-extrabold text-blue-500">{user.receiverName}</span> 님과 대화중
                         </span>
                         <ArrowRightIcon className="h-6 w-6 text-neutral-600" />

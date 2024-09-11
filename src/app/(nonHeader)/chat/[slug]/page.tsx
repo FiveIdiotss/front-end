@@ -7,7 +7,7 @@ async function ChatViewPage({ params }: { params: { slug: string } }) {
     const session = await auth();
 
     if (!session) {
-        return <div>로그인후 이용해주세요.</div>;
+        return;
     }
 
     return <ChatRoom roomId={roomId} session={session} />;
