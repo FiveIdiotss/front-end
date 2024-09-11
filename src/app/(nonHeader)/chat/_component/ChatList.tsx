@@ -2,7 +2,7 @@
 import ChatListCard from './ChatListCard';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { useChatListsQuery } from '../_lib/chatRooms';
+import { useChatListsQuery } from '../_lib/chatListsService';
 import Loading from '@/app/_component/Loading';
 import CategorySearch from '@/app/(header)/posts/_component/postsNav/CategorySearch';
 import { Client } from '@stomp/stompjs';
