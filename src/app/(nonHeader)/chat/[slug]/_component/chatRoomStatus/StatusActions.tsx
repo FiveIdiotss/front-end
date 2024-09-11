@@ -40,7 +40,7 @@ function StatusActions() {
 
     return (
         <>
-            <div className="flex flex-row    bg-white  py-4 ">
+            <div className="flex flex-row  border-y-2 border-gray-50   bg-white  py-4 ">
                 <button
                     className="mx-auto flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-md border border-gray-200 bg-blue-50 "
                     onClick={handleOpenModal}

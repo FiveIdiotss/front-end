@@ -4,44 +4,42 @@ import ChatRoomContent from './chatRoomContent/ChatRoomContent';
 import ChatInputForm from './ChatInputForm';
 import ChatRoomHeader from './ChatRoomHeader';
 import { Session } from 'next-auth';
-import { useQuery } from '@tanstack/react-query';
-import { getChatRoom } from '../_lib/chatRoom';
 import ChatRoomStatus from './chatRoomStatus/ChatRoomStatus';
-import { ChatRoomType } from '@/app/Models/chatType';
 import Loading from '@/app/_component/Loading';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import { useChatInfoStore } from '@/app/_store/chatInfoStore';
+import { useChatRoomQuery } from '../_lib/chatRoomService';
+import { ro } from '@faker-js/faker';
 
 function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
     const { setUserInformation } = useChatInfoStore();
 
-    const { data, isPending, error } = useQuery<ChatRoomType>({
-        queryKey: ['chat', roomId],
-        queryFn: () => getChatRoom(roomId),
-    });
+    const chatRoomQuery = useChatRoomQuery(roomId);
+    const { data: chatRooomDetail, isPending, error } = chatRoomQuery;
 
     useEffect(() => {
-        if (data) {
-            const isLoginMentor = session.user?.memberDTO.id === data.mentorId;
+        if (chatRooomDetail) {
+            const isLoginMentor = session.user?.memberDTO.id === chatRooomDetail.mentorId;
             const loginId = session.user?.memberDTO.id;
             const loginName = session.user?.memberDTO.name;
             session?.user?.memberDTO.id ===
                 setUserInformation({
-                    receiverId: data.receiverId,
-                    boardTitle: data.boardTitle,
-                    receiverImageUrl: data.receiverImageUrl,
-                    receiverName: data.receiverName,
+                    receiverId: chatRooomDetail.receiverId,
+                    boardTitle: chatRooomDetail.boardTitle,
+                    receiverImageUrl: chatRooomDetail.receiverImageUrl,
+                    receiverName: chatRooomDetail.receiverName,
                     loginId: loginId,
                     loginName: loginName,
                     isLoginMentor: isLoginMentor,
-                    startTime: data.startTime,
-                    consultTime: data.consultTime,
-                    date: data.date,
-                    chatRoomId: data.chatRoomId,
+                    startTime: chatRooomDetail.startTime,
+                    consultTime: chatRooomDetail.consultTime,
+                    date: chatRooomDetail.date,
+                    chatRoomId: chatRooomDetail.chatRoomId,
                 });
-            console.log('현제 채팅방 정보 조회', data);
+            console.log('현제 채팅방 정보 조회', chatRooomDetail);
         }
-    }, [data]); //채팅방 정보 조회
+    }, [chatRooomDetail]); //채팅방 정보 조회
+
     if (isPending) return <Loading description="채팅방 데이터를 불러오는 중입니다..." />;
     if (error) return <ErrorDataUI text="채팅방 데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요." />;
 
@@ -49,7 +47,7 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
         <div className="flex h-dvh w-full flex-row">
             <div className=" flex flex-grow flex-col border-r ">
                 {/* 대화중인 상대 유저정보 상단바 */}
-                <ChatRoomHeader chatRoomData={data} />
+                <ChatRoomHeader chatRoomData={chatRooomDetail} />
                 {/* 채팅내용 */}
                 <ChatRoomContent roomId={roomId} />
                 {/* 채팅입력창 */}
