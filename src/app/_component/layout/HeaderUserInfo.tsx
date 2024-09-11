@@ -92,7 +92,7 @@ function HeaderUserInfo({ memberDto }: { memberDto: MemberDto | undefined }) {
                                 멘토링 신청 내역
                             </button>
                             <button
-                                onClick={() => handlePageMove('/mentoring-request-received')}
+                                onClick={() => handlePageMove('/user/mentoring-request-received')}
                                 className=" flex w-full items-center  px-4 py-[10px]  text-sm text-neutral-500 hover:cursor-pointer hover:bg-indigo-50 "
                             >
                                 멘토링 신청 받은 내역
