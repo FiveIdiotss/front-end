@@ -9,7 +9,9 @@ function ChatRoomStatus() {
             <div className=" flex  flex-col border-y-2 border-gray-50   bg-white px-4 py-4">
                 <StatusReceiverInfo />
             </div>
-            <StatusActions />
+            <div className="flex flex-row  border-y-2 border-gray-50   bg-white  py-4 ">
+                <StatusActions pageType="right" />
+            </div>
             <StatusMoreDetails />
         </div>
     );

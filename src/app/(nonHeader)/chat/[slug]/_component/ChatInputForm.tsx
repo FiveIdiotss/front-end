@@ -152,13 +152,13 @@ function ChatInputForm({ roomId }: { roomId: number }) {
                         </div>
                     </button>
 
-                    <button onClick={sendMessage} className="flex h-full min-h-12 items-end   bg-indigo-100  px-3 pl-4">
+                    <button onClick={sendMessage} className="flex h-full min-h-12 items-end   bg-indigo-100  px-2 pl-3">
                         <div className="flex h-12 items-center ">
                             <Image
                                 src={send}
                                 alt="send"
-                                width={26}
-                                height={26}
+                                width={24}
+                                height={24}
                                 className="cursor-pointer hover:scale-105"
                             />
                         </div>

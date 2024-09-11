@@ -40,7 +40,7 @@ function MentoStepConsultationReview({ id }: { id: number }) {
     };
     const handleInfoClose = () => {
         setCompleteModalOpen(false);
-        router.push('/post');
+        router.push('/posts/mentor');
     };
 
     if (status === 'loading') return <Loading />;
