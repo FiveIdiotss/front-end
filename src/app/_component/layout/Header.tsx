@@ -28,11 +28,10 @@ async function Header() {
                     <Link href="/posts/request" className="flex flex-row items-center gap-1">
                         멘토링 요청
                     </Link>
-                    <Link href="posts/quest" className="flex flex-row items-center gap-1">
+                    <Link href="/posts/quest" className="flex flex-row items-center gap-1">
                         자유 질문
                     </Link>
                 </div>
-
                 <HeaderUser memberDto={session?.user?.memberDTO} />
             </div>
         </nav>
