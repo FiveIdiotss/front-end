@@ -19,7 +19,7 @@ type ChatContentStoreType = {
     setCompleteExtendMessagesId: (id: number) => void;
 };
 
-export const useChatStore = create<ChatContentStoreType>((set) => ({
+export const useChatContentStore = create<ChatContentStoreType>((set) => ({
     chatList: [],
     isSending: false,
     isReceiving: false,

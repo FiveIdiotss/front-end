@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useChatStore } from '@/app/_store/chatContentStore';
+import { useChatContentStore } from '@/app/_store/chatContentStore';
 import { DefaultError, InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';
@@ -15,7 +15,7 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
     const scrollContainerRef = useRef<HTMLDivElement>(null); // 스크롤 컨테이너 ref
     const [isNewMessage, setIsNewMessage] = useState<boolean>(false); //새로운 메시지 팝업 여부
     const { chatList, isSending, isReceiving, setIsReceiving, setChatList, setChatReset, setIsSending } =
-        useChatStore();
+        useChatContentStore();
 
     const { receiverId, loginId } = useChatInfoStore();
 

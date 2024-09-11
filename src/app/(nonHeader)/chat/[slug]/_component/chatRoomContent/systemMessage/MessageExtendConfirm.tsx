@@ -1,5 +1,5 @@
 import { useFormattedTime } from '@/app/(nonHeader)/_hooks/useFormattedConsultTimes';
-import { useChatStore } from '@/app/_store/chatContentStore';
+import { useChatContentStore } from '@/app/_store/chatContentStore';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
@@ -15,7 +15,7 @@ function MessageExtendConfirm({
     chatId: number;
     messageType: { type: string; value: ServerValueType };
 }) {
-    const { setCompleteExtendMessagesId, completeExtendMessagesId } = useChatStore();
+    const { setCompleteExtendMessagesId, completeExtendMessagesId } = useChatContentStore();
     const { receiverName, isLoginMentor, chatRoomId, setAddConsultTime } = useChatInfoStore();
 
     const { formattedExtendedTime, formattedEndTime } = useFormattedTime(); // 상담 연장 시간 계산
