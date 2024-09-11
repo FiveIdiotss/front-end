@@ -91,6 +91,7 @@ function ChatInputForm({ roomId }: { roomId: number }) {
             console.log('메시지 전송', inputMessage);
         }
         setInputMessage('');
+        textareaRef.current?.focus();
     };
     const handleCompositionStart = () => {
         setIsComposing(true);
