@@ -1,6 +1,6 @@
 'use client';
 import { useFormattedTime } from '@/app/(nonHeader)/_hooks/useFormattedConsultTimes';
-import { useChatStore } from '@/app/_store/chatRoomContentStore';
+import { useChatStore } from '@/app/_store/chatContentStore';
 import React from 'react';
 
 function StatusMoreDetails() {

@@ -1,5 +1,5 @@
 import { useFormattedTime } from '@/app/(nonHeader)/_hooks/useFormattedConsultTimes';
-import { useChatStore } from '@/app/_store/chatRoomContentStore';
+import { useChatStore } from '@/app/_store/chatContentStore';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';

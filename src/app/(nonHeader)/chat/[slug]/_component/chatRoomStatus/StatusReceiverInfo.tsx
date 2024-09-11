@@ -5,7 +5,7 @@ import Axios from '@/app/util/axiosInstance';
 import SchoolIcon from '@/app/_icons/common/SchoolIcon';
 import Image from 'next/image';
 import Loading from '@/app/_component/Loading';
-import { useChatStore } from '@/app/_store/chatRoomContentStore';
+import { useChatStore } from '@/app/_store/chatContentStore';
 import { useRouter } from 'next/navigation';
 
 type ReceiverInfo = {

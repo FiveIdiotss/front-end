@@ -2,7 +2,7 @@
 import TimeExtendIcon from '@/app/_icons/common/TimeExtendIcon';
 import React from 'react';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
-import { useChatStore } from '@/app/_store/chatRoomContentStore';
+import { useChatStore } from '@/app/_store/chatContentStore';
 import { useMutation } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';

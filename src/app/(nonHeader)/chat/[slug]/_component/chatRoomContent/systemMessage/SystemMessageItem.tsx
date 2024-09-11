@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message } from '../../../_lib/chatContentList';
-import { useChatStore } from '@/app/_store/chatRoomContentStore';
+import { useChatStore } from '@/app/_store/chatContentStore';
 import MessageExtendConfirm from './MessageExtendConfirm';
 import SystemMessageContainer from './SystemMessageContainer';
 import Check2Icon from '@/app/_icons/common/Check2Icon';

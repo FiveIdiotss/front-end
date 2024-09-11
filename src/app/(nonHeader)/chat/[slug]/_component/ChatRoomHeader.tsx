@@ -4,7 +4,7 @@ import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
 import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 import ListIcon from '@/app/_icons/common/ListIcon';
 import MoreIcon from '@/app/_icons/common/MoreIcon';
-import { useChatStore } from '@/app/_store/chatRoomContentStore';
+import { useChatStore } from '@/app/_store/chatContentStore';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
