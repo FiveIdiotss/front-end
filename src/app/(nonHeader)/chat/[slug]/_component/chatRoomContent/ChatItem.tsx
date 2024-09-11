@@ -123,6 +123,7 @@ function ChatItem({ chat, isUserSentMessage, isLoginMentor }: Props) {
                 {messageType.value === 'text' && (
                     <p
                         className={` inline-block min-w-0 max-w-72  overflow-auto   break-words ${isUserSentMessage ? 'rounded-l-xl rounded-tr-xl bg-primary text-white' : 'rounded-r-xl rounded-bl-xl bg-neutral-200'} px-3 py-2 text-sm`}
+                        style={{ whiteSpace: 'pre-wrap' }}
                     >
                         {chat.content}
                     </p>
