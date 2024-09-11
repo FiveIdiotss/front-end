@@ -130,9 +130,9 @@ function ChatInputForm({ roomId }: { roomId: number }) {
     }, [inputMessage]); //textarea의 높이를 자동으로 조절 최대 5줄까지 가능
     return (
         <>
-            <div className="mt-1 flex h-full w-full flex-row  items-center border-y bg-white py-2 ">
+            <div className="mt-1 flex h-full w-full flex-row  items-center border-y bg-white ">
                 <textarea
-                    className=" chatScroll  flex flex-grow  resize-none items-center overflow-auto  px-2 py-2 outline-none"
+                    className=" chatScroll  flex flex-grow  resize-none items-center overflow-auto  px-2 py-3 outline-none"
                     value={inputMessage}
                     ref={textareaRef}
                     onChange={(e) => setInputMessage(e.target.value)}
@@ -143,17 +143,25 @@ function ChatInputForm({ roomId }: { roomId: number }) {
                     onCompositionEnd={handleCompositionEnd}
                 />
                 <div className="flex h-full flex-row items-end gap-1">
-                    <button onClick={openUploadInPopup} className="flex h-[40px] items-center">
-                        <ClipIcon className="h-6 w-6 text-neutral-600" />
+                    <button
+                        onClick={openUploadInPopup}
+                        className="flex h-full min-h-12 items-end px-2     pl-3 hover:bg-gray-100"
+                    >
+                        <div className="flex h-12 items-center ">
+                            <ClipIcon className="h-6 w-6 text-neutral-600" />
+                        </div>
                     </button>
-                    <button onClick={sendMessage} className="flex h-[40px] items-center  px-3">
-                        <Image
-                            src={send}
-                            alt="send"
-                            width={26}
-                            height={26}
-                            className="cursor-pointer hover:scale-105"
-                        />
+
+                    <button onClick={sendMessage} className="flex h-full min-h-12 items-end   bg-indigo-100  px-3 pl-4">
+                        <div className="flex h-12 items-center ">
+                            <Image
+                                src={send}
+                                alt="send"
+                                width={26}
+                                height={26}
+                                className="cursor-pointer hover:scale-105"
+                            />
+                        </div>
                     </button>
                 </div>
             </div>
