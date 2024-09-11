@@ -1,4 +1,4 @@
-import { useChatStore } from '../../_store/chatStore';
+import { useChatStore } from '@/app/_store/chatRoomContentStore';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';

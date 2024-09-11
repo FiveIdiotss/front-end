@@ -1,31 +1,35 @@
 'use client';
+import { ChatRoomType } from '@/app/Models/chatType';
 import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
-import { useChatStore } from '@/app/_store/chatStore';
+import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
+import ListIcon from '@/app/_icons/common/ListIcon';
+import MoreIcon from '@/app/_icons/common/MoreIcon';
+import { useChatStore } from '@/app/_store/chatRoomContentStore';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-function ChatRoomHeader() {
-    const { boardTitle } = useChatStore();
+function ChatRoomHeader({ chatRoomData }: { chatRoomData: ChatRoomType }) {
     const router = useRouter();
     const handleBack = () => {
         router.back();
     };
 
     return (
-        <div className=" flex flex-col  px-5   ">
-            <div className="flex w-full flex-row items-center gap-6 border-b-2 border-neutral-400 py-4 ">
+        <div className=" flex w-full  flex-row items-center px-4 shadow-sm-bottom   ">
+            <div className="flex w-full flex-row items-center  gap-4 py-4  ">
                 <button onClick={handleBack}>
-                    <ArrowLeftBackIcon className="h-8 w-8 " />
+                    <ArrowRightIcon className="h-7 w-7 rotate-180" />
                 </button>
                 <div className="flex flex-grow flex-row items-center ">
-                    <span className="ml-2  font-semibold text-neutral-700">{boardTitle}</span>
+                    <span className="  font-semibold text-neutral-700">{chatRoomData.boardTitle}</span>
                 </div>
                 {/* <span className="rounded-md bg-yellow-500 px-4 py-2 text-sm font-medium text-white">매칭 대기</span> */}
                 {/* <span className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white">매칭 완료</span> */}
             </div>
-            <div className="text-md py-5 text-center text-green-600">
-                <span>* 채팅방에서의 폭력적인 언어는 제제될 수 있습니다.</span>
-            </div>
+
+            <button className="h-fit w-fit  rounded-full p-1 hover:bg-gray-100 ">
+                <MoreIcon className="h-6 w-6 text-neutral-700" />
+            </button>
         </div>
     );
 }

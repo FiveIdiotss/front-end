@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useChatStore } from '@/app/_store/chatStore';
+import { useChatStore } from '@/app/_store/chatRoomContentStore';
 import { DefaultError, InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { Message, getChatContentList } from '../../_lib/chatContentList';
 import { useInView } from 'react-intersection-observer';

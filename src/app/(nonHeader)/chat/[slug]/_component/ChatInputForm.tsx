@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import send from '@/../public/chat/send.svg';
 import Image from 'next/image';
 import { Client } from '@stomp/stompjs';
-import { useChatStore } from '@/app/_store/chatStore';
+import { useChatStore } from '@/app/_store/chatRoomContentStore';
 import ClipIcon from '@/app/_icons/common/ClipIcon';
 import { Message } from '../_lib/chatContentList';
 

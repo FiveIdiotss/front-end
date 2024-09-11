@@ -2,7 +2,7 @@
 import TimeExtendIcon from '@/app/_icons/common/TimeExtendIcon';
 import React from 'react';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
-import { useChatStore } from '@/app/_store/chatStore';
+import { useChatStore } from '@/app/_store/chatRoomContentStore';
 import { useMutation } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
@@ -40,9 +40,9 @@ function StatusActions() {
 
     return (
         <>
-            <div className="flex flex-row   border-b py-8  ">
+            <div className="flex flex-row    bg-white  py-4 ">
                 <button
-                    className="mx-auto flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-md border border-neutral-300 bg-blue-50 "
+                    className="mx-auto flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-md border border-gray-200 bg-blue-50 "
                     onClick={handleOpenModal}
                 >
                     <TimeExtendIcon className="h-6 w-6 text-blue-500" />

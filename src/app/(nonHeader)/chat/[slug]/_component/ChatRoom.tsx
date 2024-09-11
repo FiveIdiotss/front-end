@@ -6,9 +6,11 @@ import ChatRoomHeader from './ChatRoomHeader';
 import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
 import { getChatRoom } from '../_lib/chatRoom';
-import { useChatStore } from '@/app/_store/chatStore';
+import { useChatStore } from '@/app/_store/chatRoomContentStore';
 import ChatRoomStatus from './chatRoomStatus/ChatRoomStatus';
 import { ChatRoomType } from '@/app/Models/chatType';
+import Loading from '@/app/_component/Loading';
+import ErrorDataUI from '@/app/_component/ErrorDataUI';
 
 function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
     const { setUserInformation } = useChatStore();
@@ -40,12 +42,14 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
             console.log('현제 채팅방 정보 조회', data);
         }
     }, [data]); //채팅방 정보 조회
+    if (isPending) return <Loading description="채팅방 데이터를 불러오는 중입니다..." />;
+    if (error) return <ErrorDataUI text="채팅방 데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요." />;
 
     return (
         <div className="flex h-dvh w-full flex-row">
             <div className=" flex flex-grow flex-col border-r ">
                 {/* 대화중인 상대 유저정보 상단바 */}
-                <ChatRoomHeader />
+                <ChatRoomHeader chatRoomData={data} />
                 {/* 채팅내용 */}
                 <ChatRoomContent roomId={roomId} />
                 {/* 채팅입력창 */}

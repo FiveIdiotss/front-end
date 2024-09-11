@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import ChatItem from './ChatItem';
-import { useChatStore } from '@/app/_store/chatStore';
+import { useChatStore } from '@/app/_store/chatRoomContentStore';
 import { Message } from '../../_lib/chatContentList';
 function dateTransform(date: string) {
     try {
