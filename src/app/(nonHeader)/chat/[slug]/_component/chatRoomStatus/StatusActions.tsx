@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 
-function StatusActions() {
+function StatusActions({ pageType }: { pageType: 'top' | 'right' }) {
     const { chatRoomId, isLoginMentor } = useChatInfoStore();
 
     const mutation = useMutation({
@@ -40,15 +40,14 @@ function StatusActions() {
 
     return (
         <>
-            <div className="flex flex-row  border-y-2 border-gray-50   bg-white  py-4 ">
-                <button
-                    className="mx-auto flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-md border border-gray-200 bg-blue-50 "
-                    onClick={handleOpenModal}
-                >
-                    <TimeExtendIcon className="h-6 w-6 text-blue-500" />
-                    <span className="text-sm text-blue-500">상담연장</span>
-                </button>
-            </div>
+            <button
+                className={` flex ${pageType === 'right' ? 'mx-auto h-20 w-20 flex-col ' : 'p-2'} items-center justify-center gap-1 rounded-md border border-gray-200 bg-blue-50 `}
+                onClick={handleOpenModal}
+            >
+                <TimeExtendIcon className={`${pageType === 'right' ? ' h-6 w-6' : 'hidden'} text-blue-500`} />
+                <span className="text-sm text-blue-500">상담연장</span>
+                <TimeExtendIcon className={`${pageType === 'right' ? ' hidden' : ' h-5 w-5'} text-blue-500`} />
+            </button>
             {ConfirmationModalComponent}
         </>
     );

@@ -20,7 +20,7 @@ export const useFormattedTime = () => {
         return displayTime;
     }; // 시간을 포맷팅
     const formatDate = (date: Date) => {
-        const displayDate = dayjs(date).format('YYYY/MM/DD');
+        const displayDate = dayjs(date).format('YYYY-MM-DD');
         return displayDate;
     }; // 날짜를 포맷팅
 

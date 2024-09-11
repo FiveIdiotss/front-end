@@ -44,8 +44,8 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
     if (error) return <ErrorDataUI text="채팅방 데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요." />;
 
     return (
-        <div className="flex h-dvh w-full flex-row">
-            <div className=" flex flex-grow flex-col border-r ">
+        <div className="flex h-dvh w-full flex-row ">
+            <div className="relative flex flex-grow flex-col pt-16 mobile:border-r ">
                 {/* 대화중인 상대 유저정보 상단바 */}
                 <ChatRoomHeader chatRoomData={chatRooomDetail} />
                 {/* 채팅내용 */}
