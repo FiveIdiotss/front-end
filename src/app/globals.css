@@ -209,7 +209,7 @@ ol {
 
 /* 스크롤바스타일 */
 .chatScroll::-webkit-scrollbar {
-    @apply w-[6px]; /*  스크롤바의 너비를 변경합니다 */
+    @apply w-[4px]; /*  스크롤바의 너비를 변경합니다 */
 }
 
 .chatScroll::-webkit-scrollbar-track {
@@ -217,7 +217,7 @@ ol {
 }
 
 .chatScroll::-webkit-scrollbar-thumb {
-    @apply rounded-md bg-primary; /* 스크롤바의 썸 색상을 변경합니다 */
+    @apply rounded-md bg-primary bg-opacity-70; /* 스크롤바의 썸 색상을 변경합니다 */
 }
 
 .chatScroll::-webkit-scrollbar-thumb:hover {

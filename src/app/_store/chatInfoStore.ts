@@ -1,8 +1,8 @@
 import { create } from 'zustand';
-// import { ChatUsers } from '../(nonHeader)/chat/_lib/chatList';
-import { Message } from '../(nonHeader)/chat/[slug]/_lib/chatContentList';
 
-type ChatStoreType = {
+// 채팅방 정보를 저장하는 zustand store *채팅방 입장전 실행되며 채팅방 내부 정보 세팅, 채팅방 내부 채팅관련된 정보는 chatContentStore.ts에 저장
+
+type ChatInfoType = {
     //---------채팅방 정보----------
     chatRoomId: number | undefined; //채팅방 아이디
 
@@ -21,17 +21,6 @@ type ChatStoreType = {
         hasImage: boolean;
         localDateTime: string;
     }; //마지막 메시지에대한 정보
-
-    completeExtendMessagesId: number[];
-
-    //---------채팅리스트 정보----------
-    chatList: Message[];
-    isSending: boolean;
-    isReceiving: boolean;
-    image: string;
-
-    setIsSending: (isSending: boolean) => void;
-    setIsReceiving: (isReceiving: boolean) => void;
 
     setUserInformation: ({
         receiverId,
@@ -58,14 +47,10 @@ type ChatStoreType = {
         date: string;
         chatRoomId: number;
     }) => void; //채팅방 정보 설정
-
-    setChat: (chatList: Message) => void; //로컬에서 새로운 채팅리스트 추가
-    setChatList: (chatList: Message[]) => void; //서버에서 새로운 채팅리스트 추가
-    setChatReset: () => void; //채팅리스트 초기화
-    setCompleteExtendMessagesId: (id: number) => void;
     setAddConsultTime: (consultTime: number) => void;
 };
-export const useChatStore = create<ChatStoreType>((set) => ({
+
+export const useChatInfoStore = create<ChatInfoType>((set) => ({
     chatRoomId: undefined,
     receiverId: undefined,
     receiverName: '',
@@ -82,12 +67,6 @@ export const useChatStore = create<ChatStoreType>((set) => ({
         hasImage: false,
         localDateTime: '',
     }, //채팅방 정보
-
-    chatList: [],
-    isSending: false,
-    isReceiving: false,
-    image: '', //채팅리스트 정보
-    completeExtendMessagesId: [],
 
     setUserInformation: ({
         receiverId,
@@ -127,33 +106,11 @@ export const useChatStore = create<ChatStoreType>((set) => ({
             date,
             chatRoomId,
         });
-    }, //채팅방 정보 설정
+    }, //채팅방 입장전 실행되며 채팅방 내부 정보 세팅하는 함수
 
-    setChat: (newChatList: Message) => {
-        set((state) => ({
-            chatList: [newChatList, ...state.chatList],
-        }));
-    }, //로컬에서 새로운 채팅리스트 추가
-    setChatList: (newChatList: Message[]) => {
-        set((state) => ({ chatList: [...state.chatList, ...newChatList] }));
-    }, //서버에서 새로운 채팅리스트 추가
-    setIsSending: (isSending: boolean) => {
-        set({ isSending });
-    }, //보내는중인지 여부
-    setIsReceiving: (isReceiving: boolean) => {
-        set({ isReceiving });
-    }, //받는중인지 여부
-    setChatReset: () => {
-        set({ chatList: [] });
-    }, //채팅리스트 초기화
-    setCompleteExtendMessagesId: (id: number) => {
-        set((state) => ({
-            completeExtendMessagesId: [...state.completeExtendMessagesId, id],
-        }));
-    },
     setAddConsultTime: (consultTime: number) => {
         set((state) => ({
             consultTime: state.consultTime + consultTime,
         }));
-    },
+    }, //상담 시간을 추가하는 함수
 }));

@@ -1,7 +1,10 @@
+import { auth } from '@/auth';
 import ChatList from './_component/ChatList';
 
-function page() {
-    return <ChatList />;
+async function page() {
+    const session = await auth();
+
+    return <ChatList session={session} />;
 }
 
 export default page;
