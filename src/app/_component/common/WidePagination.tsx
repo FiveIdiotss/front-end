@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import ReactPaginate from 'react-paginate';
 
-function SimplePagination({ totalPages, isPageScroll = true }: { totalPages: number; isPageScroll?: boolean }) {
+function WidePagination({ totalPages, isPageScroll = true }: { totalPages: number; isPageScroll?: boolean }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -57,7 +57,7 @@ function SimplePagination({ totalPages, isPageScroll = true }: { totalPages: num
                     'flex items-center justify-center w-9 h-9 text-sm b rounded-lg hover:bg-gray-100 hover:text-red-700'
                 }
                 activeLinkClassName="text-red-700 font-bold underline underline-offset-2 decoration-2"
-                pageRangeDisplayed={2} //선택된 페이지 주변에 보여질 페이지 수
+                pageRangeDisplayed={4} //선택된 페이지 주변에 보여질 페이지 수
                 marginPagesDisplayed={1} //첫 페이지와 마지막 페이지 주변에 보여질 페이지 수
                 forcePage={forcePage} //선택된 페이지
             />
@@ -73,4 +73,4 @@ function SimplePagination({ totalPages, isPageScroll = true }: { totalPages: num
     );
 }
 
-export default SimplePagination;
+export default WidePagination;
