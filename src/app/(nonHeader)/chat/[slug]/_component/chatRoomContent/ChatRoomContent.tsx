@@ -148,14 +148,14 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
             {/* 메시지카드를 렌더링하는 부분 */}
             {[...chatList].reverse().map((chat, index) => {
                 return (
-                    <>
+                    <React.Fragment key={chat.chatId}>
                         {/*특정 메시지 사라짐 감지 옵저버*/}
                         <div
                             ref={chatList.length - index === 3 ? isMessageInViewRef : null}
                             className={`${chatList.length - index === 3 ? '' : 'hidden'}`}
                         />
-                        <ChatItemContainer key={chat.chatId} chat={chat} />
-                    </>
+                        <ChatItemContainer chat={chat} />
+                    </React.Fragment>
                 );
             })}
 
