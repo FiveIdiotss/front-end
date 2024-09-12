@@ -24,7 +24,7 @@ function FilterNav({ isLogin }: { isLogin: boolean }) {
     if (!isPage) return null;
     return (
         <div
-            className={`  flex w-full max-w-[1300px]  flex-col  gap-7 border-b border-gray-400 border-opacity-80  bg-neutral-50 px-1   py-4 `}
+            className={`  flex w-full max-w-[1300px]  flex-col  gap-4 border-b border-gray-200 border-opacity-80  bg-neutral-50 px-1   py-4 `}
             // sticky top-[114px] z-[2]
         >
             <div className="flex w-full flex-row justify-between">

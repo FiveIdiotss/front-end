@@ -46,7 +46,7 @@ function Header() {
     return (
         <>
             <div
-                className={`${scrollVisible ? 'pointer-events-none opacity-0' : 'opacity-100'} sticky top-[68px] z-30 flex w-full justify-center  border-b bg-white  transition-opacity duration-300 ease-in-out`}
+                className={`${scrollVisible ? 'pointer-events-none opacity-0' : 'opacity-100'} sticky top-[62px] z-30 flex w-full justify-center  border-b bg-white  transition-opacity duration-300 ease-in-out`}
             >
                 <div className=" flex h-12  max-w-[1300px] items-center   gap-1    ">
                     {CATEGORY_LIST.map((category) => (

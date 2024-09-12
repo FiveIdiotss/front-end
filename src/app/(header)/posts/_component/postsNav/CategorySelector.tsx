@@ -21,9 +21,9 @@ function CategorySelector() {
                     className="flex cursor-pointer flex-row items-center gap-2 rounded-md  "
                     onClick={() => setIsHovered(!isHovered)}
                 >
-                    <span className="text-lg font-bold mobile:text-xl">{categoryParam}</span>
+                    <span className="text-lg font-bold text-gray-800 ">{categoryParam}</span>
                     <div className=" rounded-md  border ">
-                        <ArrowDropIcon className=" h-5 w-5 text-neutral-600 mobile:h-7 mobile:w-7" isOpen={false} />
+                        <ArrowDropIcon className=" h-5 w-5 text-gray-600 " isOpen={false} />
                     </div>
                 </div>
 
