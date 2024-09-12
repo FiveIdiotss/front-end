@@ -43,11 +43,14 @@ async function HomePage() {
                     <div className=" flex flex-row items-center justify-center gap-7 ">
                         <BookIcon className="h-auto w-9 text-green-600 mobile:w-12 " />
                         <div className=" flex  flex-col items-start justify-center gap-1">
-                            <span className="text-xl font-bold text-black mobile:text-2xl">
+                            <span className="text-xl font-bold text-gray-800 mobile:text-2xl">
                                 <span className="text-green-600">지식</span>을 나누는 새로운 세상
                             </span>
-                            <span className=" font-medium text-black mobile:text-lg">
-                                멘토링으로 성장하는 여정에 참여하세요!
+                            <span className=" font-medium text-gray-700 mobile:text-lg">
+                                온라인 멘토링 매칭을 통해 지식을 나누세요!
+                            </span>
+                            <span className="text-sm text-gray-600 mobile:text-base">
+                                우리대학 선배, 후배도 찾아보세요!
                             </span>
                         </div>
                     </div>
