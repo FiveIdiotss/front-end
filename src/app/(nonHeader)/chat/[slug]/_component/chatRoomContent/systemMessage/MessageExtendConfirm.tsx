@@ -7,6 +7,8 @@ import { useMutation } from '@tanstack/react-query';
 import React from 'react';
 import { ServerValueType } from '../ChatItem';
 import { useChatInfoStore } from '@/app/_store/chatInfoStore';
+import ArrowLeftBackIcon from '@/app/_icons/common/ArrowLeftBackIcon';
+import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 
 function MessageExtendConfirm({
     chatId,
@@ -18,8 +20,8 @@ function MessageExtendConfirm({
     const { setCompleteExtendMessagesId, completeExtendMessagesId } = useChatContentStore();
     const { receiverName, isLoginMentor, chatRoomId, setAddConsultTime } = useChatInfoStore();
 
-    const { formattedExtendedTime, formattedEndTime } = useFormattedTime(); // 상담 연장 시간 계산
-    const extendedTime = formattedExtendedTime(30); // 상담 연장 시간
+    const { formattedExtendedTime, formattedEndTime, formattedEndDate } = useFormattedTime(); // 상담 연장 시간 계산
+    const extendedTimeObj = formattedExtendedTime(30); // 상담 연장 시간
 
     const acceptMutation = useMutation({
         mutationFn: async () => await Axios.post(`/api/chat/extend/${chatId}?status=ACCEPT`),
@@ -78,7 +80,7 @@ function MessageExtendConfirm({
                 <span className="text-neutral-700">
                     <span className="font-semibold text-red-600">[대기중] </span>멘토에게 상담 연장을 요청하였습니다.
                 </span>
-                <span className="font-semibold text-blue-600">{`${formattedEndTime} → ${extendedTime}`}</span>
+                <span className="font-semibold text-blue-600">{`${formattedEndTime} → ${extendedTimeObj.extendedTime}`}</span>
             </div>
         );
     }
@@ -90,14 +92,23 @@ function MessageExtendConfirm({
                     요청하였습니다.
                 </span>
                 <div className="flex flex-col items-center">
-                    <span className="font-semibold text-blue-600">종료시간:</span>
-                    <span className="font-semibold text-blue-600">{`${formattedEndTime} → ${extendedTime}`}</span>
+                    <span className="mb-1 font-semibold text-blue-600">종료시간:</span>
+                    {/* <span className="font-semibold text-blue-600">{`${formattedEndTime} → ${extendedTimeObj.extendedTime}`}</span> */}
+                    <span className="flex flex-row gap-2 text-gray-700">
+                        <span className=" ">{formattedEndDate}</span>
+                        <span className="font-semibold">{formattedEndTime}</span>
+                    </span>
+                    <ArrowRightIcon className="h-4 w-4 rotate-90 text-gray-500" />
+                    <span className="flex flex-row gap-2 text-gray-700">
+                        <span className=" ">{extendedTimeObj.extendedDate}</span>
+                        <span className="font-semibold">{extendedTimeObj.extendedTime}</span>
+                    </span>
                 </div>
 
                 {!isCompleteMessage && (
                     <>
-                        <span className="mt-5 text-xs text-red-400">*선택 해주세요</span>
-                        <div className=" flex w-full flex-col justify-center gap-2   ">
+                        <span className="mt-3 text-xs text-red-400">*선택 해주세요</span>
+                        <div className=" flex w-full flex-col justify-center gap-2">
                             <button
                                 className="h-10  w-full rounded-md bg-green-600 text-white hover:bg-green-500"
                                 onClick={handleOpenAcceptModal}

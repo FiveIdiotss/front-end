@@ -104,16 +104,13 @@ function ChatList({ session }: { session?: Session | null }) {
     if (isPending) {
         return <Loading description="채팅 목록을 불러오는 중입니다." />;
     }
-    if (!users || users.length === 0) {
-        return <NoDataMessage text="채팅 없음" />;
-    }
 
     if (error) {
         console.log('error입니다.', error);
     }
 
     return (
-        <div className="h-full w-full flex-col">
+        <div className="flex w-full flex-grow flex-col">
             <div className="flex w-full flex-row items-center justify-between p-4">
                 <button onClick={() => router.back()} className="  flex flex-row items-center gap-1   text-gray-600 ">
                     <ArrowRightIcon className="mb-[1px] h-7 w-7 rotate-180" />
@@ -124,14 +121,20 @@ function ChatList({ session }: { session?: Session | null }) {
                     <span className="text-sm font-medium text-primary">{session?.user?.memberDTO.name}</span>&nbsp;님
                 </span>
             </div>
-            <div className=" flex h-full   w-full flex-col border-r  p-4">
-                <div className=" flex w-full flex-row  items-center justify-between  border-b-2 border-neutral-600  pb-3">
+            <div className=" flex w-full   flex-grow flex-col border-r  p-4">
+                <div className=" flex w-full flex-row  items-center justify-between  border-b-2 border-gray-400  pb-3">
                     <div className="w-full mobile:w-[350px]">
                         <CategorySearch />
                     </div>
                 </div>
+                {users?.length === 0 && (
+                    <div className="flex w-full flex-grow items-center ">
+                        {' '}
+                        <NoDataMessage text="채팅 없음" />
+                    </div>
+                )}
                 <ul className="flex w-full flex-col ">
-                    {users.map((user) => {
+                    {users?.map((user) => {
                         return <ChatListCard key={user.chatRoomId} user={user}></ChatListCard>;
                     })}
                 </ul>

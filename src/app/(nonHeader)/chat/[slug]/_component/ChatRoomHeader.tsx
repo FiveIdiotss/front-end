@@ -37,7 +37,7 @@ function ChatRoomHeader({ chatRoomData }: { chatRoomData: ChatRoomType }) {
                 </button>
             </div>
             <div
-                className={`flex w-full mobile:hidden ${isMoreOpen ? 'max-h-[999px] gap-4 border-t    py-4  opacity-100 ' : 'max-h-0 opacity-0'} flex-col px-2  transition-all`}
+                className={`z-10 flex w-full bg-white mobile:hidden ${isMoreOpen ? 'max-h-[999px] gap-4 border-t    py-4  opacity-100 ' : 'max-h-0 opacity-0'} flex-col px-2  transition-all`}
             >
                 <ChatRoomHeaderStatus />
                 <StatusActions pageType="top" />

@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import HeaderRegist from './HeaderRegist';
 import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 import { useRouteSignup } from '@/app/_hooks/useRouteSignup';
+import { pushNotification } from '@/app/util/pushNotification';
 
 function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
     const stompClientRef = useRef<Client | null>(null); // stompClient를 위한 ref 추가
@@ -24,53 +25,59 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
     const handlePushCountChange = (count: number) => {
         queryClient.setQueryData(['push', 'count'], count);
     };
-    // useEffect(() => {
-    //     if (!loginId) return;
+    useEffect(() => {
+        if (!loginId) return;
 
-    //     const initializeChat = async () => {
-    //         const stomp = new Client({
-    //             brokerURL: 'wss://menteetor.site/ws',
+        const initializeChat = async () => {
+            const stomp = new Client({
+                brokerURL: 'wss://menteetor.site/ws',
 
-    //             debug: (str: string) => {
-    //                 console.log('연결 상태', str);
-    //             },
-    //             reconnectDelay: 5000, //자동 재 연결
-    //             heartbeatIncoming: 4000,
-    //             heartbeatOutgoing: 4000,
-    //         });
-    //         stompClientRef.current = stomp;
-    //         // setStompClient(stomp);
-    //         stomp.activate();
-    //         stomp.onConnect = () => {
-    //             console.log('WebSocket 연결이 열렸습니다.');
-    //             const subscriptionDestination = `/sub/notifications/${loginId}`;
+                debug: (str: string) => {
+                    console.log('연결 상태', str);
+                },
+                reconnectDelay: 5000, //자동 재 연결
+                heartbeatIncoming: 4000,
+                heartbeatOutgoing: 4000,
+            });
+            stompClientRef.current = stomp;
+            // setStompClient(stomp);
+            stomp.activate();
+            stomp.onConnect = () => {
+                console.log('WebSocket 연결이 열렸습니다.');
+                const subscriptionDestination = `/sub/notifications/${loginId}`;
 
-    //             stomp.subscribe(
-    //                 subscriptionDestination,
-    //                 (frame) => {
-    //                     try {
-    //                         const unReadCount = JSON.parse(frame.body);
-    //                         handlePushCountChange(unReadCount);
+                stomp.subscribe(
+                    subscriptionDestination,
+                    (frame) => {
+                        try {
+                            const unReadCount = JSON.parse(frame.body);
+                            handlePushCountChange(unReadCount);
+                            pushNotification({
+                                position: 'top-center',
+                                theme: 'light',
+                                type: 'success',
+                                msg: `🔔 새로운 메시지가 도착했습니다.`,
+                                isIcon: false,
+                                maxWidth: '400px',
+                            });
+                        } catch (error) {
+                            console.error('오류가 발생했습니다:', error);
+                        }
+                    },
+                    // connectHeader,
+                );
+            };
+        };
+        initializeChat();
+        return () => {
+            console.log('컴포넌트 언마운트');
 
-    //                         console.log('구독함으로부터 온 알람', unReadCount);
-    //                     } catch (error) {
-    //                         console.error('오류가 발생했습니다:', error);
-    //                     }
-    //                 },
-    //                 // connectHeader,
-    //             );
-    //         };
-    //     };
-    //     initializeChat();
-    //     return () => {
-    //         console.log('컴포넌트 언마운트');
-
-    //         if (stompClientRef.current && stompClientRef.current.connected) {
-    //             console.log('연결이 해제되었습니다.');
-    //             stompClientRef.current.deactivate();
-    //         }
-    //     };
-    // }, []);
+            if (stompClientRef.current && stompClientRef.current.connected) {
+                console.log('연결이 해제되었습니다.');
+                stompClientRef.current.deactivate();
+            }
+        };
+    }, []);
 
     if (memberDto) {
         return (

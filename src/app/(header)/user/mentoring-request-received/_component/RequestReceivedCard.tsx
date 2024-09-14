@@ -9,7 +9,7 @@ import RequestReceivedDetailContent from './RequestReceivedDetailContent';
 import { toast } from 'react-toastify';
 import { pushNotification } from '@/app/util/pushNotification';
 import ConfirmationModal from '@/app/_component/ConfirmationModal';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Axios from '@/app/util/axiosInstance';
 const dateFormat = (date: string) => {
     const dateObj = new Date(date);
@@ -18,6 +18,7 @@ const dateFormat = (date: string) => {
 };
 function RequestReceivedCard({ data }: { data: MentoringReqData }) {
     const router = useRouter();
+    const queryClient = useQueryClient();
     const [detailOpen, setDetailOpen] = useState(false);
     const [detailMoveOpen, setDetailMoveOpen] = useState(false);
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -28,6 +29,10 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
         onSuccess: () => {
             setIsConfirmModalOpen(false);
             setAction(null);
+            queryClient.invalidateQueries({
+                queryKey: ['mentoringRequests'],
+            });
+
             pushNotification({
                 msg: '수락 완료',
                 type: 'success',
@@ -50,6 +55,10 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
 
         onSuccess: () => {
             setIsConfirmModalOpen(false);
+            queryClient.invalidateQueries({
+                queryKey: ['mentoringRequests'],
+            });
+
             setAction(null);
             pushNotification({
                 msg: '거절 완료',
@@ -175,7 +184,7 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
                         {data.applyState === 'COMPLETE' && (
                             <Link
                                 href={'/chat'}
-                                className="w-full rounded-md border border-indigo-400 py-1 text-center text-xs text-indigo-400 hover:bg-gray-50"
+                                className="mt-2 w-full rounded-sm border border-indigo-400 py-2 text-center text-xs text-indigo-400 hover:bg-gray-50"
                             >
                                 채팅하기
                             </Link>

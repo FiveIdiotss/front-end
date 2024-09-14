@@ -28,7 +28,7 @@ export const useChatContentStore = create<ChatContentStoreType>((set) => ({
 
     setChat: (newChatList: Message) => {
         set((state) => ({
-            chatList: [newChatList, ...state.chatList],
+            chatList: [{ ...newChatList, chatId: state.chatList[0].chatId + 1 }, ...state.chatList],
         }));
     }, //로컬에서 새로운 채팅리스트 추가
     setChatList: (newChatList: Message[]) => {

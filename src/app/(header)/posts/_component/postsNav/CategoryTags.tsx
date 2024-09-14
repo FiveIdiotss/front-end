@@ -36,7 +36,7 @@ function CategoryTags({ isLogin }: { isLogin: boolean }) {
     const isStar = starParam === 'true'; // 북마크및 좋아요 여부
 
     return (
-        <div className="  flex flex-row items-center gap-2">
+        <div className=" ml-2 flex flex-row items-center gap-2 mobile:ml-0">
             <FilterIcon className="h-4 w-4 text-neutral-500" />
             <button
                 className={`flex h-8 flex-row items-center justify-end gap-[2px] rounded-lg border border-neutral-200  px-3  text-sm   ${isStar ? 'bg-black text-white' : 'bg-white  text-neutral-500  hover:bg-neutral-100'}`}
