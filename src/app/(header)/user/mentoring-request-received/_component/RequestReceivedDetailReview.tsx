@@ -66,7 +66,7 @@ function RequestReceivedDetailReview({ applyId, onClose }: Props) {
                             {data?.applyState === 'COMPLETE' && (
                                 <Link
                                     href={'/chat'}
-                                    className="w-full rounded-md border border-indigo-400 py-1 text-center text-xs text-indigo-400 hover:bg-gray-50"
+                                    className="mt-2 w-full rounded-sm border border-indigo-400 py-2 text-center text-xs text-indigo-400 hover:bg-gray-50"
                                 >
                                     채팅하기
                                 </Link>
@@ -76,7 +76,7 @@ function RequestReceivedDetailReview({ applyId, onClose }: Props) {
                     <SectionDivider />
                     <div className="flex flex-row ">
                         <dt className="w-20 flex-shrink-0 font-semibold text-neutral-800 mobile:w-24">멘토링명:</dt>
-                        <dd className="font-light text-neutral-700 ">{data?.boardTitle}</dd>
+                        <dd className="font-light text-neutral-700 ">{data?.content}</dd>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex flex-row ">
@@ -115,7 +115,7 @@ function RequestReceivedDetailReview({ applyId, onClose }: Props) {
                     </div>
                     <div className="flex flex-row ">
                         <dt className="w-20 font-semibold text-neutral-800 mobile:w-24">지원 글:</dt>
-                        <dd className="font-light text-neutral-700 ">{data?.content}</dd>
+                        <dd className="font-light text-neutral-700 ">{data?.boardTitle}</dd>
                     </div>
                 </dl>
             </div>
