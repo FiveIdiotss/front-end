@@ -108,13 +108,11 @@ function MentoPostCard({
                     >
                         <span className="line-clamp-2 flex flex-row gap-1">
                             <span
-                                className={`flex flex-row items-center gap-1 ${post.representImage !== '' ? '' : 'text-gray-400'}`}
+                                className={`flex  flex-row items-center gap-1 ${post.representImage !== '' ? '' : 'text-gray-400'}`}
                             >
                                 {post.platform === 'WEB' ? '' : <MobileIcon className="mr-1 h-4 w-4 text-blue-500" />}[
-                                {post.boardCategory}]
+                                {post.boardCategory}] {post.title}
                             </span>
-
-                            {post.title}
                         </span>
                         <span className="line-clamp-2 text-sm font-normal">{post.introduce}</span>
                     </div>

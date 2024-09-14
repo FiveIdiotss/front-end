@@ -42,8 +42,8 @@ function StatusReceiverInfo() {
     }
 
     return (
-        <div className="flex   w-full flex-col   	   py-4 ">
-            <span className="mb-4 font-semibold">{`${isLoginMentor ? '멘티 정보' : '멘토 정보'}`}</span>
+        <div className="flex   w-full flex-col   ">
+            <span className="mb-6 font-medium text-gray-800">{`${isLoginMentor ? '멘티 정보' : '멘토 정보'}`}</span>
             <div className=" flex w-full  flex-row items-center gap-3">
                 {/* 이미지필요 */}
                 <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2  text-neutral-500 ">
@@ -64,8 +64,8 @@ function StatusReceiverInfo() {
                     <SchoolIcon />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <span className="font-">{receiverInfo.schoolName}</span>
-                    <span className="text-sm text-neutral-500">
+                    <span className="text-gray-700">{receiverInfo.schoolName}</span>
+                    <span className="text-sm text-gray-500">
                         {receiverInfo.year}학번ㅣ{receiverInfo.majorName}
                     </span>
                 </div>
