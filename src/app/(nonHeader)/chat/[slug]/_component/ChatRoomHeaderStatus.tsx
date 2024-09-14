@@ -8,7 +8,7 @@ function ChatRoomHeaderStatus() {
     const mentorName = isLoginMentor ? loginName : receiverName;
     const menteeName = isLoginMentor ? receiverName : loginName;
 
-    const { formattedStartTime, formattedEndTime, formattedDate } = useFormattedTime();
+    const { formattedStartTime, formattedEndTime, formattedStartDate, formattedEndDate } = useFormattedTime();
     return (
         <div className="flex w-full justify-center ">
             <div className="flex  w-2/5 flex-col text-sm text-gray-500 ">
@@ -25,13 +25,13 @@ function ChatRoomHeaderStatus() {
                 <span>
                     상담시작:{' '}
                     <span className="font-medium text-gray-700">
-                        {formattedDate} {formattedStartTime.replace('오전', '').replace('오후', '')}
+                        {formattedStartDate} {formattedStartTime.replace('오전', '').replace('오후', '')}
                     </span>
                 </span>
                 <span>
                     상담종료:{' '}
                     <span className="font-medium text-gray-700">
-                        {formattedDate} {formattedEndTime.replace('오전', '').replace('오후', '')}
+                        {formattedEndDate} {formattedEndTime.replace('오전', '').replace('오후', '')}
                     </span>
                 </span>
                 <span>

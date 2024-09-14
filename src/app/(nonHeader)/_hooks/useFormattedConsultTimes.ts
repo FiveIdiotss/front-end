@@ -2,6 +2,7 @@ import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+import { useEffect } from 'react';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
@@ -16,7 +17,7 @@ export const useFormattedTime = () => {
     endTimeDate.setMinutes(startTimeDate.getMinutes() + consultTime); // 상담 시간 + 분 추가
 
     const formatTime = (date: Date) => {
-        const displayTime = dayjs(date).format('A hh:mm');
+        const displayTime = dayjs(date).format('HH:mm');
         return displayTime;
     }; // 시간을 포맷팅
     const formatDate = (date: Date) => {
@@ -26,15 +27,20 @@ export const useFormattedTime = () => {
 
     const addExtendedTime = (date: Date) => {
         return function (addMinute: number) {
-            const extendedDate = dayjs(date).add(addMinute, 'minute').format('A hh:mm');
-            return extendedDate;
+            const extendedTime = dayjs(date).add(addMinute, 'minute').format('HH:mm');
+            const extendedDate = dayjs(date).add(addMinute, 'minute').format('YYYY-MM-DD');
+            return {
+                extendedDate,
+                extendedTime,
+            };
         };
     }; //분을 매개변수로 받으면 종료시간에서 연장될 분을 추가
 
     return {
         formattedStartTime: formatTime(startTimeDate), // 포맷팅된 시작시간
         formattedEndTime: formatTime(endTimeDate), // 포맷팅된 종료시간
-        formattedDate: formatDate(startTimeDate), // 포맷팅된 날짜
+        formattedStartDate: formatDate(startTimeDate), // 포맷팅된 날짜
+        formattedEndDate: formatDate(endTimeDate), // 포맷팅된 날짜
         formattedExtendedTime: addExtendedTime(endTimeDate), // 종료시간에서 연장될 분을 추가
     };
 
