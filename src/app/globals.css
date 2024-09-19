@@ -84,6 +84,27 @@ a {
         opacity: 1;
     }
 }
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 /* @keyframes slide-down {
     0% {
         transform: translateY(-100%);
@@ -105,6 +126,9 @@ a {
 }
 .animate-slide-down {
     animation: slide-down 0.2s ease-in-out;
+}
+.animate-slide-left {
+    animation: slide-left 0.2s ease-in-out;
 }
 
 .carousel-container {
