@@ -3,9 +3,10 @@ import HomeMain from './_component/HomeMain';
 import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { HOME_MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
 import BookIcon from '@/app/_icons/common/BookIcon';
-import HeaderSearch from './_component/HeaderSearch';
+
 import { getHomeMentorPosts, getHomeQuestsOrRequests } from './_lib/homeService';
 import { auth } from '@/auth';
+import HomeSearch from './_component/HomeSearch/HomeSearch';
 
 async function HomePage() {
     const queryClient = new QueryClient();
@@ -55,7 +56,7 @@ async function HomePage() {
                         </div>
                     </div>
                     <div className="flex w-full flex-row justify-center ">
-                        <HeaderSearch />
+                        <HomeSearch />
                     </div>
                 </div>
                 <HomeMain />

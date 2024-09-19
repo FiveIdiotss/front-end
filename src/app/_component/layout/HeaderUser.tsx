@@ -56,10 +56,14 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
                                 position: 'top-center',
                                 theme: 'light',
                                 type: 'success',
-                                msg: `🔔 새로운 메시지가 도착했습니다.`,
+                                msg: `🔔 새로운 알림이 있습니다.`,
                                 isIcon: false,
                                 maxWidth: '400px',
                             });
+                            queryClient.invalidateQueries({
+                                // predicate: (query) => query.queryKey?.includes('push'),
+                                queryKey: ['push', 'list'],
+                            }); // pushCountQuery를 다시 불러옴
                         } catch (error) {
                             console.error('오류가 발생했습니다:', error);
                         }

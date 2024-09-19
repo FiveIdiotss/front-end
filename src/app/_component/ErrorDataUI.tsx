@@ -10,7 +10,7 @@ function ErrorDataUI({ text, className, onReset }: { text: string; className?: s
             {Boolean(onReset) && (
                 <button
                     onClick={onReset}
-                    className="0 my-2 flex w-32 flex-row items-center justify-center gap-2 rounded-md bg-gray-400 py-3 font-normal text-white"
+                    className="0 my-2 flex w-28 flex-row items-center justify-center gap-2 rounded-md bg-gray-400 py-2 font-normal text-white"
                 >
                     새로고침
                     <RefreshIcon className="h-4 w-4 text-white" />

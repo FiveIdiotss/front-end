@@ -3,7 +3,6 @@ import WarnningCircle from '../_icons/common/WarnningCircle';
 import Loading from './Loading';
 
 type Props = {
-    open: boolean;
     confirmButtonLabel?: string;
     title: string;
     subTitle?: string;
@@ -14,19 +13,9 @@ type Props = {
     onConfirm: () => void;
 };
 
-function ConfirmationModal({
-    open,
-    confirmButtonLabel,
-    title,
-    subTitle,
-    description,
-    onClose,
-    onConfirm,
-    isLoading,
-}: Props) {
+function ConfirmationModal({ confirmButtonLabel, title, subTitle, description, onClose, onConfirm, isLoading }: Props) {
     return (
         <NonStandardModal
-            open={open}
             onClose={onClose}
             className="rounded-lg border border-neutral-300 bg-white p-7 "
             modalBackground="bg-black bg-opacity-20"

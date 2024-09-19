@@ -76,7 +76,7 @@ function MentoringRequestDetailReview({ onClose, applyId }: Props) {
                     <SectionDivider />
                     <div className="flex flex-row ">
                         <dt className="w-20 flex-shrink-0 font-semibold text-gray-800 mobile:w-24">멘토링명:</dt>
-                        <dd className="font-light text-gray-700 ">{data?.boardTitle}</dd>
+                        <dd className="font-light text-gray-700 ">{data?.content}</dd>
                     </div>
                     <div className="flex flex-col gap-1">
                         <div className="flex flex-row ">
@@ -115,7 +115,7 @@ function MentoringRequestDetailReview({ onClose, applyId }: Props) {
                     </div>
                     <div className="flex flex-row ">
                         <dt className="w-24 font-semibold text-gray-800">지원 글:</dt>
-                        <dd className="font-light text-gray-700 ">{data?.content}</dd>
+                        <dd className="font-light text-gray-700 ">{data?.boardTitle}</dd>
                     </div>
                 </dl>
             </div>

@@ -77,7 +77,7 @@ function ProfileTopHeader({ memberDTO }: { memberDTO?: MemberDto }) {
                     </div>
                 )}
             </div>
-            <ProfileImageChange open={isProfileImageModal} onClose={handleModalClose} />
+            {isProfileImageModal && <ProfileImageChange onClose={handleModalClose} />}
         </>
     );
 }
