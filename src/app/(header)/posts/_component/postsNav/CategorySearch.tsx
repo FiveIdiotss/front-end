@@ -59,6 +59,7 @@ function CategorySearch() {
                 placeholder="제목, 내용 검색"
                 className=" ml-2 mr-4 h-5  w-full bg-inherit text-sm text-neutral-500 outline-none "
                 onChange={(e) => handleInputChange(e)}
+                defaultValue={searchParams.get('search') || ''}
             />
 
             <SectionDivider
