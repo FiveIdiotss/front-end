@@ -47,6 +47,12 @@ function SearchModal({ onClose }: Props) {
         onClose();
     };
 
+    useEffect(() => {
+        if (searchResults) {
+            console.log('xxxx', searchResults);
+        }
+    }, [searchResults]);
+
     if (error) return;
 
     return (
@@ -68,7 +74,7 @@ function SearchModal({ onClose }: Props) {
                             ref={inputRef}
                             className="flex-grow rounded-full bg-inherit px-1  outline-none"
                             type="search"
-                            placeholder="제목, 내용, 학과 검색"
+                            placeholder="제목, 내용 검색"
                             onFocus={() => setIsFocus(true)}
                             onBlur={() => setIsFocus(false)}
                             onChange={handleDebouncedSearch}

@@ -74,11 +74,11 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 <ArrowRightIcon className="h-5 w-5" />
             </button>
             <div className="flex flex-col gap-2 p-1">
-                {searchResult?.subBoardTitles.length === 0 && (
+                {searchResult?.subBoardTitle_quest.length === 0 && (
                     <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>
                 )}
 
-                {searchResult?.subBoardTitles.map((result, index) => (
+                {searchResult?.subBoardTitle_quest.map((result, index) => (
                     <button
                         onClick={() => handleRoute('/posts/quest?search=' + result)}
                         key={index}
@@ -95,7 +95,21 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 멘토링 요청
                 <ArrowRightIcon className="h-5 w-5" />
             </button>
-            <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>
+            <div className="flex flex-col gap-2 p-1">
+                {searchResult?.subBoardTitle_request.length === 0 && (
+                    <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>
+                )}
+
+                {searchResult?.subBoardTitle_request.map((result, index) => (
+                    <button
+                        onClick={() => handleRoute('/posts/request?search=' + result)}
+                        key={index}
+                        className="flex w-full justify-between border-b p-2 text-left text-sm text-gray-600"
+                    >
+                        <span>{result}</span>
+                    </button>
+                ))}
+            </div>
         </div>
     );
 }
