@@ -12,7 +12,7 @@ import { pushNotification } from '@/app/util/pushNotification';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { useRouter } from 'next/navigation';
 
-function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => void }) {
+function ProfileImageChange({ onClose }: { onClose: () => void }) {
     const { data: session, status, update: UpdateSession } = useSession();
     const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
@@ -99,7 +99,6 @@ function ProfileImageChange({ open, onClose }: { open: boolean; onClose: () => v
     return (
         <>
             <NonStandardModal
-                open={open}
                 onClose={onClose}
                 className="flex h-fit w-full flex-col items-center gap-2 rounded-md bg-zinc-600 p-4 shadow-md mobile:w-[470px]"
             >

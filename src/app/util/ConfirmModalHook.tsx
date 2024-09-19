@@ -31,9 +31,8 @@ function useConfirmationModal({
         handleCloseModal();
     }, [onConfirm, handleCloseModal]);
 
-    const ConfirmationModalComponent: ReactNode = (
+    const ConfirmationModalComponent: ReactNode = modalOpen && (
         <ConfirmationModal
-            open={modalOpen}
             confirmButtonLabel={confirmButtonLabel}
             title={title}
             subTitle={subTitle}

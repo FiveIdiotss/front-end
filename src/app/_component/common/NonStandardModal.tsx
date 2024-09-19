@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 type ModalProps = {
-    open: boolean;
     onClose?: () => void;
     children: React.ReactNode;
     width?: string;
@@ -17,7 +16,6 @@ type ModalProps = {
     isHeader?: boolean;
 };
 function NonStandardModal({
-    open,
     onClose,
     children,
     className,
@@ -32,6 +30,23 @@ function NonStandardModal({
     useEffect(() => {
         setIsBrowser(true);
     }, []);
+    useEffect(() => {
+        if (!open) return;
+        // 모달이 열릴 때 body 스크롤을 막음
+        const scrollY = window.scrollY;
+        document.body.style.overflow = 'hidden'; // 스크롤 차단
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+
+        // 모달이 닫힐 때 스크롤 복원
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            window.scrollTo(0, scrollY); // 스크롤 위치 복원
+        };
+    }, []); // 모달이 열릴 때만 실행
 
     if (!open || !isBrowser) return null;
 

@@ -199,13 +199,14 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
                     </div>
                 )}
             </section>
-            <ConfirmationModal
-                open={isConfirmModalOpen}
-                onClose={closeConfirmModal}
-                title={action === 'accept' ? '수락하시겠습니까?' : '거절하시겠습니까?'}
-                onConfirm={handleconfirm}
-                isLoading={mutationAccept.isPending || mutationReject.isPending}
-            />
+            {isConfirmModalOpen && (
+                <ConfirmationModal
+                    onClose={closeConfirmModal}
+                    title={action === 'accept' ? '수락하시겠습니까?' : '거절하시겠습니까?'}
+                    onConfirm={handleconfirm}
+                    isLoading={mutationAccept.isPending || mutationReject.isPending}
+                />
+            )}
             {detailOpen && <RequestReceivedDetailReview onClose={handleDetailClose} applyId={data.applyId} />}
             {detailMoveOpen && (
                 <RequestReceivedDetailContent onClose={handleDetailContentClose} boardId={`${data.boardId}`} />

@@ -36,12 +36,26 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
                     date: chatRooomDetail.date,
                     chatRoomId: chatRooomDetail.chatRoomId,
                 });
-            console.log('현제 채팅방 정보 조회', chatRooomDetail);
+            console.log('현재 채팅방 정보 조회', chatRooomDetail);
         }
     }, [chatRooomDetail]); //채팅방 정보 조회
 
+    useEffect(() => {
+        if (error) {
+            console.log('채팅방 정보 조회 에러', error);
+        }
+    }, [error]);
+
     if (isPending) return <Loading description="채팅방 데이터를 불러오는 중입니다..." />;
-    if (error) return <ErrorDataUI text="채팅방 데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요." />;
+    if (error)
+        return (
+            <ErrorDataUI
+                text={
+                    error.response?.data.message ||
+                    '채팅방 데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.'
+                }
+            />
+        );
 
     return (
         <div className="flex h-dvh w-full flex-row ">

@@ -4,16 +4,14 @@ import React from 'react';
 
 type Props = {
     onClose: () => void;
-    open: boolean;
 };
 
-function ConsultDelayModal({ onClose, open }: Props) {
+function ConsultDelayModal({ onClose }: Props) {
     return (
         <NonStandardModal
             className="rounded-lg border border-neutral-300 bg-white p-7 "
             modalBackground="bg-black bg-opacity-20"
             onClose={onClose}
-            open={open}
             isHeader={false}
         >
             <div className="flex h-full w-full flex-col ">
