@@ -5,7 +5,8 @@ import { AxiosError } from 'axios';
 
 export type SearchResultsType = {
     boardTitles: string[];
-    subBoardTitles: string[];
+    subBoardTitle_quest: string[];
+    subBoardTitle_request: string[];
 };
 
 const getSearchResults = async (keyword: string): Promise<SearchResultsType> => {
