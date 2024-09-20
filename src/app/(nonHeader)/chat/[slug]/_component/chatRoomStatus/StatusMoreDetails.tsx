@@ -13,7 +13,7 @@ function StatusMoreDetails() {
 
     return (
         <>
-            <div className="flex  w-full flex-col gap-5 border-y-2 border-gray-50 bg-white p-4  text-sm text-gray-500">
+            <div className="flex  w-full flex-col gap-5 border-y bg-white p-4  text-sm text-gray-500">
                 <span className="flex flex-row gap-1">
                     멘토: <span className="font-medium text-gray-700">{mentorName}</span>
                     <span className="text-green-600">{isLoginMentor ? '본인' : ''}</span>
@@ -24,7 +24,7 @@ function StatusMoreDetails() {
                 </span>
             </div>
 
-            <div className="flex  w-full flex-col  gap-2  border-y-2 border-gray-50 bg-white p-4 text-sm text-gray-500">
+            <div className="flex  w-full flex-col  gap-2  border-y bg-white p-4 text-sm text-gray-500">
                 <span>
                     상담시작:&nbsp;&nbsp;
                     <span className="font-medium text-gray-700">

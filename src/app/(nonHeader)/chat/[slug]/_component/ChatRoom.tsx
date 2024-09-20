@@ -59,7 +59,7 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
 
     return (
         <div className="mx-auto flex h-dvh w-full max-w-screen-tablet flex-row mobile:border-x ">
-            <div className="relative flex flex-grow flex-col pt-16 mobile:border-r ">
+            <div className="relative flex flex-grow flex-col pt-[50px] mobile:border-r ">
                 {/* 대화중인 상대 유저정보 상단바 */}
                 <ChatRoomHeader chatRoomData={chatRooomDetail} />
                 {/* 채팅내용 */}
