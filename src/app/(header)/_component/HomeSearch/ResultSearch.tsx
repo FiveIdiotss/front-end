@@ -46,6 +46,12 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
         addSearchTerm(searchKeyword);
     };
 
+    const isMentorResult = searchResult?.boards_title.length === 0 && searchResult?.boards_content.length === 0;
+    const isRequestResult =
+        searchResult?.subBoards_request_title.length === 0 && searchResult?.subBoards_request_content.length === 0;
+    const isQuestResult =
+        searchResult?.subBoards_quest_title.length === 0 && searchResult?.subBoards_quest_content.length === 0;
+
     return (
         <div className="flex w-full flex-grow flex-col gap-1">
             <button
@@ -56,10 +62,16 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 <ArrowRightIcon className="h-6 w-6 text-gray-700" />
             </button>
             <div className="flex flex-col gap-2 p-1">
-                {searchResult?.boards.length === 0 && (
-                    <span className="mx-auto  text-sm text-gray-400">검색 결과가 없습니다.</span>
-                )}
-                {searchResult?.boards.map((result, index) => (
+                {isMentorResult && <span className="mx-auto  text-sm text-gray-400">검색 결과가 없습니다.</span>}
+                {searchResult?.boards_title.map((result, index) => (
+                    <ResultSearchCard
+                        key={index}
+                        handleRoute={handleRoute}
+                        result={result}
+                        searchKeyword={searchKeyword}
+                    />
+                ))}
+                {searchResult?.boards_content.map((result, index) => (
                     <ResultSearchCard
                         key={index}
                         handleRoute={handleRoute}
@@ -77,11 +89,17 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 <ArrowRightIcon className="h-6 w-6 text-gray-700" />
             </button>
             <div className="flex flex-col gap-2 p-1">
-                {searchResult?.subBoards_quest.length === 0 && (
-                    <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>
-                )}
+                {isQuestResult && <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>}
 
-                {searchResult?.subBoards_quest.map((result, index) => (
+                {searchResult?.subBoards_quest_title.map((result, index) => (
+                    <ResultSearchCard
+                        key={index}
+                        handleRoute={handleRoute}
+                        result={result}
+                        searchKeyword={searchKeyword}
+                    />
+                ))}
+                {searchResult?.subBoards_quest_content.map((result, index) => (
                     <ResultSearchCard
                         key={index}
                         handleRoute={handleRoute}
@@ -98,11 +116,17 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 <ArrowRightIcon className="h-6 w-6 text-gray-700" />
             </button>
             <div className="flex flex-col gap-2 p-1">
-                {searchResult?.subBoards_request.length === 0 && (
-                    <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>
-                )}
+                {isRequestResult && <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>}
 
-                {searchResult?.subBoards_request.map((result, index) => (
+                {searchResult?.subBoards_request_title.map((result, index) => (
+                    <ResultSearchCard
+                        key={index}
+                        handleRoute={handleRoute}
+                        result={result}
+                        searchKeyword={searchKeyword}
+                    />
+                ))}
+                {searchResult?.subBoards_request_content.map((result, index) => (
                     <ResultSearchCard
                         key={index}
                         handleRoute={handleRoute}

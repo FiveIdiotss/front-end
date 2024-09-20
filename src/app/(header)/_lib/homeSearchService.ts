@@ -4,9 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export type SearchResultsType = {
-    boards: string[];
-    subBoards_quest: string[];
-    subBoards_request: string[];
+    boards_title: string[];
+    subBoards_quest_title: string[];
+    subBoards_request_title: string[];
+    boards_content: string[];
+    subBoards_quest_content: string[];
+    subBoards_request_content: string[];
 };
 
 const getSearchResults = async (keyword: string): Promise<SearchResultsType> => {
