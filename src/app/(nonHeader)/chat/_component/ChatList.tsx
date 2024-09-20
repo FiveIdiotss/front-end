@@ -110,24 +110,26 @@ function ChatList({ session }: { session?: Session | null }) {
     }
 
     return (
-        <div className="mx-auto flex w-full max-w-screen-mobile flex-grow flex-col">
-            <div className="flex w-full flex-row items-center justify-between p-4">
+        <div className="mx-auto flex w-full max-w-screen-mobile flex-grow flex-col bg-white mobile:border-x ">
+            <div className="flex w-full flex-row items-center justify-between  px-3 py-3">
                 <button onClick={() => router.back()} className="  flex flex-row items-center gap-1   text-gray-600 ">
                     <ArrowRightIcon className="mb-[1px] h-7 w-7 rotate-180" />
-                    이전
+                    뒤로가기
                 </button>
 
                 <span className="text-sm">
                     <span className="text-sm font-medium text-primary">{session?.user?.memberDTO.name}</span>&nbsp;님
                 </span>
             </div>
-            <div className=" flex w-full   flex-grow flex-col   p-4">
+            <div className=" flex w-full   flex-grow flex-col  ">
                 {users?.length === 0 && (
                     <div className="flex w-full flex-grow items-center ">
                         <NoDataMessage text="채팅 없음" />
                     </div>
                 )}
-                <ul className="flex w-full flex-col ">
+                <ul className=" flex w-full flex-col">
+                    {/* <span className="ml-4 font-medium">채팅</span> */}
+                    {/* <div className="w-full border-t" /> */}
                     {users?.map((user) => {
                         return <ChatListCard key={user.chatRoomId} user={user}></ChatListCard>;
                     })}

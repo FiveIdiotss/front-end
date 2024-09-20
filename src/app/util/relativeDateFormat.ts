@@ -16,7 +16,15 @@ interface RelativeDateFormatResult {
     relativeDateOrTime: string;
 }
 
-export const relativeDateFormat = (date: string): RelativeDateFormatResult => {
+export const relativeDateFormat = (date: string | null | undefined): RelativeDateFormatResult => {
+    if (!date) {
+        return {
+            onlyDate: '',
+            onlyTime: '',
+            DateOrTime: '',
+            relativeDateOrTime: '',
+        };
+    }
     const inputDate = dayjs(date);
     const today = dayjs();
 
