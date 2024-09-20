@@ -23,7 +23,16 @@ function ChatListCard({ user }: { user: ChatRoomType }) {
             key={user.chatRoomId}
             className={`flex w-full  cursor-pointer flex-col items-center overflow-hidden border-b  bg-white  `}
         >
-            <div className=" flex min-h-16  w-full flex-col items-center  gap-2 p-4 hover:bg-indigo-50     ">
+            <div className=" flex min-h-16  w-full flex-col items-center  gap-1 p-3 hover:bg-indigo-50     ">
+                <div className="flex w-full flex-col  p-1 text-sm  text-gray-700 ">
+                    <div className="flex flex-row">
+                        <span className="flex h-fit flex-shrink-0 flex-row items-center gap-2  ">
+                            {/* <div className="h-1 w-1 rounded-full bg-yellow-300" /> */}
+                            &nbsp;
+                        </span>
+                        {user.boardTitle}
+                    </div>
+                </div>
                 <div className=" flex w-full flex-row items-center  gap-4   font-medium   ">
                     <div className="relative h-10 w-10 shrink-0">
                         <Image
@@ -34,9 +43,9 @@ function ChatListCard({ user }: { user: ChatRoomType }) {
                             sizes="50px"
                         />
                     </div>
-                    <div className="flex flex-grow flex-col gap-1">
+                    <div className="flex flex-grow flex-col ">
                         <div className="flex flex-row items-center">
-                            <span className="flex-grow text-lg font-semibold">{user.receiverName}</span>
+                            <span className="flex-grow text-base font-semibold">{user.receiverName}</span>
                             <span className="w-20   text-right    text-xs font-medium text-gray-400">
                                 {lastMessageDate}
                             </span>
@@ -56,7 +65,6 @@ function ChatListCard({ user }: { user: ChatRoomType }) {
                         </div>
                     </div>
                 </div>
-                <div className="flex w-full flex-col  p-1 text-sm  text-gray-500 ">멘토링: {user.boardTitle}</div>
             </div>
         </li>
     );

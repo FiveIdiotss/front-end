@@ -25,7 +25,7 @@ function ChatRoomHeader({ chatRoomData }: { chatRoomData: ChatRoomType }) {
                     <ArrowRightIcon className="h-7 w-7 rotate-180" />
                 </button>
                 <div className="flex flex-grow flex-row items-center ">
-                    <span className="  font-semibold text-neutral-700">{chatRoomData.boardTitle}</span>
+                    <span className="  text-base font-medium text-gray-700">{chatRoomData.boardTitle}</span>
                 </div>
                 {/* <span className="rounded-md bg-yellow-500 px-4 py-2 text-sm font-medium text-white">매칭 대기</span> */}
                 {/* <span className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white">매칭 완료</span> */}
