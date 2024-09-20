@@ -35,6 +35,17 @@ function CategorySearch() {
         setLoading(true); // 입력이 시작될 때 로딩 상태를 true로 설정
         debouncedHandleSubmit(e.target.value);
     };
+    const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('Button clicked!');
+        handleInputChange({ target: { value: inputRef.current?.value } } as React.ChangeEvent<HTMLInputElement>);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleInputChange(e as unknown as React.ChangeEvent<HTMLInputElement>);
+        }
+    };
+
     useEffect(() => {
         if (inputRef.current === null) return;
         inputRef.current.onfocus = () => setIsFocused(true);
@@ -50,32 +61,28 @@ function CategorySearch() {
 
     return (
         <div
-            className={` flex h-10 w-full  flex-row items-center  rounded-md border  bg-white p-2 shadow-sm  ${isFocused ? 'border-gray-400' : 'border-gray-200'} `}
+            className={` flex h-11 w-full  flex-row items-center  rounded-md border  bg-white p-2   ${isFocused ? 'border-gray-300' : 'border-gray-200'} `}
         >
             <input
                 ref={inputRef}
                 type="search"
                 onFocus={() => inputRef.current?.focus()}
                 placeholder="제목, 내용 검색"
-                className=" ml-2 mr-4 h-5  w-full bg-inherit text-sm text-neutral-500 outline-none "
-                onChange={(e) => handleInputChange(e)}
+                className=" ml-2 mr-4 h-5  w-full bg-inherit text-sm text-gray-500 outline-none "
+                onKeyDown={handleKeyDown} // 엔터 키로 검색
                 defaultValue={searchParams.get('search') || ''}
             />
 
-            <SectionDivider
-                position="y"
-                className="mx-1 py-[2px]"
-                color={`${isFocused ? 'border-blue-600' : 'border-gray-200'}`}
-            />
             <button className="flex h-full w-11 cursor-pointer items-center justify-center">
-                {!loading && (
+                <button onClick={handleButtonClick}>
                     <SearchIcon className={`h-5 w-5 ${isFocused ? 'rotate-90 text-blue-600' : 'text-gray-200'}`} />
-                )}
-                {loading && (
+                </button>
+
+                {/* {loading && (
                     <div className=" h-full w-full ">
                         <DotLoadingIcon />
                     </div>
-                )}
+                )} */}
             </button>
         </div>
     );

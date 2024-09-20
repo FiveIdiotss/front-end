@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SearchResultsType } from '../../_lib/homeSearchService';
 import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
+import ResultSearchCard from './ResultSearchCard';
 
 type SearchItem = {
     term: string; // 검색 키워드
@@ -12,6 +13,9 @@ interface Props {
     searchResult?: SearchResultsType;
     searchKeyword: string;
 }
+
+// 검색어를 강조하고, 검색어가 존재하는지 여부를 반환하는 함수
+
 function ResultSearch({ searchResult, searchKeyword }: Props) {
     const router = useRouter();
     const [recentSearches, setRecentSearches] = useState<SearchItem[]>([]);
@@ -49,20 +53,19 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 className=" flex w-full items-center justify-between rounded-lg  p-1 "
             >
                 멘토링
-                <ArrowRightIcon className="h-5 w-5" />
+                <ArrowRightIcon className="h-6 w-6 text-gray-700" />
             </button>
             <div className="flex flex-col gap-2 p-1">
-                {searchResult?.boardTitles.length === 0 && (
+                {searchResult?.boards.length === 0 && (
                     <span className="mx-auto  text-sm text-gray-400">검색 결과가 없습니다.</span>
                 )}
-                {searchResult?.boardTitles.map((result, index) => (
-                    <button
-                        onClick={() => handleRoute('/posts/mentor?search=' + result)}
+                {searchResult?.boards.map((result, index) => (
+                    <ResultSearchCard
                         key={index}
-                        className="flex w-full justify-start   border-b  p-2 text-left text-sm text-gray-600"
-                    >
-                        {result}
-                    </button>
+                        handleRoute={handleRoute}
+                        result={result}
+                        searchKeyword={searchKeyword}
+                    />
                 ))}
             </div>
 
@@ -71,21 +74,20 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 className=" mt-4 flex w-full items-center justify-between rounded-lg p-1 "
             >
                 질문
-                <ArrowRightIcon className="h-5 w-5" />
+                <ArrowRightIcon className="h-6 w-6 text-gray-700" />
             </button>
             <div className="flex flex-col gap-2 p-1">
-                {searchResult?.subBoardTitle_quest.length === 0 && (
+                {searchResult?.subBoards_quest.length === 0 && (
                     <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>
                 )}
 
-                {searchResult?.subBoardTitle_quest.map((result, index) => (
-                    <button
-                        onClick={() => handleRoute('/posts/quest?search=' + result)}
+                {searchResult?.subBoards_quest.map((result, index) => (
+                    <ResultSearchCard
                         key={index}
-                        className="flex w-full justify-between border-b p-2 text-left text-sm text-gray-600"
-                    >
-                        <span>{result}</span>
-                    </button>
+                        handleRoute={handleRoute}
+                        result={result}
+                        searchKeyword={searchKeyword}
+                    />
                 ))}
             </div>
             <button
@@ -93,21 +95,20 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                 className=" mt-4 flex w-full items-center justify-between rounded-lg  p-1 "
             >
                 멘토링 요청
-                <ArrowRightIcon className="h-5 w-5" />
+                <ArrowRightIcon className="h-6 w-6 text-gray-700" />
             </button>
             <div className="flex flex-col gap-2 p-1">
-                {searchResult?.subBoardTitle_request.length === 0 && (
+                {searchResult?.subBoards_request.length === 0 && (
                     <span className=" mx-auto text-sm text-gray-400">검색 결과가 없습니다.</span>
                 )}
 
-                {searchResult?.subBoardTitle_request.map((result, index) => (
-                    <button
-                        onClick={() => handleRoute('/posts/request?search=' + result)}
+                {searchResult?.subBoards_request.map((result, index) => (
+                    <ResultSearchCard
                         key={index}
-                        className="flex w-full justify-between border-b p-2 text-left text-sm text-gray-600"
-                    >
-                        <span>{result}</span>
-                    </button>
+                        handleRoute={handleRoute}
+                        result={result}
+                        searchKeyword={searchKeyword}
+                    />
                 ))}
             </div>
         </div>

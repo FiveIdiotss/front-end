@@ -110,7 +110,7 @@ function ChatList({ session }: { session?: Session | null }) {
     }
 
     return (
-        <div className="flex w-full flex-grow flex-col">
+        <div className="mx-auto flex w-full max-w-screen-mobile flex-grow flex-col">
             <div className="flex w-full flex-row items-center justify-between p-4">
                 <button onClick={() => router.back()} className="  flex flex-row items-center gap-1   text-gray-600 ">
                     <ArrowRightIcon className="mb-[1px] h-7 w-7 rotate-180" />
@@ -121,15 +121,9 @@ function ChatList({ session }: { session?: Session | null }) {
                     <span className="text-sm font-medium text-primary">{session?.user?.memberDTO.name}</span>&nbsp;님
                 </span>
             </div>
-            <div className=" flex w-full   flex-grow flex-col border-r  p-4">
-                <div className=" flex w-full flex-row  items-center justify-between  border-b-2 border-gray-400  pb-3">
-                    <div className="w-full mobile:w-[350px]">
-                        <CategorySearch />
-                    </div>
-                </div>
+            <div className=" flex w-full   flex-grow flex-col   p-4">
                 {users?.length === 0 && (
                     <div className="flex w-full flex-grow items-center ">
-                        {' '}
                         <NoDataMessage text="채팅 없음" />
                     </div>
                 )}

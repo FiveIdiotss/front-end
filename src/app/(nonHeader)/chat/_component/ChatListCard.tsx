@@ -77,6 +77,7 @@ function ChatListCard({ user }: { user: ChatRoomType }) {
                     </div>
                 </div>
             </div>
+
             {isDetailOpen && (
                 <div
                     className="flex  h-[70px] w-full flex-row items-center gap-5 border-t border-gray-200 pl-14 pr-3 hover:bg-neutral-100  "

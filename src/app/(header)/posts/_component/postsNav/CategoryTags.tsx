@@ -1,5 +1,6 @@
 'use client';
 import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
+import BookMarkIcon from '@/app/_icons/common/BookMarkIcon';
 import Check2Icon from '@/app/_icons/common/Check2Icon';
 import FilterIcon from '@/app/_icons/common/FilterIcon';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -39,13 +40,11 @@ function CategoryTags({ isLogin }: { isLogin: boolean }) {
         <div className=" ml-2 flex flex-row items-center gap-2 mobile:ml-0">
             <FilterIcon className="h-4 w-4 text-neutral-500" />
             <button
-                className={`flex h-8 flex-row items-center justify-end gap-[2px] rounded-lg border border-neutral-200  px-3  text-sm   ${isStar ? 'bg-black text-white' : 'bg-white  text-neutral-500  hover:bg-neutral-100'}`}
+                className={`flex h-8 flex-row items-center justify-end gap-1 rounded-lg border border-gray-200  px-3  text-sm   ${isStar ? 'bg-gray-800 text-white' : 'bg-white  text-gray-500  hover:bg-gray-50'}`}
                 onClick={() => handleToggleTag('star')}
             >
                 {pathName === '/posts/mentor' ? '북마크' : '좋아요'}
-                <div className="flex h-5 w-5 items-center justify-center rounded-full">
-                    <Check2Icon className="h-4 w-4 text-inherit" />
-                </div>
+                <BookMarkIcon isCheck={false} className={`h-3 w-3 text-inherit`} />
             </button>
         </div>
     );
