@@ -112,8 +112,11 @@ function ChatList({ session }: { session?: Session | null }) {
     return (
         <div className="mx-auto flex w-full max-w-screen-mobile flex-grow flex-col bg-white mobile:border-x ">
             <div className="flex w-full flex-row items-center justify-between  px-3 py-3">
-                <button onClick={() => router.back()} className="  flex flex-row items-center gap-1   text-gray-600 ">
-                    <ArrowRightIcon className="mb-[1px] h-7 w-7 rotate-180" />
+                <button
+                    onClick={() => router.back()}
+                    className="  flex flex-row items-center gap-1 text-sm   text-gray-600 "
+                >
+                    <ArrowRightIcon className="mb-[1px] h-6 w-6 rotate-180" />
                     뒤로가기
                 </button>
 
