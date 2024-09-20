@@ -43,6 +43,11 @@ a {
         @apply text-2xl;
         @apply font-semibold;
     }
+    /* input search type에서의 x기본 동작을 막음 */
+    input[type='search']::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        appearance: none;
+    }
 
     /* a {
     } */
