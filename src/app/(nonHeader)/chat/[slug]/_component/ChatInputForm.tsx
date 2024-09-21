@@ -145,6 +145,7 @@ function ChatInputForm({ roomId }: { roomId: number }) {
                 <div className="flex h-full flex-row items-end gap-1">
                     <button
                         onClick={openUploadInPopup}
+                        type="button"
                         className="flex h-full min-h-12 items-end px-2     pl-3 hover:bg-gray-100"
                     >
                         <div className="flex h-12 items-center ">
@@ -152,7 +153,11 @@ function ChatInputForm({ roomId }: { roomId: number }) {
                         </div>
                     </button>
 
-                    <button onClick={sendMessage} className="flex h-full min-h-12 items-end   bg-indigo-100  px-2 pl-3">
+                    <button
+                        onClick={sendMessage}
+                        type="button"
+                        className="flex h-full min-h-12 items-end   bg-indigo-100  px-2 pl-3"
+                    >
                         <div className="flex h-12 items-center ">
                             <Image
                                 src={send}
