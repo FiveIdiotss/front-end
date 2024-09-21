@@ -9,6 +9,8 @@ import DotLoadingIcon from '@/app/_icons/common/DotLoadingIcon';
 import ArrowDropIcon from '@/app/_icons/common/ArrowDropIcon';
 import ChatItemContainer from './ChatItemContainer';
 import { useChatInfoStore } from '@/app/_store/chatInfoStore';
+import dayjs from 'dayjs';
+import { relativeDateFormat } from '@/app/util/relativeDateFormat';
 
 function ChatRoomContent({ roomId }: { roomId: number }) {
     const queryClient = useQueryClient();
@@ -86,6 +88,10 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
     }, [chatList]); //메시지 리스트 변경될때
 
     useEffect(() => {
+        console.log('zustand sate chatList', chatList);
+    });
+
+    useEffect(() => {
         const scrollContainer = scrollContainerRef.current;
 
         if (inView && hasNextPage && scrollContainer) {
@@ -147,6 +153,9 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
 
             {/* 메시지카드를 렌더링하는 부분 */}
             {[...chatList].reverse().map((chat, index) => {
+                const prevChat = chatList[chatList.length - index]; // 이전 메시지
+                const isDifferentDay = !prevChat || !dayjs(chat.localDateTime).isSame(prevChat?.localDateTime, 'day');
+                const { onlyDate, onlyTime, dayOfWeek } = relativeDateFormat(chat.localDateTime);
                 return (
                     <React.Fragment key={chat.chatId}>
                         {/*특정 메시지 사라짐 감지 옵저버*/}
@@ -154,7 +163,15 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
                             ref={chatList.length - index === 3 ? isMessageInViewRef : null}
                             className={`${chatList.length - index === 3 ? '' : 'hidden'}`}
                         />
-                        <ChatItemContainer chat={chat} />
+                        <div className={`${isDifferentDay ? ' my-3 flex' : 'hidden'}  w-full flex-row items-center`}>
+                            <div className="flex-1 border-t border-gray-400" />
+                            <span className=" rounded-full bg-indigo-50 p-2 text-xs text-gray-600">
+                                {onlyDate}&nbsp;&nbsp;
+                                {dayOfWeek}
+                            </span>
+                            <div className="flex-1 border-t border-gray-400" />
+                        </div>
+                        <ChatItemContainer prevChat={prevChat} chat={chat} />
                     </React.Fragment>
                 );
             })}
