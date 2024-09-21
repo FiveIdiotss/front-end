@@ -14,8 +14,9 @@ interface RelativeDateFormatResult {
     DateOrTime: string;
     /** 상대적인 날짜 또는 시간을 나타내는 문자열 (예: "5분 전", "어제") */
     relativeDateOrTime: string;
+    /** 요일을 포함한 문자열 (예: '월요일') */
+    dayOfWeek: string;
 }
-
 export const relativeDateFormat = (date: string | null | undefined): RelativeDateFormatResult => {
     if (!date) {
         return {
@@ -23,6 +24,7 @@ export const relativeDateFormat = (date: string | null | undefined): RelativeDat
             onlyTime: '',
             DateOrTime: '',
             relativeDateOrTime: '',
+            dayOfWeek: '',
         };
     }
     const inputDate = dayjs(date);
@@ -30,8 +32,10 @@ export const relativeDateFormat = (date: string | null | undefined): RelativeDat
 
     let onlyDate = inputDate.format('YYYY.MM.DD');
     let onlyTime = inputDate.format('HH:mm');
+    let dayOfWeek = inputDate.format('dddd'); // 요일 추가
     let DateOrTime;
     let relativeDateOrTime;
+
     if (today.isSame(inputDate, 'day')) {
         DateOrTime = onlyTime;
         relativeDateOrTime = inputDate.fromNow();
@@ -45,5 +49,6 @@ export const relativeDateFormat = (date: string | null | undefined): RelativeDat
         onlyTime,
         DateOrTime,
         relativeDateOrTime,
+        dayOfWeek,
     };
 };
