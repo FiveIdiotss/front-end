@@ -38,7 +38,15 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
         queryKey: ['chat', roomId, 'massage'],
         queryFn: getChatContentList,
         initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages) => (allPages.length > 0 ? allPages.length + 1 : undefined),
+        getNextPageParam: (lastPage, allPages) => {
+            // 만약 마지막으로 가져온 페이지(lastPage)가 빈 배열이면 마지막 페이지로 간주
+            if (lastPage.length === 0) {
+                return undefined; // 더 이상 페이지가 없음
+            }
+
+            // 다음 페이지를 요청하기 위한 페이지 번호 반환
+            return allPages.length + 1;
+        },
         // getPreviousPageParam: (firstPage) => firstPage.at(-1)?.chatId,
         enabled: !!loginId && !!receiverId && !!roomId,
         staleTime: 0,
@@ -86,10 +94,6 @@ function ChatRoomContent({ roomId }: { roomId: number }) {
             return;
         } //본인이 메시지 전송시  스크롤 맨아래로 이동
     }, [chatList]); //메시지 리스트 변경될때
-
-    useEffect(() => {
-        console.log('zustand sate chatList', chatList);
-    });
 
     useEffect(() => {
         const scrollContainer = scrollContainerRef.current;
