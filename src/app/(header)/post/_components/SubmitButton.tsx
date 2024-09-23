@@ -16,13 +16,13 @@ function SubmitButton({ cancelUrl, onSubmit, isLoading, type = 'button' }: Submi
                 <button
                     type="button"
                     onClick={() => router.back()}
-                    className="h-11 w-20 rounded-md border border-neutral-300 bg-neutral-100 text-neutral-600 "
+                    className="h-11 w-20 rounded-md border border-neutral-300 bg-gray-50 text-gray-600 "
                 >
                     취소
                 </button>
                 <button
                     type={type}
-                    className={`h-11 w-24 rounded-md bg-green-500 text-white hover:opacity-80 ${isLoading ? 'hidden' : ''}`}
+                    className={`h-11 w-24 rounded-md bg-primary text-white hover:opacity-80 ${isLoading ? 'hidden' : ''}`}
                     onClick={onSubmit}
                 >
                     작성하기

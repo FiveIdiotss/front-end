@@ -52,7 +52,7 @@ function TimeSelectModal({ open, onClose }: Props) {
                     dateFormat="aa HH:mm 시작"
                     locale={ko}
                     placeholderText="시작 시간"
-                    className="flex w-full cursor-pointer items-center justify-center rounded-lg  border-2 border-neutral-500 px-2 py-3 focus:border-primary focus:outline-none"
+                    className="flex w-full cursor-pointer items-center justify-center rounded-lg  border border-gray-500 px-2 py-3 focus:border-primary focus:outline-none"
                     filterTime={(time) => {
                         const dateToMinute = dateToMinutes(time);
                         for (let i = 0; i < times.length; i++) {
@@ -121,7 +121,7 @@ function TimeSelectModal({ open, onClose }: Props) {
                             // 위의 모든 조건을 만족하면, 이 시간을 선택할 수 있음
                             return true;
                         }}
-                        className="flex w-full  cursor-pointer items-center justify-center  rounded-lg border-2 border-neutral-500 px-2 py-3 focus:border-primary focus:outline-none"
+                        className="flex w-full  cursor-pointer items-center justify-center  rounded-lg border border-gray-500 px-2 py-3 focus:border-primary focus:outline-none"
                     />
                 )}
             </div>

@@ -6,6 +6,9 @@ import CanselSvg from '@/app/_component/CanselSvg';
 import TimeSelectModal from './TimeSelectModal';
 import useMentoNewPost from '../../../_store/mentoNewPost';
 import warning_yellow from '@/../public/warning_yellow.png';
+import CheckIcon from '@/app/_icons/common/CheckIcon';
+import { CheckmarkIcon } from 'react-hot-toast';
+import Check2Icon from '@/app/_icons/common/Check2Icon';
 function formatTime(minutes: number) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -24,14 +27,13 @@ function ScheduleSet() {
     const handleDeleteTime = (key: string) => {
         useMentoNewPost.setState({ times: times.filter((time) => time.key !== key) });
     }; //시간삭제
-    const handleInterverChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInterverChange = (value: number) => {
         useMentoNewPost.setState({ times: [] });
 
-        const value = Number(event.target.value);
         useMentoNewPost.setState({ interver: value });
     }; //시간간격설정
-    const handledaysChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
+    const handledaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
         if (days.includes(value)) {
             useMentoNewPost.setState({ days: days.filter((day) => day !== value) });
         } else {
@@ -41,85 +43,96 @@ function ScheduleSet() {
 
     return (
         <>
-            <div className="mt-3 flex flex-col  items-start gap-3">
+            <div className="mt-3 flex flex-col  items-start gap-5">
                 {/* 요일선택 */}
-                <div className="mt-4 grid w-full grid-cols-4 justify-between  border-b p-2 mobile:grid-cols-7">
+                <div className="mb-6 mt-4 grid w-full grid-cols-7 gap-2">
                     {DAYS.map((day) => (
                         <label
                             key={day}
-                            className="flex cursor-pointer items-center  justify-center gap-2 rounded-lg px-3 py-2 text-sm text-neutral-700   hover:bg-gray-300 hover:bg-opacity-15 mobile:text-base"
+                            className={`${
+                                days.includes(day)
+                                    ? 'border-blue-300 bg-blue-100 font-semibold text-blue-400'
+                                    : ' text-gray-500  hover:bg-blue-50'
+                            } flex   cursor-pointer flex-col  items-center justify-center rounded-lg border p-3 text-sm  transition-all mobile:text-base`}
                         >
-                            {day}
                             <input
                                 type="checkbox"
-                                className="h-4 w-4 cursor-pointer mobile:h-5 mobile:w-5 "
+                                className="hidden"
                                 value={day}
                                 onChange={handledaysChange}
-                                checked={days.includes(day)}
+                                // checked={days.includes(day)}
                             />
+                            {/* <Check2Icon
+                                className={`h-4 w-4 ${days.includes(day) ? 'text-white' : 'hidden text-gray-400'}  `}
+                            /> */}
+                            {day}
                         </label>
                     ))}
                 </div>
 
                 {/* 시간선택 */}
-                <div className="flex w-full flex-row flex-wrap items-center justify-start gap-2 border-b py-2">
-                    <div className="mb-6 flex w-full  flex-col items-center gap-2 border border-yellow-200 p-2 mobile:flex-row">
-                        <div className="flex flex-row items-center gap-2 ">
-                            <div className="flex-shrink-0">
-                                <Image src={warning_yellow} alt="warning" height={20} width={20} />
-                            </div>
-                            <span className="ml-2 flex-grow text-xs leading-5 text-gray-500 mobile:text-sm">
-                                지정한 시간 범위안에서 자동으로 선택한 시간으로 나눠집니다. <br />예{`)`} 10:00 ~ 12:00
-                                사이에 30분 단위로 선택시 10:00, 10:30, 11:00, 11:30 으로 설정됩니다.
-                            </span>
-                        </div>
-                        <div className="mx-3 flex flex-shrink-0    flex-row items-center gap-2 rounded-lg border border-dashed border-neutral-300 p-2">
-                            <label className="flex cursor-pointer items-center justify-center  gap-1 text-sm">
-                                30분
-                                <input
-                                    type="radio"
-                                    value="30"
-                                    checked={interver === 30}
-                                    onChange={handleInterverChange}
-                                    className="h-4 w-4 cursor-pointer"
-                                />
-                            </label>
-                            <label className="flex cursor-pointer items-center justify-center gap-1 text-center text-sm">
-                                1시간
-                                <input
-                                    type="radio"
-                                    value="60"
-                                    checked={interver === 60}
-                                    onChange={handleInterverChange}
-                                    className="h-4 w-4 cursor-pointer"
-                                />
-                            </label>
-                        </div>
-                    </div>
+                <div className="mb-6 flex items-center space-x-4">
+                    <span className=" text-gray-600">상담시간:</span>
+
+                    <button
+                        onClick={() => handleInterverChange(30)}
+                        type="button"
+                        className={`rounded-lg px-4 py-2 text-sm transition-all  ${
+                            interver === 30
+                                ? 'border-blue-300 bg-blue-100 text-blue-400 '
+                                : '  border-gray-200 text-gray-600 '
+                        }    border focus:outline-none`}
+                    >
+                        30분
+                    </button>
+
+                    <button
+                        onClick={() => handleInterverChange(60)}
+                        type="button"
+                        className={`rounded-lg px-4 py-2 text-sm transition-all  ${
+                            interver === 60
+                                ? 'border-blue-300 bg-blue-100 text-blue-500 '
+                                : '  border-gray-200 text-gray-600 '
+                        }    border focus:outline-none`}
+                    >
+                        1시간
+                    </button>
+                </div>
+
+                <div className=" flex w-full flex-wrap gap-2 ">
+                    {times.length === 0 && <span className="text-sm text-gray-400">시간을 추가해주세요.</span>}
                     {times.map((time) => (
                         <div
                             key={time.key}
-                            className="flex h-10 flex-row items-center justify-center  rounded-md bg-orange-100 "
+                            className="flex h-10 cursor-pointer flex-row items-center  justify-center rounded-md bg-orange-100 "
+                            onClick={() => handleDeleteTime(time.key)}
+                            onMouseEnter={() => setHovered(time.key)}
+                            onMouseLeave={() => setHovered('')}
                         >
-                            <span className=" ml-3 text-sm">{`${formatTime(time.startTime)} ~ ${formatTime(time.endTime)}`}</span>
-                            <div
-                                className="  flex h-full  cursor-pointer items-center justify-center   p-3"
-                                onMouseEnter={() => setHovered(time.key)}
-                                onMouseLeave={() => setHovered('')}
-                                onClick={() => handleDeleteTime(time.key)}
-                            >
+                            <span className=" ml-3 text-sm ">{`${formatTime(time.startTime)} ~ ${formatTime(time.endTime)}`}</span>
+                            <div className="  flex h-full  cursor-pointer items-center justify-center   p-3">
                                 <div className=" h-[16px] w-[16px]">
                                     <CanselSvg fill={hovered === time.key ? 'red' : 'black'} />
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <div
-                        className="flex h-10 w-28 cursor-pointer flex-row  items-center justify-center gap-1 rounded-md border border-gray-300 bg-gray-100 text-sm text-gray-500  hover:bg-gray-200 "
-                        onClick={handleAddTimeModal}
-                    >
-                        시간 추가 <span className="mt-[1px] text-2xl"> +</span>
-                    </div>
+                </div>
+                <button
+                    type="button"
+                    className="w-full rounded-md border bg-gray-50 px-4 py-3 text-sm font-semibold text-blue-400 shadow-sm  "
+                    onClick={handleAddTimeModal}
+                >
+                    시간 추가 +
+                </button>
+
+                <div className="flex w-full flex-col rounded-2xl  border border-yellow-200 px-4 py-3 text-sm text-gray-500">
+                    <span>
+                        <span className="text-red-600">*</span> 선택한 시간 범위에서 자동으로 분할됩니다.
+                    </span>
+                    <span>
+                        ex) 10:00 ~ 12:00 구간에서 30분 간격으로 선택 시, 10:00, 10:30, 11:00, 11:30으로 설정됩니다.
+                    </span>
                 </div>
             </div>
 
