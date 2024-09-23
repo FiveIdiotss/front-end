@@ -115,18 +115,18 @@ function MentorFormPage() {
     };
     return (
         <form className="flex w-full  flex-col pb-36" onSubmit={onSubmit}>
-            <div className="  flex min-h-12 w-full flex-row items-center justify-center  bg-indigo-100 p-3">
+            <div className="  flex min-h-12 w-full flex-row items-center justify-center  bg-orange-100 p-3">
                 <Image src={calenderCheckIcon} alt="check" className="h-6 w-6" />
-                <span className="  ml-4 text-sm text-primary  mobile:text-base ">
+                <span className="  ml-4 text-sm text-black  mobile:text-base ">
                     요일과 시간을 선택해주세요. 선택한 요일에 동일하게 적용됩니다.
                 </span>
             </div>
             {/* <MentoringSchedule /> */}
             <ScheduleSet />
             {/* 요일 선택창 */}
-            <div className=" mt-20 flex min-h-12  flex-row items-center justify-center  bg-indigo-100  p-3">
+            <div className=" mt-20 flex min-h-12  flex-row items-center justify-center  bg-orange-100  p-3">
                 <Image src={checkIcon} alt="check" className="h-6 w-6" />
-                <span className="  ml-4 text-sm  text-primary mobile:text-base ">
+                <span className="  ml-4 text-sm  text-black mobile:text-base ">
                     멘토 모집글 작성 예시를 참고해주세요.&nbsp; 꼼꼼히 작성하면 많은 사람들이 볼 가능성이 커져요
                 </span>
             </div>

@@ -95,9 +95,9 @@ function QuestFormPage() {
     }, [mainImage]);
     return (
         <form className="flex w-full flex-col pb-36">
-            <div className=" flex min-h-12 w-full flex-row items-center justify-center  bg-indigo-100 p-3">
+            <div className=" flex min-h-12 w-full flex-row items-center justify-center  bg-orange-100 p-3">
                 <span className="text-2xl">🙋‍♂️</span>
-                <span className="  ml-4 text-sm text-primary mobile:text-base ">궁금한 것들 질문하세요!</span>
+                <span className="  ml-4 text-sm text-black mobile:text-base ">궁금한 것들 질문하세요!</span>
             </div>
             <select
                 ref={categoryRef}

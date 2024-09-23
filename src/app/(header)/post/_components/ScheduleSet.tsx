@@ -1,14 +1,10 @@
 'use client';
 import React, { use, useCallback, useState } from 'react';
 
-import Image from 'next/image';
 import CanselSvg from '@/app/_component/CanselSvg';
 import TimeSelectModal from './TimeSelectModal';
 import useMentoNewPost from '../../../_store/mentoNewPost';
-import warning_yellow from '@/../public/warning_yellow.png';
-import CheckIcon from '@/app/_icons/common/CheckIcon';
-import { CheckmarkIcon } from 'react-hot-toast';
-import Check2Icon from '@/app/_icons/common/Check2Icon';
+import CloseIcon from '@/app/_icons/common/CloseIcon';
 function formatTime(minutes: number) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -45,13 +41,13 @@ function ScheduleSet() {
         <>
             <div className="mt-3 flex flex-col  items-start gap-5">
                 {/* 요일선택 */}
-                <div className="mb-6 mt-4 grid w-full grid-cols-7 gap-2">
+                <div className="mb-6 mt-4 grid w-full grid-cols-7 gap-3">
                     {DAYS.map((day) => (
                         <label
                             key={day}
                             className={`${
                                 days.includes(day)
-                                    ? 'border-blue-300 bg-blue-100 font-semibold text-blue-400'
+                                    ? 'border-blue-300 bg-blue-50 font-semibold text-blue-400'
                                     : ' text-gray-500  hover:bg-blue-50'
                             } flex   cursor-pointer flex-col  items-center justify-center rounded-lg border p-3 text-sm  transition-all mobile:text-base`}
                         >
@@ -79,7 +75,7 @@ function ScheduleSet() {
                         type="button"
                         className={`rounded-lg px-4 py-2 text-sm transition-all  ${
                             interver === 30
-                                ? 'border-blue-300 bg-blue-100 text-blue-400 '
+                                ? 'border-blue-300 bg-blue-50 text-blue-400 '
                                 : '  border-gray-200 text-gray-600 '
                         }    border focus:outline-none`}
                     >
@@ -91,7 +87,7 @@ function ScheduleSet() {
                         type="button"
                         className={`rounded-lg px-4 py-2 text-sm transition-all  ${
                             interver === 60
-                                ? 'border-blue-300 bg-blue-100 text-blue-500 '
+                                ? 'border-blue-300 bg-blue-50 text-blue-500 '
                                 : '  border-gray-200 text-gray-600 '
                         }    border focus:outline-none`}
                     >
@@ -104,7 +100,7 @@ function ScheduleSet() {
                     {times.map((time) => (
                         <div
                             key={time.key}
-                            className="flex h-10 cursor-pointer flex-row items-center  justify-center rounded-md bg-orange-100 "
+                            className="flex h-10 cursor-pointer flex-row items-center  justify-center rounded-md border bg-blue-50 text-gray-700 "
                             onClick={() => handleDeleteTime(time.key)}
                             onMouseEnter={() => setHovered(time.key)}
                             onMouseLeave={() => setHovered('')}
@@ -112,7 +108,7 @@ function ScheduleSet() {
                             <span className=" ml-3 text-sm ">{`${formatTime(time.startTime)} ~ ${formatTime(time.endTime)}`}</span>
                             <div className="  flex h-full  cursor-pointer items-center justify-center   p-3">
                                 <div className=" h-[16px] w-[16px]">
-                                    <CanselSvg fill={hovered === time.key ? 'red' : 'black'} />
+                                    <CloseIcon className={`${hovered ? 'text-red-400' : ''}`} />
                                 </div>
                             </div>
                         </div>
