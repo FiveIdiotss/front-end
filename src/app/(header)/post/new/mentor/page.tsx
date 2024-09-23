@@ -13,10 +13,11 @@ import SubmitButton from '../../_components/SubmitButton';
 import { usePostMentorMutation } from '../../_lib/uploadMentorService';
 import dynamic from 'next/dynamic';
 import { pushNotification } from '@/app/util/pushNotification';
+import MentoringSchedule from '../../_components/TestSchedule';
 
 const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
-const defaultContent = `<h1><strong>반갑습니다! 🙌</strong></h1><p><br></p><p><strong>멘토링 내용</strong>: 프론트의 모든것</p><p><br></p><p><strong>가능한 멘토링 영역</strong>:&nbsp;</p><ul><li>next.js, react.js</li><li>auth.js (서버 쿠기, 서버세션과 리프레쉬 토큰 로직을 구현하며 안전하게 관리 해봅시다.)</li><li>js</li><li>react query</li><li>justand</li><li>git</li><li>tailwind3</li></ul><p><strong>멘토링 진행방식</strong>:</p><ul><li>대면</li><li>비대면</li></ul><p><strong>예상 맨토링 일정(횟수)</strong>:&nbsp;3회</p><p><br></p><p><br></p><h1><br></h1><h1><br></h1>`;
+const defaultContent = ``;
 
 function formatTime(minutes: number) {
     const hours = Math.floor(minutes / 60);
@@ -114,14 +115,16 @@ function MentorFormPage() {
     };
     return (
         <form className="flex w-full  flex-col pb-36" onSubmit={onSubmit}>
-            <div className=" mt-10 flex min-h-12 w-full flex-row items-center justify-center rounded-lg bg-indigo-100 p-3">
+            <div className="  flex min-h-12 w-full flex-row items-center justify-center  bg-indigo-100 p-3">
                 <Image src={calenderCheckIcon} alt="check" className="h-6 w-6" />
                 <span className="  ml-4 text-sm text-primary  mobile:text-base ">
-                    가능한 요일과 시간을 선택해주세요.&nbsp; 선택된 요일에 일괄 적용됩니다.
+                    요일과 시간을 선택해주세요. 선택한 요일에 동일하게 적용됩니다.
                 </span>
             </div>
-            <ScheduleSet /> {/* 요일 선택창 */}
-            <div className=" mt-10 flex min-h-12  flex-row items-center justify-center rounded-lg bg-indigo-100  p-3">
+            {/* <MentoringSchedule /> */}
+            <ScheduleSet />
+            {/* 요일 선택창 */}
+            <div className=" mt-20 flex min-h-12  flex-row items-center justify-center  bg-indigo-100  p-3">
                 <Image src={checkIcon} alt="check" className="h-6 w-6" />
                 <span className="  ml-4 text-sm  text-primary mobile:text-base ">
                     멘토 모집글 작성 예시를 참고해주세요.&nbsp; 꼼꼼히 작성하면 많은 사람들이 볼 가능성이 커져요
@@ -160,8 +163,8 @@ function MentorFormPage() {
             <input
                 type="text"
                 ref={targetRef}
-                className="mt-6 w-full bg-inherit text-base outline-none mobile:w-1/2"
-                placeholder="멘토링 대상 키워드(7개이하/ , 으로 구분 작성해주세요.)"
+                className="mb-4 mt-6 w-full bg-inherit text-base outline-none mobile:w-1/2"
+                placeholder="멘토링 대상"
             />
             {/* 대상 키워드 입력창 */}
             {/* <TinyMceEditor />  */}

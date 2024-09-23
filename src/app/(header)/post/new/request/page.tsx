@@ -85,7 +85,7 @@ function RequestFormPage() {
 
     return (
         <div className="flex flex-grow flex-col pb-36">
-            <div className=" mt-10 flex min-h-12 flex-row items-center justify-center rounded-lg bg-indigo-100 p-3">
+            <div className="flex min-h-12 flex-row items-center justify-center  bg-indigo-100 p-3">
                 <span className="text-2xl">🙋‍♂️</span>
                 <span className="  ml-4 text-sm   text-primary mobile:text-base ">필요한 멘토링을 요청해요! </span>
             </div>
