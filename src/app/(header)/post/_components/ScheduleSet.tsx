@@ -1,10 +1,10 @@
 'use client';
 import React, { use, useCallback, useState } from 'react';
-
-import CanselSvg from '@/app/_component/CanselSvg';
 import TimeSelectModal from './TimeSelectModal';
-import useMentoNewPost from '../../../_store/mentoNewPost';
 import CloseIcon from '@/app/_icons/common/CloseIcon';
+import { FormikProps } from 'formik';
+import { MentorFormType } from '../_util/useMentorInitialValue';
+import ValidateContainer from './ValidateContainer';
 function formatTime(minutes: number) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -13,40 +13,53 @@ function formatTime(minutes: number) {
 }
 const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 
-function ScheduleSet() {
+interface Props {
+    formik: FormikProps<MentorFormType>;
+}
+
+function ScheduleSet({ formik }: Props) {
     const [hovered, setHovered] = useState<string>('');
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const { times, interver, days } = useMentoNewPost(); //zustand
     const handleAddTimeModal = () => {
         setModalOpen(true);
+        formik.setFieldError('times', '');
     }; //시간선택모달열기
     const handleDeleteTime = (key: string) => {
-        useMentoNewPost.setState({ times: times.filter((time) => time.key !== key) });
+        formik.setFieldValue(
+            'times',
+            formik.values.times.filter((time) => time.key !== key),
+        );
     }; //시간삭제
     const handleInterverChange = (value: number) => {
-        useMentoNewPost.setState({ times: [] });
-
-        useMentoNewPost.setState({ interver: value });
+        formik.setFieldValue('times', []);
+        formik.setFieldValue('consultTime', value);
     }; //시간간격설정
     const handledaysChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        if (days.includes(value)) {
-            useMentoNewPost.setState({ days: days.filter((day) => day !== value) });
+        if (formik.values.availableDays.includes(value)) {
+            formik.setFieldValue(
+                'availableDays',
+                formik.values.availableDays.filter((day) => day !== value),
+            );
         } else {
-            useMentoNewPost.setState({ days: [...days, value] });
+            formik.setFieldValue('availableDays', [...formik.values.availableDays, value]);
         }
+        formik.setFieldError('availableDays', '');
     }; //요일선택
+
+    const daysError = formik.errors.availableDays;
+    const timesError = formik.errors.times;
 
     return (
         <>
             <div className="mt-3 flex flex-col  items-start gap-5">
                 {/* 요일선택 */}
-                <div className="mb-6 mt-4 grid w-full grid-cols-7 gap-3">
+                <div className={` mt-4 grid w-full grid-cols-7 gap-3  `}>
                     {DAYS.map((day) => (
                         <label
                             key={day}
                             className={`${
-                                days.includes(day)
+                                formik.values.availableDays.includes(day)
                                     ? 'border-blue-300 bg-blue-50 font-semibold text-blue-400'
                                     : ' text-gray-500  hover:bg-blue-50'
                             } flex   cursor-pointer flex-col  items-center justify-center rounded-lg border p-3 text-sm  transition-all mobile:text-base`}
@@ -58,23 +71,21 @@ function ScheduleSet() {
                                 onChange={handledaysChange}
                                 // checked={days.includes(day)}
                             />
-                            {/* <Check2Icon
-                                className={`h-4 w-4 ${days.includes(day) ? 'text-white' : 'hidden text-gray-400'}  `}
-                            /> */}
+
                             {day}
                         </label>
                     ))}
                 </div>
 
                 {/* 시간선택 */}
-                <div className="mb-6 flex items-center space-x-4">
+                <div className=" mt-6 flex items-center space-x-4">
                     <span className=" text-gray-600">상담시간:</span>
 
                     <button
                         onClick={() => handleInterverChange(30)}
                         type="button"
                         className={`rounded-lg px-4 py-2 text-sm transition-all  ${
-                            interver === 30
+                            formik.values.consultTime === 30
                                 ? 'border-blue-300 bg-blue-50 text-blue-400 '
                                 : '  border-gray-200 text-gray-600 '
                         }    border focus:outline-none`}
@@ -86,7 +97,7 @@ function ScheduleSet() {
                         onClick={() => handleInterverChange(60)}
                         type="button"
                         className={`rounded-lg px-4 py-2 text-sm transition-all  ${
-                            interver === 60
+                            formik.values.consultTime === 60
                                 ? 'border-blue-300 bg-blue-50 text-blue-500 '
                                 : '  border-gray-200 text-gray-600 '
                         }    border focus:outline-none`}
@@ -94,13 +105,14 @@ function ScheduleSet() {
                         1시간
                     </button>
                 </div>
-
-                <div className=" flex w-full flex-wrap gap-2 ">
-                    {times.length === 0 && <span className="text-sm text-gray-400">시간을 추가해주세요.</span>}
-                    {times.map((time) => (
+                <div className={` flex w-full flex-wrap gap-2  `}>
+                    {formik.values.times.length === 0 && (
+                        <span className="text-sm text-gray-400">시간을 추가해주세요.</span>
+                    )}
+                    {formik.values.times.map((time) => (
                         <div
                             key={time.key}
-                            className="flex h-10 cursor-pointer flex-row items-center  justify-center rounded-md border bg-blue-50 text-gray-700 "
+                            className="flex h-10 cursor-pointer flex-row items-center  justify-center rounded-md border  bg-blue-50 text-gray-700 "
                             onClick={() => handleDeleteTime(time.key)}
                             onMouseEnter={() => setHovered(time.key)}
                             onMouseLeave={() => setHovered('')}
@@ -116,12 +128,11 @@ function ScheduleSet() {
                 </div>
                 <button
                     type="button"
-                    className="w-full rounded-md border bg-gray-50 px-4 py-3 text-sm font-semibold text-blue-400 shadow-sm  "
+                    className={`w-full rounded-md border bg-gray-50 px-4 py-3 text-sm font-semibold text-blue-400 shadow-sm `}
                     onClick={handleAddTimeModal}
                 >
                     시간 추가 +
                 </button>
-
                 <div className="flex w-full flex-col rounded-2xl  border border-yellow-200 px-4 py-3 text-sm text-gray-500">
                     <span>
                         <span className="text-red-600">*</span> 선택한 시간 범위에서 자동으로 분할됩니다.
@@ -133,7 +144,7 @@ function ScheduleSet() {
             </div>
 
             {/* 시간선택 모달 */}
-            <TimeSelectModal open={modalOpen} onClose={() => setModalOpen(false)} />
+            <TimeSelectModal formik={formik} open={modalOpen} onClose={() => setModalOpen(false)} />
         </>
     );
 }

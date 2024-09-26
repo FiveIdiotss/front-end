@@ -104,7 +104,7 @@ function MentoPostCard({
                     onMouseLeave={() => handleHoverCard(false)}
                 >
                     <div
-                        className={`z-10 ${isCardHover ? 'hidden' : ''}  flex h-full w-full flex-col gap-1    px-3 py-2 text-base  font-medium  ${post.representImage !== '' ? 'bg-black bg-opacity-60 text-white' : ''}`}
+                        className={`z-10 ${isCardHover ? 'hidden' : ''}  flex h-full w-full flex-col gap-1    px-3 py-2 text-sm  font-medium  ${post.representImage !== '' ? 'bg-black bg-opacity-60 text-white' : ''}`}
                     >
                         <span
                             className={`flex flex-row items-center gap-1 ${post.representImage !== '' ? '' : 'text-gray-400'}`}
@@ -114,7 +114,7 @@ function MentoPostCard({
                                 [{post.boardCategory}] {post.title}
                             </span>
                         </span>
-                        <span className="line-clamp-2 text-sm font-normal">{post.introduce}</span>
+                        <span className="line-clamp-2 text-sm font-light">{post.introduce}</span>
                     </div>
                     {post.representImage !== '' && (
                         <Image

@@ -5,7 +5,7 @@ type Props = {
 export default function PostLayout({ children }: Props) {
     return (
         // Wrapper
-        <div className=" mx-auto flex  w-full max-w-[800px]  flex-row  gap-10  px-2 py-6 mobile:p-6">
+        <div className=" mx-auto flex  w-full max-w-[700px]  flex-row  gap-10  px-2 py-6 ">
             {/* <RouteNav /> */}
             {children}
         </div>

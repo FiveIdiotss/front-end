@@ -1,19 +1,43 @@
 'use client';
-import React, { FormEvent, useCallback, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import checkIcon from '@/../public/check.png';
 import Image from 'next/image';
 import calenderCheckIcon from '@/../public/calendarCheck.png';
 import ScheduleSet from '../../_components/ScheduleSet';
 import useMentoNewPost from '../../../../_store/mentoNewPost';
 import InfoModal from '../../_components/InfoModal';
-import WarningMessage from '@/app/_component/WarningMessage';
 import { useRouter } from 'next/navigation';
-import { debounce } from 'lodash';
 import SubmitButton from '../../_components/SubmitButton';
 import { usePostMentorMutation } from '../../_lib/uploadMentorService';
 import dynamic from 'next/dynamic';
 import { pushNotification } from '@/app/util/pushNotification';
-import MentoringSchedule from '../../_components/TestSchedule';
+import { useFormik } from 'formik';
+import { useMentorInitialValue } from '../../_util/useMentorInitialValue';
+import FormValidToast from '@/app/util/customToast/FormValidToast';
+import { CustomToast } from '@/app/util/customToast/CustomToast';
+
+interface ErrMsgType {
+    [key: string]: string;
+    title: string;
+    introduce: string;
+    target: string;
+    content: string;
+    boardCategory: string;
+    consultTime: string;
+    availableDays: string;
+    times: string;
+}
+
+const ERR_MSG: ErrMsgType = {
+    title: '제목을 입력해주세요.',
+    introduce: '간략한 소개글을 입력해주세요.',
+    target: '멘토링 대상을 입력해주세요.',
+    content: '멘토링 내용을 입력해주세요.',
+    boardCategory: '카테고리를 선택해주세요.',
+    consultTime: '상담 시간을 선택해주세요.',
+    availableDays: '요일을 선택해주세요.',
+    times: '시간을 추가해주세요.',
+};
 
 const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
@@ -35,94 +59,87 @@ function mapDaysToEnglish(days: string[]) {
 
 function MentorFormPage() {
     const [completeModalOpen, setCompleteModalOpen] = React.useState(false);
-    const [warningModalOpen, setWarningModalOpen] = React.useState('');
-    const [mainImage, setMainImage] = useState<File[]>([]);
 
     const router = useRouter();
-    const titleRef = React.useRef<HTMLInputElement>(null); //제목
-    const introduceRef = React.useRef<HTMLInputElement>(null); //간략한 소개글
-    const targetRef = React.useRef<HTMLInputElement>(null); //멘토링 대상 키워드
-    const categoryRef = React.useRef<HTMLSelectElement>(null); //카테고리
-
-    const state = useMentoNewPost();
-    const { content, setContent } = useMentoNewPost();
 
     const postMentorMutation = usePostMentorMutation();
+    const { initialValues } = useMentorInitialValue();
 
-    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formatTimes = state.times.map((time) => ({
-            startTime: formatTime(time.startTime),
-            endTime: formatTime(time.endTime),
-        }));
-        const days = mapDaysToEnglish(state.days);
+    const formik = useFormik({
+        initialValues, // 초기값
+        validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
+        enableReinitialize: true,
 
-        if (
-            !titleRef.current?.value ||
-            !introduceRef.current?.value ||
-            !targetRef.current?.value ||
-            !categoryRef.current?.value ||
-            state.content === '' ||
-            state.interver === 0 ||
-            days.length === 0 ||
-            formatTimes.length === 0
-        )
-            return pushNotification({
-                msg: '모든 항목을 입력해주세요.',
-                type: 'error',
-                theme: 'light',
-                isIcon: false,
-                textColor: '#dbc821',
+        onSubmit: (values) => {
+            const formatTimes = values.times.map((time) => ({
+                startTime: formatTime(time.startTime),
+                endTime: formatTime(time.endTime),
+            }));
+            const days = mapDaysToEnglish(values.availableDays);
+
+            let errorMessage: string[] = [];
+
+            Object.keys(values).forEach((key) => {
+                const value = values[key];
+                if (value === '' || (Array.isArray(value) && value.length === 0)) {
+                    if (key === 'mainImage') {
+                        return;
+                    }
+
+                    formik.setFieldError(key, ERR_MSG[key]);
+                    errorMessage = [...errorMessage, ERR_MSG[key]];
+                }
             });
-        postMentorMutation.mutate(
-            {
-                request: {
-                    title: titleRef.current?.value,
-                    introduce: introduceRef.current?.value,
-                    target: targetRef.current?.value,
-                    content: state.content,
-                    boardCategory: categoryRef.current?.value,
-                    consultTime: state.interver,
-                    times: formatTimes,
-                    availableDays: days,
-                    platform: 'WEB',
+            if (errorMessage.length > 0) {
+                CustomToast({
+                    msg: errorMessage[0],
+                    position: 'top-center',
+                });
+                return;
+            }
+
+            postMentorMutation.mutate(
+                {
+                    request: {
+                        title: values.title,
+                        introduce: values.introduce,
+                        target: values.target,
+                        content: values.content,
+                        boardCategory: values.boardCategory,
+                        consultTime: values.consultTime,
+                        times: formatTimes,
+                        availableDays: days,
+                        platform: 'WEB',
+                    },
+                    images: values.mainImage,
                 },
-                images: mainImage,
-            },
-            {
-                onSuccess: () => {
-                    setCompleteModalOpen(true);
+                {
+                    onSuccess: () => {
+                        setCompleteModalOpen(true);
+                    },
                 },
-            },
-        );
-    };
+            );
+        },
+    });
 
     const handleInfoClose = () => {
         setCompleteModalOpen(false);
         router.push('/posts/mentor');
     };
-    const handleWarningClose = () => {
-        setWarningModalOpen('');
-    };
-    const debouncedHandleSubmit = useCallback(
-        debounce((newValue: string, editor: any) => {
-            setContent(newValue);
-        }, 400), // 디바운스 시간을 300ms로 설정
-        [],
-    ); //
-    const handleMainImage = async (file: File) => {
-        setMainImage([...mainImage, file]);
-    };
+
+    useEffect(() => {
+        console.log(formik.errors);
+    }, [formik.errors]);
+
     return (
-        <form className="flex w-full  flex-col pb-36" onSubmit={onSubmit}>
+        <form className="flex w-full  flex-col pb-36" onSubmit={formik.handleSubmit}>
             <div className="  flex min-h-12 w-full flex-row items-center justify-center  bg-orange-100 p-3">
                 <Image src={calenderCheckIcon} alt="check" className="h-6 w-6" />
                 <span className="  ml-4 text-sm text-black  mobile:text-base ">
                     요일과 시간을 선택해주세요. 선택한 요일에 동일하게 적용됩니다.
                 </span>
             </div>
-            {/* <MentoringSchedule /> */}
-            <ScheduleSet />
+            <ScheduleSet formik={formik} />
             {/* 요일 선택창 */}
             <div className=" mt-20 flex min-h-12  flex-row items-center justify-center  bg-orange-100  p-3">
                 <Image src={checkIcon} alt="check" className="h-6 w-6" />
@@ -132,20 +149,20 @@ function MentorFormPage() {
             </div>
             <input
                 type="text"
-                ref={titleRef}
+                onChange={(e) => formik.setFieldValue('title', e.target.value)}
                 className="mt-6 w-full bg-inherit text-2xl outline-none"
                 placeholder="제목에 핵심 내용을 요약해보세요."
             />
             {/* 제목 입력창 */}
             <input
                 type="text"
-                ref={introduceRef}
+                onChange={(e) => formik.setFieldValue('introduce', e.target.value)}
                 className="mt-6 w-full bg-inherit text-base outline-none mobile:w-1/2"
                 placeholder="간략한 소개글"
             />
             {/* 소개글 입력창 */}
             <select
-                ref={categoryRef}
+                onChange={(e) => formik.setFieldValue('boardCategory', e.target.value)}
                 className="mt-6 w-52 cursor-pointer  rounded-md border border-neutral-400 bg-inherit p-2  text-sm text-gray-400 outline-none"
                 defaultValue=""
             >
@@ -160,20 +177,16 @@ function MentorFormPage() {
                 <option value="예체능">예체능</option>
                 <option value="사범">사범</option>
             </select>
+
+            {/* 대상 키워드 입력창 */}
             <input
                 type="text"
-                ref={targetRef}
+                onChange={(e) => formik.setFieldValue('target', e.target.value)}
                 className="mb-4 mt-6 w-full bg-inherit text-base outline-none mobile:w-1/2"
                 placeholder="멘토링 대상"
             />
-            {/* 대상 키워드 입력창 */}
             {/* <TinyMceEditor />  */}
-            <QuillEditor
-                defualtValue={defaultContent}
-                setContent={setContent}
-                content={content}
-                setMainImage={handleMainImage}
-            />
+            <QuillEditor defualtValue={defaultContent} formik={formik} />
             <SubmitButton type="submit" cancelUrl="/quest" isLoading={postMentorMutation.isPending} />
             {/* 모달 */}
             <InfoModal
@@ -182,7 +195,6 @@ function MentorFormPage() {
                 completeText={'등록이 완료되었습니다.'}
                 pageText={'잠시후 멘토링 게시판으로 이동합니다.'}
             />
-            <WarningMessage text={warningModalOpen} isOpen={warningModalOpen !== ''} onClose={handleWarningClose} />
         </form>
     );
 }

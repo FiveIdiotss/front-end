@@ -7,100 +7,94 @@ import dynamic from 'next/dynamic';
 import InfoModal from '../../_components/InfoModal';
 import { useRouter } from 'next/navigation';
 import { pushNotification } from '@/app/util/pushNotification';
+import { useFormik } from 'formik';
+
+import { CustomToast } from '@/app/util/customToast/CustomToast';
+import { useSubBoardInitialValue } from '../../_util/useSubBoardInitialValue';
 const QuillEditor = dynamic(() => import('../../_components/Editor'), { ssr: false });
 
+interface ErrMsgType {
+    [key: string]: string;
+    title: string;
+    content: string;
+    boardCategory: string;
+}
+const ERR_MSG: ErrMsgType = {
+    title: '제목을 입력해주세요.',
+    content: '내용을 입력해주세요.',
+    boardCategory: '카테고리를 선택해주세요.',
+};
+
 function QuestFormPage() {
-    const categoryRef = useRef<HTMLSelectElement>(null);
-    const titleRef = useRef<HTMLInputElement>(null);
     const postMutation = useQuestMutation();
-    const [content, setContent] = useState<string>('');
-    const [mainImage, setMainImage] = useState<File[]>([]);
     const [completeModalOpen, setCompleteModalOpen] = React.useState(false);
 
     const router = useRouter();
+    const { initialValues } = useSubBoardInitialValue({
+        boardType: 'QUEST',
+    });
 
-    const debouncedHandleSubmit = useCallback(
-        debounce((value: string) => {
-            setContent(value);
-        }, 400), // 디바운스 시간을 300ms로 설정
-        [],
-    ); //
-    const handleMainImage = async (file: File) => {
-        setMainImage([...mainImage, file]);
-    };
+    const formik = useFormik({
+        initialValues,
+        validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
+        enableReinitialize: true,
 
-    const onSubmit = async () => {
-        if (!categoryRef.current?.value) {
-            return pushNotification({
-                msg: '🚨  카테고리를 선택해주세요.',
-                type: 'error',
-                theme: 'light',
-                isIcon: false,
-                textColor: '#d4c114',
+        onSubmit: (values) => {
+            let errorMessage: string[] = [];
+
+            Object.keys(values).forEach((key) => {
+                const value = values[key];
+                if (value === '' || (Array.isArray(value) && value.length === 0)) {
+                    if (key === 'mainImage') {
+                        return;
+                    }
+                    formik.setFieldError(key, ERR_MSG[key]);
+                    errorMessage = [...errorMessage, ERR_MSG[key]];
+                }
             });
-            return;
-        }
-        if (!titleRef.current?.value) {
-            return pushNotification({
-                msg: '🚨  제목을 입력해주세요.',
-                type: 'error',
-                theme: 'light',
-                isIcon: false,
-                textColor: '#d4c114',
-            });
-            return;
-        }
-        if (!content) {
-            return pushNotification({
-                msg: '🚨  내용을 입력해주세요.',
-                type: 'error',
-                theme: 'light',
-                isIcon: false,
-                textColor: '#d4c114',
-            });
-            return;
-        }
-        postMutation.mutate(
-            {
-                request: {
-                    title: titleRef.current?.value,
-                    content: content,
-                    boardCategory: categoryRef.current?.value,
-                    subBoardType: 'QUEST',
-                    platform: 'WEB',
+
+            if (errorMessage.length > 0) {
+                CustomToast({
+                    msg: errorMessage[0],
+                    position: 'top-center',
+                });
+                return;
+            }
+
+            postMutation.mutate(
+                {
+                    request: {
+                        title: values.title,
+                        content: values.content,
+                        boardCategory: values.boardCategory,
+                        subBoardType: 'QUEST',
+                        platform: 'WEB',
+                    },
+
+                    images: values.mainImage,
                 },
-
-                images: mainImage,
-            },
-            {
-                onSuccess: () => {
-                    setCompleteModalOpen(true);
+                {
+                    onSuccess: () => {
+                        setCompleteModalOpen(true);
+                    },
                 },
-            },
-        );
-    };
+            );
+        },
+    });
+
     const handleInfoClose = () => {
         setCompleteModalOpen(false);
         router.push('/posts/quest');
     };
-    useEffect(() => {
-        console.log('error', postMutation.error?.response?.data);
-    }, [postMutation.error]);
 
-    useEffect(() => {
-        console.log('content', content);
-    }, [content]);
-    useEffect(() => {
-        console.log('mainImage', mainImage);
-    }, [mainImage]);
     return (
-        <form className="flex w-full flex-col pb-36">
+        <form className="flex w-full flex-col pb-36" onSubmit={formik.handleSubmit}>
             <div className=" flex min-h-12 w-full flex-row items-center justify-center  bg-orange-100 p-3">
                 <span className="text-2xl">🙋‍♂️</span>
                 <span className="  ml-4 text-sm text-black mobile:text-base ">궁금한 것들 질문하세요!</span>
             </div>
             <select
-                ref={categoryRef}
+                onChange={(e) => formik.setFieldValue('boardCategory', e.target.value)}
                 className="mt-6 w-52 cursor-pointer rounded-md  border border-neutral-400 bg-inherit bg-white p-2  text-sm text-gray-400  outline-none"
                 defaultValue="" // 기본값 설정 필수
             >
@@ -116,15 +110,15 @@ function QuestFormPage() {
                 <option value="사범">사범</option>
             </select>
             <input
-                ref={titleRef}
+                onChange={(e) => formik.setFieldValue('title', e.target.value)}
                 className="mb-3 mt-6 w-full bg-inherit text-2xl outline-none"
                 placeholder="제목에 핵심 내용을 요약해보세요."
             />
             {/* <QuestRequestEditor content={content} setContent={debouncedHandleSubmit} /> */}
 
-            <QuillEditor setContent={debouncedHandleSubmit} content={content} setMainImage={handleMainImage} />
+            <QuillEditor formik={formik} />
 
-            <SubmitButton cancelUrl="/quest" type="button" onSubmit={onSubmit} isLoading={postMutation.isPending} />
+            <SubmitButton cancelUrl="/quest" type="submit" isLoading={postMutation.isPending} />
             <InfoModal
                 open={completeModalOpen}
                 onClose={handleInfoClose}
