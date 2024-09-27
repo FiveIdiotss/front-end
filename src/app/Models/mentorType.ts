@@ -37,16 +37,14 @@ export type MentorDetailType = {
 }; //멘토 상세 정보
 
 export type newMentorFormType = {
-    request: {
-        title: string;
-        introduce: string;
-        target: string;
-        content: string;
-        consultTime: number;
-        times: { startTime: string; endTime: string }[];
-        availableDays: string[];
-        boardCategory: string;
-        platform: 'WEB' | 'APP';
-    };
+    title: string;
+    introduce: string;
+    target: string;
+    content: string;
+    consultTime: number;
+    times: { startTime: string; endTime: string }[];
+    availableDays: string[];
+    boardCategory: string;
+    platform: 'WEB' | 'APP';
     images: File[];
 }; //멘토 등록시 필요한 정보

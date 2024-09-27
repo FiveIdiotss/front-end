@@ -10,6 +10,7 @@ import Like from '../../../_component/postDetail/Like';
 import { MemberDto } from '@/auth';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import MobileIcon from '@/app/_icons/common/MobileIcon';
+import Link from 'next/link';
 function formatDate(dateString: string, dateType: string) {
     const date = new Date(dateString);
 
@@ -77,7 +78,12 @@ function RequestDetail({ boardId, memberDTO }: { boardId: number; memberDTO?: Me
                 </div>
                 {writerId === sessionId && (
                     <div className="mt-2 flex w-full flex-row justify-end gap-3 px-5">
-                        <button className="text-sm  text-neutral-600 underline underline-offset-1">수정</button>
+                        <Link
+                            href={`/post/edit/request/${boardId}`}
+                            className="text-sm  text-neutral-600 underline underline-offset-1"
+                        >
+                            수정
+                        </Link>
                         <button className="text-sm text-red-400 underline underline-offset-1">삭제</button>{' '}
                     </div>
                 )}

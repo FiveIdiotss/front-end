@@ -19,7 +19,7 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
     const [modalClicked, setModalClicked] = useState<ModalTap>();
     const pathName = usePathname();
     const router = useRouter();
-    const disabledMoblieNave = pathName.startsWith('/post/new');
+    const disabledMoblieNave = pathName.startsWith('/post/new') || pathName.startsWith('/post/edit');
     const isScrollVisible = useScrollObserver(70, 60); //스크롤에따라 투명도 조절
 
     const { navigateToLogin } = useRouteLogin({

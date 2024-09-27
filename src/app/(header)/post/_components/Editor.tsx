@@ -174,7 +174,8 @@ const QuillEditor = ({ defualtValue, formik }: QuestRequestEditorProps) => {
                 theme="snow"
                 ref={quillRef}
                 modules={modules}
-                defaultValue={defualtValue}
+                // defaultValue={formik.values.content}
+                value={formik.values.content}
             />
         </>
     );
