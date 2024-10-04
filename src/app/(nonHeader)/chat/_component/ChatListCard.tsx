@@ -5,11 +5,19 @@ import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 import { useRouter } from 'next/navigation';
 import { ChatRoomType } from '@/app/Models/chatType';
 import { relativeDateFormat } from '@/app/util/relativeDateFormat';
+import { useQueryClient } from '@tanstack/react-query';
+import { CHAT_QUERY_KEY } from '@/app/queryKeys/pushKey';
 
 function ChatListCard({ user }: { user: ChatRoomType }) {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const onClickChat = () => {
+        queryClient.setQueryData(CHAT_QUERY_KEY, (count: number) => {
+            if (user.unreadMessageCount === 0 || !count) return count;
+            return count - user.unreadMessageCount;
+        });
+
         router.push(`/chat/${user.chatRoomId}`);
     };
 

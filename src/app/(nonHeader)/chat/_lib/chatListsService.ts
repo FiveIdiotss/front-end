@@ -23,8 +23,8 @@ export const useChatListsQuery = ({ loginId }: { loginId?: number }) => {
     const query = useQuery<ChatRoomType[], AxiosError<ErrorResponse>>({
         queryKey: ['chat', 'List'],
         queryFn: () => getChatLists(loginId),
-        staleTime: 2 * 60 * 1000, //1분
-        gcTime: 5 * 60 * 1000,
+        // staleTime: 2 * 60 * 1000, //1분
+        // gcTime: 5 * 60 * 1000,
         enabled: Boolean(loginId),
     });
     return query;

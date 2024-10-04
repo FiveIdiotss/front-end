@@ -40,7 +40,7 @@ const MentoringSchedule = () => {
                         type="radio"
                         name="time-interval"
                         value={30}
-                        className="form-radio text-blue-600"
+                        className="text-blue-600"
                         checked={timeInterval === 30}
                         onChange={() => setTimeInterval(30)}
                     />
@@ -51,7 +51,7 @@ const MentoringSchedule = () => {
                         type="radio"
                         name="time-interval"
                         value={60}
-                        className="form-radio text-blue-600"
+                        className="text-blue-600"
                         checked={timeInterval === 60}
                         onChange={() => setTimeInterval(60)}
                     />

@@ -5,12 +5,14 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale/ko';
 import { v4 as uuidv4 } from 'uuid';
-import useMentoNewPost from '../../../_store/mentoNewPost';
+import { FormikProps } from 'formik';
+import { MentorFormType } from '../_util/useMentorInitialValue';
 
-type Props = {
+interface Props {
     open: boolean;
     onClose: () => void;
-};
+    formik: FormikProps<MentorFormType>;
+}
 
 function dateToMinutes(date: Date): number {
     const hours = date.getHours();
@@ -18,17 +20,19 @@ function dateToMinutes(date: Date): number {
     return hours * 60 + minutes;
 } //시간, 분을 받아서 분으로 바꿔주는 함수
 
-function TimeSelectModal({ open, onClose }: Props) {
+function TimeSelectModal({ open, onClose, formik }: Props) {
     const [startTime, setStartTime] = useState<Date | null>(null);
     const [endTime, setEndTime] = useState<Date | null>(null);
-    const { times, interver } = useMentoNewPost(); //zustand
     useEffect(() => {
         if (startTime && endTime) {
-            useMentoNewPost.getState().setTimes({
-                key: uuidv4(),
-                startTime: dateToMinutes(startTime),
-                endTime: dateToMinutes(endTime),
-            });
+            formik.setFieldValue('times', [
+                ...formik.values.times,
+                {
+                    key: uuidv4(),
+                    startTime: dateToMinutes(startTime),
+                    endTime: dateToMinutes(endTime),
+                },
+            ]);
             setStartTime(null);
             setEndTime(null);
             onClose();
@@ -38,6 +42,9 @@ function TimeSelectModal({ open, onClose }: Props) {
         setStartTime(null);
         setEndTime(null);
     }, [onClose]);
+
+    const times = formik.values.times;
+    const interver = formik.values.consultTime;
 
     return (
         <Modal open={open} onClose={onClose} className="max-h-[200px] w-full max-w-[300px]">

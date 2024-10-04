@@ -22,7 +22,7 @@ function HeaderUserNotification() {
                     <Notification className="cursor-pointer p-1 text-gray-700  text-opacity-80   hover:text-primary" />
 
                     <div
-                        className={`absolute -right-[1px] top-0  flex h-4 w-4 items-center justify-center rounded-full bg-red-600 bg-opacity-95 text-xs font-light text-white ${pushUnreadCount === 0 ? 'hidden' : ''}`}
+                        className={`absolute -right-[1px] top-0  flex h-4 w-4 items-center justify-center rounded-full bg-yellow-400 bg-opacity-95 text-xs font-light text-white ${pushUnreadCount === 0 ? 'hidden' : ''}`}
                     >
                         {pushUnreadCount}
                     </div>

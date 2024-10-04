@@ -1,7 +1,7 @@
 import Axios from '@/app/util/axiosInstance';
 import { MentorResponseType } from '@/app/Models/mentorType';
 import { MentorDetailType } from '@/app/Models/mentorType';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { useSearchParams } from 'next/navigation';
@@ -55,6 +55,10 @@ export const getMentorDetail = async (id: number) => {
     const res = await Axios.get(`/api/board/${id}`);
     return res.data.data as Promise<MentorDetailType>;
 };
+export const deleteMentor = async (id: number) => {
+    const res = await Axios.delete(`/api/board/${id}`);
+    return res.data.data;
+};
 
 //----------------------------------useQuery----------------------------------
 
@@ -84,12 +88,27 @@ export const useMentorPostsQuery = () => {
     return query;
 };
 
-export const useMentorDetailQuery = ({ mentorId }: { mentorId: number }) => {
+export const useMentorDetailQuery = ({ mentorId, enabled = true }: { mentorId: number; enabled?: boolean }) => {
     const query = useQuery<MentorDetailType, AxiosError<ErrorResponse>>({
         queryKey: createDetailMentorKey(mentorId),
         queryFn: () => getMentorDetail(mentorId),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
+        enabled: enabled,
     });
     return query;
+};
+
+export const useDeleteMentorMutation = () => {
+    const queryClient = useQueryClient();
+    const mutation = useMutation({
+        mutationFn: (id: number) => deleteMentor(id),
+        onSuccess: () => {
+            alert('멘토링이 삭제되었습니다.');
+        },
+        onError: (error: AxiosError<ErrorResponse>) => {
+            alert('멘토링 삭제에 실패했습니다.');
+        },
+    });
+    return mutation;
 };

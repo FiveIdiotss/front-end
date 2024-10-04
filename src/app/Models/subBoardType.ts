@@ -29,13 +29,10 @@ export type SubBoardDetailType = {
 };
 
 export type newSubBoardFormType = {
-    request: {
-        title: string;
-        content: string;
-        boardCategory: string;
-        subBoardType: 'QUEST' | 'REQUEST';
-        platform: 'WEB' | 'APP';
-    };
-
+    title: string;
+    content: string;
+    boardCategory: string;
+    subBoardType: 'QUEST' | 'REQUEST';
+    platform: 'WEB' | 'APP';
     images: File[] | [];
 };

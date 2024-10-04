@@ -94,10 +94,11 @@ export const useSubBoardPostsQuery = ({ subBoardType }: { subBoardType: 'QUEST' 
     return query;
 };
 
-export const useSubBoardDetailQuery = ({ subBoardId }: { subBoardId: number }) => {
+export const useSubBoardDetailQuery = ({ subBoardId, enabled = true }: { subBoardId: number; enabled?: boolean }) => {
     const query = useQuery({
         queryKey: createSubBoardDetailKey(subBoardId),
         queryFn: () => getSubBoardDetail(subBoardId),
+        enabled: enabled,
     });
     return query;
 };

@@ -5,6 +5,9 @@ import ReactQuill, { Quill, ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ResizeModule from '@botom/quill-resize-module';
 import Image from 'next/image';
+import { FormikProps } from 'formik';
+import { MentorFormType } from '../_util/useMentorInitialValue';
+import { SubBoardFormType } from '../_util/useSubBoardInitialValue';
 
 type IMediaItem = {
     name: string;
@@ -18,12 +21,11 @@ Quill.register('modules/resize', ResizeModule);
 
 type QuestRequestEditorProps = {
     defualtValue?: string;
-    setContent: (content: string) => void;
-    content: string;
-    setMainImage: (file: File) => void;
+
+    formik: FormikProps<MentorFormType> | FormikProps<SubBoardFormType>;
 };
 
-const QuillEditor = ({ defualtValue, setContent, content, setMainImage }: QuestRequestEditorProps) => {
+const QuillEditor = ({ defualtValue, formik }: QuestRequestEditorProps) => {
     const quillRef = useRef<ReactQuill | null>(null);
     const [images, setImages] = useState<string[]>([]);
     const [imageFocus, setImageFocus] = useState<string>('');
@@ -35,7 +37,7 @@ const QuillEditor = ({ defualtValue, setContent, content, setMainImage }: QuestR
     >([]); // 예시에서 formDataList는 실제로 사용하는 데이터 구조로 변경해야 함
 
     useEffect(() => {
-        const imgTags = content.match(/<img[^>]+src="([^">]+)"/g);
+        const imgTags = formik.values.content.match(/<img[^>]+src="([^">]+)"/g);
         const imgUrls = imgTags
             ? (imgTags
                   .map((tag) => {
@@ -48,7 +50,7 @@ const QuillEditor = ({ defualtValue, setContent, content, setMainImage }: QuestR
 
         const currentImages = formDataList.current.filter((data) => imgUrls.includes(data.url));
         formDataList.current = currentImages; // 이미지 리스트 업데이트
-    }, [content]);
+    }, [formik.values.content]);
 
     useEffect(() => {
         if (images.length === 0) setImageFocus('');
@@ -63,7 +65,7 @@ const QuillEditor = ({ defualtValue, setContent, content, setMainImage }: QuestR
         const targetObject = formDataList.current.find((item) => item.url === imageFocus);
         console.log('targetObject', targetObject);
         if (!targetObject) return;
-        setMainImage(targetObject?.blob);
+        formik.setFieldValue('mainImage', [targetObject?.blob]);
     }, [imageFocus]); // 대표 이미지 설정(클릭한 이미지를 대표 이미지로 설정)
 
     const imageHandler = () => {
@@ -167,12 +169,13 @@ const QuillEditor = ({ defualtValue, setContent, content, setMainImage }: QuestR
                 </div>
             )}
             <ReactQuill
-                onChange={setContent}
+                onChange={(value) => formik.setFieldValue('content', value)}
                 className=" mt-2 min-h-96 text-base "
                 theme="snow"
                 ref={quillRef}
                 modules={modules}
-                defaultValue={defualtValue}
+                // defaultValue={formik.values.content}
+                value={formik.values.content}
             />
         </>
     );

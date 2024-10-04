@@ -9,6 +9,7 @@ import { MemberDto } from '@/auth';
 import { useSubBoardDetailQuery } from '../../../_lib/qeustOrRequestService';
 import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import MobileIcon from '@/app/_icons/common/MobileIcon';
+import Link from 'next/link';
 function formatDate(dateString: string, dateType: string) {
     const date = new Date(dateString);
 
@@ -76,7 +77,12 @@ function QuestDetail({ boardId, memberDTO }: { boardId: number; memberDTO?: Memb
                 {/* 수정, 삭제 버튼 */}
                 {writerId === sessionId && (
                     <div className="mt-2 flex w-full flex-row justify-end gap-3 px-5">
-                        <button className="text-sm  text-neutral-600 underline underline-offset-1">수정</button>
+                        <Link
+                            href={`/post/edit/quest/${boardId}`}
+                            className="text-sm  text-neutral-600 underline underline-offset-1"
+                        >
+                            수정
+                        </Link>
                         <button className="text-sm text-red-400 underline underline-offset-1">삭제</button>
                     </div>
                 )}

@@ -19,7 +19,7 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
     const [modalClicked, setModalClicked] = useState<ModalTap>();
     const pathName = usePathname();
     const router = useRouter();
-    const disabledMoblieNave = pathName.startsWith('/post/new');
+    const disabledMoblieNave = pathName.startsWith('/post/new') || pathName.startsWith('/post/edit');
     const isScrollVisible = useScrollObserver(70, 60); //스크롤에따라 투명도 조절
 
     const { navigateToLogin } = useRouteLogin({
@@ -85,37 +85,36 @@ function MobileNav({ isSigin }: { isSigin: boolean }) {
                 </div>
             )}
             <nav
-                className={`z-20   flex h-16 w-full flex-shrink-0 flex-row items-center justify-between border-t  bg-white px-10 shadow-sm-top  mobile:hidden  `}
+                className={`space-x-   z-20 flex h-16 w-full flex-shrink-0  flex-row items-center   border-t  bg-white  shadow-sm-top  mobile:hidden  `}
             >
-                <Link
-                    href="/"
-                    className={`flex flex-col items-center justify-center gap-1 text-xs  ${isActive === '홈' ? 'font-semibold text-primary' : 'text-gray-500'}`}
-                >
-                    <HomeIcon className=" h-6 w-6 " isActive={isActive === '홈'} />
-                    <span>홈</span>
-                </Link>
-                <button
-                    onClick={() => navigateToChat('/chat')}
-                    className={`flex flex-col items-center justify-center gap-1 text-xs  ${isActive === '채팅' ? 'font-semibold text-primary' : 'text-gray-500'}`}
-                >
-                    <ChatIcon className=" h-6 w-6" isActive={isActive === '채팅'} />
-                    <span>채팅</span>
-                </button>
-                <button
-                    onClick={() => setModalClicked(modalClicked === '게시글' ? null : '게시글')}
-                    className={`flex flex-col items-center justify-center gap-1 text-xs  ${isActive === '게시글' ? 'font-semibold text-primary' : 'text-gray-500'}`}
-                >
-                    <BoardIcon className=" h-6 w-6" isActive={isActive === '게시글'} />
-                    <span>게시글</span>
-                </button>
+                <div className="flex flex-1 justify-center">
+                    <Link
+                        href="/"
+                        className={`flex flex-col items-center justify-center gap-1 text-xs  ${isActive === '홈' ? 'font-semibold text-primary' : 'text-gray-500'}`}
+                    >
+                        <HomeIcon className=" h-6 w-6 " isActive={isActive === '홈'} />
+                        <span>홈</span>
+                    </Link>
+                </div>
 
-                <button
-                    onClick={navigateToPosts}
-                    className={`flex flex-col items-center justify-center gap-1 text-xs  ${isActive === '작성하기' ? 'font-semibold text-primary' : 'text-gray-500'}`}
-                >
-                    <PencilIcon className=" h-6 w-6" />
-                    <span>작성하기</span>
-                </button>
+                <div className="flex flex-1 justify-center">
+                    <button
+                        onClick={() => setModalClicked(modalClicked === '게시글' ? null : '게시글')}
+                        className={`flex flex-col items-center justify-center gap-1 text-xs  ${isActive === '게시글' ? 'font-semibold text-primary' : 'text-gray-500'}`}
+                    >
+                        <BoardIcon className=" h-6 w-6" isActive={isActive === '게시글'} />
+                        <span>게시글</span>
+                    </button>
+                </div>
+                <div className="flex flex-1 justify-center">
+                    <button
+                        onClick={navigateToPosts}
+                        className={`flex flex-col items-center justify-center gap-1 text-xs  ${isActive === '작성하기' ? 'font-semibold text-primary' : 'text-gray-500'}`}
+                    >
+                        <PencilIcon className=" h-6 w-6" />
+                        <span>작성하기</span>
+                    </button>
+                </div>
             </nav>
         </nav>
     );

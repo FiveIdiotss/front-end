@@ -175,12 +175,23 @@ function MentoStepContent({ id, onlyContent }: Props) {
                             신청하기
                         </button>
                     ) : (
-                        <button
-                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105"
-                            onClick={() => router.push('/posts/mentor')}
-                        >
-                            수정하기
-                        </button>
+                        <>
+                            <Link
+                                href={`/post/edit/mentor/${id}`}
+                                className="mr-3 mt-7 flex h-10 items-center   rounded-md border border-solid border-gray-300  px-5 text-gray-500  hover:scale-105"
+                                onClick={() => router.push('/posts/mentor')}
+                            >
+                                삭제
+                            </Link>
+
+                            <Link
+                                href={`/post/edit/mentor/${id}`}
+                                className="mt-7 flex h-10 items-center   rounded-md border border-solid border-gray-300 bg-yellow-500 px-5 text-white  hover:scale-105"
+                                onClick={() => router.push('/posts/mentor')}
+                            >
+                                수정하기
+                            </Link>
+                        </>
                     ))}
             </div>
         </>
