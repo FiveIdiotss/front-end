@@ -3,6 +3,7 @@ import { PushItemsResponseType } from '../Models/pushType';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '../Models/AxiosResponse';
+import { CHAT_QUERY_KEY, PUSH_LIST_QUERY_KEY, PUSH_QUERY_KEY } from '../queryKeys/pushKey';
 
 export const getPushCount = async (): Promise<number> => {
     const response = await Axios.get('/api/count');
@@ -29,11 +30,16 @@ export const deletePush = async (notificationId: number) => {
     return response.data.data;
 };
 
+const getChatCount = async (): Promise<number> => {
+    const response = await Axios.get('/api/chat/count');
+    return response.data.data;
+};
+
 //----------------------------------------------hooks----------------------------------------------
 
 export const usePushCountQuery = () => {
     const query = useQuery<number, AxiosError<ErrorResponse>>({
-        queryKey: ['push', 'count'],
+        queryKey: PUSH_QUERY_KEY,
         queryFn: getPushCount,
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,
@@ -43,7 +49,7 @@ export const usePushCountQuery = () => {
 
 export const usePushListQuery = () => {
     const query = useQuery<PushItemsResponseType, AxiosError<ErrorResponse>>({
-        queryKey: ['push', 'list'],
+        queryKey: PUSH_LIST_QUERY_KEY,
         queryFn: () =>
             getPushList({
                 pageParam: 1,
@@ -61,7 +67,7 @@ export const useDeletePushMutation = () => {
         mutationFn: deletePush,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['push', 'list'],
+                queryKey: PUSH_LIST_QUERY_KEY,
             });
             // queryClient.invalidateQueries(['push', 'count']);
         },
@@ -70,4 +76,14 @@ export const useDeletePushMutation = () => {
         },
     });
     return mutation;
+};
+
+export const useChatCountQuery = () => {
+    const query = useQuery<number, AxiosError<ErrorResponse>>({
+        queryKey: CHAT_QUERY_KEY,
+        queryFn: getChatCount,
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 5,
+    });
+    return query;
 };

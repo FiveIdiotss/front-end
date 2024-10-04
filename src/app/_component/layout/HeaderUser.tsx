@@ -25,6 +25,9 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
     const handlePushCountChange = (count: number) => {
         queryClient.setQueryData(['push', 'count'], count);
     };
+    const handleChatCountChange = (count: number) => {
+        queryClient.setQueryData(['chat', 'count'], count);
+    };
     useEffect(() => {
         if (!loginId) return;
 
@@ -44,10 +47,11 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
             stomp.activate();
             stomp.onConnect = () => {
                 console.log('WebSocket 연결이 열렸습니다.');
-                const subscriptionDestination = `/sub/notifications/${loginId}`;
+                const subscriptionDestinationPush = `/sub/notifications/${loginId}`;
+                const subscriptionDestinationChat = `/sub/chat/notifications/${loginId}`;
 
                 stomp.subscribe(
-                    subscriptionDestination,
+                    subscriptionDestinationPush,
                     (frame) => {
                         try {
                             const unReadCount = JSON.parse(frame.body);
@@ -64,6 +68,18 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
                                 // predicate: (query) => query.queryKey?.includes('push'),
                                 queryKey: ['push', 'list'],
                             }); // pushCountQuery를 다시 불러옴
+                        } catch (error) {
+                            console.error('오류가 발생했습니다:', error);
+                        }
+                    },
+                    // connectHeader,
+                );
+                stomp.subscribe(
+                    subscriptionDestinationChat,
+                    (frame) => {
+                        try {
+                            const chatCount = JSON.parse(frame.body);
+                            handleChatCountChange(chatCount);
                         } catch (error) {
                             console.error('오류가 발생했습니다:', error);
                         }
@@ -90,8 +106,9 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
                 <div className="ml-3 hidden h-full py-6 mobile:block">
                     <div className="h-full border-x border-gray-300" />
                 </div>
-                <HeaderUserNotification />
                 <HeaderUserChat />
+
+                <HeaderUserNotification />
                 <HeaderUserInfo memberDto={memberDto}></HeaderUserInfo>
             </div>
         );
