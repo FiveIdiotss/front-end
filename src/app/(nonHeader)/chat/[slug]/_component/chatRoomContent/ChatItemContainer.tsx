@@ -4,6 +4,7 @@ import ChatItem from './ChatItem';
 import { Message } from '../../_lib/chatContentList';
 import { useChatInfoStore } from '@/app/_store/chatInfoStore';
 import dayjs from 'dayjs';
+import { useChatContentStore } from '@/app/_store/chatContentStore';
 
 function dateTransform(date: string) {
     try {
@@ -27,6 +28,7 @@ type Props = {
 
 function ChatItemContainer({ chat, prevChat }: Props) {
     const { receiverImageUrl, receiverName, loginId, isLoginMentor } = useChatInfoStore(); // 채팅방 정보
+    const { isOpponentEnter } = useChatContentStore();
     const isUserSentMessage = chat.senderId === loginId;
     const isDifferentTimeOrSender =
         !prevChat ||
@@ -60,13 +62,20 @@ function ChatItemContainer({ chat, prevChat }: Props) {
 
                 {/* 채팅 내용(보내는 사람의 경우 오른쪽, 받는 사람의 경우 왼쪽) */}
                 <div className={`flex  w-full   flex-grow flex-row gap-1 ${isUserSentMessage ? 'justify-end' : ''} `}>
-                    {isDifferentTimeOrSender && (
+                    {
                         <div
                             className={`flex flex-shrink-0 flex-col ${isUserSentMessage ? 'items-end ' : 'hidden items-start'} justify-end`}
                         >
-                            <span className="font-sans text-xs font-normal">{dateTransform(chat.localDateTime)}</span>
+                            {chat.readCount !== 2 && (
+                                <span className="font-sans text-xs font-light  text-primary">{chat.readCount}</span>
+                            )}
+                            {isDifferentTimeOrSender && (
+                                <span className="font-sans text-xs font-normal">
+                                    {dateTransform(chat.localDateTime)}
+                                </span>
+                            )}
                         </div>
-                    )}
+                    }
                     <ChatItem isUserSentMessage={isUserSentMessage} chat={chat} isLoginMentor={isLoginMentor} />
                     {isDifferentTimeOrSender && (
                         <div

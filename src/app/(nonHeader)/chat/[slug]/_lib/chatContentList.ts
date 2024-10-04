@@ -16,7 +16,9 @@ export type Message = {
         | 'CONSULT_EXTEND'
         | 'CONSULT_EXTEND_ACCEPT'
         | 'CONSULT_EXTEND_DECLINE'
-        | 'CONSULT_EXTEND_COMPLETE'; //CONSULT_EXTEND: 상담 연장(서버메시지)
+        | 'CONSULT_EXTEND_COMPLETE' //CONSULT_EXTEND: 상담 연장(서버메시지)
+        | 'USER_ENTER' //유저 입장여부
+        | 'USER_LEAVE'; //유저 퇴장여부
 };
 type Props = {
     pageParam?: number;

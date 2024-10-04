@@ -7,9 +7,10 @@ import { useChatContentStore } from '@/app/_store/chatContentStore';
 import ClipIcon from '@/app/_icons/common/ClipIcon';
 import { Message } from '../_lib/chatContentList';
 import { useChatInfoStore } from '@/app/_store/chatInfoStore';
+import { set } from 'lodash';
 
 function ChatInputForm({ roomId }: { roomId: number }) {
-    const { setIsSending, setIsReceiving, setChat } = useChatContentStore();
+    const { setIsSending, setIsReceiving, setChat, setOpponentEnter } = useChatContentStore();
     const { loginId, loginName } = useChatInfoStore();
     const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -50,7 +51,15 @@ function ChatInputForm({ roomId }: { roomId: number }) {
                             const parsedMessage = JSON.parse(frame.body) as Message;
 
                             console.log('구독함으로부터 온메시지', parsedMessage);
+                            if (parsedMessage.messageType === 'USER_ENTER') {
+                                if (parsedMessage.senderId !== loginId) setOpponentEnter(true);
+
+                                return;
+                            } else if (parsedMessage.messageType === 'USER_LEAVE') {
+                                return;
+                            }
                             setChat(parsedMessage);
+
                             if (parsedMessage.senderId === loginId) {
                                 setIsSending(true);
                             } else setIsReceiving(true);
