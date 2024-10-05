@@ -7,9 +7,9 @@ import { useChatContentStore } from '@/app/_store/chatContentStore';
 import ClipIcon from '@/app/_icons/common/ClipIcon';
 import { Message } from '../_lib/chatContentList';
 import { useChatInfoStore } from '@/app/_store/chatInfoStore';
-import { set } from 'lodash';
+import { Session } from 'next-auth';
 
-function ChatInputForm({ roomId }: { roomId: number }) {
+function ChatInputForm({ roomId, session }: { roomId: number; session: Session }) {
     const { setIsSending, setIsReceiving, setChat, setOpponentEnter } = useChatContentStore();
     const { loginId, loginName } = useChatInfoStore();
     const [inputMessage, setInputMessage] = useState<string>(''); //textarea에 입력한 메시지
@@ -22,8 +22,8 @@ function ChatInputForm({ roomId }: { roomId: number }) {
     useEffect(() => {
         if (!loginId) return;
         const connectHeader = {
-            senderId: String(loginId),
             chatRoomId: String(roomId),
+            Authorization: `Bearer ${session.user?.access_Token}`,
         };
 
         const initializeChat = async () => {

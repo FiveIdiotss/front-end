@@ -86,7 +86,7 @@ function ChatRoom({ roomId, session }: { roomId: number; session: Session }) {
                     <ChatRoomContent roomId={roomId} />
                     {/* 채팅입력창 */}
                     <div className="flex h-fit w-full flex-col ">
-                        <ChatInputForm roomId={roomId} />
+                        <ChatInputForm roomId={roomId} session={session} />
                     </div>
                 </div>
                 <ChatRoomStatus />
