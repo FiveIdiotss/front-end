@@ -10,7 +10,7 @@ async function HomeMain() {
     const session = await auth();
 
     return (
-        <div className=" mx-auto flex  w-full max-w-[1500px] flex-row justify-between gap-4 px-4     py-5 mobile:px-8  ">
+        <div className=" mx-auto flex  w-full max-w-[1500px] flex-row justify-between gap-4 px-4     py-5 mobile:px-8">
             {/* 32px */}
             <div className=" mx-auto flex  w-full flex-col gap-10 mobile:gap-14 tablet:w-[calc(100%-208px)]">
                 <HomeCategoryBar />
