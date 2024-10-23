@@ -196,8 +196,12 @@ function MentoStepContent({ id, onlyContent }: Props) {
                         </div>
                     ) : (
                         <div className="mt-7 flex  w-full gap-4 ">
-                            <button className="mr-auto flex h-12 items-center justify-center gap-1 rounded-md border border-gray-300 px-2 text-sm text-gray-600 hover:bg-gray-100 ">
-                                <ShareBoxIcon className="h-4 w-4" /> 공유하기
+                            <button
+                                onClick={nextHandler}
+                                className="mr-auto flex h-12 items-center justify-center gap-1 rounded-md border border-gray-300 px-2 text-sm text-gray-600 hover:bg-gray-100 "
+                            >
+                                <ShareBoxIcon className="h-4 w-4" />
+                                공유하기
                             </button>
 
                             <Link
