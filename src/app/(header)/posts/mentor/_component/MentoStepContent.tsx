@@ -12,6 +12,8 @@ import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import Image from 'next/image';
 import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 import { pushNotification } from '@/app/util/pushNotification';
+import ShareBoxIcon from '@/app/_icons/common/ShareBoxIcon';
+import ShareIcon from '@/app/_icons/common/ShareIcon';
 
 interface Props {
     id: number;
@@ -37,6 +39,18 @@ function MentoStepContent({ id, onlyContent }: Props) {
     } else {
         year = data?.boardDTO?.year.toString().substring(2, 4); // 학번 뒤 두자리만 가져오기
     }
+    const handleCopy = () => {
+        const link = window.location.origin; // 현재 페이지의 URL을 가져옵니다.
+
+        navigator.clipboard
+            .writeText(link + `/posts/mentor?mentor_board_id=${id}`)
+            .then(() => {
+                alert('링크가 클립보드에 복사되었습니다!');
+            })
+            .catch((err) => {
+                console.error('클립보드 복사 실패:', err);
+            });
+    };
 
     useEffect(() => {
         console.log(`멘토 상세데이터`, data);
@@ -75,20 +89,17 @@ function MentoStepContent({ id, onlyContent }: Props) {
 
                     <div className=" flex w-full  flex-row items-center gap-3">
                         {/* 이미지필요 */}
-                        <div className="i relative flex h-20 w-20 rounded-full border-2  text-neutral-500 ">
+                        <div className="i relative flex h-10 w-10 rounded-full border-2  text-neutral-500 ">
                             <Image
                                 src={data?.boardDTO.memberImageUrl}
                                 alt="멘토 이미지"
                                 fill={true}
-                                sizes="130"
+                                sizes="60"
                                 className="rounded-full object-cover"
                             />
                         </div>
                         <div className="flex  flex-col gap-1">
                             <span className="text-lg text-neutral-700  ">{data?.boardDTO.memberName}</span>
-                            <span className=" flex h-5 w-5 items-center justify-center rounded-md bg-blue-300 text-xs text-white ">
-                                남
-                            </span>
                         </div>
                     </div>
                     <div className="mt-4 flex flex-row gap-2 ">
@@ -161,37 +172,42 @@ function MentoStepContent({ id, onlyContent }: Props) {
                         prefetch={false}
                         className="mt-7 flex h-10  cursor-pointer items-center  px-5 font-semibold text-neutral-600 underline underline-offset-2 hover:text-primary "
                     >
-                        멘토 리스트 이동
+                        게시판에서 보기
                     </Link>
                 )}
 
                 {/* 자신의 멘토링일때 수정하기,아니면 신청하기 */}
                 {!onlyContent &&
                     (data?.boardDTO.memberName !== session?.user?.memberDTO.name ? (
-                        <button
-                            className="mt-7 h-10   rounded-md border border-solid border-gray-300 bg-primary px-5 text-white  hover:scale-105  "
-                            onClick={nextHandler}
-                        >
-                            신청하기
-                        </button>
-                    ) : (
-                        <>
-                            <Link
-                                href={`/post/edit/mentor/${id}`}
-                                className="mr-3 mt-7 flex h-10 items-center   rounded-md border border-solid border-gray-300  px-5 text-gray-500  hover:scale-105"
-                                onClick={() => router.push('/posts/mentor')}
+                        <div className=" mt-7 flex w-full gap-4 ">
+                            <button
+                                className="flex h-12 items-center justify-center gap-1  rounded-md border border-gray-300 px-2 text-sm text-gray-600 hover:bg-gray-100 "
+                                onClick={handleCopy}
                             >
-                                삭제
-                            </Link>
+                                <ShareBoxIcon className="h-4 w-4" />
+                                공유하기
+                            </button>
+                            <button
+                                className=" h-12 flex-grow  rounded-md border border-solid border-gray-300 bg-primary px-5 text-white hover:bg-opacity-95"
+                                onClick={nextHandler}
+                            >
+                                신청하기
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="mt-7 flex  w-full gap-4 ">
+                            <button className="mr-auto flex h-12 items-center justify-center gap-1 rounded-md border border-gray-300 px-2 text-sm text-gray-600 hover:bg-gray-100 ">
+                                <ShareBoxIcon className="h-4 w-4" /> 공유하기
+                            </button>
 
                             <Link
                                 href={`/post/edit/mentor/${id}`}
-                                className="mt-7 flex h-10 items-center   rounded-md border border-solid border-gray-300 bg-yellow-500 px-5 text-white  hover:scale-105"
+                                className="flex h-12 flex-grow items-center justify-center   rounded-md  border-gray-300 bg-yellow-400 px-5 text-white  hover:bg-opacity-95"
                                 onClick={() => router.push('/posts/mentor')}
                             >
                                 수정하기
                             </Link>
-                        </>
+                        </div>
                     ))}
             </div>
         </>

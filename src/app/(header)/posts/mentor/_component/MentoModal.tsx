@@ -22,7 +22,7 @@ function MentoModal({ id, onClose }: { id: number; onClose: () => void }) {
     const title = pageStep === 0 ? '멘토링 소개' : pageStep === 1 ? '신청하기' : '신청서 확인';
     const subTitle = pageStep !== 0 ? `${pageStep}/2` : '';
     return (
-        <StandardModal title={title} subTitle={subTitle} onClose={onClose}>
+        <StandardModal shareUrl="1" title={title} subTitle={subTitle} onClose={onClose}>
             {pageStep === 0 && <MentoStepContent id={id} />}
             {pageStep === 1 && <MentoStepConsultationForm />}
             {pageStep === 2 && <MentoStepConsultationReview id={id} />}

@@ -6,9 +6,10 @@ type Props = {
     title: string;
     subTitle?: string;
     closeUrl?: string;
+    shareUrl?: string;
 };
 
-function StandardModal({ children, onClose, title, subTitle, closeUrl }: Props) {
+function StandardModal({ children, shareUrl, onClose, title, subTitle, closeUrl }: Props) {
     return (
         <ModalWrapper
             title={title}
@@ -16,6 +17,7 @@ function StandardModal({ children, onClose, title, subTitle, closeUrl }: Props) 
             closeUrl={closeUrl}
             className="max-h-[750px]  mobile:max-w-[600px]"
             onClose={onClose}
+            shareUrl={shareUrl}
         >
             {children}
         </ModalWrapper>
