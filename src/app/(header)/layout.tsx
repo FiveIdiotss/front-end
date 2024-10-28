@@ -5,11 +5,12 @@ import React, { ReactNode } from 'react';
 import Header from '../_component/layout/Header';
 import MobileNav from '../_component/layout/moblieNav/MobileNav';
 import { auth } from '@/auth';
-
+import { Metadata } from 'next';
 type Props = {
     children: ReactNode;
     modal: ReactNode;
 };
+export const metadata: Metadata = {};
 
 export default async function HomeLayout({ children, modal }: Props) {
     const session = await auth();
