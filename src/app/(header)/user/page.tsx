@@ -3,6 +3,10 @@ import React from 'react';
 import { auth } from '@/auth';
 import ProfileDashBoard from './_component/ProfileDashBoard/ProfileDashBoard';
 import Link from 'next/link';
+import { Metadata } from 'next';
+export const metadata: Metadata = {
+    title: '프로필',
+};
 
 async function UserPage() {
     const session = await auth();

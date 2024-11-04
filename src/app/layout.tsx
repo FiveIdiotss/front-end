@@ -13,7 +13,11 @@ export const metadata: Metadata = {
         shortcut: '/favicon.png', // 바로가기 아이콘 경로
         apple: '/favicon.png', // 애플 터치 아이콘 경로
     },
-    title: '멘티토 - 멘토링을 위한 플랫폼',
+    title: {
+        template: '%s - 멘티토 | 멘토링을 위한 플랫폼',
+        default: '멘티토 - 멘토링을 위한 플랫폼',
+        //absolute: "", // 절대적인 타이틀
+    },
     description:
         '지식을 나누는 새로운 세상. 온라인 멘토링 매칭을 통해 지식을 나누세요! 우리대학 선배, 후배도 찾아보세요!',
     keywords: '멘토링, 멘토링 플랫폼, 멘티토, 멘토, 멘토링 매칭, 온라인 멘토링',
