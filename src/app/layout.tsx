@@ -8,11 +8,14 @@ import { Toaster } from 'react-hot-toast';
 // const inter = Noto_Sans_KR({ subsets: ['latin'] });
 const inter = Montserrat({ subsets: ['latin'] });
 export const metadata: Metadata = {
-    icons: {
-        icon: '/favicon.png', // 파비콘 경로ㄴ
-        shortcut: '/favicon.png', // 바로가기 아이콘 경로
-        apple: '/favicon.png', // 애플 터치 아이콘 경로
-    },
+    manifest: '/manifest.json',
+    icons: [
+        {
+            rel: 'icon',
+            url: '/favicon.ico',
+        },
+        { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
+    ],
     title: {
         template: '%s - 멘티토 | 멘토링을 위한 플랫폼',
         default: '멘티토 - 멘토링을 위한 플랫폼',
