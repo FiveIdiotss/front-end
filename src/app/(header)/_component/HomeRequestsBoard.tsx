@@ -47,7 +47,7 @@ export default function HomeRequestsBoard() {
                     </div>
                 </div>
             </Link>
-            {isPending && <Loading className="h-full min-h-[378px]" description="질문 데이터를 불러오는중입니다..." />}{' '}
+            {isPending && <Loading className="h-full min-h-[378px]" description="질문 데이터를 불러오는중입니다..." />}
             {requestsData?.data.length === 0 && <EmptyDataUI text="게시글 없음" />}
             <div className="w-full flex-col">
                 <div className=" flex w-full   flex-col ">

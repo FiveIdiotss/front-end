@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import BackButton from '@/app/(header)/account/_component/BackButton';
 import ReactDOM from 'react-dom';
+import ShareIcon from '@/app/_icons/common/ShareIcon';
+import ShareBoxIcon from '@/app/_icons/common/ShareBoxIcon';
 
 type ModalWrapperProps = {
     children: React.ReactNode;
@@ -10,9 +12,10 @@ type ModalWrapperProps = {
 
     onClose?: () => void;
     closeUrl?: string;
+    shareUrl?: string;
 };
 
-function ModalWrapper({ children, className, title, subTitle, onClose, closeUrl }: ModalWrapperProps) {
+function ModalWrapper({ children, className, shareUrl, title, subTitle, onClose, closeUrl }: ModalWrapperProps) {
     const [isBrowser, setIsBrowser] = useState(false);
 
     useEffect(() => {
@@ -56,7 +59,12 @@ function ModalWrapper({ children, className, title, subTitle, onClose, closeUrl 
                                 <span className="ml-2 text-sm font-semibold text-neutral-400">{subTitle}</span>
                             )}
                         </div>
-                        <div className="flex flex-grow flex-row justify-end">
+                        <div className="flex flex-grow flex-row items-center justify-end gap-3">
+                            {/* {Boolean(shareUrl) && (
+                                <button className="flex items-center justify-center gap-1 rounded-md p-1 text-gray-600 underline">
+                                    공유하기
+                                </button>
+                            )} */}
                             <BackButton onClose={onClose} />
                         </div>
                     </header>

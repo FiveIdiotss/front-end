@@ -2,6 +2,11 @@ import { auth } from '@/auth';
 import ChatList from './_component/ChatList';
 import Header from '@/app/_component/layout/Header';
 import MobileNav from '@/app/_component/layout/moblieNav/MobileNav';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: '채팅 목록',
+};
 
 async function page() {
     const session = await auth();

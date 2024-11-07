@@ -5,11 +5,13 @@ import React, { ReactNode } from 'react';
 import Header from '../_component/layout/Header';
 import MobileNav from '../_component/layout/moblieNav/MobileNav';
 import { auth } from '@/auth';
-
+import { Metadata } from 'next';
+import PWAPopup from './_component/PWA/PWAPopup';
 type Props = {
     children: ReactNode;
     modal: ReactNode;
 };
+export const metadata: Metadata = {};
 
 export default async function HomeLayout({ children, modal }: Props) {
     const session = await auth();
@@ -19,10 +21,11 @@ export default async function HomeLayout({ children, modal }: Props) {
         <>
             <div className=" flex min-h-dvh flex-col bg-gray-50  pb-16     pt-[62px]   mobile:pb-0  ">
                 {/* Home */}
-                <Header />
+                <Header className="top-0" />
 
                 <main className="flex  flex-1 ">{children}</main>
                 <MobileNav isSigin={Boolean(session)} />
+                <PWAPopup />
             </div>
             {modal}
         </>

@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import ProfileLeftHeader from './_component/ProfileLeftHeader';
 import ProfileTopHeader from './_component/ProfileTopHeader';
+import { Metadata } from 'next';
 
 export default async function UserLayout({ children }: { children: React.ReactNode }) {
     const session = await auth();

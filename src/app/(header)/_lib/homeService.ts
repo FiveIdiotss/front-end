@@ -43,6 +43,7 @@ export const getHomeQuestsOrRequests = async ({
     };
 
     const response = await Axios.get(`/api/subBoards`, { params: params });
+
     return response.data.data as Promise<SubBoardResponseType>;
 };
 

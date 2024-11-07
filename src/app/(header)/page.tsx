@@ -5,8 +5,8 @@ import { HOME_MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
 import BookIcon from '@/app/_icons/common/BookIcon';
 
 import { getHomeMentorPosts, getHomeQuestsOrRequests } from './_lib/homeService';
-import { auth } from '@/auth';
 import HomeSearch from './_component/HomeSearch/HomeSearch';
+import { QUEST_SUBBOARD_QUERYKEY, REQUEST_SUBBOARD_QUERYKEY } from '../queryKeys/subBoardKey';
 
 async function HomePage() {
     const queryClient = new QueryClient();
@@ -17,7 +17,7 @@ async function HomePage() {
         gcTime: 1000 * 60 * 5,
     });
     await queryClient.prefetchQuery({
-        queryKey: ['posts', 'quests', 'home'],
+        queryKey: QUEST_SUBBOARD_QUERYKEY,
         queryFn: () =>
             getHomeQuestsOrRequests({
                 pageParam: 1,
@@ -26,7 +26,7 @@ async function HomePage() {
             }),
     });
     await queryClient.prefetchQuery({
-        queryKey: ['posts', 'requests', 'home'],
+        queryKey: REQUEST_SUBBOARD_QUERYKEY,
         queryFn: () =>
             getHomeQuestsOrRequests({
                 pageParam: 1,
