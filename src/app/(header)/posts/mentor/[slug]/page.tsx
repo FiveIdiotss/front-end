@@ -15,6 +15,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         return {
             title: { absolute: boardData.boardDTO.title + ' -  멘티토 | 멘토링' },
             description: formattedTime + ' - ' + trimmedText,
+
+            openGraph: {
+                title: boardData.boardDTO.title + ' -  멘티토 | 멘토링',
+                description: formattedTime + ' - ' + trimmedText,
+                type: 'article',
+                article: {
+                    publishedTime: writeTime.toISOString(),
+                    modifiedTime: writeTime.toISOString(),
+                },
+            },
         };
     } catch (error) {
         console.error('Error fetching subBoard data:', error);

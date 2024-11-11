@@ -78,6 +78,11 @@ function RightSideBar() {
                             </div>
                         ))}
                     </div>
+                    <div className="flex w-full items-center justify-center gap-2">
+                        <div className="h-1 w-1 rounded-full bg-slate-400" />
+                        <div className="h-1 w-1 rounded-full bg-slate-400" />
+                        <div className="h-1 w-1 rounded-full bg-slate-400" />
+                    </div>
                 </div>
             </div>
         </div>

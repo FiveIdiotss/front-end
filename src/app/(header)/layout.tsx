@@ -11,7 +11,10 @@ type Props = {
     children: ReactNode;
     modal: ReactNode;
 };
-export const metadata: Metadata = {};
+export const metadata: Metadata = {
+    description:
+        '멘티토는 멘토링, 멘토링 요청, 자유 질문 커뮤니티를 통해 다양한 주제의 정보를 확인하고 공유할 수 있는 플랫폼입니다. 우리 대학의 멘토들이 제공하는 귀중한 조언과 경험을 통해 학업과 커리어를 더욱 발전시켜보세요. 멘토링 요청 게시판을 통해 필요한 도움을 요청하고, 선후배 간의 지식과 경험을 공유하며 성공적인 대학생활과 취업 준비를 위한 유익한 정보를 얻어가세요. 자유 질문 게시판에서는 다양한 주제에 대해 자유롭게 질문하고 답변을 받을 수 있습니다. 지금 바로 다양한 게시판을 확인하고, 여러분의 목표를 달성하는 데 필요한 인사이트를 얻어보세요.',
+};
 
 export default async function HomeLayout({ children, modal }: Props) {
     const session = await auth();
