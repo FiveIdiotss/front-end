@@ -17,6 +17,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         return {
             title: { absolute: boardData.subBoardDTO.title + ' -  멘티토 | 자유 질문' },
             description: formattedTime + ' - ' + trimmedText,
+            openGraph: {
+                title: { absolute: boardData.subBoardDTO.title + ' - 멘티토 | 자유 질문' },
+                description: formattedTime + ' - ' + trimmedText,
+                type: 'article',
+                article: {
+                    publishedTime: writeTime.toISOString(),
+                    modifiedTime: writeTime.toISOString(),
+                },
+                url: `${process.env.HOST_URL}/posts/quest/${params.slug}`, // URL 추가
+            },
         };
     } catch (error) {
         console.error('Error fetching subBoard data:', error);
