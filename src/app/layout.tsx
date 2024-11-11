@@ -16,6 +16,28 @@ export const metadata: Metadata = {
         },
         { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
     ],
+
+    openGraph: {
+        title: {
+            template: '%s - 멘티토 | 멘토링을 위한 플랫폼',
+            default: '멘티토 - 멘토링을 위한 플랫폼',
+        },
+        description:
+            '지식을 나누는 새로운 세상. 온라인 멘토링 매칭을 통해 지식을 나누세요! 우리대학 선배, 후배도 찾아보세요!',
+        url: process.env.HOST_URL,
+        type: 'website',
+        locale: 'ko_KR',
+        siteName: '멘티토',
+        images: [
+            {
+                url: `${process.env.HOST_URL}/logo/og-image.png`,
+                width: 800,
+                height: 600,
+                alt: '멘티토 - 멘토링을 위한 플랫폼',
+            },
+        ],
+    },
+
     title: {
         template: '%s - 멘티토 | 멘토링을 위한 플랫폼',
         default: '멘티토 - 멘토링을 위한 플랫폼',
