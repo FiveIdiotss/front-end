@@ -20,11 +20,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             openGraph: {
                 title: { absolute: boardData.subBoardDTO.title + ' - 멘티토 | 자유 질문' },
                 description: formattedTime + ' - ' + trimmedText,
-                type: 'article',
-                article: {
-                    publishedTime: writeTime.toISOString(),
-                    modifiedTime: writeTime.toISOString(),
-                },
+                type: 'website',
                 url: `${process.env.HOST_URL}/posts/quest/${params.slug}`, // URL 추가
             },
         };
