@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             description: formattedTime + ' - ' + trimmedText,
 
             openGraph: {
-                title: boardData.boardDTO.title + ' -  멘티토 | 멘토링',
+                title: { absolute: boardData.boardDTO.title + ' -  멘티토 | 멘토링' },
                 description: formattedTime + ' - ' + trimmedText,
                 type: 'article',
                 article: {

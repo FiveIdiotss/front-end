@@ -9,8 +9,10 @@ export default async function Image({ params }: { params: { slug: string } }) {
         (
             <div
                 style={{
-                    backgroundImage: boardData.boardImageUrls.length > 0 ? `url(${boardData.boardImageUrls})` : 'none', // 이미지가 없으면 배경 이미지를 사용하지 않음
-                    backgroundColor: boardData.boardImageUrls.length > 0 ? 'transparent' : '#6554bd', // 이미지가 없으면 기본 배경색을 지정
+                    backgroundImage: boardData.boardImageUrls[0]
+                        ? `url(${boardData.boardImageUrls[0].boardImageUrl})`
+                        : 'none', // 이미지가 없으면 배경 이미지를 사용하지 않음
+                    backgroundColor: boardData.boardImageUrls[0] ? 'transparent' : '#6554bd', // 이미지가 없으면 기본 배경색을 지정
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
