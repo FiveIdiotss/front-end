@@ -1,7 +1,6 @@
 import { ImageResponse } from 'next/og'; // 2. ImageResponse를 import한다.
 import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 
-export const runtime = 'edge';
 export const alt = 'About image';
 export const contentType = 'image/png';
 export const size = {
