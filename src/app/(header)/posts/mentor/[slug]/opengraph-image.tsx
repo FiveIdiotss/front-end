@@ -1,6 +1,10 @@
 import { ImageResponse } from 'next/og'; // 2. ImageResponse를 import한다.
 import { getMentorDetail } from '../../_lib/mentorService';
 
+export const runtime = 'edge';
+export const alt = 'About image';
+export const contentType = 'image/png';
+
 export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getMentorDetail(Number(params.slug));
