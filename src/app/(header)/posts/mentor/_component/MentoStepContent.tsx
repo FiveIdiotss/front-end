@@ -43,7 +43,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
         const link = window.location.origin; // 현재 페이지의 URL을 가져옵니다.
 
         navigator.clipboard
-            .writeText(link + `/posts/mentor?mentor_board_id=${id}`)
+            .writeText(link + `/posts/mentor/${id}`)
             .then(() => {
                 alert('링크가 클립보드에 복사되었습니다!');
             })
@@ -197,7 +197,7 @@ function MentoStepContent({ id, onlyContent }: Props) {
                     ) : (
                         <div className="mt-7 flex  w-full gap-4 ">
                             <button
-                                onClick={nextHandler}
+                                onClick={handleCopy}
                                 className="mr-auto flex h-12 items-center justify-center gap-1 rounded-md border border-gray-300 px-2 text-sm text-gray-600 hover:bg-gray-100 "
                             >
                                 <ShareBoxIcon className="h-4 w-4" />

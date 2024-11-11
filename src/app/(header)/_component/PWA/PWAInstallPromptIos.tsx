@@ -1,14 +1,22 @@
+'use client';
 import CloseIcon from '@/app/_icons/common/CloseIcon';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import apple from '@/../public/apple-touch-icon.png';
 import usePWAInstallPrompt from './usePWAInstallPrompt';
 
 function PWAInstallPromptIos() {
     const [modal, setModal] = useState(true);
     const { deferredPrompt, handleInstall } = usePWAInstallPrompt();
-    const isIos = /iPad|iPhone|iPod/.test(window.navigator.userAgent);
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const [isIos, setIsIos] = useState(false);
+    const [isStandalone, setIsStandalone] = useState(false);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setIsIos(/iPad|iPhone|iPod/.test(window.navigator.userAgent));
+            setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
+        }
+    }, []);
 
     if (isStandalone) {
         return null;
