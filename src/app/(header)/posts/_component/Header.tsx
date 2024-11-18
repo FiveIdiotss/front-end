@@ -46,9 +46,9 @@ function Header() {
     return (
         <>
             <div
-                className={`${scrollVisible ? 'pointer-events-none opacity-0' : 'opacity-100'} sticky top-[62px] z-30 flex w-full justify-center  border-b bg-white  transition-opacity duration-300 ease-in-out`}
+                className={`${scrollVisible ? 'pointer-events-none opacity-0' : 'opacity-100'} sticky top-[62px] z-30 flex w-full justify-center   border-y  bg-white  transition-opacity duration-300 ease-in-out`}
             >
-                <div className=" flex h-12  max-w-[1300px] items-center   gap-1    ">
+                <div className=" flex h-12  max-w-[1300px] items-center       ">
                     {CATEGORY_LIST.map((category) => (
                         <Link
                             href={category.url}
@@ -61,12 +61,12 @@ function Header() {
                 </div>
             </div>
             {isPage && (
-                <div className=" z-[3]  flex w-full flex-col items-center justify-center bg-opacity-60 bg-gradient-to-r  from-gray-400 via-gray-500 to-gray-400  py-5  ">
+                <div className=" bg-gradient-3  z-[3] flex w-full flex-col items-center justify-center   py-4  ">
                     <div className="flex flex-row items-center justify-center gap-7 ">
                         {/* <BookIcon className="h-12 w-12 text-white" /> */}
-                        <span className="text-3xl mobile:text-4xl">{category?.icon}</span>
+                        <span className="text-2xl mobile:text-3xl">{category?.icon}</span>
                         <div className=" flex  flex-col items-start justify-center gap-1">
-                            <span className="text-2xl font-bold text-white mobile:text-3xl">{category?.name}</span>
+                            <span className="text-xl font-bold text-white mobile:text-3xl">{category?.name}</span>
                             <span className=" text-base font-semibold text-white mobile:text-lg">
                                 {category?.intro}
                             </span>
