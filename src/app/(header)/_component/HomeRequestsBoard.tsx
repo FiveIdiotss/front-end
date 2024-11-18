@@ -30,10 +30,7 @@ export default function HomeRequestsBoard() {
 
     return (
         <section className="flex w-full flex-col">
-            <Link
-                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg  border-y bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
-                href="/posts/request"
-            >
+            <Link className="mb-3 flex w-full flex-row items-end justify-between  " href="/posts/request">
                 <div className="flex h-14 w-full transform   flex-row items-center gap-4  ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <FocusIcon className="h-5 w-5 text-primary" />

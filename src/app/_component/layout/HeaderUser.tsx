@@ -117,7 +117,7 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
             <div className="flex flex-row">
                 <button
                     onClick={navigateToLogin}
-                    className="bg-gradient-1 flex  shrink-0 items-center justify-center rounded-full   border bg-opacity-90 px-4 py-2 text-white hover:bg-opacity-75 "
+                    className="bg-gradient-2 flex  shrink-0 items-center justify-center rounded-full border bg-opacity-90 px-4 py-2 text-white hover:bg-opacity-75"
                 >
                     <span className="text-sm font-medium text-primary">로그인</span>
                 </button>

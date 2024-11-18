@@ -95,11 +95,11 @@ function MentoPostCard({
     return (
         <>
             <div
-                className=" my-1 flex h-[330px]   transform cursor-pointer flex-col overflow-hidden rounded-md border border-gray-100 bg-white bg-opacity-50 shadow-lg  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
+                className=" my-1 flex h-[300px]   transform cursor-pointer flex-col overflow-hidden rounded-md border border-gray-100 bg-white bg-opacity-50 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
                 onClick={handleDetailModalOpen}
             >
                 <div
-                    className="relative flex h-40 w-full  flex-col  "
+                    className="relative flex h-36 w-full  flex-col  "
                     onMouseEnter={() => handleHoverCard(true)}
                     onMouseLeave={() => handleHoverCard(false)}
                 >
@@ -126,7 +126,7 @@ function MentoPostCard({
                     )}
                     {post.representImage === '' && (
                         <div
-                            className="absolute left-0 top-0 z-0 flex h-40 w-full items-end justify-center opacity-50"
+                            className="absolute left-0 top-0 z-0 flex h-36 w-full items-end justify-center opacity-50"
                             style={{
                                 background: 'linear-gradient(to right, #3498db, #9b59b6)',
                             }}
@@ -164,7 +164,7 @@ function MentoPostCard({
                     <div className="my-2">
                         <SectionDivider color="border-purple-100" />
                     </div>
-                    <div className="flex h-8 ">
+                    <div className="flex h-6 items-center ">
                         <div className="flex flex-grow items-center gap-2">
                             <div className=" relative h-5 w-5  ">
                                 <Image

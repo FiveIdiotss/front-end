@@ -28,11 +28,13 @@ const config: Config = {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                 'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
                 'gradient-1': 'linear-gradient(to right, rgba(225, 207, 235, 0.6), rgba(183, 217, 243, 0.6))',
+                'gradient-2': 'linear-gradient(to right, rgba(225, 207, 235, 0.7), rgba(183, 217, 243, 0.7))',
+                'gradient-3': 'linear-gradient(to right, rgba(225, 207, 235), rgba(183, 217, 243 ))',
             },
 
             colors: {
                 primary: {
-                    DEFAULT: '#6554BD',
+                    DEFAULT: '#8977D9',
                 },
                 // primary: {
                 //     DEFAULT: '#3b82f6',
