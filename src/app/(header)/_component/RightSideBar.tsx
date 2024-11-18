@@ -49,7 +49,7 @@ function RightSideBar() {
 
             <div className="flex flex-1 flex-col gap-4 rounded-md border border-neutral-300 py-3">
                 <div className="flex items-center gap-1 px-3">
-                    <span className="text-sm font-semibold">실시간 인기글</span>
+                    <span className="text-sm font-semibold">주간 인기글</span>
                     <HotIcon className="h-4 w-4 text-red-500" />
                 </div>
 
@@ -77,7 +77,6 @@ function RightSideBar() {
                     ))}
                 </div>
                 <div className="flex w-full items-center justify-center gap-2">
-                    <div className="h-1 w-1 rounded-full bg-slate-400" />
                     <div className="h-1 w-1 rounded-full bg-slate-400" />
                     <div className="h-1 w-1 rounded-full bg-slate-400" />
                 </div>

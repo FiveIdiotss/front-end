@@ -32,7 +32,7 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
 
     return (
         <section className="flex flex-col gap-2 ">
-            <Link
+            {/* <Link
                 className="mb-3 flex w-full flex-row items-end justify-between rounded-lg  border-y bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
                 href="/posts/mentor"
             >
@@ -48,7 +48,7 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
                         <ArrowRightIcon className="ml-10 h-6 w-6  text-gray-400" />
                     </div>
                 </div>
-            </Link>
+            </Link> */}
             <HomeCategoryBar />
 
             {isPending && <Loading className="h-[278px]" description="멘토링 데이터를 불러오는중입니다..." />}

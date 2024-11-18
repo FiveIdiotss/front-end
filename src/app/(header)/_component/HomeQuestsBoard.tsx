@@ -31,10 +31,7 @@ export default function HomeQuestsBoard() {
 
     return (
         <section className="flex w-full flex-col">
-            <Link
-                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg  border-y bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
-                href="/posts/quest"
-            >
+            <Link className="mb-3 flex   w-full  flex-row items-end justify-between     " href="/posts/quest">
                 <div className="flex h-14 w-full flex-row items-center gap-4 ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <MegaPhoneIcon className="h-5 w-5 text-primary" />
