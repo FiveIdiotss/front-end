@@ -95,36 +95,45 @@ function MentoPostCard({
     return (
         <>
             <div
-                className=" my-1 flex h-[290px]   transform cursor-pointer flex-col overflow-hidden rounded-lg border border-gray-100 bg-white bg-opacity-50 shadow-sm  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
+                className=" my-1 flex h-[330px]   transform cursor-pointer flex-col overflow-hidden rounded-md border border-gray-100 bg-white bg-opacity-50 shadow-lg  shadow-gray-100 transition duration-300 ease-in-out hover:-translate-y-1  hover:shadow-sm"
                 onClick={handleDetailModalOpen}
             >
                 <div
-                    className="relative flex h-28 w-full  flex-col  "
+                    className="relative flex h-40 w-full  flex-col  "
                     onMouseEnter={() => handleHoverCard(true)}
                     onMouseLeave={() => handleHoverCard(false)}
                 >
                     <div
-                        className={`z-10 ${isCardHover ? 'hidden' : ''}  flex h-full w-full flex-col gap-1    px-3 py-2 text-sm  font-medium  ${post.representImage !== '' ? 'bg-black bg-opacity-60 text-white' : ''}`}
+                        className={`z-10 ${isCardHover ? 'hidden' : ''}  flex h-full w-full flex-col gap-1    px-3 py-2 text-sm  font-medium  ${post.representImage !== '' ? 'bg-black bg-opacity-50 text-white' : ''}`}
                     >
-                        <span
-                            className={`flex flex-row items-center gap-1 ${post.representImage !== '' ? '' : 'text-gray-400'}`}
-                        >
+                        <span className={`flex flex-row items-center gap-1 text-white`}>
                             {post.platform === 'WEB' ? '' : <MobileIcon className="mr-1 h-4 w-4 text-blue-500" />}
                             <span className="line-clamp-2">
                                 [{post.boardCategory}] {post.title}
                             </span>
                         </span>
-                        <span className="line-clamp-2 text-sm font-light">{post.introduce}</span>
+                        <span className="line-clamp-2 text-sm font-light text-white">{post.introduce}</span>
                     </div>
                     {post.representImage !== '' && (
                         <Image
-                            src={post.representImage || ''}
+                            src={post.representImage || '/'}
                             alt="MentoringRepresentImage"
                             quality={100}
                             fill={true}
                             sizes="600px"
                             className="z-0 object-cover  "
                         />
+                    )}
+                    {post.representImage === '' && (
+                        <div
+                            className="absolute left-0 top-0 z-0 flex h-40 w-full items-end justify-center opacity-50"
+                            style={{
+                                background: 'linear-gradient(to right, #3498db, #9b59b6)',
+                            }}
+                        >
+                            <span className="text- p-1 font-mono text-white">Menteeto</span>
+                            <span></span>
+                        </div>
                     )}
                 </div>
                 <div className="flex flex-grow flex-col px-3 pb-3 pt-1 mobile:px-5  ">
@@ -157,7 +166,7 @@ function MentoPostCard({
                     </div>
                     <div className="flex h-8 ">
                         <div className="flex flex-grow items-center gap-2">
-                            <div className=" relative h-7 w-7  ">
+                            <div className=" relative h-5 w-5  ">
                                 <Image
                                     src={post.memberImageUrl}
                                     alt="profile"
@@ -167,10 +176,11 @@ function MentoPostCard({
                                     className="rounded-full object-cover"
                                 />
                             </div>
-                            <span className="text-sm  font-semibold text-neutral-500">{post.memberName}</span>
+                            <span className="text-xs text-gray-400">by</span>
+                            <span className="text-xs  font-semibold ">{post.memberName}</span>
                         </div>
                         <button
-                            className="h-8 w-8 rounded-full  bg-gray-100  p-1 hover:bg-purple-100 "
+                            className="h-7 w-7 rounded-full  bg-gray-100  p-1 hover:bg-purple-100 "
                             onClick={(event) => handleToggleBookmark(event)}
                         >
                             <BookMarkIcon className="text-red-500" isCheck={post.favorite} />

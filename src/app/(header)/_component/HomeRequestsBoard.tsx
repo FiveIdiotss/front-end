@@ -31,12 +31,12 @@ export default function HomeRequestsBoard() {
     return (
         <section className="flex w-full flex-col">
             <Link
-                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg border-y bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
+                className="mb-3 flex w-full flex-row items-end justify-between rounded-lg  border-y bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
                 href="/posts/request"
             >
                 <div className="flex h-14 w-full transform   flex-row items-center gap-4  ">
                     <div className="rounded-md border p-1 shadow-sm">
-                        <FocusIcon className="h-6 w-6 text-primary" />
+                        <FocusIcon className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex flex-col">
                         <span className="  font-semibold mobile:text-lg">멘토링 주제 요청</span>

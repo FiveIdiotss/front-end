@@ -60,13 +60,13 @@ function MultiCarousel({ children }: Props) {
             partialVisibilityGutter: 70,
         },
     };
-    const CustomRightArrow = ({ onClick }: CustomRightArrowProps) => {
-        return (
-            <button onClick={onClick} className="absolute -right-3 z-20  rounded-full bg-primary p-2 ">
-                <FaChevronRight className="h-4 w-4" />
-            </button>
-        );
-    };
+    // const CustomRightArrow = ({ onClick }: CustomRightArrowProps) => {
+    //     return (
+    //         <button onClick={onClick} className="absolute -right-3 z-20  rounded-full bg-primary p-2 ">
+    //             <FaChevronRight className="h-4 w-4" />
+    //         </button>
+    //     );
+    // };
 
     return (
         <Carousel
@@ -93,7 +93,7 @@ function MultiCarousel({ children }: Props) {
             showDots={false}
             sliderClass=""
             responsive={responsive}
-            ssr={false} // means to render carousel on server-side.
+            ssr={true} // means to render carousel on server-side.
             // customLeftArrow={}
             // customRightArrow={<CustomRightArrow myOwnStuff={''} />}
         >
