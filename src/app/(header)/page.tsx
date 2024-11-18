@@ -40,12 +40,17 @@ async function HomePage() {
     return (
         <HydrationBoundary state={dehydratedState}>
             <div className="flex  w-full flex-col ">
-                <div className="w-dvh z-[2] flex w-full flex-col items-center justify-center gap-5 bg-opacity-70 bg-gradient-to-r from-white via-secondary to-white py-7 ">
+                <div
+                    className="w-dvh bg-gradient-1 z-[2] flex w-full flex-col items-center justify-center   gap-5  py-7"
+                    // style={{
+                    //     background: 'linear-gradient(to right, rgba(225, 207, 235, 0.6), rgba(183, 217, 243, 0.6))',
+                    // }}
+                >
                     <div className=" flex flex-row items-center justify-center gap-7 ">
-                        <BookIcon className="h-auto w-9 text-green-600 mobile:w-12 " />
+                        <BookIcon className="h-auto w-9 text-[#6fbf73] mobile:w-12 " />
                         <div className=" flex  flex-col items-start justify-center gap-1">
-                            <span className="text-xl font-bold text-gray-800 mobile:text-2xl">
-                                <span className="text-green-600">지식</span>을 나누는 새로운 세상
+                            <span className="text-lg font-semibold text-gray-800 mobile:text-2xl">
+                                <span className="text-xl font-bold text-[#6fbf73]">지식</span>을 나누는 새로운 세상
                             </span>
                             <span className=" font-medium text-gray-700 mobile:text-lg">
                                 온라인 멘토링 매칭을 통해 지식을 나누세요!

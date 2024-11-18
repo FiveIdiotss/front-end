@@ -15,9 +15,7 @@ function HomeSearch() {
                     className="mx-2   flex h-12   w-full max-w-[550px]   flex-row items-center overflow-hidden rounded-lg   bg-white shadow-md    "
                 >
                     <span className=" flex flex-grow justify-start px-4 text-gray-400">검색</span>
-                    <div className="flex h-full  shrink-0 items-center  justify-center bg-primary px-5 ">
-                        <SearchIcon className="h-6 w-6 text-white" />
-                    </div>
+                    <SearchIcon className="mx-4 h-5 w-5 text-gray-400  " />
                 </button>
             </div>
             {open && <SearchModal onClose={handleClose} />}

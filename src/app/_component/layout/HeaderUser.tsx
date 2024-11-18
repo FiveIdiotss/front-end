@@ -117,16 +117,9 @@ function HeaderUser({ memberDto }: { memberDto?: MemberDto }) {
             <div className="flex flex-row">
                 <button
                     onClick={navigateToLogin}
-                    className="flex h-9 w-20 shrink-0  items-center justify-center rounded-md border border-gray-300 text-gray-700 "
+                    className="bg-gradient-1 flex  shrink-0 items-center justify-center rounded-full   border bg-opacity-90 px-4 py-2 text-white hover:bg-opacity-75 "
                 >
-                    <span className="text-sm ">로그인</span>
-                </button>
-
-                <button
-                    onClick={navigateToSignup}
-                    className=" ml-2 flex h-9 w-20 shrink-0  items-center justify-center rounded-md bg-gray-600"
-                >
-                    <span className="text-sm  text-white">가입하기</span>
+                    <span className="text-sm font-medium text-primary">로그인</span>
                 </button>
             </div>
         );
