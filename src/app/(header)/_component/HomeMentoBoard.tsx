@@ -1,13 +1,11 @@
 'use client';
 import MentoPostCard from '@/app/_component/postsCard/MentoPostCard';
-import Link from 'next/link';
 import React, { useEffect } from 'react';
-import MultiCarousel from './MultiCarousel';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 import { pushNotification } from '@/app/util/pushNotification';
 import Loading from '@/app/_component/Loading';
-import ShackHandsIcon from '@/app/_icons/Menu/ShackHandsIcon';
-import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
 import { useHomeMentorPostsQeury } from '../_lib/homeService';
 import { Session } from 'next-auth';
 import HomeCategoryBar from './HomeCategoryBar';
@@ -54,16 +52,42 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
             {isPending && <Loading className="h-[278px]" description="멘토링 데이터를 불러오는중입니다..." />}
             <div className="w-full mobile:hidden">
                 {mentorPosts && (
-                    <MultiCarousel>
+                    <Swiper
+                        spaceBetween={10} // 슬라이드 간의 간격
+                        slidesPerView={1.2} // 한 화면에 보이는 슬라이드 수
+                        breakpoints={{
+                            // 작은 화면에서는 한 개만 보여줌
+                            579: {
+                                slidesPerView: 2.2, // 화면 크기가 320px 이상이면 한 개 슬라이드
+                                spaceBetween: 10,
+                            },
+                            // 중간 화면에서는 한 개와 반 개 슬라이드 표시
+                            // 768: {
+                            //     slidesPerView: 1.5, // 화면 크기가 768px 이상이면 1.5개의 슬라이드
+                            //     spaceBetween: 15,
+                            // },
+                            // // 큰 화면에서는 2개와 반 개 슬라이드 표시
+                            // 1024: {
+                            //     slidesPerView: 1.5, // 화면 크기가 1024px 이상이면 1.5개의 슬라이드
+                            //     spaceBetween: 20,
+                            // },
+                        }}
+                    >
+                        {isPending &&
+                            [...Array(5)].map((_, index) => (
+                                <div className="bg-gradient-1 h-[300px] rounded-md "></div>
+                            ))}
                         {mentorPosts?.data.map((post, index) => (
-                            <MentoPostCard
-                                isLogin={Boolean(session)}
-                                post={post}
-                                key={post.boardId}
-                                queryKeys={['posts', 'mento', 'home']}
-                            />
+                            <SwiperSlide style={{ width: '100%' }}>
+                                <MentoPostCard
+                                    isLogin={Boolean(session)}
+                                    post={post}
+                                    key={post.boardId}
+                                    queryKeys={['posts', 'mento', 'home']}
+                                />
+                            </SwiperSlide>
                         ))}
-                    </MultiCarousel>
+                    </Swiper>
                 )}
             </div>
             <div className="hidden  w-full mobile:block ">

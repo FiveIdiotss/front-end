@@ -40,7 +40,7 @@ export default function HomeRequestsBoard() {
                         <span className="text-sm text-gray-500">멘티들이 원하는 멘토링</span>
                     </div>
                     <div className="flex flex-grow justify-end">
-                        <ArrowRightIcon className=" h-6 w-6  text-gray-400" />
+                        <ArrowRightIcon className=" h-6 w-6  " />
                     </div>
                 </div>
             </Link>

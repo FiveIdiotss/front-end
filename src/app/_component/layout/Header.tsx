@@ -19,7 +19,7 @@ async function Header({ borderClassName, className }: { borderClassName?: string
                         height={50}
                         quality={75} // 이미지 품질 (기본값은 75)
                     /> */}
-                    <span className="   py-2   text-3xl font-semibold tracking-tighter  text-primary ">Menteeto</span>
+                    <span className="   py-2   text-3xl font-bold tracking-tighter  text-primary ">Menteeto</span>
                 </Link>
 
                 {/* <HeaderSearch /> */}

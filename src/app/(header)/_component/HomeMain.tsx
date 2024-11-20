@@ -2,9 +2,9 @@ import React, { Suspense } from 'react';
 import HomeMentoBoard from './HomeMentoBoard';
 import HomeQuestsBoard from './HomeQuestsBoard';
 import HomeRequestsBoard from './HomeRequestsBoard';
-import HomeCategoryBar from './HomeCategoryBar';
-import RightSideBar from './RightSideBar';
 import { auth } from '@/auth';
+import HotKeywords from './HotContent/HotKeywords';
+import SubBoardCarousel from './HotContent/SubBoardCarousel';
 
 async function HomeMain() {
     const session = await auth();
@@ -14,13 +14,15 @@ async function HomeMain() {
             {/* 32px */}
             {/* <div className=" mx-auto flex  w-full flex-col gap-10 mobile:gap-14 tablet:w-[calc(100%-208px)]"> */}
             <div className=" mx-auto flex  w-full flex-col gap-10">
-                <RightSideBar />
-
-                <HomeMentoBoard session={session} />
-
+                <div className="flex w-full flex-col gap-4">
+                    <HomeMentoBoard session={session} />
+                </div>
+                <div className="  flex flex-col gap-2 mobile:flex-row">
+                    <SubBoardCarousel />
+                    <HotKeywords />
+                </div>
                 <div className=" flex w-full flex-col gap-10 mobile:gap-6 desktop:flex-row">
                     <HomeRequestsBoard />
-
                     <HomeQuestsBoard />
                 </div>
             </div>
