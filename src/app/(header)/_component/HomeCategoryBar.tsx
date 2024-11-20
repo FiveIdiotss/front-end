@@ -25,10 +25,10 @@ function HomeCategoryBar() {
                         href={`/posts/mentor${category.parameter === 'all' ? '' : `?category=${category.name}`}`}
                     >
                         <div
-                            className={`flex h-20 flex-row items-center justify-center text-gray-500     transition-all duration-300 hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 `}
+                            className={`flex  h-20 flex-row items-center justify-center text-gray-500     transition-all duration-300 hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 `}
                         >
                             <div className="flex w-full cursor-pointer flex-col items-center justify-between gap-3 ">
-                                <CateogryIcon className="h-7 w-7 text-gray-400 " category={category.parameter} />
+                                <CateogryIcon className="h-7 w-7 text-secondary " category={category.parameter} />
                                 <span className="flex flex-row items-center justify-center gap-1 text-sm ">
                                     {category.name}
                                     {/* <ArrowLeftBackIcon className="h-3 w-3 rotate-180 text-gray-400" /> */}

@@ -41,7 +41,7 @@ export default function HomeQuestsBoard() {
                         <span className="text-sm text-gray-500">여러 주제로 대화를 나눠요</span>
                     </div>
                     <div className="flex flex-grow justify-end">
-                        <ArrowRightIcon className=" h-6 w-6  text-gray-400" />
+                        <ArrowRightIcon className=" h-6 w-6 " />
                     </div>
                 </div>
             </Link>

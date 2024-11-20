@@ -1,8 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
+한글 폰트 :root {
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
@@ -251,4 +250,22 @@ ol {
 
 .chatScroll::-webkit-scrollbar-thumb:hover {
     background: #555; /* 스크롤바의 썸에 마우스를 올렸을 때 색상을 변경합니다 */
+}
+
+/*swiper/react*/
+
+.swiper-pagination-bullet {
+    @apply bg-gradient-1 !important;
+    /* width: 12px !important;
+    height: 12px !important;
+    margin: 0 8px !important; */
+}
+
+.swiper-pagination-bullet-active {
+    @apply bg-gradient-3 !important;
+}
+
+.swiper-pagination {
+    /* bottom: 10px !important; */
+    /* text-align: center !important; */
 }
