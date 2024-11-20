@@ -51,7 +51,7 @@ function HotSubBoards({ data, type, isPending }: Props) {
                 )}
                 {isPending &&
                     [...Array(5)].map((_, index) => (
-                        <div className="h-12 px-2 py-1">
+                        <div key={index} className="h-12 px-2 py-1">
                             <div className="bg-gradient-1 h-full w-full rounded-md"></div>
                         </div>
                     ))}

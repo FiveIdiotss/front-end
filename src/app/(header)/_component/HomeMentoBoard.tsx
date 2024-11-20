@@ -75,14 +75,13 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
                     >
                         {isPending &&
                             [...Array(5)].map((_, index) => (
-                                <div className="bg-gradient-1 h-[300px] rounded-md "></div>
+                                <div key={index} className="bg-gradient-1 h-[300px] rounded-md "></div>
                             ))}
                         {mentorPosts?.data.map((post, index) => (
-                            <SwiperSlide style={{ width: '100%' }}>
+                            <SwiperSlide key={post.boardId} style={{ width: '100%' }}>
                                 <MentoPostCard
                                     isLogin={Boolean(session)}
                                     post={post}
-                                    key={post.boardId}
                                     queryKeys={['posts', 'mento', 'home']}
                                 />
                             </SwiperSlide>

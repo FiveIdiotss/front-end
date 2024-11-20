@@ -35,15 +35,15 @@ function CategorySchoolSelector({ isLogin }: { isLogin: boolean }) {
     };
 
     return (
-        <div className="flex flex-row gap-1 rounded-md  bg-gray-200 p-[2px] shadow-sm ">
+        <div className="flex flex-row gap-1 rounded-xl  bg-gray-200 p-[2px] shadow-sm ">
             <button
-                className={`flex items-center justify-center rounded-md border p-2 text-xs   mobile:text-sm   ${searchParams.has('schoolFilter') ? ' text-gray-700 hover:bg-indigo-100 ' : ' bg-indigo-400 text-white'} transition-all duration-200 ease-out`}
+                className={`flex items-center justify-center rounded-xl border p-2 text-xs   mobile:text-sm   ${searchParams.has('schoolFilter') ? ' text-gray-700 hover:bg-indigo-100 ' : ' bg-indigo-400 text-white'} transition-all duration-200 ease-out`}
                 onClick={() => handleToggle(false)}
             >
                 전체 대학
             </button>
             <button
-                className={`flex items-center justify-center rounded-md border p-2 text-xs  mobile:text-sm   ${searchParams.has('schoolFilter') ? ' bg-indigo-400 text-white' : 'text-gray-700 hover:bg-indigo-100 '} transition-all duration-200 ease-out  `}
+                className={`flex items-center justify-center rounded-xl border p-2 text-xs  mobile:text-sm   ${searchParams.has('schoolFilter') ? ' bg-indigo-400 text-white' : 'text-gray-700 hover:bg-indigo-100 '} transition-all duration-200 ease-out  `}
                 onClick={() => handleToggle(true)}
             >
                 우리 대학
