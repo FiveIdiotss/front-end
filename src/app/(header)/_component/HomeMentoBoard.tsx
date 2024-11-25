@@ -90,7 +90,7 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
                 )}
             </div>
             <div className="hidden  w-full mobile:block ">
-                <div className="grid w-full grid-cols-2 gap-4  md:grid-cols-3 lg:grid-cols-4">
+                <div className="grid w-full grid-cols-2 gap-4  mobile:grid-cols-3 desktop:grid-cols-4">
                     {mentorPosts?.data.map((post, index) => (
                         <MentoPostCard
                             isLogin={Boolean(session)}

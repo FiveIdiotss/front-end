@@ -21,7 +21,7 @@ function SubBoardCarousel() {
         error: requestsError,
     } = useHomeHotSuboardsQuery({ subBoardType: 'REQUEST' });
     return (
-        <div className="relative flex-1 rounded-md border   border-neutral-300 py-3 mobile:w-[calc(100%-288px)] ">
+        <div className="relative h-fit rounded-md border   border-neutral-300 py-3 ">
             <div className="absolute left-3 top-3  z-10 flex gap-1  bg-gray-50  ">
                 <span className="text-sm font-semibold">주간 TOP5</span>
                 <HotIcon className="h-4 w-4 text-red-500" />
