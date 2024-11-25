@@ -69,6 +69,7 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                         handleRoute={handleRoute}
                         result={result}
                         searchKeyword={searchKeyword}
+                        type="MENTOR"
                     />
                 ))}
                 {searchResult?.boards_content.map((result, index) => (
@@ -77,6 +78,7 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                         handleRoute={handleRoute}
                         result={result}
                         searchKeyword={searchKeyword}
+                        type="MENTOR"
                     />
                 ))}
             </div>
@@ -97,6 +99,7 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                         handleRoute={handleRoute}
                         result={result}
                         searchKeyword={searchKeyword}
+                        type="QUEST"
                     />
                 ))}
                 {searchResult?.subBoards_quest_content.map((result, index) => (
@@ -105,6 +108,7 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                         handleRoute={handleRoute}
                         result={result}
                         searchKeyword={searchKeyword}
+                        type="QUEST"
                     />
                 ))}
             </div>
@@ -124,6 +128,7 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                         handleRoute={handleRoute}
                         result={result}
                         searchKeyword={searchKeyword}
+                        type="REQUEST"
                     />
                 ))}
                 {searchResult?.subBoards_request_content.map((result, index) => (
@@ -132,6 +137,7 @@ function ResultSearch({ searchResult, searchKeyword }: Props) {
                         handleRoute={handleRoute}
                         result={result}
                         searchKeyword={searchKeyword}
+                        type="REQUEST"
                     />
                 ))}
             </div>
