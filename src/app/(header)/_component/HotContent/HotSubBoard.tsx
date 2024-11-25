@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 import { faker } from '@faker-js/faker';
 import { SubBoardDTOType } from '@/app/Models/subBoardType';
+import { useRouter } from 'next/navigation';
 
 const HOT_POSTS = [
     {
@@ -32,6 +33,14 @@ interface Props {
     isPending: boolean;
 }
 function HotSubBoards({ data, type, isPending }: Props) {
+    const router = useRouter();
+    const handleRouteSubBoard = ({ id }: { id: number }) => {
+        if (type === 'QUEST') {
+            router.push(`/posts/quest/${id}`);
+        } else {
+            router.push(`/posts/request/${id}`);
+        }
+    };
     return (
         <div className=" flex  w-full flex-col gap-2  ">
             <div className="flex items-center gap-1 px-3">
@@ -59,6 +68,7 @@ function HotSubBoards({ data, type, isPending }: Props) {
                     <div
                         className="flex cursor-pointer flex-col gap-2 px-4 py-2 hover:bg-primary hover:bg-opacity-15"
                         key={index}
+                        onClick={() => handleRouteSubBoard({ id: post.subBoardId })}
                     >
                         <span className=" rounded-md   text-sm font-light text-neutral-700">
                             {`[${post.boardCategory}] `}
@@ -67,7 +77,9 @@ function HotSubBoards({ data, type, isPending }: Props) {
                         <div className=" flex flex-row justify-between">
                             <div className="flex flex-row gap-1">
                                 <Image src={post.imageUrl} alt="user" width={16} height={16} className="rounded-full" />
-                                <span className="text-xs font-semibold text-neutral-800">{post.memberName}</span>
+                                <span className="text-xs font-semibold text-neutral-800 tablet:hidden">
+                                    {post.memberName}
+                                </span>
                             </div>
                             <span className="text-xs font-light text-green-600">
                                 {post.schoolName}ㅣ{post.majorName}

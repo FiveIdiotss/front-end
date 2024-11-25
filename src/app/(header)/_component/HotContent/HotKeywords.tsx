@@ -5,7 +5,7 @@ const HOT_TAGS = ['컴퓨터', 'Next.js', '애견', '호텔', '생물', '개발�
 
 function HotKeywords() {
     return (
-        <div className="flex w-full flex-shrink-0 flex-col gap-4 rounded-md border border-neutral-300 p-3 mobile:w-72">
+        <div className="flex w-full flex-shrink-0 flex-col gap-4 rounded-md border border-neutral-300 p-3 ">
             <div className="flex items-center gap-1">
                 <span className="text-sm font-semibold">인기 태그</span>
                 <HotIcon className="h-4 w-4 text-red-500" />
