@@ -155,7 +155,7 @@ export default function SignupModal() {
 
     return (
         // 모달배경
-        <div className="absolute bottom-0 left-0 right-0 top-0 z-[9999]  flex h-screen w-screen items-center justify-center bg-modal ">
+        <div className="fixed bottom-0 left-0 right-0 top-0 z-[9999]  flex h-screen w-screen items-center justify-center bg-modal ">
             <div
                 className={` relative   flex h-full w-full  flex-col  items-center  overflow-hidden bg-white sm:h-[500px] sm:w-[420px]  sm:rounded-lg `}
             >
