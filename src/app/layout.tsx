@@ -50,6 +50,9 @@ export const metadata: Metadata = {
     verification: {
         google: 'M9cbMdaFe5M1rYTo3h82zlVaG9RJlaebPt3OVbQi-Go',
     },
+    other: {
+        'naver-site-verification': '10b0a140d1a3624d6b2b82a899be418dfaedc8ed',
+    },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
