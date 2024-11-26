@@ -73,7 +73,7 @@ function CategorySearch() {
                 defaultValue={searchParams.get('search') || ''}
             />
 
-            <button className="flex h-full w-11 cursor-pointer items-center justify-center">
+            <div className="flex h-full w-11 cursor-pointer items-center justify-center">
                 <button onClick={handleButtonClick}>
                     <SearchIcon className={`h-5 w-5 ${isFocused ? 'rotate-90 text-blue-600' : 'text-gray-200'}`} />
                 </button>
@@ -83,7 +83,7 @@ function CategorySearch() {
                         <DotLoadingIcon />
                     </div>
                 )} */}
-            </button>
+            </div>
         </div>
     );
 }

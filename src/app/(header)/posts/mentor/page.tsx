@@ -2,6 +2,11 @@ import React from 'react';
 import PostsMentor from './_component/PostsMentor';
 import { auth } from '@/auth';
 import { de } from '@faker-js/faker';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { getMentorPosts } from '../_lib/mentorService';
+import { createMentorPostsKey } from '@/app/queryKeys/mentorKey';
+import FilterNav from '../_component/postsNav/FilterNav';
+import Header from '../_component/Header';
 
 export const metadata = {
     title: '멘토링',
@@ -11,7 +16,29 @@ export const metadata = {
 
 async function PostsMentoPage() {
     const session = await auth();
-    return <PostsMentor session={session} />;
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery({
+        queryKey: createMentorPostsKey(1, 24, '', '', false, false),
+        queryFn: () =>
+            getMentorPosts({
+                pageParam: 1,
+                size: 24,
+                isSchool: false,
+                isStar: false,
+            }),
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 5,
+    });
+
+    const dehydratedState = dehydrate(queryClient);
+
+    return (
+        <HydrationBoundary state={dehydratedState}>
+            <FilterNav isLogin={Boolean(session)} />
+            <PostsMentor session={session} />
+        </HydrationBoundary>
+    );
 }
 
 export default PostsMentoPage;
