@@ -1,13 +1,12 @@
 import { ImageResponse } from 'next/og'; // 2. ImageResponse를 import한다.
 import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 
-export const alt = 'About image';
-export const runtime = 'edge';
-export const contentType = 'image/png';
+export const alt = 'About Acme';
 export const size = {
     width: 1200,
     height: 630,
 };
+export const contentType = 'image/png';
 
 export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
@@ -24,7 +23,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'white',
+                    color: '#ffffff',
                 }}
             >
                 {boardData.subBoardDTO.title}
