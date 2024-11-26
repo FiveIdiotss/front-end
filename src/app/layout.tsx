@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 const quicksand = Quicksand({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+    metadataBase: new URL(process.env.HOST_URL || 'http://localhost:3000'),
     manifest: '/manifest.json',
     icons: [
         {

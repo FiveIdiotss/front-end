@@ -2,7 +2,7 @@
 import { useScrollObserver } from '@/app/_hooks/useScrollObserver';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 const CATEGORY_LIST = [
     {
         url: '/posts/mentor',
@@ -25,23 +25,11 @@ const CATEGORY_LIST = [
 ];
 function Header() {
     const pathName = usePathname();
-    const [isPage, setIsPage] = useState(false); //페이지 여부
-    const [category, setCategory] = useState<{
-        url: string;
-        name: string;
-        intro: string;
-        icon: string;
-    }>(); //카테고리 정보
+
     const scrollVisible = useScrollObserver(130);
-    useEffect(() => {
-        if (pathName.startsWith('/account')) {
-            return;
-        } //account 페이지는 제외
-        const isPage = CATEGORY_LIST.some((category) => category.url === pathName);
-        setIsPage(isPage); //페이지 여부
-        const category = CATEGORY_LIST.find((category) => category.url === pathName);
-        setCategory(category); //글목록 페이지이에서만 필터링 네이게이션바 노출
-    }, [pathName]);
+
+    const category = CATEGORY_LIST.find((category) => category.url === pathName); //현재 페이지 카테고리
+    const isPage = pathName.startsWith('/account') || CATEGORY_LIST.some((category) => category.url === pathName); //페이지 여부
 
     return (
         <>

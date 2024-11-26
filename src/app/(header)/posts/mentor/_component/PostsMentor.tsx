@@ -10,6 +10,7 @@ import { MentorBoardDTOType } from '@/app/Models/mentorType';
 import { pushNotification } from '@/app/util/pushNotification';
 import { createMentorPostsKey } from '@/app/queryKeys/mentorKey';
 import { Session } from 'next-auth';
+import FilterNav from '../../_component/postsNav/FilterNav';
 
 export default function PostsMentor({ session }: { session?: Session | null }) {
     const router = useRouter();
