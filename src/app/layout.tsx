@@ -48,11 +48,11 @@ export const metadata: Metadata = {
         '지식을 나누는 새로운 세상. 온라인 멘토링 매칭을 통해 지식을 나누세요! 우리대학 선배, 후배도 찾아보세요!',
     keywords: '멘토링, 멘토링 플랫폼, 멘티토, 멘토, 멘토링 매칭, 온라인 멘토링',
     verification: {
-        google: 'M9cbMdaFe5M1rYTo3h82zlVaG9RJlaebPt3OVbQi-Go',
+        google: 'M9cbMdaFe5M1rYTo3h82zlVaG9RJlaebPt3OVbQi-Go', //구글 검색엔진 등록
     },
     other: {
         'naver-site-verification': '10b0a140d1a3624d6b2b82a899be418dfaedc8ed',
-    },
+    }, //네이버 검색엔진 등록
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
