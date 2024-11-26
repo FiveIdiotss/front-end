@@ -16,7 +16,7 @@
 }
 
 html {
-    @apply h-dvh overflow-y-auto overflow-x-hidden   overscroll-y-none  !important;
+    @apply h-dvh overflow-y-auto overflow-x-hidden !important;
 }
 body {
     /* @apply; */
