@@ -18,9 +18,13 @@ async function HomeMain() {
                 <div className="flex w-full flex-col gap-4">
                     <HomeMentoBoard session={session} />
                 </div>
-                <div className=" flex  flex-col gap-2  tablet:hidden">
-                    <SubBoardCarousel />
-                    <HotKeywords />
+                <div className=" flex  flex-col  gap-2  mobile:flex-row  tablet:hidden">
+                    <div className="w-full mobile:w-80">
+                        <HotKeywords />
+                    </div>
+                    <div className=" w-full mobile:w-[calc(100%-328px)]  ">
+                        <SubBoardCarousel />
+                    </div>
                 </div>
                 <div className=" flex w-full flex-col gap-10 mobile:gap-6 desktop:flex-row">
                     <HomeRequestsBoard />
