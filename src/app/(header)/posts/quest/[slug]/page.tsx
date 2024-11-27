@@ -14,6 +14,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         const text = htmlToText(boardData.subBoardDTO.content);
         const trimmedText = text.length > 160 ? text.substring(0, 157) + '...' : text;
 
+        const ogSearchParams = new URLSearchParams();
+        ogSearchParams.set('title', boardData.subBoardDTO.title); // title 키와 값이다.
+
         return {
             title: { absolute: boardData.subBoardDTO.title + ' -  멘티토 | 자유 질문' },
             description: formattedTime + ' - ' + trimmedText,
@@ -22,6 +25,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
                 description: formattedTime + ' - ' + trimmedText,
                 type: 'website',
                 url: `${process.env.HOST_URL}/posts/quest/${params.slug}`, // URL 추가
+            },
+            images: {
+                url: `/api/og?${ogSearchParams.toString()}`,
+                width: 1200,
+                height: 630,
+                alt: boardData.subBoardDTO.title,
             },
         };
     } catch (error) {
