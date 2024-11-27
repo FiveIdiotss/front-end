@@ -4,6 +4,8 @@ import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 // import { createAvatar } from '@dicebear/core';
 // import { openPeeps } from '@dicebear/collection';
 
+export const runtime = 'edge';
+
 export const alt = 'About Acme';
 export const size = {
     width: 1200,
