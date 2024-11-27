@@ -2,23 +2,27 @@ import { openPeeps } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
-export const runtime = 'edge'; // edge 런타임을 사용해야한다.
 
-export async function GET(req: NextRequest) {
-    // const avatar = createAvatar(openPeeps, {
-    //     seed: Math.random().toString(36).substring(2, 15),
-    //     radius: 10,
-    // });
+export async function GET(req) {
+    const avatar = createAvatar(openPeeps, {
+        seed: Math.random().toString(36).substring(2, 15),
+        radius: 10,
+    });
 
-    // const svg = avatar.toString(); // SVG 데이터를 문자열로 가져옵니다.
+    const svg = avatar.toString(); // SVG 문자열을 가져옴
 
-    // const base64 = Buffer.from(svg).toString('base64'); // Base64로 변환
-    // const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
+    // SVG를 Base64로 변환
+    const base64 = Buffer.from(svg).toString('base64');
+    const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
 
     try {
         const { searchParams } = req.nextUrl;
         const title = searchParams.get('title');
+        const content = searchParams.get('content');
+        const category = searchParams.get('category');
+        const name = searchParams.get('name');
+        const replyCount = searchParams.get('replyCount');
 
         if (!title) {
             return new Response('title', {
@@ -76,7 +80,7 @@ export async function GET(req: NextRequest) {
                                     color: '#4b5563',
                                 }}
                             >
-                                이공계
+                                {category}
                             </div>
                         </div>
                         <div
@@ -101,7 +105,7 @@ export async function GET(req: NextRequest) {
                                         fontWeight: 'bold',
                                     }}
                                 >
-                                    1
+                                    {replyCount}
                                 </span>
                                 개의 답변
                             </span>
@@ -127,13 +131,13 @@ export async function GET(req: NextRequest) {
                                 justifyContent: 'center',
                             }}
                         >
-                            {/* <img
+                            <img
                                 src={avatarURL}
                                 alt="랜덤 아바타"
                                 width={120}
                                 height={120}
                                 style={{ borderRadius: '50%' }}
-                            /> */}
+                            />
                             <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>@정진혁</p>
                         </div>
                         <div
@@ -159,7 +163,7 @@ export async function GET(req: NextRequest) {
                                     alignItems: 'center',
                                 }}
                             >
-                                Q. 열 역학 질문입니다
+                                {`Q. ${title}`}
                             </div>
                             <p
                                 style={{
@@ -172,7 +176,7 @@ export async function GET(req: NextRequest) {
                                     overflow: 'hidden',
                                 }}
                             >
-                                열역학 제 1법칙 에너지보존 법칙에서 뇌터 정리에 대해 정확히 알고싶습니다!!
+                                {content}
                             </p>
                         </div>
                     </div>
