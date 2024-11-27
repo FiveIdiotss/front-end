@@ -4,7 +4,7 @@ import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 // import { createAvatar } from '@dicebear/core';
 // import { openPeeps } from '@dicebear/collection';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
 export const alt = 'About Acme';
 export const size = {
@@ -13,7 +13,7 @@ export const size = {
 };
 export const contentType = 'image/png';
 
-export default async function Image({ params }: { params: { slug: string } }) {
+export default async function Image(params) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
 
@@ -36,7 +36,6 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     height: '100%',
                     backgroundColor: 'white',
                     fontFamily: 'Arial, sans-serif',
-                    overflow: 'hidden',
                 }}
             >
                 {/* Header Section */}
