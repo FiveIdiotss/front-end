@@ -17,15 +17,15 @@ export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
 
-    const avatar = createAvatar(openPeeps, {
-        seed: Math.random().toString(36).substring(2, 15),
-        radius: 10,
-    });
+    // const avatar = createAvatar(openPeeps, {
+    //     seed: Math.random().toString(36).substring(2, 15),
+    //     radius: 10,
+    // });
 
-    const svg = avatar.toString(); // SVG 데이터를 문자열로 가져옵니다.
+    // const svg = avatar.toString(); // SVG 데이터를 문자열로 가져옵니다.
 
-    const base64 = Buffer.from(svg).toString('base64'); // Base64로 변환
-    const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
+    // const base64 = Buffer.from(svg).toString('base64'); // Base64로 변환
+    // const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
 
     return new ImageResponse(
@@ -128,13 +128,13 @@ export default async function Image({ params }: { params: { slug: string } }) {
                             justifyContent: 'center',
                         }}
                     >
-                        <img
+                        {/* <img
                             src={avatarURL}
                             alt="랜덤 아바타"
                             width={120}
                             height={120}
                             style={{ borderRadius: '50%' }}
-                        />
+                        /> */}
                         <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>
                             @{boardData?.subBoardDTO.memberName}
                         </p>
