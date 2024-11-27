@@ -14,10 +14,9 @@ export const contentType = 'image/png';
 export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
-    const randomSeed = Math.random().toString(36).substring(2, 15);
 
     const avatar = createAvatar(openPeeps, {
-        seed: randomSeed,
+        seed: params.slug,
         radius: 10,
     });
 
