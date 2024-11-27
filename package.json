@@ -11,6 +11,8 @@
     "dependencies": {
         "@auth/core": "^0.21.0",
         "@botom/quill-resize-module": "^2.0.1",
+        "@dicebear/collection": "^9.2.2",
+        "@dicebear/core": "^9.2.2",
         "@hookform/resolvers": "^3.3.4",
         "@stomp/stompjs": "^7.0.0",
         "@tanstack/react-query": "^5.18.1",

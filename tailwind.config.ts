@@ -30,6 +30,7 @@ const config: Config = {
                 'gradient-1': 'linear-gradient(to right, rgba(225, 207, 235, 0.6), rgba(183, 217, 243, 0.6))',
                 'gradient-2': 'linear-gradient(to right, rgba(225, 207, 235, 0.7), rgba(183, 217, 243, 0.7))',
                 'gradient-3': 'linear-gradient(to right, rgba(225, 207, 235), rgba(183, 217, 243 ))',
+                'gradient-4': 'linear-gradient(to right, rgba(170, 150, 180), rgba(140, 180, 220))',
             },
 
             colors: {
