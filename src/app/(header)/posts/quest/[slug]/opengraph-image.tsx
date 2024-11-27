@@ -26,7 +26,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
 
     const base64 = Buffer.from(svg).toString('base64'); // Base64로 변환
     const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
-    const imageUrl = `${process.env.HOST_URL || ''}/PWA/web-app-manifest-512x512.png`;
+    const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
 
     return new ImageResponse(
         (
