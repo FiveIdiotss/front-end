@@ -4,8 +4,6 @@ import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 import { createAvatar } from '@dicebear/core';
 import { openPeeps } from '@dicebear/collection';
 
-export const runtime = 'edge';
-
 export const alt = 'About Acme';
 export const size = {
     width: 1200,
@@ -17,15 +15,17 @@ export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
 
-    // const avatar = createAvatar(openPeeps, {
-    //     seed: Math.random().toString(36).substring(2, 15),
-    //     radius: 10,
-    // });
+    const avatar = createAvatar(openPeeps, {
+        seed: Math.random().toString(36).substring(2, 15),
+        radius: 10,
+    });
 
-    // const svg = avatar.toString(); // SVG 데이터를 문자열로 가져옵니다.
+    const svg = avatar.toString(); // SVG 문자열을 가져옴
 
-    // const base64 = Buffer.from(svg).toString('base64'); // Base64로 변환
-    // const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
+    // SVG를 Base64로 변환
+    const base64 = Buffer.from(svg).toString('base64');
+    const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
+
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
 
     return new ImageResponse(
@@ -77,7 +77,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                                 color: '#4b5563',
                             }}
                         >
-                            {boardData?.subBoardDTO.boardCategory}
+                            {boardData?.subBoardDTO?.boardCategory}
                         </div>
                     </div>
                     <div
@@ -102,7 +102,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                                     fontWeight: 'bold',
                                 }}
                             >
-                                {boardData?.subBoardDTO.replyCount}
+                                {boardData?.subBoardDTO?.replyCount}
                             </span>
                             개의 답변
                         </span>
@@ -128,16 +128,14 @@ export default async function Image({ params }: { params: { slug: string } }) {
                             justifyContent: 'center',
                         }}
                     >
-                        {/* <img
+                        <img
                             src={avatarURL}
                             alt="랜덤 아바타"
                             width={120}
                             height={120}
                             style={{ borderRadius: '50%' }}
-                        /> */}
-                        <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>
-                            @{boardData?.subBoardDTO.memberName}
-                        </p>
+                        />
+                        <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>@정진혁</p>
                     </div>
                     <div
                         style={{
@@ -162,7 +160,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                                 alignItems: 'center',
                             }}
                         >
-                            Q. {boardData?.subBoardDTO.title}
+                            {`Q. ${boardData?.subBoardDTO?.title}`}
                         </div>
                         <p
                             style={{
@@ -175,7 +173,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                                 overflow: 'hidden',
                             }}
                         >
-                            {boardData?.subBoardDTO.content}
+                            {boardData?.subBoardDTO?.content}
                         </p>
                     </div>
                 </div>

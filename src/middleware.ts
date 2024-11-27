@@ -10,9 +10,9 @@ export async function middleware(req: NextRequest) {
     //     }
     const url = req.nextUrl.pathname;
 
-    if (url.startsWith('/api/og')) {
-        return NextResponse.next();
-    }
+    // if (url.startsWith('/api/og')) {
+    //     return NextResponse.next();
+    // }
 
     const session = await auth();
     if (!session) {
