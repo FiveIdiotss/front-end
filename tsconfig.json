@@ -22,6 +22,15 @@
             "@/*": ["./src/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(main)/user/_component"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "src/app/(main)/user/_component",
+        "src/app/(header)/posts/quest/[slug]/opengraph-image.js",
+        "src/app/(header)/posts/quest/[slug]/opengraph-image.js",
+        "src/app/(header)/posts/quest/[slug]/opengraph-image.js"
+    ],
     "exclude": ["node_modules"]
 }
