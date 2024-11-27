@@ -15,12 +15,12 @@ export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
 
-    const avatar = createAvatar(openPeeps, {
-        seed: params.slug,
-        radius: 10,
-    });
+    // const avatar = createAvatar(openPeeps, {
+    //     seed: params.slug,
+    //     radius: 10,
+    // });
 
-    const avatarURL = avatar.toDataUri(); // 5. 랜덤 아바타를 생성한다.
+    // const avatarURL = avatar.toDataUri(); // 5. 랜덤 아바타를 생성한다.
 
     return new ImageResponse(
         (
@@ -123,13 +123,13 @@ export default async function Image({ params }: { params: { slug: string } }) {
                             justifyContent: 'center',
                         }}
                     >
-                        <img
+                        {/* <img
                             src={avatarURL}
                             alt="랜덤 아바타"
                             width={120}
                             height={120}
                             style={{ borderRadius: '50%' }}
-                        />
+                        /> */}
                         <p style={{ marginTop: '16px', fontSize: '16px', color: '#6b7280' }}>
                             @{boardData?.subBoardDTO.memberName}
                         </p>
