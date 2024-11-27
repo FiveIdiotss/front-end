@@ -17,7 +17,12 @@ function page() {
 
     return (
         <div className="m-auto flex  flex-col justify-between overflow-hidden rounded-lg border border-gray-300 bg-white shadow-lg">
-            <img src={`/api/og?${ogSearchParams.toString()}`} alt="xx" width={1300} height={630} />
+            <img
+                src={`${process.env.HOST_URL || 'https://menteetor.site'}/api/og?${ogSearchParams.toString()}`}
+                alt="xx"
+                width={1300}
+                height={630}
+            />
         </div>
     );
 }

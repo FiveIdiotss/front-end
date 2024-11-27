@@ -1,13 +1,18 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from './auth';
 
 const baseUrl = process.env.HOST_URL;
 
-export async function middleware() {
+export async function middleware(req: NextRequest) {
     //     const session = await auth();
     //     if (!session) {
     //         return NextResponse.redirect('http://localhost:3000/user/login');
     //     }
+    const url = req.nextUrl.pathname;
+
+    if (url.startsWith('/api/og')) {
+        return NextResponse.next();
+    }
 
     const session = await auth();
     if (!session) {
