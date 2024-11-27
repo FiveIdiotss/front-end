@@ -1,8 +1,8 @@
 import { ImageResponse } from 'next/og'; // 2. ImageResponse를 import한다.
 import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
-import favicon from '@/../public/PWA/web-app-manifest-512x512.png';
-import { createAvatar } from '@dicebear/core';
-import { openPeeps } from '@dicebear/collection';
+// import favicon from '@/../public/PWA/web-app-manifest-512x512.png';
+// import { createAvatar } from '@dicebear/core';
+// import { openPeeps } from '@dicebear/collection';
 
 export const alt = 'About Acme';
 export const size = {
@@ -21,6 +21,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
     // });
 
     // const avatarURL = avatar.toDataUri(); // 5. 랜덤 아바타를 생성한다.
+    // const logoSrc = await fetch('/logo.png').then((res) => res.arrayBuffer());
 
     return new ImageResponse(
         (
@@ -46,7 +47,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                     }}
                 >
-                    <img
+                    {/* <img
                         src={favicon.src}
                         alt="열역학"
                         width={80}
@@ -55,7 +56,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                             borderRadius: '8px',
                             border: '1px solid #ccc',
                         }}
-                    />
+                    /> */}
                     <div style={{ marginLeft: '16px' }}>
                         <div
                             style={{
