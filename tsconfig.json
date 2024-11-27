@@ -30,7 +30,9 @@
         "src/app/(main)/user/_component",
         "src/app/(header)/posts/quest/[slug]/opengraph-image.js",
         "src/app/(header)/posts/quest/[slug]/opengraph-image.js",
-        "src/app/(header)/posts/quest/[slug]/opengraph-image.js"
+        "src/app/(header)/posts/quest/[slug]/opengraph-image.js",
+        "src/app/api/og/route.js",
+        "src/app/api/og/route.js"
     ],
     "exclude": ["node_modules"]
 }
