@@ -25,12 +25,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
                 description: formattedTime + ' - ' + trimmedText,
                 type: 'website',
                 url: `${process.env.HOST_URL}/posts/quest/${params.slug}`, // URL 추가
-                images: {
-                    url: `/api/og?${ogSearchParams.toString()}`,
-                    width: 1200,
-                    height: 630,
-                    alt: boardData.subBoardDTO.title,
-                },
             },
         };
     } catch (error) {

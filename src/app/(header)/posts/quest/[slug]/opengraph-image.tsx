@@ -1,8 +1,8 @@
 import { ImageResponse } from 'next/og'; // 2. ImageResponse를 import한다.
 import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 // import favicon from '@/../public/PWA/web-app-manifest-512x512.png';
-// import { createAvatar } from '@dicebear/core';
-// import { openPeeps } from '@dicebear/collection';
+import { createAvatar } from '@dicebear/core';
+import { openPeeps } from '@dicebear/collection';
 
 export const runtime = 'edge';
 
@@ -13,17 +13,20 @@ export const size = {
 };
 export const contentType = 'image/png';
 
-export default async function Image(params) {
+export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
 
-    // const avatar = createAvatar(openPeeps, {
-    //     seed: params.slug,
-    //     radius: 10,
-    // });
+    const avatar = createAvatar(openPeeps, {
+        seed: Math.random().toString(36).substring(2, 15),
+        radius: 10,
+    });
 
-    // const avatarURL = avatar.toDataUri(); // 5. 랜덤 아바타를 생성한다.
-    // const logoSrc = await fetch('/logo.png').then((res) => res.arrayBuffer());
+    const svg = avatar.toString(); // SVG 데이터를 문자열로 가져옵니다.
+
+    const base64 = Buffer.from(svg).toString('base64'); // Base64로 변환
+    const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
+    const imageUrl = `${process.env.HOST_URL || ''}/PWA/web-app-manifest-512x512.png`;
 
     return new ImageResponse(
         (
@@ -44,12 +47,12 @@ export default async function Image(params) {
                         display: 'flex',
                         alignItems: 'center',
                         background: 'linear-gradient(to right, #e9d5ff, #bfdbfe)',
-                        padding: '20px 40px',
+                        padding: '20px 30px',
                         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                     }}
                 >
-                    {/* <img
-                        src={favicon.src}
+                    <img
+                        src={imageUrl}
                         alt="열역학"
                         width={80}
                         height={80}
@@ -57,8 +60,8 @@ export default async function Image(params) {
                             borderRadius: '8px',
                             border: '1px solid #ccc',
                         }}
-                    /> */}
-                    <div style={{ marginLeft: '16px' }}>
+                    />
+                    <div style={{ marginLeft: '16px', display: 'flex', flexDirection: 'column' }}>
                         <div
                             style={{
                                 fontSize: '32px',
@@ -125,24 +128,32 @@ export default async function Image(params) {
                             justifyContent: 'center',
                         }}
                     >
-                        {/* <img
+                        <img
                             src={avatarURL}
                             alt="랜덤 아바타"
                             width={120}
                             height={120}
                             style={{ borderRadius: '50%' }}
-                        /> */}
-                        <p style={{ marginTop: '16px', fontSize: '16px', color: '#6b7280' }}>
+                        />
+                        <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>
                             @{boardData?.subBoardDTO.memberName}
                         </p>
                     </div>
-                    <div style={{ marginLeft: '40px', flex: 1 }}>
+                    <div
+                        style={{
+                            marginLeft: '40px',
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                        }}
+                    >
                         <div
                             style={{
                                 fontSize: '33px',
                                 fontWeight: 'bold',
                                 color: '#7963d9',
-                                marginBottom: '10px',
+                                marginBottom: '3px',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
                                 whiteSpace: 'nowrap',
