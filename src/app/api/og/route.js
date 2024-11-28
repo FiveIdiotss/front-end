@@ -56,7 +56,9 @@ export async function GET(req) {
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            padding: '20px 30px',
+                            margin: '60px 60px 0 60px',
+                            borderBottom: '1px solid #ffffff',
+                            paddingBottom: '20px',
                         }}
                     >
                         <img
