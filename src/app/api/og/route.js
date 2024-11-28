@@ -15,7 +15,6 @@ export async function GET(req) {
     const base64 = Buffer.from(svg).toString('base64');
     const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
-    const text = htmlToText(boardData.subBoardDTO.content);
 
     try {
         const { searchParams } = req.nextUrl;
