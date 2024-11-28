@@ -17,7 +17,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
 
     const avatar = createAvatar(openPeeps, {
-        seed: Math.random().toString(36).substring(2, 15),
+        seed: params.slug,
         radius: 10,
     });
 
@@ -28,10 +28,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
     const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
 
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
-    const content = htmlToText(boardData.subBoardDTO.content, {
-        //   ignoreImage: true, // 이미지 태그를 무시하도록 설정
-        //   ignoreHref: true,  // 링크도 무시하려면 이 옵션 추가
-    });
+    const content = htmlToText(boardData.subBoardDTO.content, {});
     return new ImageResponse(
         (
             <div
@@ -43,6 +40,13 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     height: '100%',
                     backgroundColor: 'white',
                     fontFamily: 'Arial, sans-serif',
+                    backgroundImage: `
+    radial-gradient(circle at 15px 15px, #ffffff 1%, rgba(255, 255, 255, 0) 3%), 
+    radial-gradient(circle at 45px 45px, #ffffff 0.5%, rgba(255, 255, 255, 0) 3%), 
+    linear-gradient(to right, #7b2cbf, #4c8bf5)
+  `,
+                    backgroundSize: '60px 60px, 60px 60px, 100% 100%',
+                    backgroundRepeat: 'repeat, repeat, no-repeat',
                 }}
             >
                 {/* Header Section */}
@@ -50,38 +54,35 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        background: 'linear-gradient(to right, #e9d5ff, #bfdbfe)',
                         padding: '20px 30px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                     }}
                 >
                     <img
                         src={imageUrl}
-                        alt="열역학"
-                        width={80}
-                        height={80}
+                        alt="Acme Logo"
+                        width={85}
+                        height={85}
                         style={{
-                            borderRadius: '8px',
-                            border: '1px solid #ccc',
+                            borderRadius: '20px',
                         }}
                     />
                     <div style={{ marginLeft: '16px', display: 'flex', flexDirection: 'column' }}>
                         <div
                             style={{
-                                fontSize: '50px',
+                                fontSize: '35px',
                                 fontWeight: 'bold',
-                                color: '#1f2937',
+                                color: '#ffffff',
                             }}
                         >
                             자유 질문
                         </div>
                         <div
                             style={{
-                                fontSize: '30px',
-                                color: '#4b5563',
+                                fontSize: '28px',
+                                color: '#ffffff',
                             }}
                         >
-                            {boardData?.subBoardDTO?.boardCategory}
+                            {boardData.subBoardDTO.boardCategory}
                         </div>
                     </div>
                     <div
@@ -95,20 +96,18 @@ export default async function Image({ params }: { params: { slug: string } }) {
                         <span
                             style={{
                                 fontSize: '30px',
-                                color: '#4b5563',
+                                color: '#ffffff',
                                 fontWeight: 'bold',
                             }}
                         >
                             <span
                                 style={{
                                     fontSize: '30px',
-                                    color: '#1c22d4',
+                                    color: '#ffffff',
                                     fontWeight: 'bold',
-                                    display: 'flex',
-                                    alignItems: 'center',
                                 }}
                             >
-                                {boardData?.subBoardDTO?.replyCount}
+                                {boardData.subBoardDTO.replyCount}
                             </span>
                             개의 답변
                         </span>
@@ -121,9 +120,10 @@ export default async function Image({ params }: { params: { slug: string } }) {
                         display: 'flex',
                         flex: 1,
                         padding: '40px 80px',
-                        background: 'linear-gradient(to bottom right, #f3e8ff, #dbeafe)',
+
                         alignItems: 'center', // Y축 기준 중앙 정렬 추가
                         justifyContent: 'center', // 수평 중앙 정렬
+                        gap: '20px',
                     }}
                 >
                     <div
@@ -134,8 +134,10 @@ export default async function Image({ params }: { params: { slug: string } }) {
                             justifyContent: 'center',
                         }}
                     >
-                        <img src={avatarURL} alt="랜덤 아바타" width={140} height={140} />
-                        <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>@정진혁</p>
+                        <img src={avatarURL} alt="랜덤 아바타" width={120} height={120} />
+                        <p
+                            style={{ marginTop: '16px', fontSize: '26px', color: '#ffffff' }}
+                        >{`@${boardData.subBoardDTO.memberName}`}</p>
                     </div>
                     <div
                         style={{
@@ -148,9 +150,9 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     >
                         <div
                             style={{
-                                fontSize: '45px',
+                                fontSize: '40px',
                                 fontWeight: 'bold',
-                                color: '#7963d9',
+                                color: '#ffffff',
                                 marginBottom: '3px',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
@@ -160,12 +162,12 @@ export default async function Image({ params }: { params: { slug: string } }) {
                                 alignItems: 'center',
                             }}
                         >
-                            {`Q. ${boardData?.subBoardDTO?.title}`}
+                            {`Q. ${boardData.subBoardDTO.title}`}
                         </div>
                         <p
                             style={{
-                                fontSize: '38px',
-                                color: '#374151',
+                                fontSize: '33px',
+                                color: '#ffffff',
                                 lineHeight: '1.5',
                                 display: '-webkit-box',
                                 WebkitLineClamp: 2,
@@ -180,18 +182,18 @@ export default async function Image({ params }: { params: { slug: string } }) {
 
                 {/* Footer Section */}
                 {/* <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: '#f3f4f6',
-                        padding: '20px',
-                    }}
-                >
-                    <span style={{ fontSize: '17px', color: '#9ca3af' }}>
-                        © 2024 Menteeto. 해당 게시글과 관련된 질문과 답변을 여기에서 확인하세요.
-                    </span>
-                </div> */}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#f3f4f6',
+                            padding: '20px',
+                        }}
+                    >
+                        <span style={{ fontSize: '17px', color: '#232eee' }}>
+                            © 2024 Menteeto. 해당 게시글과 관련된 질문과 답변을 여기에서 확인하세요.
+                        </span>
+                    </div> */}
             </div>
         ),
         {
