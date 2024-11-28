@@ -1,10 +1,10 @@
-import { openPeeps } from '@dicebear/collection';
+import { thumbs } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
 import { htmlToText } from 'html-to-text';
 import { ImageResponse } from 'next/og';
 
 export async function GET(req) {
-    const avatar = createAvatar(openPeeps, {
+    const avatar = createAvatar(thumbs, {
         seed: Math.random().toString(36).substring(2, 15),
         radius: 10,
     });
@@ -42,6 +42,13 @@ export async function GET(req) {
                         height: '100%',
                         backgroundColor: 'white',
                         fontFamily: 'Arial, sans-serif',
+                        backgroundImage: `
+    radial-gradient(circle at 15px 15px, #ffffff 1%, rgba(255, 255, 255, 0) 3%), 
+    radial-gradient(circle at 45px 45px, #ffffff 0.5%, rgba(255, 255, 255, 0) 3%), 
+    linear-gradient(to right, #7b2cbf, #4c8bf5)
+  `,
+                        backgroundSize: '60px 60px, 60px 60px, 100% 100%',
+                        backgroundRepeat: 'repeat, repeat, no-repeat',
                     }}
                 >
                     {/* Header Section */}
@@ -49,35 +56,32 @@ export async function GET(req) {
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            background: 'linear-gradient(to right, #e9d5ff, #bfdbfe)',
                             padding: '20px 30px',
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                         }}
                     >
                         <img
                             src={imageUrl}
                             alt="열역학"
-                            width={80}
-                            height={80}
+                            width={85}
+                            height={85}
                             style={{
-                                borderRadius: '8px',
-                                border: '1px solid #ccc',
+                                borderRadius: '20px',
                             }}
                         />
                         <div style={{ marginLeft: '16px', display: 'flex', flexDirection: 'column' }}>
                             <div
                                 style={{
-                                    fontSize: '32px',
+                                    fontSize: '35px',
                                     fontWeight: 'bold',
-                                    color: '#1f2937',
+                                    color: '#ffffff',
                                 }}
                             >
                                 자유 질문
                             </div>
                             <div
                                 style={{
-                                    fontSize: '18px',
-                                    color: '#4b5563',
+                                    fontSize: '28px',
+                                    color: '#ffffff',
                                 }}
                             >
                                 {category}
@@ -93,15 +97,15 @@ export async function GET(req) {
                         >
                             <span
                                 style={{
-                                    fontSize: '18px',
-                                    color: '#4b5563',
+                                    fontSize: '30px',
+                                    color: '#ffffff',
                                     fontWeight: 'bold',
                                 }}
                             >
                                 <span
                                     style={{
-                                        fontSize: '18px',
-                                        color: '#1c22d4',
+                                        fontSize: '30px',
+                                        color: '#ffffff',
                                         fontWeight: 'bold',
                                     }}
                                 >
@@ -118,9 +122,10 @@ export async function GET(req) {
                             display: 'flex',
                             flex: 1,
                             padding: '40px 80px',
-                            background: 'linear-gradient(to bottom right, #f3e8ff, #dbeafe)',
+
                             alignItems: 'center', // Y축 기준 중앙 정렬 추가
                             justifyContent: 'center', // 수평 중앙 정렬
+                            gap: '20px',
                         }}
                     >
                         <div
@@ -131,14 +136,8 @@ export async function GET(req) {
                                 justifyContent: 'center',
                             }}
                         >
-                            <img
-                                src={avatarURL}
-                                alt="랜덤 아바타"
-                                width={120}
-                                height={120}
-                                style={{ borderRadius: '50%' }}
-                            />
-                            <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>@정진혁</p>
+                            <img src={avatarURL} alt="랜덤 아바타" width={120} height={120} />
+                            <p style={{ marginTop: '16px', fontSize: '26px', color: '#ffffff' }}>@정진혁</p>
                         </div>
                         <div
                             style={{
@@ -151,9 +150,9 @@ export async function GET(req) {
                         >
                             <div
                                 style={{
-                                    fontSize: '33px',
+                                    fontSize: '40px',
                                     fontWeight: 'bold',
-                                    color: '#7963d9',
+                                    color: '#ffffff',
                                     marginBottom: '3px',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
@@ -167,8 +166,8 @@ export async function GET(req) {
                             </div>
                             <p
                                 style={{
-                                    fontSize: '25px',
-                                    color: '#374151',
+                                    fontSize: '33px',
+                                    color: '#ffffff',
                                     lineHeight: '1.5',
                                     display: '-webkit-box',
                                     WebkitLineClamp: 2,
@@ -182,7 +181,7 @@ export async function GET(req) {
                     </div>
 
                     {/* Footer Section */}
-                    <div
+                    {/* <div
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -191,10 +190,10 @@ export async function GET(req) {
                             padding: '20px',
                         }}
                     >
-                        <span style={{ fontSize: '17px', color: '#9ca3af' }}>
+                        <span style={{ fontSize: '17px', color: '#232eee' }}>
                             © 2024 Menteeto. 해당 게시글과 관련된 질문과 답변을 여기에서 확인하세요.
                         </span>
-                    </div>
+                    </div> */}
                 </div>
             ),
             // 여기는 ImageResponse의 옵션입니다. 옵션에대해서는 공식문서 참고!
