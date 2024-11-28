@@ -3,6 +3,7 @@ import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 // import favicon from '@/../public/PWA/web-app-manifest-512x512.png';
 import { createAvatar } from '@dicebear/core';
 import { openPeeps } from '@dicebear/collection';
+import { htmlToText } from 'html-to-text';
 
 export const alt = 'About Acme';
 export const size = {
@@ -27,7 +28,10 @@ export default async function Image({ params }: { params: { slug: string } }) {
     const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
 
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
-
+    const content = htmlToText(boardData.subBoardDTO.content, {
+        //   ignoreImage: true, // 이미지 태그를 무시하도록 설정
+        //   ignoreHref: true,  // 링크도 무시하려면 이 옵션 추가
+    });
     return new ImageResponse(
         (
             <div
@@ -64,7 +68,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     <div style={{ marginLeft: '16px', display: 'flex', flexDirection: 'column' }}>
                         <div
                             style={{
-                                fontSize: '32px',
+                                fontSize: '50px',
                                 fontWeight: 'bold',
                                 color: '#1f2937',
                             }}
@@ -73,7 +77,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                         </div>
                         <div
                             style={{
-                                fontSize: '18px',
+                                fontSize: '30px',
                                 color: '#4b5563',
                             }}
                         >
@@ -90,16 +94,18 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     >
                         <span
                             style={{
-                                fontSize: '18px',
+                                fontSize: '30px',
                                 color: '#4b5563',
                                 fontWeight: 'bold',
                             }}
                         >
                             <span
                                 style={{
-                                    fontSize: '18px',
+                                    fontSize: '30px',
                                     color: '#1c22d4',
                                     fontWeight: 'bold',
+                                    display: 'flex',
+                                    alignItems: 'center',
                                 }}
                             >
                                 {boardData?.subBoardDTO?.replyCount}
@@ -128,13 +134,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                             justifyContent: 'center',
                         }}
                     >
-                        <img
-                            src={avatarURL}
-                            alt="랜덤 아바타"
-                            width={120}
-                            height={120}
-                            style={{ borderRadius: '50%' }}
-                        />
+                        <img src={avatarURL} alt="랜덤 아바타" width={140} height={140} />
                         <p style={{ marginTop: '16px', fontSize: '19px', color: '#6b7280' }}>@정진혁</p>
                     </div>
                     <div
@@ -148,7 +148,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     >
                         <div
                             style={{
-                                fontSize: '33px',
+                                fontSize: '45px',
                                 fontWeight: 'bold',
                                 color: '#7963d9',
                                 marginBottom: '3px',
@@ -164,7 +164,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                         </div>
                         <p
                             style={{
-                                fontSize: '25px',
+                                fontSize: '38px',
                                 color: '#374151',
                                 lineHeight: '1.5',
                                 display: '-webkit-box',
@@ -173,13 +173,13 @@ export default async function Image({ params }: { params: { slug: string } }) {
                                 overflow: 'hidden',
                             }}
                         >
-                            {boardData?.subBoardDTO?.content}
+                            {content}
                         </p>
                     </div>
                 </div>
 
                 {/* Footer Section */}
-                <div
+                {/* <div
                     style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -191,7 +191,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     <span style={{ fontSize: '17px', color: '#9ca3af' }}>
                         © 2024 Menteeto. 해당 게시글과 관련된 질문과 답변을 여기에서 확인하세요.
                     </span>
-                </div>
+                </div> */}
             </div>
         ),
         {
