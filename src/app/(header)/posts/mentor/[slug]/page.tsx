@@ -19,11 +19,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
             openGraph: {
                 title: { absolute: boardData.boardDTO.title + ' -  멘티토 | 멘토링' },
                 description: formattedTime + ' - ' + trimmedText,
-                type: 'article',
-                article: {
-                    publishedTime: writeTime.toISOString(),
-                    modifiedTime: writeTime.toISOString(),
-                },
+                type: 'website',
+                url: `${process.env.HOST_URL}/posts/mentor/${params.slug}`,
             },
         };
     } catch (error) {
