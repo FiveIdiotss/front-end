@@ -26,7 +26,13 @@ export default async function Image({ params }: { params: { slug: string } }) {
     const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
 
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
-    const truncatedContent = htmlToText(boardData.boardDTO.content, {}).slice(0, 75); // 첫 75자를 자르기
+    const truncatedContent = htmlToText(boardData.boardDTO.content, {
+        selectors: [
+            { selector: 'img', format: 'skip' },
+            { selector: 'a', format: 'skip' },
+            { selector: 'iframe', format: 'skip' },
+        ],
+    }).slice(0, 75); // 첫 75자를 자르기
     const content =
         truncatedContent.length === htmlToText(boardData.boardDTO.content, {}).length
             ? truncatedContent

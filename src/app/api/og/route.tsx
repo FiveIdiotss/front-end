@@ -1,11 +1,11 @@
-import { notionists } from '@dicebear/collection';
+import { lorelei } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
 import { htmlToText } from 'html-to-text';
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
-    const avatar = createAvatar(notionists, {
+    const avatar = createAvatar(lorelei, {
         seed: Math.random().toString(36).substring(2, 15),
         radius: 10,
     });
@@ -17,6 +17,21 @@ export async function GET(req: NextRequest) {
     const avatarURL = `data:image/svg+xml;base64,${base64}`; // Data URI 생성
     const imageUrl = `${process.env.HOST_URL || 'https://menteetor.site'}/PWA/web-app-manifest-512x512.png`;
 
+    const htmlContent = `
+  <p><br></p>
+  <p>이산수학 관련 모든 질문 답변해드립니다.
+  <img src="https://www.booksr.co.kr/wp-content/uploads/2022/01/bookcover_img92.jpg" alt="이산수학 (개정판)">
+  <a href="https://example.com">링크</a>
+  <iframe src="https://www.youtube.com"></iframe>
+  </p>
+`;
+    const truncatedContent = htmlToText(htmlContent, {
+        selectors: [
+            { selector: 'img', format: 'skip' },
+            { selector: 'a', format: 'skip' },
+            { selector: 'iframe', format: 'skip' },
+        ],
+    }).slice(0, 75); // 첫 75자를 자르기
     try {
         const { searchParams } = req.nextUrl;
         const title = searchParams.get('title');
@@ -79,7 +94,7 @@ export async function GET(req: NextRequest) {
                                     color: '#ffffff',
                                 }}
                             >
-                                멘토링
+                                멘토 찾기
                             </div>
                             <div
                                 style={{
@@ -112,8 +127,9 @@ export async function GET(req: NextRequest) {
                                         fontWeight: 'bold',
                                     }}
                                 >
-                                    {`컴퓨터공학과 | 20학번`}
+                                    {`1`}
                                 </span>
+                                개의 답변
                             </span>
                         </div>
                     </div>
@@ -154,12 +170,12 @@ export async function GET(req: NextRequest) {
                                 style={{
                                     fontSize: '44px',
                                     fontWeight: 'bold',
-                                    color: '#ffffff',
                                     marginBottom: '3px',
                                     overflow: 'hidden',
                                     maxWidth: '100%',
                                     justifyContent: 'center',
                                     alignItems: 'center',
+                                    color: '#ffffff',
                                 }}
                             >
                                 {`이산수학 과목 제대로 알려드립니다.이산수학 과목 제대로 알려드립니다.`}
@@ -171,25 +187,10 @@ export async function GET(req: NextRequest) {
                                     lineHeight: '1.4',
                                 }}
                             >
-                                {`이산수학은 수학의 한 분야로서, 유한한 객체들에 대한 연산에 대한 연구를 다룬다.이산수학은 수학의 한 분야로서, 유한한 객체들에 대한 연산에 대한 연구를 다룬다.이산수학은 수학의...`}
+                                {truncatedContent}
                             </p>
                         </div>
                     </div>
-
-                    {/* Footer Section */}
-                    {/* <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#f3f4f6',
-                            padding: '20px',
-                        }}
-                    >
-                        <span style={{ fontSize: '17px', color: '#232eee' }}>
-                            © 2024 Menteeto. 해당 게시글과 관련된 질문과 답변을 여기에서 확인하세요.
-                        </span>
-                    </div> */}
                 </div>
             ),
             // 여기는 ImageResponse의 옵션입니다. 옵션에대해서는 공식문서 참고!

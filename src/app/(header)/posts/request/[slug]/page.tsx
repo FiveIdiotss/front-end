@@ -11,12 +11,24 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         const boardData: SubBoardDetailType = response.data.data;
         const writeTime = dayjs(boardData.subBoardDTO.writeTime);
         const formattedTime = writeTime.format('YYYY.MM.DD');
-        const text = htmlToText(boardData.subBoardDTO.content);
+        const text = htmlToText(boardData.subBoardDTO.content, {
+            selectors: [
+                { selector: 'img', format: 'skip' },
+                { selector: 'a', format: 'skip' },
+                { selector: 'iframe', format: 'skip' },
+            ],
+        });
         const trimmedText = text.length > 160 ? text.substring(0, 157) + '...' : text;
 
         return {
             title: { absolute: boardData.subBoardDTO.title + ' -  멘티토 | 멘토 찾기' },
             description: formattedTime + ' - ' + trimmedText,
+            openGraph: {
+                title: { absolute: boardData.subBoardDTO.title + ' - 멘티토 | 멘토 찾기' },
+                description: formattedTime + ' - ' + trimmedText,
+                type: 'website',
+                url: `${process.env.HOST_URL}/posts/request/${params.slug}`, // URL 추가
+            },
         };
     } catch (error) {
         console.error('Error fetching subBoard data:', error);
