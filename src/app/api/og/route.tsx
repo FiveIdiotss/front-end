@@ -1,10 +1,11 @@
-import { thumbs } from '@dicebear/collection';
+import { notionists } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
 import { htmlToText } from 'html-to-text';
 import { ImageResponse } from 'next/og';
+import { NextRequest } from 'next/server';
 
-export async function GET(req) {
-    const avatar = createAvatar(thumbs, {
+export async function GET(req: NextRequest) {
+    const avatar = createAvatar(notionists, {
         seed: Math.random().toString(36).substring(2, 15),
         radius: 10,
     });
@@ -63,7 +64,7 @@ export async function GET(req) {
                     >
                         <img
                             src={imageUrl}
-                            alt="열역학"
+                            alt="Acme Logo"
                             width={85}
                             height={85}
                             style={{
@@ -78,7 +79,7 @@ export async function GET(req) {
                                     color: '#ffffff',
                                 }}
                             >
-                                자유 질문
+                                멘토링
                             </div>
                             <div
                                 style={{
@@ -111,9 +112,8 @@ export async function GET(req) {
                                         fontWeight: 'bold',
                                     }}
                                 >
-                                    {replyCount}
+                                    {`컴퓨터공학과 | 20학번`}
                                 </span>
-                                개의 답변
                             </span>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ export async function GET(req) {
                             }}
                         >
                             <img src={avatarURL} alt="랜덤 아바타" width={120} height={120} />
-                            <p style={{ marginTop: '16px', fontSize: '26px', color: '#ffffff' }}>@정진혁</p>
+                            <p style={{ marginTop: '16px', fontSize: '26px', color: '#ffffff' }}>{`@${name}`}</p>
                         </div>
                         <div
                             style={{
@@ -152,32 +152,26 @@ export async function GET(req) {
                         >
                             <div
                                 style={{
-                                    fontSize: '40px',
+                                    fontSize: '44px',
                                     fontWeight: 'bold',
                                     color: '#ffffff',
                                     marginBottom: '3px',
                                     overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
                                     maxWidth: '100%',
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}
                             >
-                                {`Q. ${title}`}
+                                {`이산수학 과목 제대로 알려드립니다.이산수학 과목 제대로 알려드립니다.`}
                             </div>
                             <p
                                 style={{
                                     fontSize: '33px',
                                     color: '#ffffff',
-                                    lineHeight: '1.5',
-                                    display: '-webkit-box',
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: 'vertical',
-                                    overflow: 'hidden',
+                                    lineHeight: '1.4',
                                 }}
                             >
-                                {content}
+                                {`이산수학은 수학의 한 분야로서, 유한한 객체들에 대한 연산에 대한 연구를 다룬다.이산수학은 수학의 한 분야로서, 유한한 객체들에 대한 연산에 대한 연구를 다룬다.이산수학은 수학의...`}
                             </p>
                         </div>
                     </div>
