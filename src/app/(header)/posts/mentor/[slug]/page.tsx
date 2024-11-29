@@ -9,7 +9,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         const boardData = await getMentorDetail(Number(params.slug));
         const writeTime = dayjs(boardData.boardDTO.writeTime);
         const formattedTime = writeTime.format('YYYY.MM.DD');
-        const text = htmlToText(boardData.boardDTO.content);
+        const text = htmlToText(boardData.boardDTO.content, {
+            selectors: [
+                { selector: 'img', format: 'skip' },
+                { selector: 'a', format: 'skip' },
+                { selector: 'iframe', format: 'skip' },
+            ],
+        });
         const trimmedText = text.length > 160 ? text.substring(0, 157) + '...' : text;
 
         return {

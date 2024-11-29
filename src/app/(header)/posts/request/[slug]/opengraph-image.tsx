@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'; // 2. ImageResponse를 import한다.
 import { getSubBoardDetail } from '../../_lib/qeustOrRequestService';
 // import favicon from '@/../public/PWA/web-app-manifest-512x512.png';
 import { createAvatar } from '@dicebear/core';
-import { openPeeps } from '@dicebear/collection';
+import { lorelei } from '@dicebear/collection';
 import { htmlToText } from 'html-to-text';
 
 export const alt = 'About Acme';
@@ -16,7 +16,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
     // 3. params 값을 받아온다. (url의 detail/ 이하 문구)
     const boardData = await getSubBoardDetail(Number(params.slug)); // 4. 해당 게시글의 데이터를 가져온다.
 
-    const avatar = createAvatar(openPeeps, {
+    const avatar = createAvatar(lorelei, {
         seed: params.slug,
         radius: 10,
     });
@@ -90,7 +90,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                                 color: '#ffffff',
                             }}
                         >
-                            자유 질문
+                            멘토 찾기
                         </div>
                         <div
                             style={{
@@ -166,29 +166,23 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     >
                         <div
                             style={{
-                                fontSize: '40px',
+                                fontSize: '44px',
                                 fontWeight: 'bold',
-                                color: '#ffffff',
                                 marginBottom: '3px',
                                 overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
                                 maxWidth: '100%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                color: '#ffffff',
                             }}
                         >
-                            {`Q. ${title}`}
+                            {title}
                         </div>
                         <p
                             style={{
                                 fontSize: '33px',
                                 color: '#ffffff',
-                                lineHeight: '1.5',
-                                display: '-webkit-box',
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden',
+                                lineHeight: '1.4',
                             }}
                         >
                             {content}

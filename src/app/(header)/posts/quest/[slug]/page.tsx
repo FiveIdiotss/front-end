@@ -11,7 +11,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         const boardData: SubBoardDetailType = response.data.data;
         const writeTime = dayjs(boardData.subBoardDTO.writeTime);
         const formattedTime = writeTime.format('YYYY.MM.DD');
-        const text = htmlToText(boardData.subBoardDTO.content);
+        const text = htmlToText(boardData.subBoardDTO.content, {
+            selectors: [
+                { selector: 'img', format: 'skip' },
+                { selector: 'a', format: 'skip' },
+                { selector: 'iframe', format: 'skip' },
+            ],
+        });
         const trimmedText = text.length > 160 ? text.substring(0, 157) + '...' : text;
 
         const ogSearchParams = new URLSearchParams();
