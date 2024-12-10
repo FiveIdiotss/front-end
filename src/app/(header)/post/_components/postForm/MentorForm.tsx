@@ -63,7 +63,7 @@ function MentorForm({ editId }: { editId?: number }) {
     const updateMentorMutation = useUpdateMentorMutation(editId); //멘토 수정 mutation
 
     const { initialValues, isPending } = useMentorInitialValue(editId); //초기값
-    const isEditPage = Boolean(editId);
+    const isEditPage = Boolean(editId); //수정페이지인지 여부
 
     const formik = useFormik({
         initialValues, // 초기값

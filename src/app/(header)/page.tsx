@@ -7,6 +7,7 @@ import BookIcon from '@/app/_icons/common/BookIcon';
 import { getHomeMentorPosts, getHomeQuestsOrRequests } from './_lib/homeService';
 import HomeSearch from './_component/HomeSearch/HomeSearch';
 import { QUEST_SUBBOARD_QUERYKEY, REQUEST_SUBBOARD_QUERYKEY } from '../queryKeys/subBoardKey';
+import { getHomeHotSubBoards } from './_lib/homeHotContentService';
 
 async function HomePage() {
     const queryClient = new QueryClient();
@@ -34,6 +35,14 @@ async function HomePage() {
                 subBoardType: 'REQUEST',
             }),
     });
+    await queryClient.prefetchQuery({
+        queryKey: ['homeHotSuboards', { subBoardType: 'QUEST' }],
+        queryFn: () => getHomeHotSubBoards({ subBoardType: 'QUEST' }),
+    });
+    await queryClient.prefetchQuery({
+        queryKey: ['homeHotSuboards', { subBoardType: 'REQUEST' }],
+        queryFn: () => getHomeHotSubBoards({ subBoardType: 'REQUEST' }),
+    });
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -41,7 +50,7 @@ async function HomePage() {
         <HydrationBoundary state={dehydratedState}>
             <div className="flex  w-full flex-col ">
                 <div
-                    className="w-dvh bg-gradient-1 z-[2] flex w-full flex-col items-center justify-center   gap-5  py-7"
+                    className="w-dvh z-[2] flex w-full flex-col items-center justify-center gap-5   bg-gradient-1  py-7"
                     // style={{
                     //     background: 'linear-gradient(to right, rgba(225, 207, 235, 0.6), rgba(183, 217, 243, 0.6))',
                     // }}

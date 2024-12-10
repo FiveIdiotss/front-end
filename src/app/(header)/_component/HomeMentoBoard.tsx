@@ -29,7 +29,7 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
     }, [mentorPosts]);
 
     return (
-        <section className="flex flex-col gap-2 ">
+        <section className="flex w-full flex-col gap-2 ">
             {/* <Link
                 className="mb-3 flex w-full flex-row items-end justify-between rounded-lg  border-y bg-opacity-70 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50"
                 href="/posts/mentor"
@@ -75,7 +75,7 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
                     >
                         {isPending &&
                             [...Array(5)].map((_, index) => (
-                                <div key={index} className="bg-gradient-1 h-[300px] rounded-md "></div>
+                                <div key={index} className="h-[300px] rounded-md bg-gradient-1 "></div>
                             ))}
                         {mentorPosts?.data.map((post, index) => (
                             <SwiperSlide key={post.boardId} style={{ width: '100%' }}>
