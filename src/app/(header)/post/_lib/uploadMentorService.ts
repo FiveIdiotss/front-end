@@ -32,10 +32,15 @@ const postMentor = async ({
         { type: 'application/json' },
     );
     formData.append('request', requestBlob);
+    console.log(request);
 
     if (request.images.length > 0) {
         formData.append('images', request.images[0]);
     }
+
+    formData.forEach((value, key) => {
+        console.log(key, value);
+    });
 
     if (formType === 'post') {
         const response = await Axios.post('/api/board', formData, {

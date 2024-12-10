@@ -80,7 +80,8 @@ function MentoStepContent({ id, onlyContent }: Props) {
     };
 
     if (isPending) return <Loading className="h-full" description="데이터를 불러오는 중이에요!" />;
-    if (error) return <ErrorDataUI text="에러가 발생했습니다. " />;
+    if (error) return <ErrorDataUI text="잠시후에 다시 시도해주세요. " onReset={() => mentorDetailQuery.refetch()} />;
+
     return (
         <>
             <div className="mt-7 flex  w-full flex-grow flex-col overflow-y-auto">
