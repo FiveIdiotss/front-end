@@ -1,36 +1,166 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Menteetor
 
-## Getting Started
+[English Version](README.en.md)
 
-First, run the development server:
+- 프로젝트 기간 : 24.01 ~ 24.08
+- 프로젝트 인원 : 4명
+  - Back-End : 2명
+  - Front-End 
+    - Android : 1명
+    - Web : 1명
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 프로젝트 기획의도
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> 대학교에 다니면서 학업에 관련하여 모르는 부분이나 궁금한 점이 있을 때 도움을 받을 사람을 찾기 어려운 경우가 많았고
+> 이로 인해 같은 단과 내에서 멘토를 구할 수 있으면 학교생활을 하는데에 있어서 많은 도움을 받을 수 있을 것이라 생각했습니다.
+> 현재 캠퍼스 내에서 소통하는 커뮤니티 앱은 존재하지만, 학업과 관련된 전문적인 정보를 얻는데는 한계점이 존재한다고 판단하였습니다.
+> 간편하고 신속하게 글을 올려 도움을 받을 수 있는 전문적인 커뮤니티가 필요하다고 느꼈고,
+> 선배나 졸업생이 자신이 알고 있는 지식을 후배들과 소통하는 플랫폼이 있었으면 좋겠다는 생각도 들었습니다. 
+> 또한, 본인이 다니는 학교에 국한되지 않고 같은 전공을 가진 다른 학교의 학생들과도 교류할 수 있다면 성장 과정에 큰 도움이 될 것 같아 해당 프로젝트를 기획하게 되었습니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 사용 기술
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js(v14), React-Query, Tailwind, Auth.js, Zustand, PWA, Stomp
+- AWS(EC2), Docker, Docker-Compose, Nginx, Github Actions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![image](https://github.com/user-attachments/assets/7dcf7a05-e435-4299-b231-8cdb8bf813f5)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 프로젝트 기능
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 이용자는 모든 학교별 / 자신의 학교별에 따라 서비스를 이용할 수 있다.
+
+- 이용자가 멘토가 되길 원할 경우 멘티 모집에 대한 과목, 조건등이 포함된 글을 작성한다. 
+
+- 이용자가 멘티 모집 글에 신청 양식을 작성하고, 멘토는 신청 요청이 온 글을 보고 매칭여부를 결정한다.
+
+- 매칭이 성사될 경우 실시간 채팅을 통해 멘토와 멘티간의 실시간 상담이 이어진다.
+
+- 이용자는 질문 게시판을 통해 질문글을 올릴수 있으며 댓글을 통해 소통을 할 수 있다.
+
+- 이용자는 멘티 모집 글에 신청 양식을 작성한다.
+  
+- 멘토는 신청 요청에 대한 세부 사항을 보고 매칭여부를 결정한다.
+
+- 매칭이 성사될 경우 실시간 채팅을 통해 멘토와 멘티간의 실시간 상담이 이어진다.
+
+- 매칭이 성사된 후 채팅 진행 중 멘티는 멘토에게 상담시간 연장을 신청할 수 있다.
+  
+- 모든 이용자는 질문 게시판을 통해 질문 글을 올릴수 있으며 댓글을 통해 소통을 할 수 있다.
+  
+- 모든 이용자는 멘토 요청 게시판을 통해 이러한 멘토가 필요할 것 같다 라는 글을 올릴 수 있으며 댓글을 통해 소통을 할 수 있다.
+
+
+---
+
+## 세부 기능
+
+
+- 🔐 계정
+
+  - 관리자 계정
+
+  - 회원가입
+
+  - 대학교 인증
+
+  - 로그인/로그아웃
+
+  - 유효성/토큰
+  
+  - 자동 로그인
+
+  - 비밀번호 변경
+
+- 🏡 메인 게시판
+
+  - 멘티 모집 글 양식에 맞게 작성 
+
+  - 게시글 조회 후 멘토링 신청
+
+  - 즐겨찾기 
+
+  - 게시판 필터별로 목록 조회 (검색, 즐겨찾기, 날짜, 카테고리, 학교별)
+
+  - 게시판 목록에서 각 게시물에 대한 대표 이미지 보기
+
+  - 무한 스크롤
+
+  - 인기 키워드 제공
+
+
+- 👤 프로필
+
+  - 프로필 사진 관리
+
+  - 개인정보 관리/수정
+
+  - 자신이 쓴 글 목록
+
+  - 신청/매칭 목록
+
+  - 알림 목록
+
+  - 요청온 멘토링에 대한 수락 및 거절 처리
+
+- 💬 채팅방
+
+  - 멘토, 멘티 매칭 시 실시간 채팅
+
+  - 채팅방 목록
+ 
+  - 각 채팅방에 대한 읽지 않는 메세지 갯수 실시간 카운트 / 조회 시 초기화
+
+  - 채팅 읽음 처리
+
+  - 텍스트 이외에 이미지, 파일 등 전송
+
+  - 채팅방 시간 연장 신청 (중복 연장 신청x)
+
+  - 채팅방 시간 연장 수락/거절
+
+
+
+- 🏡 질문/요청 게시판
+
+    - 글 작성
+
+    - 좋아요
+
+    - 댓글
+
+    - 게시판 필터별로 목록 조회
+
+    - 무한 스크롤
+
+    - 주간 인기 게시글 목록
+
+  
+- 🔔 알림
+
+    - 채팅, 멘토랑 신청/수락/거절 등에 대한 푸시 알림
+    
+    - 실시간 알림 카운트 / 조회 시 초기화 
+
+
+- 💸 결제(예정)
+  - 코인 충전 
+  - 코인 교환
+  - 코인 환전
+ 
+---
+
+## 개발과정 
+
+---
+
+
+
