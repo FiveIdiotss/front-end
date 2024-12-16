@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import ProfileDashBoard from './_component/ProfileDashBoard/ProfileDashBoard';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import ProfileImage from './_component/ProfileImage';
 export const metadata: Metadata = {
     title: '프로필',
 };
@@ -14,24 +15,24 @@ async function UserPage() {
     return (
         <div className="flex h-full w-full flex-col gap-1 p-3  mobile:p-6">
             <div className="flex  flex-row gap-6 ">
-                <div
-                    // href={session?.user?.memberDTO.memberImageUrl || ''}
-                    className="relative h-[100px] w-[100px] mobile:h-[140px] mobile:w-[140px]  "
-                >
-                    <Image
-                        src={session?.user?.memberDTO.memberImageUrl || ''}
-                        alt="profile"
-                        fill={true}
-                        sizes="240px"
-                        quality={100}
-                        loading="eager"
-                        className="rounded-full object-cover"
-                    />
-                </div>
+                <ProfileImage
+                    profileImageUrl={session?.user?.memberDTO?.memberImageUrl}
+                    sizeClassName="h-[100px] w-[100px] mobile:h-[150px] mobile:w-[150px]"
+                />
                 <div className="flex flex-col justify-center gap-1">
-                    <span className="text-2xl font-extrabold ">{session?.user?.memberDTO.name}</span>
+                    <span className="flex items-center gap-2 text-2xl font-extrabold ">
+                        {session?.user?.memberDTO.name}
+                        <span
+                            className={`
+                                rounded-md px-2 py-1 text-sm font-semibold text-white
+                            ${session?.user?.memberDTO?.gender === 'MALE' ? 'bg-blue-400' : 'bg-pink-400'}
+                            `}
+                        >
+                            {session?.user?.memberDTO?.gender === 'MALE' ? '남' : '여'}
+                        </span>{' '}
+                    </span>
                     <span className="text-base font-semibold text-neutral-600">
-                        {session?.user?.memberDTO.schoolName}
+                        {session?.user?.memberDTO.schoolName} | {session?.user?.memberDTO.majorName}
                     </span>
                     <span className="text-base text-neutral-400">{session?.user?.memberDTO.email}</span>
                 </div>

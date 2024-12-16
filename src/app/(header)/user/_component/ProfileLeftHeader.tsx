@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import ProfileImageChange from './ProfileImageChange';
+import ProfileImage from './ProfileImage';
 const menuItems = [
     { name: '프로필', link: '/user' },
     { name: '멘토링 신청 내역', link: '/user/mentoring-request' },
@@ -15,14 +16,7 @@ const menuItems = [
 
 function ProfileLeftHeader({ memberDTO }: { memberDTO?: MemberDto }) {
     const params = usePathname();
-    const [isProfileImageModal, setIsProfileImageModal] = useState(false);
 
-    const handleModalOpen = () => {
-        setIsProfileImageModal(true);
-    };
-    const handleModalClose = () => {
-        setIsProfileImageModal(false);
-    };
     const handleSigOut = async () => {
         if (confirm('로그아웃 하시겠습니까?')) {
             await signOut({ callbackUrl: '/' });
@@ -32,24 +26,9 @@ function ProfileLeftHeader({ memberDTO }: { memberDTO?: MemberDto }) {
         <>
             <div className="flex h-full w-full  flex-col  gap-12      border-x border-gray-300 p-10 shadow-right ">
                 <div className="flex w-full flex-col items-center justify-center ">
-                    <div className="relative h-[100px] w-[100px]">
-                        <Image
-                            src={memberDTO?.memberImageUrl || ''}
-                            alt="profile"
-                            fill
-                            className="rounded-full border-2 object-cover"
-                        />
-
-                        <button
-                            className="absolute -right-1 top-[67px] h-7 w-7 rounded-full border-2 border-white bg-primary p-[4px]"
-                            onClick={handleModalOpen}
-                        >
-                            <PencilIcon className="text-white" />
-                        </button>
-                    </div>
+                    <ProfileImage profileImageUrl={memberDTO?.memberImageUrl} sizeClassName="h-[100px] w-[100px]" />
                     <span className="mt-2 text-lg font-bold">{memberDTO?.name}</span>
                     <span className="text-base text-neutral-600">{memberDTO?.schoolName}</span>
-
                     <span className=" text-sm text-neutral-400">{memberDTO?.email}</span>
                 </div>
                 <div className="flex flex-grow  flex-col gap-1 border-y pt-3">
@@ -76,7 +55,6 @@ function ProfileLeftHeader({ memberDTO }: { memberDTO?: MemberDto }) {
                     </button>
                 </div>
             </div>
-            {isProfileImageModal && <ProfileImageChange onClose={handleModalClose} />}
         </>
     );
 }
