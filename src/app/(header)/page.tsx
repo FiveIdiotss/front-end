@@ -14,8 +14,8 @@ async function HomePage() {
     await queryClient.prefetchQuery({
         queryKey: HOME_MENTOR_QUERYKEY,
         queryFn: getHomeMentorPosts,
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     await queryClient.prefetchQuery({
         queryKey: QUEST_SUBBOARD_QUERYKEY,
