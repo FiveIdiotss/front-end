@@ -2,9 +2,14 @@ import type { Metadata } from 'next';
 import { Inter, Noto_Sans_KR, Quicksand, Nanum_Gothic, Poiret_One } from 'next/font/google';
 
 import './globals.css';
+// import 'swiper/css/autoplay'; // autoplay 기능을 사용하는 경우
+// import 'swiper/css';
+// import 'swiper/css/pagination'; // Pagination 스타일
 import AuthSession from './_component/AuthSession';
 import RQProviders from './_component/RQProvider';
 import { Toaster } from 'react-hot-toast';
+import Head from 'next/head';
+import Script from 'next/script';
 
 const quicksand = Quicksand({ subsets: ['latin'] });
 
@@ -59,6 +64,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
+            <head>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+            </head>
             <body className={quicksand.className}>
                 <AuthSession>
                     <RQProviders>
@@ -67,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </RQProviders>
                 </AuthSession>
                 <div id="modal-root" />
+                <Script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" />
             </body>
         </html>
     );

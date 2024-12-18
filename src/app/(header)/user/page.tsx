@@ -17,7 +17,7 @@ async function UserPage() {
             <div className="flex  flex-row gap-6 ">
                 <ProfileImage
                     profileImageUrl={session?.user?.memberDTO?.memberImageUrl}
-                    sizeClassName="h-[100px] w-[100px] mobile:h-[150px] mobile:w-[150px]"
+                    sizeClassName="h-[100px] w-[100px] mobile: "
                 />
                 <div className="flex flex-col justify-center gap-1">
                     <span className="flex items-center gap-2 text-2xl font-extrabold ">

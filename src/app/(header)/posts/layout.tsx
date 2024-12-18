@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './_component/Header';
-import FilterNav from './_component/postsNav/FilterNav';
+
 import { auth } from '@/auth';
 type Props = {
     children: React.ReactNode;
