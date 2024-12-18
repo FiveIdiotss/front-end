@@ -3,9 +3,6 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules'; // Autoplay 모듈 가져오기
 import HotSubBoard from './HotSubBoard';
-import 'swiper/css/autoplay'; // autoplay 기능을 사용하는 경우
-import 'swiper/css';
-import 'swiper/css/pagination'; // Pagination 스타일
 import { useHomeHotSuboardsQuery } from '../../_lib/homeHotContentService';
 import HotIcon from '@/app/_icons/common/HotIcon';
 
@@ -29,7 +26,7 @@ function SubBoardCarousel() {
             <Swiper
                 spaceBetween={30}
                 modules={[Autoplay, Pagination]} // Autoplay 모듈 등록
-                slidesPerView={1}
+                // slidesPerView={1}
                 autoplay={{ delay: 4000 }}
                 loop={true}
                 pagination={{

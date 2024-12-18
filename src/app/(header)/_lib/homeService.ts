@@ -53,8 +53,8 @@ export const useHomeMentorPostsQeury = () => {
     const query = useQuery<MentorResponseType, AxiosError<ErrorResponse>>({
         queryKey: HOME_MENTOR_QUERYKEY,
         queryFn: getHomeMentorPosts,
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };
@@ -68,8 +68,8 @@ export const useHomeQuestsQuery = () => {
                 size: 7,
                 subBoardType: 'QUEST',
             }),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };
@@ -82,8 +82,8 @@ export const useHomeRequestsQuery = () => {
                 size: 7,
                 subBoardType: 'REQUEST',
             }),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };

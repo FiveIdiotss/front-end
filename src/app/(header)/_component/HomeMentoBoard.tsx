@@ -2,7 +2,6 @@
 import MentoPostCard from '@/app/_component/postsCard/MentoPostCard';
 import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 
 import { pushNotification } from '@/app/util/pushNotification';
 import Loading from '@/app/_component/Loading';

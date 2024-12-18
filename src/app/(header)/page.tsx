@@ -14,8 +14,8 @@ async function HomePage() {
     await queryClient.prefetchQuery({
         queryKey: HOME_MENTOR_QUERYKEY,
         queryFn: getHomeMentorPosts,
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     await queryClient.prefetchQuery({
         queryKey: QUEST_SUBBOARD_QUERYKEY,
@@ -50,7 +50,7 @@ async function HomePage() {
         <HydrationBoundary state={dehydratedState}>
             <div className="flex  w-full flex-col ">
                 <div
-                    className="w-dvh z-[2] flex w-full flex-col items-center justify-center gap-5   bg-gradient-1  py-7"
+                    className=" z-[2] flex w-full flex-col items-center justify-center gap-5   bg-gradient-1  py-7"
                     // style={{
                     //     background: 'linear-gradient(to right, rgba(225, 207, 235, 0.6), rgba(183, 217, 243, 0.6))',
                     // }}

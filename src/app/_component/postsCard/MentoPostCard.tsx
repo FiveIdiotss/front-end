@@ -117,6 +117,7 @@ function MentoPostCard({
                     {post.representImage !== '' && (
                         <Image
                             src={post.representImage || '/'}
+                            loading="eager"
                             alt="MentoringRepresentImage"
                             quality={100}
                             fill={true}

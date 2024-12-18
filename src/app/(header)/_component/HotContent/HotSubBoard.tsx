@@ -1,32 +1,9 @@
 import HotIcon from '@/app/_icons/common/HotIcon';
 import Image from 'next/image';
 import React from 'react';
-import { faker } from '@faker-js/faker';
 import { SubBoardDTOType } from '@/app/Models/subBoardType';
 import { useRouter } from 'next/navigation';
 
-const HOT_POSTS = [
-    {
-        title: '컴퓨터공학과 1학년 질문드립니다.',
-        user: '김컴공',
-        boardType: '질문',
-    },
-    {
-        title: 'Next.js 사용법에 대해 알고 싶어요.',
-        user: '김Next',
-        boardType: '질문',
-    },
-    {
-        title: '알고리즘 멘토링 모집',
-        user: '김알고',
-        boardType: '멘토링',
-    },
-    {
-        title: '족구 배우고싶습니다.',
-        user: '김족구',
-        boardType: '멘토링 요청',
-    },
-];
 interface Props {
     data?: SubBoardDTOType[];
     type: 'QUEST' | 'REQUEST';
@@ -61,7 +38,7 @@ function HotSubBoards({ data, type, isPending }: Props) {
                 {isPending &&
                     [...Array(5)].map((_, index) => (
                         <div key={index} className="h-12 px-2 py-1">
-                            <div className="bg-gradient-1 h-full w-full rounded-md"></div>
+                            <div className="h-full w-full rounded-md bg-gradient-1"></div>
                         </div>
                     ))}
                 {data?.map((post, index) => (
@@ -75,8 +52,16 @@ function HotSubBoards({ data, type, isPending }: Props) {
                             {post.title}
                         </span>
                         <div className=" flex flex-row justify-between">
-                            <div className="flex flex-row gap-1">
-                                <Image src={post.imageUrl} alt="user" width={16} height={16} className="rounded-full" />
+                            <div className="flex shrink-0 flex-row gap-1">
+                                <div className="relative h-4 w-4 ">
+                                    <Image
+                                        src={post.imageUrl}
+                                        alt="user"
+                                        sizes="20px"
+                                        fill
+                                        className="shrink-0 rounded-full"
+                                    />
+                                </div>
                                 <span className="text-xs font-semibold text-neutral-800 tablet:hidden">
                                     {post.memberName}
                                 </span>
