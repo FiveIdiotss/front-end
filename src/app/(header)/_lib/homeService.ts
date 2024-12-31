@@ -1,6 +1,6 @@
 import { MentorResponseType } from '@/app/Models/mentorType';
 import { PageInfotype } from '@/app/Models/pageInfoType';
-import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { ErrorResponse, FetchErrorResponseType } from '@/app/Models/AxiosResponse';
 import Axios from '@/app/util/axiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -11,8 +11,9 @@ import {
     REQUEST_SUBBOARD_QUERYKEY,
     createSubBoardPostsKey,
 } from '@/app/queryKeys/subBoardKey';
+import { fetchWithToken } from '@/app/util/fetchInstance';
 
-export const getHomeMentorPosts = async () => {
+export const getHomeMentorPosts = async (): Promise<MentorResponseType> => {
     const params = {
         page: 1,
         size: 7,
@@ -20,8 +21,15 @@ export const getHomeMentorPosts = async () => {
         favoriteFilter: false,
     };
 
-    const res = await Axios.get('/api/boards/filter', { params: params });
-    return res.data.data as Promise<MentorResponseType>; //나중에 타입 수정해야함
+    const response = await fetchWithToken<MentorResponseType>('/api/boards/filter', {
+        method: 'GET',
+        params: params,
+        next: {
+            revalidate: 60,
+            tags: [...HOME_MENTOR_QUERYKEY],
+        },
+    });
+    return response.data; //나중에 타입 수정해야함
 };
 
 export const getHomeQuestsOrRequests = async ({
@@ -33,7 +41,7 @@ export const getHomeQuestsOrRequests = async ({
     size: number;
     subBoardType: 'QUEST' | 'REQUEST';
     //메인 게시판에서 사용하는 경우 pageParam,size,subBoardType은 필수
-}) => {
+}): Promise<SubBoardResponseType> => {
     const params = {
         page: pageParam,
         size: size,
@@ -42,25 +50,32 @@ export const getHomeQuestsOrRequests = async ({
         favoriteFilter: false,
     };
 
-    const response = await Axios.get(`/api/subBoards`, { params: params });
+    const response = await fetchWithToken<SubBoardResponseType>('/api/subBoards', {
+        method: 'GET',
+        params: params,
+        next: {
+            revalidate: 60,
+            tags: subBoardType === 'QUEST' ? ['quest'] : ['request'],
+        },
+    });
 
-    return response.data.data as Promise<SubBoardResponseType>;
+    return response.data;
 };
 
 //----------------------------------useQuery----------------------------------
 
 export const useHomeMentorPostsQeury = () => {
-    const query = useQuery<MentorResponseType, AxiosError<ErrorResponse>>({
+    const query = useQuery<MentorResponseType, FetchErrorResponseType>({
         queryKey: HOME_MENTOR_QUERYKEY,
         queryFn: getHomeMentorPosts,
-        // staleTime: 1000 * 60,
-        // gcTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 5,
     });
     return query;
 };
 
 export const useHomeQuestsQuery = () => {
-    const query = useQuery<SubBoardResponseType, AxiosError<ErrorResponse>>({
+    const query = useQuery<SubBoardResponseType, FetchErrorResponseType>({
         queryKey: QUEST_SUBBOARD_QUERYKEY,
         queryFn: () =>
             getHomeQuestsOrRequests({
@@ -68,13 +83,13 @@ export const useHomeQuestsQuery = () => {
                 size: 7,
                 subBoardType: 'QUEST',
             }),
-        // staleTime: 1000 * 60,
-        // gcTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 5,
     });
     return query;
 };
 export const useHomeRequestsQuery = () => {
-    const query = useQuery<SubBoardResponseType, AxiosError<ErrorResponse>>({
+    const query = useQuery<SubBoardResponseType, FetchErrorResponseType>({
         queryKey: REQUEST_SUBBOARD_QUERYKEY,
         queryFn: () =>
             getHomeQuestsOrRequests({
@@ -82,8 +97,8 @@ export const useHomeRequestsQuery = () => {
                 size: 7,
                 subBoardType: 'REQUEST',
             }),
-        // staleTime: 1000 * 60,
-        // gcTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 5,
     });
     return query;
 };

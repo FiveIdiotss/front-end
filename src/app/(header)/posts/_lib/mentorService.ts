@@ -5,7 +5,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { useSearchParams } from 'next/navigation';
-import { createDetailMentorKey, createMentorPostsKey } from '@/app/queryKeys/mentorKey';
+import { createDetailMentorKey, createMentorPostsKey, MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
+import { DETAIL_MENTOR_QUERYKEY } from '@/app/queryKeys/keys';
 
 type ParamsType = {
     page: number;
@@ -47,6 +48,7 @@ export const getMentorPosts = async ({
         delete params.keyWord;
     }
 
+    console.log('멘토링 게시판');
     const res = await Axios.get('/api/boards/filter', { params: params });
     return res.data.data as Promise<MentorResponseType>;
 };
@@ -72,7 +74,7 @@ export const useMentorPostsQuery = () => {
     const sizeParam = 24; //홈페이지에서는 7개, 포스트페이지에서는 15개
 
     const query = useQuery<MentorResponseType, AxiosError<ErrorResponse>>({
-        queryKey: createMentorPostsKey(pageParam, sizeParam, categoryParam, searchParam, schoolFilter, starParam),
+        queryKey: [...MENTOR_QUERYKEY, pageParam, sizeParam, categoryParam, searchParam, schoolFilter, starParam],
         queryFn: () =>
             getMentorPosts({
                 pageParam,
@@ -90,7 +92,7 @@ export const useMentorPostsQuery = () => {
 
 export const useMentorDetailQuery = ({ mentorId, enabled = true }: { mentorId: number; enabled?: boolean }) => {
     const query = useQuery<MentorDetailType, AxiosError<ErrorResponse>>({
-        queryKey: createDetailMentorKey(mentorId),
+        queryKey: [...DETAIL_MENTOR_QUERYKEY, mentorId],
         queryFn: () => getMentorDetail(mentorId),
         staleTime: 1000 * 60,
         gcTime: 1000 * 60 * 5,

@@ -16,7 +16,7 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
     useEffect(() => {
         if (error) {
             pushNotification({
-                msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                msg: error.data?.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
                 type: 'error',
                 theme: 'dark',
             });

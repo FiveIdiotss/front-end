@@ -6,6 +6,10 @@ import { auth } from '@/auth';
 import HotKeywords from './HotContent/HotKeywords';
 import SubBoardCarousel from './HotContent/SubBoardCarousel';
 import RightSideHotContent from './HotContent/RightSideHotContent';
+import getQueryClient from '@/app/_component/getQueryClient';
+import { HOME_MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
+import { getHomeMentorPosts } from '../_lib/homeService';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 async function HomeMain() {
     const session = await auth();

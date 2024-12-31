@@ -1,8 +1,8 @@
-import { AxiosError } from 'axios';
 import PropTypes from 'prop-types';
 import RefreshIcon from '../_icons/common/RefreshIcon';
 import Image from 'next/image';
 import fixImage from '@/../public/fixImage.png';
+import { AxiosError, isAxiosError } from 'axios';
 
 type Props = {
     error: Error;
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const FallbackUI = ({ error, resetErrorBoundary }: Props) => {
-    if (error instanceof AxiosError) {
+    if (isAxiosError(error)) {
         if (error.response) {
             const statusCode = error.response.status;
             if (error.response.data.ErrorMessage) {

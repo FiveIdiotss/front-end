@@ -45,7 +45,9 @@ export const useAddBookmarkMutation = () => {
             });
             return { previousData };
         },
-        onSuccess: (res) => {
+        onSuccess: async (res) => {
+            await fetch('/api/revalidate?tag=mento');
+
             pushNotification({
                 msg: '북마크가 추가되었습니다.',
                 type: 'success',
@@ -101,7 +103,7 @@ export const useDeleteBookmarkMutation = () => {
                 });
                 return { previousData };
             },
-            onSuccess: () => {
+            onSuccess: async () => {
                 // pushNotification({
                 //     msg: '북마크가 삭제되었습니다.',
                 //     type: 'success',
@@ -109,6 +111,7 @@ export const useDeleteBookmarkMutation = () => {
                 //     isIcon: false,
                 //     textColor: ' #d1180b ',
                 // });
+                await fetch('/api/revalidate?tag=mento');
             },
             onError: (error: AxiosError, variable, previousData) => {
                 console.log('이전데이터xx', previousData);

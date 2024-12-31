@@ -4,6 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { createSubBoardDetailKey, createSubBoardPostsKey } from '@/app/queryKeys/subBoardKey';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import {
+    DETAIL_REQUEST_QUERYKEY,
+    DETAIL_SUBBOARD_QUERYKEY,
+    QUEST_SUBBOARD_QUERYKEY,
+    REQUEST_SUBBOARD_QUERYKEY,
+} from '@/app/queryKeys/keys';
 
 interface ParamsType {
     page: number;
@@ -71,15 +77,16 @@ export const useSubBoardPostsQuery = ({ subBoardType }: { subBoardType: 'QUEST' 
     const sizeParam = 15; //홈페이지에서는 7개, 포스트페이지에서는 15개
 
     const query = useQuery<SubBoardResponseType, ErrorResponse>({
-        queryKey: createSubBoardPostsKey(
-            subBoardType,
+        queryKey: [
+            ...(subBoardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY),
             pageParam,
             sizeParam,
             categoryParam,
             searchParam,
             schoolParam,
             starParam,
-        ),
+        ],
+
         queryFn: () =>
             getSubBoardsPosts({
                 pageParam,
@@ -96,7 +103,7 @@ export const useSubBoardPostsQuery = ({ subBoardType }: { subBoardType: 'QUEST' 
 
 export const useSubBoardDetailQuery = ({ subBoardId, enabled = true }: { subBoardId: number; enabled?: boolean }) => {
     const query = useQuery({
-        queryKey: createSubBoardDetailKey(subBoardId),
+        queryKey: [...DETAIL_SUBBOARD_QUERYKEY, subBoardId],
         queryFn: () => getSubBoardDetail(subBoardId),
         enabled: enabled,
     });

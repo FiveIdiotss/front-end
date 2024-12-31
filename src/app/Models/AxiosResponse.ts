@@ -3,6 +3,11 @@ export type ErrorResponse = {
     message: string;
     success: boolean;
 };
+export type FetchErrorResponseType = {
+    message: string;
+    status: number;
+    data: ErrorResponse | null;
+};
 export type SuccessResponse<T> = {
     data: T;
     message: string;

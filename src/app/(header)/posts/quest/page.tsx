@@ -5,19 +5,26 @@ import FilterNav from '../_component/postsNav/FilterNav';
 import { auth } from '@/auth';
 import { getSubBoardsPosts } from '../_lib/qeustOrRequestService';
 import { createSubBoardPostsKey } from '@/app/queryKeys/subBoardKey';
+import { QUEST_SUBBOARD_QUERYKEY } from '@/app/queryKeys/keys';
+
 export const metadata: Metadata = {
     title: '자유 질문',
 };
-export default async function RequestsPage() {
+type Props = {
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+export default async function RequestsPage({ searchParams }: Props) {
     const session = await auth();
+    const { page: pageParam } = searchParams;
+    const page = pageParam || 1;
 
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery({
-        queryKey: createSubBoardPostsKey('QUEST', 1, 15, '', '', false, false),
+        queryKey: [...QUEST_SUBBOARD_QUERYKEY, Number(page), 15, '', '', false, false],
         queryFn: () =>
             getSubBoardsPosts({
-                pageParam: 1,
+                pageParam: Number(page),
                 size: 15,
                 categoryParam: '',
                 searchParam: '',
@@ -25,9 +32,6 @@ export default async function RequestsPage() {
                 subBoardType: 'QUEST',
                 isStar: false,
             }),
-
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
     });
     const dehydratedState = dehydrate(queryClient);
 
