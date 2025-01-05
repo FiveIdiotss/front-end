@@ -8,41 +8,44 @@ import { getHomeMentorPosts, getHomeQuestsOrRequests } from './_lib/homeService'
 import HomeSearch from './_component/HomeSearch/HomeSearch';
 import { QUEST_SUBBOARD_QUERYKEY, REQUEST_SUBBOARD_QUERYKEY } from '../queryKeys/subBoardKey';
 import { getHomeHotSubBoards } from './_lib/homeHotContentService';
-
+import getQueryClient from '../_component/getQueryClient';
+import Axios from '../util/axiosInstance';
 async function HomePage() {
-    const queryClient = new QueryClient();
-    await queryClient.prefetchQuery({
-        queryKey: HOME_MENTOR_QUERYKEY,
-        queryFn: getHomeMentorPosts,
-        // staleTime: 1000 * 60,
-        // gcTime: 1000 * 60 * 5,
-    });
-    await queryClient.prefetchQuery({
-        queryKey: QUEST_SUBBOARD_QUERYKEY,
-        queryFn: () =>
-            getHomeQuestsOrRequests({
-                pageParam: 1,
-                size: 7,
-                subBoardType: 'QUEST',
-            }),
-    });
-    await queryClient.prefetchQuery({
-        queryKey: REQUEST_SUBBOARD_QUERYKEY,
-        queryFn: () =>
-            getHomeQuestsOrRequests({
-                pageParam: 1,
-                size: 7,
-                subBoardType: 'REQUEST',
-            }),
-    });
-    await queryClient.prefetchQuery({
-        queryKey: ['homeHotSuboards', { subBoardType: 'QUEST' }],
-        queryFn: () => getHomeHotSubBoards({ subBoardType: 'QUEST' }),
-    });
-    await queryClient.prefetchQuery({
-        queryKey: ['homeHotSuboards', { subBoardType: 'REQUEST' }],
-        queryFn: () => getHomeHotSubBoards({ subBoardType: 'REQUEST' }),
-    });
+    const queryClient = getQueryClient();
+
+    await Promise.all([
+        queryClient.prefetchQuery({
+            queryKey: HOME_MENTOR_QUERYKEY,
+            queryFn: getHomeMentorPosts,
+        }),
+        queryClient.prefetchQuery({
+            queryKey: [...QUEST_SUBBOARD_QUERYKEY, 'home'],
+            queryFn: () =>
+                getHomeQuestsOrRequests({
+                    pageParam: 1,
+                    size: 7,
+                    subBoardType: 'QUEST',
+                }),
+        }),
+        queryClient.prefetchQuery({
+            queryKey: [...REQUEST_SUBBOARD_QUERYKEY, 'home'],
+            queryFn: () =>
+                getHomeQuestsOrRequests({
+                    pageParam: 1,
+                    size: 7,
+                    subBoardType: 'REQUEST',
+                }),
+        }),
+        queryClient.prefetchQuery({
+            queryKey: ['homeHotSuboards', { subBoardType: 'QUEST' }],
+            queryFn: () => getHomeHotSubBoards({ subBoardType: 'QUEST' }),
+        }),
+        queryClient.prefetchQuery({
+            queryKey: ['homeHotSuboards', { subBoardType: 'REQUEST' }],
+            queryFn: () => getHomeHotSubBoards({ subBoardType: 'REQUEST' }),
+        }),
+    ]);
+    console.log('서버컴포넌트 랜더링');
 
     const dehydratedState = dehydrate(queryClient);
 
@@ -69,7 +72,7 @@ async function HomePage() {
                             </span>
                         </div>
                     </div>
-                    <div className="flex w-full flex-row justify-center ">
+                    <div className="flex w-full flex-row justify-center">
                         <HomeSearch />
                     </div>
                 </div>

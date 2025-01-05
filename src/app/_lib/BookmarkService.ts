@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { pushNotification } from '@/app/util/pushNotification';
 import { MentorResponseType } from '@/app/Models/mentorType';
+import { useRouter } from 'next/navigation';
+import { MENTOR_QUERYKEY } from '../queryKeys/keys';
 
 const addBookmark = async (boardId: number) => {
     const response = await Axios.post(`/api/board/favorite/${boardId}`);
@@ -20,6 +22,7 @@ export type BookmarkKeysType = {
 
 export const useAddBookmarkMutation = () => {
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const mutation = useMutation({
         mutationFn: ({ boardId }: BookmarkKeysType) => addBookmark(boardId),
@@ -45,7 +48,9 @@ export const useAddBookmarkMutation = () => {
             });
             return { previousData };
         },
-        onSuccess: (res) => {
+        onSuccess: async (res) => {
+            await fetch('/api/revalidate?tag=mento');
+
             pushNotification({
                 msg: '북마크가 추가되었습니다.',
                 type: 'success',
@@ -64,11 +69,13 @@ export const useAddBookmarkMutation = () => {
             });
             queryClient.setQueryData(variable.keys, previousData);
         },
-        onSettled: (data, error, variable) => {
+        onSettled: async (data, error, variable) => {
             queryClient.invalidateQueries({
-                queryKey: ['posts', 'mento'],
+                queryKey: [...MENTOR_QUERYKEY, 'user'],
                 refetchType: 'all',
             });
+            await fetch('/api/revalidate?tag=mento');
+            router.refresh();
         },
     });
 
@@ -76,60 +83,62 @@ export const useAddBookmarkMutation = () => {
 }; //북마크 추가 mutation
 
 export const useDeleteBookmarkMutation = () => {
-    {
-        const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
+    const router = useRouter();
 
-        const mutation = useMutation({
-            mutationFn: ({ boardId }: BookmarkKeysType) => deleteBookmark(boardId),
-            onMutate: async ({ boardId, keys }: BookmarkKeysType) => {
-                await queryClient.cancelQueries();
-                const previousData = queryClient.getQueryData(keys);
+    const mutation = useMutation({
+        mutationFn: ({ boardId }: BookmarkKeysType) => deleteBookmark(boardId),
+        onMutate: async ({ boardId, keys }: BookmarkKeysType) => {
+            await queryClient.cancelQueries();
+            const previousData = queryClient.getQueryData(keys);
 
-                queryClient.setQueryData(keys, (old: MentorResponseType | undefined) => {
-                    return {
-                        ...old,
-                        data: old?.data.map((post) => {
-                            if (post.boardId === boardId) {
-                                return {
-                                    ...post,
-                                    favorite: false,
-                                };
-                            }
-                            return post;
-                        }),
-                    };
-                });
-                return { previousData };
-            },
-            onSuccess: () => {
-                // pushNotification({
-                //     msg: '북마크가 삭제되었습니다.',
-                //     type: 'success',
-                //     theme: 'light',
-                //     isIcon: false,
-                //     textColor: ' #d1180b ',
-                // });
-            },
-            onError: (error: AxiosError, variable, previousData) => {
-                console.log('이전데이터xx', previousData);
-                console.log('pageParamxx', variable);
+            queryClient.setQueryData(keys, (old: MentorResponseType | undefined) => {
+                return {
+                    ...old,
+                    data: old?.data.map((post) => {
+                        if (post.boardId === boardId) {
+                            return {
+                                ...post,
+                                favorite: false,
+                            };
+                        }
+                        return post;
+                    }),
+                };
+            });
+            return { previousData };
+        },
+        onSuccess: async () => {
+            // pushNotification({
+            //     msg: '북마크가 삭제되었습니다.',
+            //     type: 'success',
+            //     theme: 'light',
+            //     isIcon: false,
+            //     textColor: ' #d1180b ',
+            // });
+            await fetch('/api/revalidate?tag=mento');
+        },
+        onError: (error: AxiosError, variable, previousData) => {
+            console.log('이전데이터xx', previousData);
+            console.log('pageParamxx', variable);
 
-                pushNotification({
-                    msg: '북마크 삭제에 실패했습니다.',
-                    type: 'error',
-                    theme: 'dark',
-                });
-                queryClient.setQueryData(variable.keys, previousData);
-            },
-            onSettled: (data, error, variable) => {
-                console.log('이전데이터', data);
-                queryClient.invalidateQueries({
-                    queryKey: ['posts', 'mento'],
-                    refetchType: 'all',
-                });
-            },
-        });
+            pushNotification({
+                msg: '북마크 삭제에 실패했습니다.',
+                type: 'error',
+                theme: 'dark',
+            });
+            queryClient.setQueryData(variable.keys, previousData);
+        },
+        onSettled: async (data, error, variable) => {
+            // console.log('이전데이터', data);
+            // queryClient.invalidateQueries({
+            //     queryKey: ['posts', 'mento'],
+            //     refetchType: 'all',
+            // });
+            await fetch('/api/revalidate?tag=mento');
+            router.refresh();
+        },
+    });
 
-        return mutation;
-    }
+    return mutation;
 }; //북마크 삭제 mutation

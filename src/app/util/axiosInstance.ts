@@ -1,9 +1,11 @@
 import { auth } from '@/auth';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { getSession } from 'next-auth/react';
-const Axios = axios.create({
+
+const Axios: AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
+
 Axios.interceptors.request.use(
     async (config) => {
         //서버사이드와 클라이언트사이드에서 세션을 가져오는 방법이 다르기 때문에

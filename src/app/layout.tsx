@@ -10,6 +10,7 @@ import RQProviders from './_component/RQProvider';
 import { Toaster } from 'react-hot-toast';
 import Head from 'next/head';
 import Script from 'next/script';
+import ServerRQProvider from './_component/ServerRQProvider';
 
 const quicksand = Quicksand({ subsets: ['latin'] });
 
@@ -68,12 +69,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
             </head>
             <body className={quicksand.className}>
-                <AuthSession>
-                    <RQProviders>
+                <ServerRQProvider>
+                    <AuthSession>
                         <Toaster />
                         {children}
-                    </RQProviders>
-                </AuthSession>
+                    </AuthSession>
+                </ServerRQProvider>
+
                 <div id="modal-root" />
                 <Script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" />
             </body>

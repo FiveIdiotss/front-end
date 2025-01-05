@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { useRequestMutation, useUpdateRequestMutation } from '../../_lib/uploadSubBoardService';
 import SubmitButton from '../SubmitButton';
 import dynamic from 'next/dynamic';
-import InfoModal from '../InfoModal';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { useSubBoardInitialValue } from '../../_util/useSubBoardInitialValue';
 import { CustomToast } from '@/app/util/customToast/CustomToast';
 import Loading from '@/app/_component/Loading';
+import { pushNotification } from '@/app/util/pushNotification';
 
 const QuillEditor = dynamic(() => import('../Editor'), { ssr: false });
 
@@ -26,10 +26,8 @@ const ERR_MSG: ErrMsgType = {
 
 function RequestForm({ editId }: { editId?: number }) {
     const router = useRouter();
-
     const postMutation = useRequestMutation();
     const updateRequestMutation = useUpdateRequestMutation(editId);
-    const [completeModalOpen, setCompleteModalOpen] = useState(false);
 
     const idEditPage = Boolean(editId);
 
@@ -76,7 +74,13 @@ function RequestForm({ editId }: { editId?: number }) {
                     },
                     {
                         onSuccess: () => {
-                            setCompleteModalOpen(true);
+                            pushNotification({
+                                msg: '게시글이 성공적으로 수정되었습니다.',
+                                type: 'success',
+                                theme: 'dark',
+                            });
+                            router.refresh();
+                            router.back();
                         },
                     },
                 );
@@ -92,7 +96,13 @@ function RequestForm({ editId }: { editId?: number }) {
                     },
                     {
                         onSuccess: () => {
-                            setCompleteModalOpen(true);
+                            pushNotification({
+                                msg: '게시글이 성공적으로 등록되었습니다.',
+                                type: 'success',
+                                theme: 'dark',
+                            });
+                            router.refresh();
+                            router.push('/posts/request');
                         },
                     },
                 );
@@ -100,14 +110,6 @@ function RequestForm({ editId }: { editId?: number }) {
         },
     });
 
-    const handleInfoClose = () => {
-        setCompleteModalOpen(false);
-        if (idEditPage) {
-            router.back();
-        } else {
-            router.push('/posts/request');
-        }
-    };
     if (isPending) return <Loading description="잠시만 기다려주세요..." />;
 
     return (
@@ -147,12 +149,6 @@ function RequestForm({ editId }: { editId?: number }) {
                 ${idEditPage ? '수정하기' : '작성하기'}
             `}
                 isLoading={postMutation.isPending}
-            />
-            <InfoModal
-                open={completeModalOpen}
-                onClose={handleInfoClose}
-                completeText={idEditPage ? '수정이 완료되었습니다.' : '작성이 완료되었습니다.'}
-                pageText={idEditPage ? '잠시후 이전 페이지로 이동합니다.' : '잠시후 게시판으로 이동합니다.'}
             />
         </form>
     );

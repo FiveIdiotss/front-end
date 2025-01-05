@@ -17,7 +17,7 @@ export default function HomeRequestsBoard() {
         if (error) {
             console.log('homeRequestsError', error);
             pushNotification({
-                msg: error?.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                msg: error.data?.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
                 type: 'error',
                 theme: 'dark',
             });
@@ -30,7 +30,12 @@ export default function HomeRequestsBoard() {
 
     return (
         <section className="flex w-full flex-col">
-            <Link className="mb-3 flex w-full flex-row items-end justify-between  " href="/posts/request">
+            <Link
+                scroll={true}
+                prefetch={true}
+                className="mb-3 flex w-full flex-row items-end justify-between  "
+                href="/posts/request"
+            >
                 <div className="flex h-14 w-full transform   flex-row items-center gap-4  ">
                     <div className="rounded-md border p-1 shadow-sm">
                         <FocusIcon className="h-5 w-5 text-primary" />

@@ -1,5 +1,12 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { newSubBoardFormType } from '@/app/Models/subBoardType';
+import {
+    DETAIL_QUEST_QUERYKEY,
+    DETAIL_REQUEST_QUERYKEY,
+    DETAIL_SUBBOARD_QUERYKEY,
+    QUEST_SUBBOARD_QUERYKEY,
+    REQUEST_SUBBOARD_QUERYKEY,
+} from '@/app/queryKeys/keys';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -43,6 +50,7 @@ const postQuestRequest = async ({
                 'Content-Type': 'multipart/form-data',
             },
         });
+
         return response.data.data;
     } else {
         const response = await Axios.put(`/api/subBoard/${boardId}`, formData, {
@@ -64,9 +72,10 @@ export const useQuestMutation = () => {
                 request: parameter,
                 formType: 'post',
             }),
-        onSuccess: (data, variable) => {
+        onSuccess: async (data, variable) => {
+            await fetch('/api/revalidate?tag=quest');
             queryClient.invalidateQueries({
-                queryKey: ['posts', 'quests'],
+                queryKey: [...QUEST_SUBBOARD_QUERYKEY, 'user'],
                 refetchType: 'all',
             });
         },
@@ -92,9 +101,14 @@ export const useUpdateQuestMutation = (boardId?: number) => {
                 formType: 'put',
                 boardId: boardId,
             }),
-        onSuccess: (data, variable) => {
+        onSuccess: async (data, variable) => {
+            await fetch('/api/revalidate?tag=quest');
             queryClient.invalidateQueries({
-                queryKey: ['posts', 'quests'],
+                queryKey: [...QUEST_SUBBOARD_QUERYKEY, 'user'],
+                refetchType: 'all',
+            });
+            queryClient.invalidateQueries({
+                queryKey: [...DETAIL_SUBBOARD_QUERYKEY, boardId],
                 refetchType: 'all',
             });
         },
@@ -119,6 +133,13 @@ export const useRequestMutation = () => {
                 request: parameter,
                 formType: 'post',
             }),
+        onSuccess: async (data, variable) => {
+            await fetch('/api/revalidate?tag=request');
+            queryClient.invalidateQueries({
+                queryKey: [...REQUEST_SUBBOARD_QUERYKEY, 'user'],
+                refetchType: 'all',
+            });
+        },
 
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);
@@ -143,9 +164,14 @@ export const useUpdateRequestMutation = (boardId?: number) => {
                 formType: 'put',
                 boardId: boardId,
             }),
-        onSuccess: (data, variable) => {
+        onSuccess: async (data, variable) => {
+            await fetch('/api/revalidate?tag=request');
             queryClient.invalidateQueries({
-                queryKey: ['posts', 'quests'],
+                queryKey: [...REQUEST_SUBBOARD_QUERYKEY, 'user'],
+                refetchType: 'all',
+            });
+            queryClient.invalidateQueries({
+                queryKey: [...DETAIL_SUBBOARD_QUERYKEY, boardId],
                 refetchType: 'all',
             });
         },

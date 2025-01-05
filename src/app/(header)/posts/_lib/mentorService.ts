@@ -3,9 +3,11 @@ import { MentorResponseType } from '@/app/Models/mentorType';
 import { MentorDetailType } from '@/app/Models/mentorType';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { ErrorResponse } from '@/app/Models/AxiosResponse';
+import { ErrorResponse, FetchErrorResponseType } from '@/app/Models/AxiosResponse';
 import { useSearchParams } from 'next/navigation';
-import { createDetailMentorKey, createMentorPostsKey } from '@/app/queryKeys/mentorKey';
+import { createDetailMentorKey, createMentorPostsKey, MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
+import { DETAIL_MENTOR_QUERYKEY } from '@/app/queryKeys/keys';
+import { fetchWithToken } from '@/app/util/fetchInstance';
 
 type ParamsType = {
     page: number;
@@ -31,7 +33,7 @@ export const getMentorPosts = async ({
     isSchool?: boolean;
     isStar?: boolean;
     //메인 게시판에서 사용하는 경우 pageParam,size,subBoardType은 필수
-}) => {
+}): Promise<MentorResponseType> => {
     const params: ParamsType = {
         page: pageParam,
         size: size,
@@ -47,8 +49,24 @@ export const getMentorPosts = async ({
         delete params.keyWord;
     }
 
-    const res = await Axios.get('/api/boards/filter', { params: params });
-    return res.data.data as Promise<MentorResponseType>;
+    // const res = await Axios.get('/api/boards/filter', { params: params });
+    const response = await fetchWithToken<MentorResponseType>(`/api/boards/filter`, {
+        method: 'GET',
+        params: params,
+        next: {
+            revalidate: 60,
+            tags: [
+                ...MENTOR_QUERYKEY,
+                String(params.page),
+                String(params.size),
+                String(params.boardCategory),
+                String(params.keyWord),
+                String(params.schoolFilter),
+                String(params.favoriteFilter),
+            ],
+        },
+    });
+    return response.data;
 };
 
 export const getMentorDetail = async (id: number) => {
@@ -71,8 +89,8 @@ export const useMentorPostsQuery = () => {
     const starParam = Boolean(searchParams.get('star')) || false; //북마크 필터
     const sizeParam = 24; //홈페이지에서는 7개, 포스트페이지에서는 15개
 
-    const query = useQuery<MentorResponseType, AxiosError<ErrorResponse>>({
-        queryKey: createMentorPostsKey(pageParam, sizeParam, categoryParam, searchParam, schoolFilter, starParam),
+    const query = useQuery<MentorResponseType, FetchErrorResponseType>({
+        queryKey: [...MENTOR_QUERYKEY, pageParam, sizeParam, categoryParam, searchParam, schoolFilter, starParam],
         queryFn: () =>
             getMentorPosts({
                 pageParam,
@@ -82,18 +100,18 @@ export const useMentorPostsQuery = () => {
                 isSchool: schoolFilter,
                 isStar: starParam,
             }),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };
 
 export const useMentorDetailQuery = ({ mentorId, enabled = true }: { mentorId: number; enabled?: boolean }) => {
     const query = useQuery<MentorDetailType, AxiosError<ErrorResponse>>({
-        queryKey: createDetailMentorKey(mentorId),
+        queryKey: [...DETAIL_MENTOR_QUERYKEY, mentorId],
         queryFn: () => getMentorDetail(mentorId),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
         enabled: enabled,
     });
     return query;

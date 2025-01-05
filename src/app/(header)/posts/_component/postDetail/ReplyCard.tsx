@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import useConfirmationModal from '@/app/util/ConfirmModalHook';
 import { ReplyType } from '@/app/Models/replyType';
+import { useRouter } from 'next/navigation';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko'); // 기본 로케일을 한국어로 설정합니다.
@@ -27,6 +28,7 @@ function ReplyCard({
     const now = dayjs();
     const date = dayjs(reply.localDateTime);
     const deleteMutation = usePostReplyDeleteMutation();
+    const router = useRouter();
 
     let displayDate;
     if (now.isSame(date, 'day')) {
@@ -36,7 +38,14 @@ function ReplyCard({
     }
 
     const handleDelete = () => {
-        deleteMutation.mutate({ replyId: String(reply.replyId), postId: String(subBoardId), boardType: boardType });
+        deleteMutation.mutate(
+            { replyId: String(reply.replyId), postId: String(subBoardId), boardType: boardType },
+            {
+                onSuccess: () => {
+                    router.refresh();
+                },
+            },
+        );
     };
     const { handleOpenModal: handleOpenDeleteModal, ConfirmationModalComponent } = useConfirmationModal({
         onConfirm: handleDelete,

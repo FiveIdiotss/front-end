@@ -13,8 +13,8 @@ function PostsQuests() {
     const { data: questsData, isPending, error } = subBoardPostsQuery;
 
     useEffect(() => {
-        console.log('자유질문 목록 데이터', questsData);
-    }, [questsData]);
+        window.scrollTo(0, 0);
+    }, []);
 
     if (isPending) return <Loading className="h-full" description="데이터를 불러오는 중입니다." />;
     if (error) return <ErrorDataUI text="오류가 발생했습니다." />;

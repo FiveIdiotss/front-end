@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { useQuestMutation, useUpdateQuestMutation } from '../../_lib/uploadSubBoardService';
 import SubmitButton from '../SubmitButton';
 import dynamic from 'next/dynamic';
-import InfoModal from '../InfoModal';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 
 import { CustomToast } from '@/app/util/customToast/CustomToast';
 import { useSubBoardInitialValue } from '../../_util/useSubBoardInitialValue';
 import Loading from '@/app/_component/Loading';
+import { pushNotification } from '@/app/util/pushNotification';
 const QuillEditor = dynamic(() => import('../Editor'), { ssr: false });
 
 interface ErrMsgType {
@@ -26,8 +26,6 @@ const ERR_MSG: ErrMsgType = {
 
 function QuestForm({ editId }: { editId?: number }) {
     const router = useRouter();
-
-    const [completeModalOpen, setCompleteModalOpen] = useState(false); //완료 모달
     const postMutation = useQuestMutation(); //게시글 작성
     const updateQuestMutation = useUpdateQuestMutation(editId); //게시글 수정
 
@@ -78,7 +76,13 @@ function QuestForm({ editId }: { editId?: number }) {
                     },
                     {
                         onSuccess: () => {
-                            setCompleteModalOpen(true);
+                            pushNotification({
+                                msg: '게시글이 성공적으로 수정되었습니다.',
+                                type: 'success',
+                                theme: 'dark',
+                            });
+                            router.back();
+                            router.refresh();
                         },
                     },
                 );
@@ -95,7 +99,13 @@ function QuestForm({ editId }: { editId?: number }) {
                     },
                     {
                         onSuccess: () => {
-                            setCompleteModalOpen(true);
+                            pushNotification({
+                                msg: '게시글이 성공적으로 등록되었습니다.',
+                                type: 'success',
+                                theme: 'dark',
+                            });
+                            router.push('/posts/quest');
+                            router.refresh();
                         },
                     },
                 );
@@ -103,14 +113,6 @@ function QuestForm({ editId }: { editId?: number }) {
         },
     });
 
-    const handleInfoClose = () => {
-        setCompleteModalOpen(false);
-        if (isEditPage) {
-            router.back();
-        } else {
-            router.push('/posts/quest');
-        }
-    };
     if (isPending) return <Loading description="잠시만 기다려주세요..." />;
 
     return (
@@ -149,12 +151,6 @@ function QuestForm({ editId }: { editId?: number }) {
                 type="submit"
                 submitLabel={isEditPage ? '수정하기' : '작성하기'}
                 isLoading={postMutation.isPending}
-            />
-            <InfoModal
-                open={completeModalOpen}
-                onClose={handleInfoClose}
-                completeText={isEditPage ? '수정이 완료되었습니다.' : '작성이 완료되었습니다.'}
-                pageText={isEditPage ? '잠시후 이전 페이지로 이동합니다.' : '잠시후 질문 게시판으로 이동합니다.'}
             />
         </form>
     );

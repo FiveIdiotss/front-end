@@ -5,7 +5,7 @@ import Image from 'next/image';
 import calenderCheckIcon from '@/../public/calendarCheck.png';
 import ScheduleSet from '../ScheduleSet';
 import InfoModal from '../InfoModal';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import SubmitButton from '../SubmitButton';
 import { usePostMentorMutation, useUpdateMentorMutation } from '../../_lib/uploadMentorService';
 import dynamic from 'next/dynamic';
@@ -13,6 +13,9 @@ import { useFormik } from 'formik';
 import { useMentorInitialValue } from '../../_util/useMentorInitialValue';
 import { CustomToast } from '@/app/util/customToast/CustomToast';
 import Loading from '@/app/_component/Loading';
+import { pushNotification } from '@/app/util/pushNotification';
+
+const baseUrl = process.env.HOST_URL;
 
 interface ErrMsgType {
     [key: string]: string;
@@ -57,8 +60,6 @@ function mapDaysToEnglish(days: string[]) {
 
 function MentorForm({ editId }: { editId?: number }) {
     const router = useRouter();
-
-    const [completeModalOpen, setCompleteModalOpen] = useState(false); //완료 모달
     const postMentorMutation = usePostMentorMutation(); //멘토 등록 mutation
     const updateMentorMutation = useUpdateMentorMutation(editId); //멘토 수정 mutation
 
@@ -113,7 +114,13 @@ function MentorForm({ editId }: { editId?: number }) {
                     },
                     {
                         onSuccess: () => {
-                            setCompleteModalOpen(true);
+                            pushNotification({
+                                msg: '게시글이 성공적으로 수정되었습니다.',
+                                type: 'success',
+                                theme: 'dark',
+                            });
+                            router.push(`/user?mentor_board_id=${editId}`);
+                            router.refresh();
                         },
                     },
                 );
@@ -134,22 +141,19 @@ function MentorForm({ editId }: { editId?: number }) {
                     },
                     {
                         onSuccess: () => {
-                            setCompleteModalOpen(true);
+                            pushNotification({
+                                msg: '게시글이 성공적으로 등록되었습니다.',
+                                type: 'success',
+                                theme: 'dark',
+                            });
+                            router.push(`/posts/mentor`);
+                            router.refresh();
                         },
                     },
                 );
             }
         },
     });
-
-    const handleInfoClose = () => {
-        setCompleteModalOpen(false);
-        if (isEditPage) {
-            router.back();
-        } else {
-            router.push('/posts/mentor');
-        }
-    };
 
     if (isPending) return <Loading description="잠시만 기다려주세요..." />;
 
@@ -219,13 +223,6 @@ function MentorForm({ editId }: { editId?: number }) {
                 cancelUrl="/quest"
                 submitLabel={isEditPage ? '수정하기' : '작성하기'}
                 isLoading={postMentorMutation.isPending}
-            />
-            {/* 모달 */}
-            <InfoModal
-                open={completeModalOpen}
-                onClose={handleInfoClose}
-                completeText={isEditPage ? '수정이 완료되었습니다.' : '작성이 완료되었습니다.'}
-                pageText={isEditPage ? '잠시후 이전 페이지로 이동합니다.' : '잠시후 게시판으로 이동합니다.'}
             />
         </form>
     );

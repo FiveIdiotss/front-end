@@ -1,13 +1,11 @@
 import React from 'react';
 import Header from './_component/Header';
 
-import { auth } from '@/auth';
 type Props = {
     children: React.ReactNode;
 };
 
 export default async function PostsLayout({ children }: Props) {
-    const session = await auth();
     return (
         // Wrapper
 

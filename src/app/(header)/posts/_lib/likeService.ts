@@ -8,6 +8,7 @@ import {
     REQUEST_SUBBOARD_QUERYKEY,
     createSubBoardDetailKey,
 } from '@/app/queryKeys/subBoardKey';
+import { useRouter } from 'next/navigation';
 
 const addLike = async (postId: number) => {
     const response = await Axios.post(`/api/like/${postId}`);
@@ -20,6 +21,7 @@ const postUnlike = async (postId: number) => {
 
 export const useAddLikeMutation = () => {
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const mutation = useMutation({
         mutationFn: ({ boardId, boardType }: { boardId: number; boardType: 'QUEST' | 'REQUEST' }) => addLike(boardId),
@@ -40,7 +42,7 @@ export const useAddLikeMutation = () => {
             });
             return { previousData };
         },
-        onSuccess: (res) => {
+        onSuccess: async (res) => {
             pushNotification({
                 msg: '게시글에 좋아요를 눌렀습니다',
                 type: 'success',
@@ -59,11 +61,9 @@ export const useAddLikeMutation = () => {
             });
             queryClient.setQueryData(['posts', variable.boardType, 'detail', variable.boardId], previousData);
         },
-        onSettled: (data, error, variable) => {
-            queryClient.invalidateQueries({
-                queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
-                refetchType: 'all',
-            });
+        onSettled: async (data, error, variable) => {
+            await fetch(`/api/revalidate?tag=${variable.boardType === 'QUEST' ? 'quest' : 'request'}`);
+            router.refresh();
         },
     });
 
@@ -71,10 +71,12 @@ export const useAddLikeMutation = () => {
 }; //좋아요 추가 mutation
 
 export const useUnLikeMutation = () => {
+    const router = useRouter();
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: ({ boardId, boardType }: { boardId: number; boardType: string }) => postUnlike(boardId),
+        mutationFn: ({ boardId, boardType }: { boardId: number; boardType: 'QUEST' | 'REQUEST' }) =>
+            postUnlike(boardId),
         onMutate: async ({ boardId, boardType }) => {
             console.log('boardId', boardId);
             await queryClient.cancelQueries();
@@ -92,7 +94,7 @@ export const useUnLikeMutation = () => {
             });
             return { previousData };
         },
-        onSuccess: (res) => {},
+        onSuccess: async (res) => {},
         onError: (error: AxiosError, variable, previousData) => {
             console.log('x', previousData);
             console.log(error);
@@ -103,11 +105,9 @@ export const useUnLikeMutation = () => {
             });
             queryClient.setQueryData(['posts', variable.boardType, 'detail', variable.boardId], previousData);
         },
-        onSettled: (data, error, variable) => {
-            queryClient.invalidateQueries({
-                queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
-                refetchType: 'all',
-            });
+        onSettled: async (data, error, variable) => {
+            await fetch(`/api/revalidate?tag=${variable.boardType === 'QUEST' ? 'quest' : 'request'}`);
+            router.refresh();
         },
     });
 
