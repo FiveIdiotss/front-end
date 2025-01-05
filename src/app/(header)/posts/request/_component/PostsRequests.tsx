@@ -13,8 +13,8 @@ function PostsRequests() {
     const { data: requestsData, isPending, error } = subBoardPostsQuery;
 
     useEffect(() => {
-        console.log('openQuestions', requestsData);
-    }, [requestsData]);
+        window.scrollTo(0, 0);
+    }, []);
 
     if (isPending) return <Loading className="h-full" />;
     if (error) return <ErrorDataUI text="오류가 발생했습니다." />;

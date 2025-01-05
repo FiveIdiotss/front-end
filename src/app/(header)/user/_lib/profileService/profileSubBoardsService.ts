@@ -1,5 +1,6 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { SubBoardResponseType } from '@/app/Models/subBoardType';
+import { QUEST_SUBBOARD_QUERYKEY, REQUEST_SUBBOARD_QUERYKEY } from '@/app/queryKeys/keys';
 import Axios from '@/app/util/axiosInstance';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -34,13 +35,20 @@ export const useMemberSubBoardsQuery = ({ subBoardType }: { subBoardType: 'QUEST
     const sizeParam = searchParams.get('size') ? Number(searchParams.get('size')) : 10;
 
     const query = useQuery<SubBoardResponseType, AxiosError<ErrorResponse>>({
-        queryKey: ['memberSubBoards', subBoardType],
+        queryKey: [
+            ...(subBoardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY),
+            'user',
+            pageParam,
+            sizeParam,
+        ],
         queryFn: () =>
             getMemberSubBoards({
                 subBoardType: subBoardType,
                 page: pageParam,
                 size: sizeParam,
             }),
+        // staleTime: 1000 * 60 * 60,
+        // gcTime: 1000 * 60 * 60,
     });
     return query;
 };

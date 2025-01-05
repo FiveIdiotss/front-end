@@ -81,8 +81,8 @@ function QuestForm({ editId }: { editId?: number }) {
                                 type: 'success',
                                 theme: 'dark',
                             });
-
                             router.back();
+                            router.refresh();
                         },
                     },
                 );
@@ -104,8 +104,8 @@ function QuestForm({ editId }: { editId?: number }) {
                                 type: 'success',
                                 theme: 'dark',
                             });
-
                             router.push('/posts/quest');
+                            router.refresh();
                         },
                     },
                 );

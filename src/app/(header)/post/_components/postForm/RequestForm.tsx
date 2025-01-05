@@ -79,6 +79,7 @@ function RequestForm({ editId }: { editId?: number }) {
                                 type: 'success',
                                 theme: 'dark',
                             });
+                            router.refresh();
                             router.back();
                         },
                     },
@@ -100,7 +101,7 @@ function RequestForm({ editId }: { editId?: number }) {
                                 type: 'success',
                                 theme: 'dark',
                             });
-
+                            router.refresh();
                             router.push('/posts/request');
                         },
                     },

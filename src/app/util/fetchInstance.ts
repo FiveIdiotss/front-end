@@ -19,6 +19,7 @@ type FetchOptions = {
 
 export const fetchWithToken = async <T>(url: string, options: FetchOptions = {}): Promise<SuccessResponse<T>> => {
     let token = '';
+    let next;
     try {
         if (typeof window === 'undefined') {
             const session = await auth();
@@ -29,9 +30,13 @@ export const fetchWithToken = async <T>(url: string, options: FetchOptions = {})
         }
     } catch (error) {
         console.error('Failed to fetch session:', error);
-        redirect('/account/login'); // 클라이언트에서만 유효
     }
 
+    if (typeof window === 'undefined') {
+        next = options.next || {};
+    } else {
+        next = undefined;
+    }
     // 사용자 정의 헤더와 기본 헤더 병합
     const headers: {
         [key: string]: string;
@@ -55,17 +60,21 @@ export const fetchWithToken = async <T>(url: string, options: FetchOptions = {})
     // 전체 URL 구성
     const fullURL = `${API_URL}${url}${queryParams}`;
 
+    console.log();
     // Fetch 요청
     const response = await fetch(fullURL, {
         method: options.method || 'GET',
-        headers,
+        headers: {
+            ...headers,
+        },
         body: options.body
             ? headers['Content-Type'] === 'application/json'
                 ? JSON.stringify(options.body)
                 : options.body
             : undefined,
-        next: options.next || {},
-        // cache: 'no-cache',
+        // next,
+
+        cache: 'no-store',
     });
 
     // 응답 상태 확인
@@ -85,7 +94,9 @@ export const fetchWithToken = async <T>(url: string, options: FetchOptions = {})
             data: errorData,
         };
     }
-    // JSON 응답 반환
-    console.log('서버사이드 실행');
+
+    if (typeof window === 'undefined') {
+        console.log('서버데이터 호출');
+    }
     return response.json();
 };

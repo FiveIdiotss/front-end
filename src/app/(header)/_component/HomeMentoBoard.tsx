@@ -20,6 +20,7 @@ export default function HomeMentoBoard({ session }: { session: Session | null })
                 type: 'error',
                 theme: 'dark',
             });
+            console.log('멘토링 데이터 에러', error);
         }
     }, [error]);
 

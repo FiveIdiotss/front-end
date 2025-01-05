@@ -1,13 +1,13 @@
 import React from 'react';
 import PostsMentor from './_component/PostsMentor';
 import { auth } from '@/auth';
-import { de } from '@faker-js/faker';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { getMentorPosts } from '../_lib/mentorService';
-import { createMentorPostsKey, MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
+import { MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
 import FilterNav from '../_component/postsNav/FilterNav';
 import getQueryClient from '@/app/_component/getQueryClient';
 import { NextRequest } from 'next/server';
+import { serverParam } from '../utils/serverParam';
 
 export const metadata = {
     title: '멘토링',
@@ -16,22 +16,27 @@ export const metadata = {
 };
 
 type Props = {
-    searchParams: { [key: string]: string | string[] | undefined };
+    searchParams: { [key: string]: string | undefined };
 };
+
 async function PostsMentoPage({ searchParams }: Props) {
     const session = await auth();
     const queryClient = getQueryClient();
-    const { page: pageParam } = searchParams;
-    const page = pageParam || 1;
+
+    const { pageParam, sizeParam, categoryParam, searchParam, schoolFilterParam, starParam } = serverParam({
+        searchParams,
+    });
 
     await queryClient.prefetchQuery({
-        queryKey: [...MENTOR_QUERYKEY, Number(page), 24, '', '', false, false],
+        queryKey: [...MENTOR_QUERYKEY, pageParam, sizeParam, categoryParam, searchParam, schoolFilterParam, starParam],
         queryFn: () =>
             getMentorPosts({
-                pageParam: Number(page),
-                size: 24,
-                isSchool: false,
-                isStar: false,
+                pageParam,
+                size: sizeParam,
+                categoryParam,
+                searchParam,
+                isSchool: schoolFilterParam,
+                isStar: starParam,
             }),
     });
 

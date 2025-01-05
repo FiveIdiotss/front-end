@@ -15,7 +15,7 @@ export const getHomeHotSubBoards = async ({
         method: 'GET',
         params: params,
         next: {
-            revalidate: 60,
+            revalidate: 30,
         },
     });
 
@@ -28,8 +28,8 @@ export const useHomeHotSuboardsQuery = ({ subBoardType }: { subBoardType: 'QUEST
     const query = useQuery<SubBoardDTOType[], FetchErrorResponseType>({
         queryKey: ['homeHotSuboards', { subBoardType }],
         queryFn: () => getHomeHotSubBoards({ subBoardType }),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };

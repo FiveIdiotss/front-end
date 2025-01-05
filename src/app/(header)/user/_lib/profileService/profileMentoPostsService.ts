@@ -26,6 +26,8 @@ export const useMemberPostsQuery = () => {
     const query = useQuery<MentorResponseType, AxiosError<ErrorResponse>>({
         queryKey: ['posts', 'mento', 'user', 'self', String(pageParam)],
         queryFn: () => getMemberPosts({ page: pageParam, size: sizeParam }),
+        // staleTime: 1000 * 60 * 60,
+        // gcTime: 1000 * 60 * 60,
     });
     return query;
 };

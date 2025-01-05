@@ -1,4 +1,4 @@
-import React, { cache } from 'react';
+import React from 'react';
 import HomeMain from './_component/HomeMain';
 import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { HOME_MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
@@ -19,7 +19,7 @@ async function HomePage() {
             queryFn: getHomeMentorPosts,
         }),
         queryClient.prefetchQuery({
-            queryKey: QUEST_SUBBOARD_QUERYKEY,
+            queryKey: [...QUEST_SUBBOARD_QUERYKEY, 'home'],
             queryFn: () =>
                 getHomeQuestsOrRequests({
                     pageParam: 1,
@@ -28,7 +28,7 @@ async function HomePage() {
                 }),
         }),
         queryClient.prefetchQuery({
-            queryKey: REQUEST_SUBBOARD_QUERYKEY,
+            queryKey: [...REQUEST_SUBBOARD_QUERYKEY, 'home'],
             queryFn: () =>
                 getHomeQuestsOrRequests({
                     pageParam: 1,

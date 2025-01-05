@@ -41,8 +41,8 @@ export const usePushCountQuery = () => {
     const query = useQuery<number, AxiosError<ErrorResponse>>({
         queryKey: PUSH_QUERY_KEY,
         queryFn: getPushCount,
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };
@@ -55,8 +55,8 @@ export const usePushListQuery = () => {
                 pageParam: 1,
                 size: 15,
             }),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };
@@ -82,8 +82,8 @@ export const useChatCountQuery = () => {
     const query = useQuery<number, AxiosError<ErrorResponse>>({
         queryKey: CHAT_QUERY_KEY,
         queryFn: getChatCount,
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };

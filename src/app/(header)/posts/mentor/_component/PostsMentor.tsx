@@ -10,10 +10,8 @@ import { MentorBoardDTOType } from '@/app/Models/mentorType';
 import { pushNotification } from '@/app/util/pushNotification';
 import { createMentorPostsKey } from '@/app/queryKeys/mentorKey';
 import { Session } from 'next-auth';
-import FilterNav from '../../_component/postsNav/FilterNav';
 
 export default function PostsMentor({ session }: { session?: Session | null }) {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const categoryParam = searchParams.get('category') || ''; //카테고리 선택
     const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
@@ -22,25 +20,14 @@ export default function PostsMentor({ session }: { session?: Session | null }) {
     const schoolFilter = Boolean(searchParams.get('schoolFilter')) || false; //학교필터
     const starParam = Boolean(searchParams.get('star')) || false; //북마크 필터
 
-    const id = searchParams.get('id'); //id가 있을때 해당 id 상페모달로 이동
-
     const mentorPostsQuery = useMentorPostsQuery();
     const { data: mentorPostsData, isPending: isMentorPostsPending, error: mentorPostsError } = mentorPostsQuery;
-    useEffect(() => {
-        console.log('categoryParam', categoryParam);
-    }, [categoryParam]);
-
-    useEffect(() => {
-        if (mentorPostsData) {
-            console.log('멘토링 게시글 목록 데이터', mentorPostsData);
-        }
-    }, [mentorPostsData]);
 
     useEffect(() => {
         if (mentorPostsError) {
             console.log('멘토링 데이터를 불러오는데 실패했습니다.');
             pushNotification({
-                msg: mentorPostsError.response?.data.message || '멘토링 데이터를 불러오는데 실패했습니다.',
+                msg: mentorPostsError.data?.message || '멘토링 데이터를 불러오는데 실패했습니다.',
                 type: 'error',
                 theme: 'light',
             });
@@ -48,10 +35,8 @@ export default function PostsMentor({ session }: { session?: Session | null }) {
     }, [mentorPostsError]); //에러 발생시 에러메세지 출력
 
     useEffect(() => {
-        if (id) {
-            router.push(`/posts/mentor/mento_Id/${id}`);
-        }
-    }, []); //id가 있을때 해당 id 상세모달로 이동
+        window.scrollTo(0, 0);
+    }, []);
 
     if (isMentorPostsPending)
         return <Loading className="h-[278px]" description="멘토링 데이터를 불러오는중입니다..." />; //로딩중 div 반환

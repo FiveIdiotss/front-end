@@ -63,15 +63,17 @@ export const usePostReplyMutation = () => {
             content: string;
             boardType: 'QUEST' | 'REQUEST';
         }) => postReply(postId, content),
-        onSuccess: (_, variable) => {
+        onSuccess: async (_, variable) => {
             queryClient.invalidateQueries({
                 queryKey: createSubBoardDetailKey(Number(variable.postId)), //postId를 타겟하여 캐시를 삭제
                 refetchType: 'all',
             });
-            queryClient.invalidateQueries({
-                queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
-                refetchType: 'all',
-            }); //모든 캐시 삭제
+            // queryClient.invalidateQueries({
+            //     queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
+            //     refetchType: 'all',
+            // }); //모든 캐시 삭제
+            if (variable.boardType === 'QUEST') await fetch('/api/revalidate?tag=quest');
+            else if (variable.boardType === 'REQUEST') await fetch('/api/revalidate?tag=request');
         },
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);
@@ -98,10 +100,12 @@ export const usePostReplyDeleteMutation = () => {
                 queryKey: createSubBoardDetailKey(Number(variable.postId)),
                 refetchType: 'all',
             }); //postId기반 상세페이지 캐시 삭제
-            queryClient.invalidateQueries({
-                queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
-                refetchType: 'all',
-            }); //quest, request 게시판 캐시 삭제
+            // queryClient.invalidateQueries({
+            //     queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
+            //     refetchType: 'all',
+            // }); //quest, request 게시판 캐시 삭제
+            if (variable.boardType === 'QUEST') fetch('/api/revalidate?tag=quest');
+            else if (variable.boardType === 'REQUEST') fetch('/api/revalidate?tag=request');
         },
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);

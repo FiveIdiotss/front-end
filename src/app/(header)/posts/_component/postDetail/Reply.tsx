@@ -7,7 +7,7 @@ import ErrorDataUI from '@/app/_component/ErrorDataUI';
 import SimplePagination from '@/app/_component/common/SimplePagination';
 import Link from 'next/link';
 import ArrowRightIcon from '@/app/_icons/common/ArrowRightIcon';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useRouteLogin } from '@/app/_hooks/useRouteLogin';
 
 interface Props {
@@ -21,6 +21,7 @@ interface Props {
 function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Props) {
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const pathName = usePathname();
+    const router = useRouter();
     const { navigateToLogin } = useRouteLogin({
         isLoginRequired: true,
     });
@@ -32,7 +33,14 @@ function Reply({ replyCount, subBoardId, writerId, sessionId, boardType }: Props
 
     const handleSubmit = () => {
         if (inputRef.current) {
-            postMutation.mutate({ postId: String(subBoardId), content: inputRef.current.value, boardType: boardType });
+            postMutation.mutate(
+                { postId: String(subBoardId), content: inputRef.current.value, boardType: boardType },
+                {
+                    onSuccess: () => {
+                        router.refresh();
+                    },
+                },
+            );
             inputRef.current.value = '';
         }
     };

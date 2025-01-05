@@ -55,7 +55,7 @@ export const getHomeQuestsOrRequests = async ({
         params: params,
         next: {
             revalidate: 60,
-            tags: subBoardType === 'QUEST' ? ['quest'] : ['request'],
+            tags: [...(subBoardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY), 'home'],
         },
     });
 
@@ -68,37 +68,37 @@ export const useHomeMentorPostsQeury = () => {
     const query = useQuery<MentorResponseType, FetchErrorResponseType>({
         queryKey: HOME_MENTOR_QUERYKEY,
         queryFn: getHomeMentorPosts,
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };
 
 export const useHomeQuestsQuery = () => {
     const query = useQuery<SubBoardResponseType, FetchErrorResponseType>({
-        queryKey: QUEST_SUBBOARD_QUERYKEY,
+        queryKey: [...QUEST_SUBBOARD_QUERYKEY, 'home'],
         queryFn: () =>
             getHomeQuestsOrRequests({
                 pageParam: 1,
                 size: 7,
                 subBoardType: 'QUEST',
             }),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };
 export const useHomeRequestsQuery = () => {
     const query = useQuery<SubBoardResponseType, FetchErrorResponseType>({
-        queryKey: REQUEST_SUBBOARD_QUERYKEY,
+        queryKey: [...REQUEST_SUBBOARD_QUERYKEY, 'home'],
         queryFn: () =>
             getHomeQuestsOrRequests({
                 pageParam: 1,
                 size: 7,
                 subBoardType: 'REQUEST',
             }),
-        staleTime: 1000 * 60,
-        gcTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60,
+        // gcTime: 1000 * 60 * 5,
     });
     return query;
 };

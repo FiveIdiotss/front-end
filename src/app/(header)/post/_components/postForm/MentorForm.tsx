@@ -5,7 +5,7 @@ import Image from 'next/image';
 import calenderCheckIcon from '@/../public/calendarCheck.png';
 import ScheduleSet from '../ScheduleSet';
 import InfoModal from '../InfoModal';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import SubmitButton from '../SubmitButton';
 import { usePostMentorMutation, useUpdateMentorMutation } from '../../_lib/uploadMentorService';
 import dynamic from 'next/dynamic';
@@ -14,6 +14,8 @@ import { useMentorInitialValue } from '../../_util/useMentorInitialValue';
 import { CustomToast } from '@/app/util/customToast/CustomToast';
 import Loading from '@/app/_component/Loading';
 import { pushNotification } from '@/app/util/pushNotification';
+
+const baseUrl = process.env.HOST_URL;
 
 interface ErrMsgType {
     [key: string]: string;
@@ -117,7 +119,8 @@ function MentorForm({ editId }: { editId?: number }) {
                                 type: 'success',
                                 theme: 'dark',
                             });
-                            router.back();
+                            router.push(`/user?mentor_board_id=${editId}`);
+                            router.refresh();
                         },
                     },
                 );
@@ -139,11 +142,12 @@ function MentorForm({ editId }: { editId?: number }) {
                     {
                         onSuccess: () => {
                             pushNotification({
-                                msg: '게시글이 성공적으로 수정되었습니다.',
+                                msg: '게시글이 성공적으로 등록되었습니다.',
                                 type: 'success',
                                 theme: 'dark',
                             });
-                            router.push('/posts/mentor');
+                            router.push(`/posts/mentor`);
+                            router.refresh();
                         },
                     },
                 );

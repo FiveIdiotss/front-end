@@ -10,6 +10,7 @@ import {
     QUEST_SUBBOARD_QUERYKEY,
     REQUEST_SUBBOARD_QUERYKEY,
 } from '@/app/queryKeys/keys';
+import { fetchWithToken } from '@/app/util/fetchInstance';
 
 interface ParamsType {
     page: number;
@@ -38,7 +39,7 @@ export const getSubBoardsPosts = async ({
     subBoardType: 'QUEST' | 'REQUEST';
     isStar?: boolean;
     //메인 게시판에서 사용하는 경우 pageParam,size,subBoardType은 필수
-}) => {
+}): Promise<SubBoardResponseType> => {
     const params: ParamsType = {
         page: pageParam,
         size: size,
@@ -56,9 +57,25 @@ export const getSubBoardsPosts = async ({
     }
     console.log('params', params);
 
-    const response = await Axios.get(`/api/subBoards`, { params: params });
-    return response.data.data as Promise<SubBoardResponseType>;
-};
+    // const response = await Axios.get(`/api/subBoards`, { params: params });
+    const response = await fetchWithToken<SubBoardResponseType>('/api/subBoards', {
+        method: 'GET',
+        params: params,
+        next: {
+            revalidate: 60,
+            tags: [
+                ...(subBoardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY),
+                String(params.page),
+                String(params.size),
+                String(params.boardCategory),
+                String(params.keyWord),
+                String(params.schoolFilter),
+                String(params.favoriteFilter),
+            ],
+        },
+    });
+    return response.data;
+}; //ssr
 
 export const getSubBoardDetail = async (subBoardId: number) => {
     const response = await Axios.get(`/api/subBoard/${subBoardId}`);

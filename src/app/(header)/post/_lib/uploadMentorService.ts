@@ -1,8 +1,9 @@
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { newMentorFormType } from '@/app/Models/mentorType';
+import { DETAIL_MENTOR_QUERYKEY, MENTOR_QUERYKEY } from '@/app/queryKeys/keys';
 import Axios from '@/app/util/axiosInstance';
 import { pushNotification } from '@/app/util/pushNotification';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 const postMentor = async ({
@@ -62,6 +63,7 @@ const postMentor = async ({
 //-------------------------------------------hooks-------------------------------------------
 
 export const usePostMentorMutation = () => {
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: (parmeter: newMentorFormType) =>
             postMentor({
@@ -75,12 +77,20 @@ export const usePostMentorMutation = () => {
                 theme: 'dark',
             });
         },
+        onSuccess: async () => {
+            await fetch('/api/revalidate?tag=mento');
+            queryClient.invalidateQueries({
+                queryKey: [...MENTOR_QUERYKEY, 'user'],
+                refetchType: 'all',
+            });
+        },
     });
 
     return mutation;
 };
 
 export const useUpdateMentorMutation = (boardId?: number) => {
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: (parmeter: newMentorFormType) =>
             postMentor({
@@ -93,6 +103,13 @@ export const useUpdateMentorMutation = (boardId?: number) => {
                 msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
                 type: 'error',
                 theme: 'dark',
+            });
+        },
+        onSuccess: async () => {
+            await fetch('/api/revalidate?tag=mento');
+            queryClient.invalidateQueries({
+                queryKey: [...DETAIL_MENTOR_QUERYKEY, boardId],
+                refetchType: 'all',
             });
         },
     });

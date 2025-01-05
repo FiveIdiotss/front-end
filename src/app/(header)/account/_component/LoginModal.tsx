@@ -11,7 +11,6 @@ import usePrevPageStore from '@/app/_store/prevUrlStore';
 export default function LoginModal() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const [errorMessage, setErrorMessage] = useState(''); //로그인 에러메세지
 
     const searchParams = useSearchParams();
     const errorType = searchParams.get('error'); //로그인시 에러타입(서버에서 받아올 경우 CredentialsSignin)
@@ -49,21 +48,6 @@ export default function LoginModal() {
         }
     };
 
-    // useEffect(() => {
-    //     if (errorType) {
-    //         if (errorType === 'CredentialsSignin') {
-    //             if (errorCode === 'wrong_password') {
-    //                 setErrorMessage('비밀번호가 일치하지 않습니다.');
-    //             } else if (errorCode === 'no_user') {
-    //                 setErrorMessage('해당 이메일이 존재하지 않습니다.');
-    //             } else {
-    //                 setErrorMessage('에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    //             }
-    //         } else {
-    //             setErrorMessage('에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    //         }
-    //     }
-    // }, [errorType, errorCode]);
     let errorMessage = '';
 
     if (errorType) {
@@ -85,15 +69,15 @@ export default function LoginModal() {
     //     }
     // }, [email, password]);
 
-    useEffect(() => {
-        // 모달이 열릴 때 body의 overflow를 hidden으로 설정
-        document.body.style.overflow = 'hidden';
+    // useEffect(() => {
+    //     // 모달이 열릴 때 body의 overflow를 hidden으로 설정
+    //     // document.body.style.overflow = 'hidden';
 
-        // cleanup 함수를 통해 모달이 닫히거나 컴포넌트가 언마운트될 때 overflow를 복원
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+    //     // cleanup 함수를 통해 모달이 닫히거나 컴포넌트가 언마운트될 때 overflow를 복원
+    //     return () => {
+    //         document.body.style.overflow = '';
+    //     };
+    // }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
     return (
         // 모달배경
