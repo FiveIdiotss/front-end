@@ -40,7 +40,9 @@ function PushSubBoardCard({ item, handleRoute, handleDeletePush }: Props) {
                     </div>
 
                     <div className="flex w-full flex-row items-center gap-2">
-                        <Image src={item.senderImageUrl} alt="user" className="rounded-full" width={20} height={20} />
+                        <div className="relative h-5 w-5 overflow-hidden rounded-full">
+                            <Image src={item.senderImageUrl} alt="user" className="rounded-full" fill />
+                        </div>
                         <span className="font-medium text-green-600">{item.senderName}</span>
                         <span>님이 댓글을 남겼습니다.</span>
                     </div>
