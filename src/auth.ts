@@ -156,13 +156,8 @@ export const {
 
     callbacks: {
         async jwt({ token, user, session, trigger }) {
-            // console.log('유저', user);
-            // console.log('세션', session);
-            // console.log('트리거', trigger);
             const now = Math.floor(Date.now() / 1000);
             const accessTokenExpires = token.access_TokenExpires as number;
-            // console.log('작동중');
-            // console.log('토큰 만료 몇초 남음', accessTokenExpires - now);
 
             if (user) {
                 const payloadPart = user.access_Token.split('.')[1];
@@ -180,31 +175,18 @@ export const {
                 }
                 return token;
             } else {
-                // console.log('토큰 만료');
-                // console.log('토큰 만료', accessTokenExpires - now);
-                // console.log('재실행');
-
                 return refreshAccessToken(token);
             }
         },
 
         async session({ session, token }: any) {
             // memberDTO를 제외한 나머지 토큰 정보를 세션에 추가
-
             const sessionUser = {
                 ...token,
             };
-            // console.log('세션유저', sessionUser);
             delete sessionUser.refresh_Token;
-            // delete sessionUser.access_TokenExpires;
             session.user = Object.assign(session.user, sessionUser);
             delete session.expires;
-
-            // console.log('세션', session);
-            // console.log(
-            //     '만료 시간',
-            //     new Date(token.access_TokenExpires * 1000).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
-            // );
             return session;
         },
         async redirect({ url, baseUrl }) {

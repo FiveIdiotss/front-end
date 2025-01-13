@@ -32,7 +32,9 @@ function PushMentorBoardCard({ item, handleRoute, handleDeletePush }: Props) {
                         </button>
                     </div>
                     <div className="flex w-full flex-row items-center gap-2  text-sm">
-                        <Image src={item.senderImageUrl} alt="user" className="rounded-full" width={20} height={20} />
+                        <div className="relative h-5 w-5 overflow-hidden rounded-full">
+                            <Image src={item.senderImageUrl} alt="user" sizes="30px" fill />
+                        </div>
                         <span className="font-medium text-green-600">{item.senderName}</span>
                         <span>님이 멘토링을 신청하였습니다.</span>
                     </div>

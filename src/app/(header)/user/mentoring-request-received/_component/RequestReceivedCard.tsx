@@ -145,17 +145,17 @@ function RequestReceivedCard({ data }: { data: MentoringReqData }) {
                                 {data.boardTitle}
                             </button>
                             <div className="flex flex-col items-start  gap-1 mobile:w-full mobile:flex-row mobile:gap-3">
-                                <span className="text-xs text-neutral-500">
+                                <span className="flex flex-col text-xs text-neutral-500 mobile:flex-row">
                                     멘토:&nbsp;
                                     <span className="font-medium text-indigo-500">{data.otherMemberName}</span>
                                 </span>
-                                <span className="text-xs text-neutral-500">
+                                <span className="flex flex-col text-xs text-neutral-500 mobile:flex-row">
                                     상담날짜:&nbsp;
                                     <span className="font-medium text-indigo-500">
                                         {data.date.replaceAll('-', '.')}
                                     </span>
                                 </span>
-                                <span className="text-xs text-neutral-500">
+                                <span className="flex flex-col text-xs text-neutral-500 mobile:flex-col">
                                     예정시간:&nbsp;
                                     <span className="font-medium text-indigo-500">
                                         {data.startTime.replace(':00', '')}
