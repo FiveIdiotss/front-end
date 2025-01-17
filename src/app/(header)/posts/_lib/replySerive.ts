@@ -11,6 +11,7 @@ import {
     createSubBoardDetailKey,
     createSubBoardReplyKey,
 } from '@/app/queryKeys/subBoardKey';
+import { getRevalidate } from '@/app/_lib/revalidateService';
 
 export const getReplies = async ({ postId, pageParam, size }: { postId: number; pageParam: number; size: number }) => {
     const params = {
@@ -72,8 +73,8 @@ export const usePostReplyMutation = () => {
             //     queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
             //     refetchType: 'all',
             // }); //모든 캐시 삭제
-            if (variable.boardType === 'QUEST') await fetch('/api/revalidate?tag=quest');
-            else if (variable.boardType === 'REQUEST') await fetch('/api/revalidate?tag=request');
+            if (variable.boardType === 'QUEST') await getRevalidate('quest');
+            else if (variable.boardType === 'REQUEST') await getRevalidate('request');
         },
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);
@@ -95,7 +96,7 @@ export const usePostReplyDeleteMutation = () => {
     const mutation = useMutation({
         mutationFn: ({ replyId }: { replyId: string; postId: string; boardType: 'QUEST' | 'REQUEST' }) =>
             deleteReply(replyId),
-        onSuccess: (data, variable) => {
+        onSuccess: async (data, variable) => {
             queryClient.invalidateQueries({
                 queryKey: createSubBoardDetailKey(Number(variable.postId)),
                 refetchType: 'all',
@@ -104,8 +105,8 @@ export const usePostReplyDeleteMutation = () => {
             //     queryKey: variable.boardType === 'QUEST' ? QUEST_SUBBOARD_QUERYKEY : REQUEST_SUBBOARD_QUERYKEY,
             //     refetchType: 'all',
             // }); //quest, request 게시판 캐시 삭제
-            if (variable.boardType === 'QUEST') fetch('/api/revalidate?tag=quest');
-            else if (variable.boardType === 'REQUEST') fetch('/api/revalidate?tag=request');
+            if (variable.boardType === 'QUEST') await getRevalidate('quest');
+            else if (variable.boardType === 'REQUEST') await getRevalidate('request');
         },
         onError: (error: AxiosError<ErrorResponse>) => {
             console.log('error', error.response?.data.message);

@@ -1,3 +1,4 @@
+import { getRevalidate } from '@/app/_lib/revalidateService';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { newMentorFormType } from '@/app/Models/mentorType';
 import { DETAIL_MENTOR_QUERYKEY, MENTOR_QUERYKEY } from '@/app/queryKeys/keys';
@@ -78,7 +79,7 @@ export const usePostMentorMutation = () => {
             });
         },
         onSuccess: async () => {
-            await fetch('/api/revalidate?tag=mento');
+            await getRevalidate('mento');
             queryClient.invalidateQueries({
                 queryKey: [...MENTOR_QUERYKEY, 'user'],
                 refetchType: 'all',
@@ -106,7 +107,7 @@ export const useUpdateMentorMutation = (boardId?: number) => {
             });
         },
         onSuccess: async () => {
-            await fetch('/api/revalidate?tag=mento');
+            await getRevalidate('mento');
             queryClient.invalidateQueries({
                 queryKey: [...DETAIL_MENTOR_QUERYKEY, boardId],
                 refetchType: 'all',

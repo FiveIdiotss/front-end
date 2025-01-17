@@ -9,6 +9,7 @@ import {
     createSubBoardDetailKey,
 } from '@/app/queryKeys/subBoardKey';
 import { useRouter } from 'next/navigation';
+import { getRevalidate } from '@/app/_lib/revalidateService';
 
 const addLike = async (postId: number) => {
     const response = await Axios.post(`/api/like/${postId}`);
@@ -62,7 +63,7 @@ export const useAddLikeMutation = () => {
             queryClient.setQueryData(['posts', variable.boardType, 'detail', variable.boardId], previousData);
         },
         onSettled: async (data, error, variable) => {
-            await fetch(`/api/revalidate?tag=${variable.boardType === 'QUEST' ? 'quest' : 'request'}`);
+            await getRevalidate(variable.boardType === 'QUEST' ? 'quest' : 'request');
             router.refresh();
         },
     });
@@ -106,7 +107,7 @@ export const useUnLikeMutation = () => {
             queryClient.setQueryData(['posts', variable.boardType, 'detail', variable.boardId], previousData);
         },
         onSettled: async (data, error, variable) => {
-            await fetch(`/api/revalidate?tag=${variable.boardType === 'QUEST' ? 'quest' : 'request'}`);
+            await getRevalidate(variable.boardType === 'QUEST' ? 'quest' : 'request');
             router.refresh();
         },
     });

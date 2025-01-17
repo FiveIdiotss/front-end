@@ -1,3 +1,4 @@
+import { getRevalidate } from '@/app/_lib/revalidateService';
 import { ErrorResponse } from '@/app/Models/AxiosResponse';
 import { newSubBoardFormType } from '@/app/Models/subBoardType';
 import {
@@ -73,7 +74,7 @@ export const useQuestMutation = () => {
                 formType: 'post',
             }),
         onSuccess: async (data, variable) => {
-            await fetch('/api/revalidate?tag=quest');
+            await getRevalidate('quest');
             queryClient.invalidateQueries({
                 queryKey: [...QUEST_SUBBOARD_QUERYKEY, 'user'],
                 refetchType: 'all',
@@ -102,7 +103,7 @@ export const useUpdateQuestMutation = (boardId?: number) => {
                 boardId: boardId,
             }),
         onSuccess: async (data, variable) => {
-            await fetch('/api/revalidate?tag=quest');
+            await getRevalidate('quest');
             queryClient.invalidateQueries({
                 queryKey: [...QUEST_SUBBOARD_QUERYKEY, 'user'],
                 refetchType: 'all',
@@ -134,7 +135,7 @@ export const useRequestMutation = () => {
                 formType: 'post',
             }),
         onSuccess: async (data, variable) => {
-            await fetch('/api/revalidate?tag=request');
+            await getRevalidate('request');
             queryClient.invalidateQueries({
                 queryKey: [...REQUEST_SUBBOARD_QUERYKEY, 'user'],
                 refetchType: 'all',
@@ -165,7 +166,7 @@ export const useUpdateRequestMutation = (boardId?: number) => {
                 boardId: boardId,
             }),
         onSuccess: async (data, variable) => {
-            await fetch('/api/revalidate?tag=request');
+            await getRevalidate('request');
             queryClient.invalidateQueries({
                 queryKey: [...REQUEST_SUBBOARD_QUERYKEY, 'user'],
                 refetchType: 'all',
