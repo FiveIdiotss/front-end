@@ -63,21 +63,16 @@ export default function LoginModal() {
             errorMessage = '에러가 발생했습니다. 잠시 후 다시 시도해주세요.';
         }
     }
-    // useEffect(() => {
-    //     if (email !== '' || password !== '') {
-    //         setErrorMessage('');
-    //     }
-    // }, [email, password]);
 
-    // useEffect(() => {
-    //     // 모달이 열릴 때 body의 overflow를 hidden으로 설정
-    //     // document.body.style.overflow = 'hidden';
+    useEffect(() => {
+        // 모달이 열릴 때 body의 overflow를 hidden으로 설정
+        // document.body.style.overflow = 'hidden';
 
-    //     // cleanup 함수를 통해 모달이 닫히거나 컴포넌트가 언마운트될 때 overflow를 복원
-    //     return () => {
-    //         document.body.style.overflow = '';
-    //     };
-    // }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시 한 번만 실행되도록 함
+        // cleanup 함수를 통해 모달이 닫히거나 컴포넌트가 언마운트될 때 overflow를 복원
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시 한 번만 실행되도록 함
 
     return (
         // 모달배경
@@ -138,6 +133,7 @@ export default function LoginModal() {
                                 <Link
                                     href="/account/signup"
                                     replace
+                                    scroll={false}
                                     className="font-semibold text-blue-500 underline underline-offset-2"
                                 >
                                     회원 가입
