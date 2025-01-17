@@ -5,6 +5,7 @@ import { pushNotification } from '@/app/util/pushNotification';
 import { MentorResponseType } from '@/app/Models/mentorType';
 import { useRouter } from 'next/navigation';
 import { MENTOR_QUERYKEY } from '../queryKeys/keys';
+import { getRevalidate } from './revalidateService';
 
 const addBookmark = async (boardId: number) => {
     const response = await Axios.post(`/api/board/favorite/${boardId}`);
@@ -49,7 +50,7 @@ export const useAddBookmarkMutation = () => {
             return { previousData };
         },
         onSuccess: async (res) => {
-            await fetch('/api/revalidate?tag=mento');
+            await getRevalidate('mento');
 
             pushNotification({
                 msg: '북마크가 추가되었습니다.',
@@ -74,7 +75,8 @@ export const useAddBookmarkMutation = () => {
                 queryKey: [...MENTOR_QUERYKEY, 'user'],
                 refetchType: 'all',
             });
-            await fetch('/api/revalidate?tag=mento');
+            await getRevalidate('mento');
+
             router.refresh();
         },
     });
@@ -116,7 +118,7 @@ export const useDeleteBookmarkMutation = () => {
             //     isIcon: false,
             //     textColor: ' #d1180b ',
             // });
-            await fetch('/api/revalidate?tag=mento');
+            await getRevalidate('mento');
         },
         onError: (error: AxiosError, variable, previousData) => {
             console.log('이전데이터xx', previousData);
@@ -135,7 +137,8 @@ export const useDeleteBookmarkMutation = () => {
             //     queryKey: ['posts', 'mento'],
             //     refetchType: 'all',
             // });
-            await fetch('/api/revalidate?tag=mento');
+            await getRevalidate('mento');
+
             router.refresh();
         },
     });
