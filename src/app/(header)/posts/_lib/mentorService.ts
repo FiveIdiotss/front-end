@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import { createDetailMentorKey, createMentorPostsKey, MENTOR_QUERYKEY } from '@/app/queryKeys/mentorKey';
 import { DETAIL_MENTOR_QUERYKEY } from '@/app/queryKeys/keys';
 import { fetchWithToken } from '@/app/util/fetchInstance';
+import { usePostsParam } from '../utils/usePostsParam';
 
 type ParamsType = {
     page: number;
@@ -81,16 +82,18 @@ export const deleteMentor = async (id: number) => {
 //----------------------------------useQuery----------------------------------
 
 export const useMentorPostsQuery = () => {
-    const searchParams = useSearchParams();
-    const categoryParam = searchParams.get('category') || ''; //카테고리 선택
-    const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
-    const searchParam = searchParams.get('search') || ''; //검색어
-    const schoolFilter = Boolean(searchParams.get('schoolFilter')) || false; //학교필터
-    const starParam = Boolean(searchParams.get('star')) || false; //북마크 필터
-    const sizeParam = 24; //홈페이지에서는 7개, 포스트페이지에서는 15개
+    const {
+        keys: paramKeys,
+        pageParam,
+        categoryParam,
+        sizeParam,
+        searchParam,
+        schoolFilter,
+        starParam,
+    } = usePostsParam(); //params 쿼리키 가져오기
 
     const query = useQuery<MentorResponseType, FetchErrorResponseType>({
-        queryKey: [...MENTOR_QUERYKEY, pageParam, sizeParam, categoryParam, searchParam, schoolFilter, starParam],
+        queryKey: [...MENTOR_QUERYKEY, ...paramKeys],
         queryFn: () =>
             getMentorPosts({
                 pageParam,

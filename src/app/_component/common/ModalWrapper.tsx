@@ -26,7 +26,7 @@ function ModalWrapper({ children, className, shareUrl, title, subTitle, onClose,
         // 모달이 열릴 때 body 스크롤을 막음
         const scrollY = window.scrollY;
         document.body.style.overflow = 'hidden'; // 스크롤 차단
-        document.body.style.position = 'fixed';
+        // document.body.style.position = 'fixed';
         document.body.style.top = `-${scrollY}px`;
         document.body.style.width = '100%';
 

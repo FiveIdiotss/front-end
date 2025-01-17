@@ -11,7 +11,7 @@ export const useRouteLogin = ({ isLoginRequired = false }: { isLoginRequired?: b
     const navigateToLogin = () => {
         console.log('prevUrl', pathName);
         setPrevUrl(pathName);
-        router.push(routeUrl);
+        router.push(routeUrl, { scroll: false });
     };
 
     return { navigateToLogin, prevUrl }; // 이전 URL 저장 및 반환

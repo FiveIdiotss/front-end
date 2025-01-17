@@ -65,9 +65,7 @@ function MentoPostCard({
     const handleDetailModalOpen = () => {
         const param = new URLSearchParams(searchParams.toString());
         param.set('mentor_board_id', post.boardId.toString());
-
         router.replace(pathName + '?' + param, { scroll: false });
-        console.log('handleDetailModalOpen', post.boardId);
     }; //모달창 열기
 
     const handleDetailModalClose = () => {

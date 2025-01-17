@@ -47,8 +47,8 @@ export const useMemberSubBoardsQuery = ({ subBoardType }: { subBoardType: 'QUEST
                 page: pageParam,
                 size: sizeParam,
             }),
-        // staleTime: 1000 * 60 * 60,
-        // gcTime: 1000 * 60 * 60,
+        staleTime: 1000 * 60 * 60,
+        gcTime: 1000 * 60 * 60,
     });
     return query;
 };

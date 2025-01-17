@@ -10,7 +10,7 @@ export const useRouteSignup = () => {
 
     const navigateToSignup = () => {
         setPrevUrl(pathName);
-        router.push(routeUrl);
+        router.push(routeUrl, { scroll: false });
     };
 
     return { navigateToSignup }; // 이전 URL 저장 및 반환

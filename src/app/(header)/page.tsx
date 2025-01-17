@@ -64,7 +64,8 @@ async function HomePage() {
                         <BookIcon className="h-auto w-9 text-[#6fbf73] mobile:w-12 " />
                         <div className=" flex  flex-col items-start justify-center gap-1">
                             <span className="text-lg font-semibold text-gray-800 mobile:text-2xl">
-                                <span className="text-xl font-bold text-[#6fbf73]">지식</span>을 나누는 새로운 세상
+                                <span className="text-xl font-bold text-[#6fbf73] mobile:text-2xl">지식</span>을 나누는
+                                새로운 세상
                             </span>
                             <span className=" font-medium text-gray-700 mobile:text-lg">
                                 온라인 멘토링 매칭을 통해 지식을 나누세요!
