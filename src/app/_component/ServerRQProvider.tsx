@@ -17,7 +17,7 @@ function makeQueryClient() {
             queries: {
                 // SSR에서는 보통 클라이언트에서 즉시 refetch하는 것을 피하기 위해
                 // 0 이상의 staleTime을 설정하는 것이 좋다.
-                staleTime: 0,
+                staleTime: 60,
                 refetchOnMount: true,
                 refetchOnReconnect: false,
             },

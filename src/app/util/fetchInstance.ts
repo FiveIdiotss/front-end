@@ -72,9 +72,9 @@ export const fetchWithToken = async <T>(url: string, options: FetchOptions = {})
                 ? JSON.stringify(options.body)
                 : options.body
             : undefined,
-        // next,
+        next,
 
-        cache: 'no-store',
+        // cache: 'no-store',
     });
 
     // 응답 상태 확인

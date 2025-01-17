@@ -10,16 +10,11 @@ import { MentorBoardDTOType } from '@/app/Models/mentorType';
 import { pushNotification } from '@/app/util/pushNotification';
 import { createMentorPostsKey } from '@/app/queryKeys/mentorKey';
 import { Session } from 'next-auth';
+import { MENTOR_QUERYKEY } from '@/app/queryKeys/keys';
+import { usePostsParam } from '../../utils/usePostsParam';
 
 export default function PostsMentor({ session }: { session?: Session | null }) {
-    const searchParams = useSearchParams();
-    const categoryParam = searchParams.get('category') || ''; //카테고리 선택
-    const pageParam = Number(searchParams.get('page')) || 1; //페이지 선택
-    const sizeParam = Number(searchParams.get('size')) || 24; //페이지 사이즈
-    const searchParam = searchParams.get('search') || ''; //검색어
-    const schoolFilter = Boolean(searchParams.get('schoolFilter')) || false; //학교필터
-    const starParam = Boolean(searchParams.get('star')) || false; //북마크 필터
-
+    const { keys: paramKeys } = usePostsParam(); //params 쿼리키 가져오기
     const mentorPostsQuery = useMentorPostsQuery();
     const { data: mentorPostsData, isPending: isMentorPostsPending, error: mentorPostsError } = mentorPostsQuery;
 
@@ -34,10 +29,6 @@ export default function PostsMentor({ session }: { session?: Session | null }) {
         }
     }, [mentorPostsError]); //에러 발생시 에러메세지 출력
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
     if (isMentorPostsPending)
         return <Loading className="h-[278px]" description="멘토링 데이터를 불러오는중입니다..." />; //로딩중 div 반환
 
@@ -49,14 +40,7 @@ export default function PostsMentor({ session }: { session?: Session | null }) {
                         isLogin={Boolean(session)}
                         post={post}
                         key={post.boardId}
-                        queryKeys={createMentorPostsKey(
-                            pageParam,
-                            sizeParam,
-                            categoryParam,
-                            searchParam,
-                            schoolFilter,
-                            starParam,
-                        )} //쿼리키, 북마크 옵티미스틱 업데이트를 위해
+                        queryKeys={[...MENTOR_QUERYKEY, ...paramKeys]} //쿼리키, 북마크 옵티미스틱 업데이트를 위해
                     />
                 ))}
             </div>

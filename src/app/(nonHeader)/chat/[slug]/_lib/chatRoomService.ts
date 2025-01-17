@@ -13,6 +13,8 @@ export const useChatRoomQuery = (roomId: number) => {
     const query = useQuery<ChatRoomType, AxiosError<ErrorResponse>>({
         queryKey: ['chat', roomId],
         queryFn: () => getChatRoom(roomId),
+        staleTime: 0,
+        gcTime: 5 * 60 * 1000,
     });
     return query;
 };
