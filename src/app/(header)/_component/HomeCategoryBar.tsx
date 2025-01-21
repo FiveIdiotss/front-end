@@ -22,7 +22,6 @@ function HomeCategoryBar() {
                 category.parameter === 'bookmark' ? null : (
                     <Link
                         key={category.parameter}
-                        prefetch={false}
                         href={`/posts/mentor${category.parameter === 'all' ? '' : `?category=${category.name}`}`}
                     >
                         <div
