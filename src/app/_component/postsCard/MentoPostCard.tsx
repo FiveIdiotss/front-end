@@ -172,6 +172,7 @@ function MentoPostCard({
                                     fill={true}
                                     sizes="56px"
                                     quality={100}
+                                    priority
                                     className="rounded-full object-cover"
                                 />
                             </div>
@@ -179,6 +180,9 @@ function MentoPostCard({
                             <span className="text-xs  font-semibold ">{post.memberName}</span>
                         </div>
                         <button
+                            type="button"
+                            id="bookmark"
+                            aria-label="북마크 추가"
                             className="h-7 w-7 rounded-full  bg-gray-100  p-1 hover:bg-purple-100 "
                             onClick={(event) => handleToggleBookmark(event)}
                         >

@@ -11,7 +11,6 @@ import HomeSearch from './_component/HomeSearch/HomeSearch';
 import { QUEST_SUBBOARD_QUERYKEY, REQUEST_SUBBOARD_QUERYKEY } from '../queryKeys/subBoardKey';
 import { getHomeHotSubBoards } from './_lib/homeHotContentService';
 import getQueryClient from '../_component/getQueryClient';
-import Axios from '../util/axiosInstance';
 async function HomePage() {
     const queryClient = getQueryClient();
 
@@ -47,7 +46,6 @@ async function HomePage() {
             queryFn: () => getHomeHotSubBoards({ subBoardType: 'REQUEST' }),
         }),
     ]);
-    console.log('서버컴포넌트 랜더링');
 
     const dehydratedState = dehydrate(queryClient);
 
