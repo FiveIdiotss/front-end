@@ -216,7 +216,6 @@ function MentorForm({ editId }: { editId?: number }) {
                 placeholder="멘토링 대상"
                 value={formik.values.target}
             />
-            {/* <TinyMceEditor />  */}
             <QuillEditor defualtValue={defaultContent} formik={formik} />
             <SubmitButton
                 type="submit"
